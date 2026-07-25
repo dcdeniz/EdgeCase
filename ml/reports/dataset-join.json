@@ -1,0 +1,67 @@
+{
+  "participantCount": 85,
+  "oneRowPerParticipant": true,
+  "target": "Progressive motility (%)",
+  "featureSets": {
+    "core": [
+      {
+        "name": "ageYears",
+        "sourceColumn": "Age (years)",
+        "unit": "years"
+      },
+      {
+        "name": "bmi",
+        "sourceColumn": "Body mass index (kg/m\u00b2)",
+        "unit": "kg/m\u00b2"
+      },
+      {
+        "name": "abstinenceDays",
+        "sourceColumn": "Abstinence time(days)",
+        "unit": "days"
+      }
+    ],
+    "core+hormones": [
+      {
+        "name": "ageYears",
+        "sourceColumn": "Age (years)",
+        "unit": "years"
+      },
+      {
+        "name": "bmi",
+        "sourceColumn": "Body mass index (kg/m\u00b2)",
+        "unit": "kg/m\u00b2"
+      },
+      {
+        "name": "abstinenceDays",
+        "sourceColumn": "Abstinence time(days)",
+        "unit": "days"
+      },
+      {
+        "name": "totalTestosteroneNmolL",
+        "sourceColumn": "Serum total testosterone (nmol/L)",
+        "unit": "nmol/L"
+      },
+      {
+        "name": "estradiolNmolL",
+        "sourceColumn": "Serum oestradiol (nmol/L)",
+        "unit": "nmol/L"
+      },
+      {
+        "name": "shbgNmolL",
+        "sourceColumn": "Serum sex hormone-binding globulin, SHBG (nmol/L)",
+        "unit": "nmol/L"
+      },
+      {
+        "name": "fshIUL",
+        "sourceColumn": "Serum follicle-stimulating hormone, FSH (IU/L)",
+        "unit": "IU/L"
+      },
+      {
+        "name": "lhIUL",
+        "sourceColumn": "Serum Luteinizing hormone, LH (IU/L)",
+        "unit": "IU/L"
+      }
+    ]
+  },
+  "rawDataCommitted": false
+}

@@ -1,0 +1,42 @@
+{
+  "delimiter": ";",
+  "decimal": ",",
+  "encoding": "utf-8-sig",
+  "tables": {
+    "participant": [
+      "ID",
+      "Abstinence time(days)",
+      "Body mass index (kg/m²)",
+      "Age (years)"
+    ],
+    "semen": [
+      "ID",
+      "Sperm concentration (x10⁶/mL)",
+      "Total sperm count (x10⁶)",
+      "Ejaculate volume (mL)",
+      "Sperm vitality (%)",
+      "Normal spermatozoa (%)",
+      "Head defects (%)",
+      "Midpiece and neck defects (%)",
+      "Tail defects (%)",
+      "Cytoplasmic droplet (%)",
+      "Teratozoospermia index",
+      "Progressive motility (%)",
+      "Non progressive sperm motility (%)",
+      "Immotile sperm (%)",
+      "High DNA stainability, HDS (%)",
+      "DNA fragmentation index, DFI (%)"
+    ],
+    "hormones": [
+      "ID",
+      "Seminal plasma anti-Müllerian hormone (AMH) (pmol/L)",
+      "Serum total testosterone (nmol/L)",
+      "Serum oestradiol (nmol/L)",
+      "Serum sex hormone-binding globulin, SHBG (nmol/L)",
+      "Serum follicle-stimulating hormone, FSH (IU/L)",
+      "Serum Luteinizing hormone, LH (IU/L)",
+      "Serum inhibin B (ng/L)",
+      "Serum anti-Müllerian hormone, AMH (pmol/L)"
+    ]
+  }
+}

@@ -1,0 +1,213 @@
+{
+  "modelId": "preseed-uci-fertility-screen",
+  "semanticVersion": "0.2.0",
+  "trainedAt": "2026-07-25T00:00:00Z",
+  "researchOnly": true,
+  "runtimeEligible": false,
+  "executableArtifactExported": false,
+  "target": {
+    "name": "uciNormalAlteredSemenQuality",
+    "positiveClass": "altered",
+    "diagnosticUsePermitted": false
+  },
+  "dataset": {
+    "name": "UCI Fertility",
+    "uciDatasetId": 244,
+    "doi": "10.24432/C5Z01Z",
+    "licence": "CC BY 4.0",
+    "archiveUrl": "https://archive.ics.uci.edu/static/public/244/fertility.zip",
+    "archiveSha256": "9b346e4908040f17c8980b04f13749d215af9c8b268ec0f64cffab6e94b188e0",
+    "member": "fertility_Diagnosis.txt",
+    "memberSha256": "c04c6f1a676fa6c55fa6c5ee23f9c9a4cada8e64419850767900380aec91cdbb",
+    "participantCount": 100,
+    "normalCount": 88,
+    "alteredCount": 12,
+    "participantIdentifierAvailable": false
+  },
+  "selectedModel": {
+    "name": "prevalence_threshold_forest",
+    "modalParameters": {
+      "model__max_depth": 2,
+      "model__max_features": "sqrt",
+      "model__min_samples_leaf": 8
+    },
+    "resampling": "class_weight_balanced_subsample",
+    "calibration": "nested training-fold sigmoid calibration",
+    "thresholdSelection": "outer-training-fold altered prevalence; no threshold optimization",
+    "metrics": {
+      "accuracy": 0.6,
+      "balancedAccuracy": 0.664772727273,
+      "sensitivity": 0.75,
+      "specificity": 0.579545454545,
+      "precision": 0.195652173913,
+      "auroc": 0.671401515152,
+      "prAuc": 0.265166936789,
+      "brier": 0.101086011382,
+      "expectedCalibrationError": 0.01790658447,
+      "trueNegative": 51.0,
+      "falsePositive": 37.0,
+      "falseNegative": 3.0,
+      "truePositive": 9.0
+    },
+    "bootstrap95": {
+      "accuracy": [
+        0.5,
+        0.7
+      ],
+      "balancedAccuracy": [
+        0.526029031537,
+        0.791208791209
+      ],
+      "sensitivity": [
+        0.5,
+        1.0
+      ],
+      "specificity": [
+        0.473103509394,
+        0.685393258427
+      ],
+      "precision": [
+        0.0869565217391,
+        0.317073170732
+      ],
+      "auroc": [
+        0.48254437544,
+        0.844854070661
+      ],
+      "prAuc": [
+        0.117294578635,
+        0.529834984053
+      ],
+      "brier": [
+        0.0597033601796,
+        0.147509618179
+      ],
+      "expectedCalibrationError": [
+        0.0170952617782,
+        0.0905103042645
+      ]
+    }
+  },
+  "validation": {
+    "type": "RepeatedNestedStratifiedKFold",
+    "outerSplits": 5,
+    "outerRepeats": 5,
+    "innerSplits": 3,
+    "calibrationSplits": 3,
+    "preprocessingInsideTrainingFolds": true,
+    "resamplingInsideTrainingFolds": true,
+    "thresholdTuningInsideTrainingFolds": true,
+    "seed": 20260725
+  },
+  "allNormalBaseline": {
+    "accuracy": 0.88,
+    "balancedAccuracy": 0.5,
+    "sensitivity": 0.0,
+    "specificity": 1.0,
+    "precision": 0.0,
+    "auroc": 0.5,
+    "prAuc": 0.12,
+    "brier": 0.12,
+    "expectedCalibrationError": 0.12,
+    "trueNegative": 88.0,
+    "falsePositive": 0.0,
+    "falseNegative": 12.0,
+    "truePositive": 0.0
+  },
+  "adaptiveSecondPass": {
+    "exploratory": true,
+    "confirmatoryPerformanceAvailable": false,
+    "change": "After the initial evaluation, two training-fold-prevalence operating points were added to reduce unstable threshold fitting with only 12 altered cases.",
+    "screenedButNotRetained": [
+      "balanced random forest",
+      "balanced extremely randomized trees",
+      "fold-local univariate feature selection plus logistic regression",
+      "regularized soft-voting ensemble",
+      "season-as-nominal balanced forest",
+      "shrinkage linear discriminant analysis",
+      "regularized quadratic discriminant analysis",
+      "distance-weighted nearest neighbors"
+    ],
+    "selectedSeedSensitivity": [
+      {
+        "seed": 7,
+        "balancedAccuracy": 0.642
+      },
+      {
+        "seed": 42,
+        "balancedAccuracy": 0.636
+      },
+      {
+        "seed": 2026,
+        "balancedAccuracy": 0.583
+      },
+      {
+        "seed": 20260725,
+        "balancedAccuracy": 0.665
+      }
+    ],
+    "interpretation": "The higher-sensitivity operating point is useful for hackathon research, but its balanced-accuracy gain is seed-sensitive and is not an untouched confirmation result."
+  },
+  "ninetyPercentTarget": {
+    "targetBalancedAccuracy": 0.9,
+    "pointEstimateReached": false,
+    "medianFoldReached": false,
+    "passed": false
+  },
+  "intendedUse": "Leakage-controlled hackathon research into whether nine UCI questionnaire variables can screen the dataset's historical normal/altered label.",
+  "prohibitedUse": [
+    "Diagnosis or classification of an individual as fertile or infertile",
+    "A fertility percentage, conception probability, or pregnancy probability",
+    "Replacement for a standardized semen analysis",
+    "Changing the deterministic readiness score",
+    "Presenting the 88% raw-accuracy all-normal baseline as useful performance",
+    "Presenting synthetic, training, or resampled performance as held-out evidence"
+  ],
+  "limitations": [
+    "Only 100 participants and 12 altered labels",
+    "No participant identifiers to audit duplicates or repeated measures",
+    "No external, temporal, clinic, geographic, or prospective validation",
+    "The target is a coarse historical normal/altered label, not a named semen endpoint",
+    "The improved operating point was developed adaptively after reviewing the initial CV"
+  ],
+  "compatibilityAudit": [
+    {
+      "dataset": "VISEM",
+      "doi": "10.5281/zenodo.2640506",
+      "licence": "CC BY-NC 4.0",
+      "decision": "Do not row-pool with UCI: it has different features, continuous semen endpoints, hormones, and no compatible normal/altered label contract."
+    },
+    {
+      "dataset": "Spermiogram data n=308",
+      "doi": "10.5281/zenodo.18762681",
+      "licence": "CC BY 4.0",
+      "decision": "Potential future separate-cohort study only. It has different predictors and endpoints plus masked names, exact birth dates, and sensitive health fields requiring privacy, ethics, provenance, and schema review."
+    },
+    {
+      "dataset": "Advanced methods of evaluation of male ejaculate",
+      "doi": "10.5281/zenodo.19337404",
+      "licence": "CC0 1.0",
+      "decision": "Do not use for lifestyle screening: its 107 rows contain semen and post-processing measurements but no compatible pre-test lifestyle inputs."
+    }
+  ],
+  "dataCollectionPlan": {
+    "planningTargetsRequirePowerReview": true,
+    "feasibilityCohort": "At least 300 participants with at least 100 below-reference examples per pre-registered named endpoint, subject to formal power analysis.",
+    "externalValidation": "At least 200 additional participants from two or more clinics held out in full, with laboratory and geography recorded.",
+    "repeatedTesting": "Two standardized baseline semen analyses where feasible, 60-90 days of strictly preceding logs, and one follow-up analysis.",
+    "requiredInputs": [
+      "age, BMI, waist and relevant clinical history",
+      "medications, testosterone or anabolic exposure, fever and illness",
+      "abstinence, completeness, transport, laboratory and analysis method",
+      "sleep, activity, sedentary time, alcohol, nicotine, diet and heat windows",
+      "site, device, provenance, missingness and consent metadata"
+    ],
+    "preRegisteredEndpoints": [
+      "progressive motility percent",
+      "sperm concentration million per mL",
+      "total sperm count million",
+      "normal morphology percent"
+    ]
+  },
+  "exportDecision": "No executable runtime artifact is exported because the dataset cannot support a validated individual screening feature. The manifest preserves the selected research procedure and held-out result."
+}

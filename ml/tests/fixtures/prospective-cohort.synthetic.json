@@ -1,0 +1,124 @@
+{
+  "schemaVersion": 1,
+  "synthetic": true,
+  "participants": [
+    { "participantId": "synthetic-001" },
+    { "participantId": "synthetic-002" },
+    { "participantId": "synthetic-003" },
+    { "participantId": "synthetic-004" }
+  ],
+  "semenTests": [
+    {
+      "testId": "s001-a", "participantId": "synthetic-001",
+      "collectedAt": "2026-01-05T09:00:00Z", "siteId": "site-a", "labId": "lab-a",
+      "ageYears": 31, "bmi": 25, "abstinenceDays": 3, "collectionComplete": true,
+      "transportMinutes": 25, "recentFever": false, "relevantMedicationCount": 0,
+      "progressiveMotilityPercent": 40, "spermConcentrationMillionMl": 45,
+      "totalSpermCountMillion": 130, "normalMorphologyPercent": 5
+    },
+    {
+      "testId": "s001-b", "participantId": "synthetic-001",
+      "collectedAt": "2026-04-10T09:00:00Z", "siteId": "site-a", "labId": "lab-a",
+      "ageYears": 31, "bmi": 24.5, "abstinenceDays": 3, "collectionComplete": true,
+      "transportMinutes": 20, "recentFever": false, "relevantMedicationCount": 0,
+      "progressiveMotilityPercent": 44, "spermConcentrationMillionMl": 48,
+      "totalSpermCountMillion": 140, "normalMorphologyPercent": 6
+    },
+    {
+      "testId": "s001-c", "participantId": "synthetic-001",
+      "collectedAt": "2026-07-15T09:00:00Z", "siteId": "site-a", "labId": "lab-a",
+      "ageYears": 31, "bmi": 24, "abstinenceDays": 3, "collectionComplete": true,
+      "transportMinutes": 20, "recentFever": false, "relevantMedicationCount": 0,
+      "progressiveMotilityPercent": 47, "spermConcentrationMillionMl": 50,
+      "totalSpermCountMillion": 145, "normalMorphologyPercent": 6
+    },
+    {
+      "testId": "s002-a", "participantId": "synthetic-002",
+      "collectedAt": "2026-01-06T09:00:00Z", "siteId": "site-a", "labId": "lab-a",
+      "ageYears": 38, "bmi": 29, "abstinenceDays": 4, "collectionComplete": true,
+      "transportMinutes": 30, "recentFever": false, "relevantMedicationCount": 1,
+      "progressiveMotilityPercent": 32, "spermConcentrationMillionMl": 35,
+      "totalSpermCountMillion": 100, "normalMorphologyPercent": 4
+    },
+    {
+      "testId": "s002-b", "participantId": "synthetic-002",
+      "collectedAt": "2026-04-11T09:00:00Z", "siteId": "site-a", "labId": "lab-a",
+      "ageYears": 38, "bmi": 28.5, "abstinenceDays": 4, "collectionComplete": true,
+      "transportMinutes": 28, "recentFever": false, "relevantMedicationCount": 1,
+      "progressiveMotilityPercent": 34, "spermConcentrationMillionMl": 37,
+      "totalSpermCountMillion": 105, "normalMorphologyPercent": 4
+    },
+    {
+      "testId": "s002-c", "participantId": "synthetic-002",
+      "collectedAt": "2026-07-16T09:00:00Z", "siteId": "site-a", "labId": "lab-a",
+      "ageYears": 38, "bmi": 28, "abstinenceDays": 4, "collectionComplete": true,
+      "transportMinutes": 25, "recentFever": false, "relevantMedicationCount": 1,
+      "progressiveMotilityPercent": 36, "spermConcentrationMillionMl": 39,
+      "totalSpermCountMillion": 110, "normalMorphologyPercent": 5
+    },
+    {
+      "testId": "s003-a", "participantId": "synthetic-003",
+      "collectedAt": "2026-01-07T09:00:00Z", "siteId": "site-b", "labId": "lab-b",
+      "ageYears": 34, "bmi": 23, "abstinenceDays": 2, "collectionComplete": true,
+      "transportMinutes": 15, "recentFever": false, "relevantMedicationCount": 0,
+      "progressiveMotilityPercent": 52, "spermConcentrationMillionMl": 60,
+      "totalSpermCountMillion": 180, "normalMorphologyPercent": 7
+    },
+    {
+      "testId": "s003-b", "participantId": "synthetic-003",
+      "collectedAt": "2026-04-12T09:00:00Z", "siteId": "site-b", "labId": "lab-b",
+      "ageYears": 34, "bmi": 23, "abstinenceDays": 2, "collectionComplete": true,
+      "transportMinutes": 15, "recentFever": true, "relevantMedicationCount": 0,
+      "progressiveMotilityPercent": 45, "spermConcentrationMillionMl": 55,
+      "totalSpermCountMillion": 165, "normalMorphologyPercent": 6
+    },
+    {
+      "testId": "s003-c", "participantId": "synthetic-003",
+      "collectedAt": "2026-07-17T09:00:00Z", "siteId": "site-b", "labId": "lab-b",
+      "ageYears": 34, "bmi": 23, "abstinenceDays": 2, "collectionComplete": true,
+      "transportMinutes": 15, "recentFever": false, "relevantMedicationCount": 0,
+      "progressiveMotilityPercent": 51, "spermConcentrationMillionMl": 59,
+      "totalSpermCountMillion": 175, "normalMorphologyPercent": 7
+    },
+    {
+      "testId": "s004-a", "participantId": "synthetic-004",
+      "collectedAt": "2026-01-08T09:00:00Z", "siteId": "site-b", "labId": "lab-b",
+      "ageYears": 42, "bmi": 31, "abstinenceDays": 5, "collectionComplete": true,
+      "transportMinutes": 40, "recentFever": false, "relevantMedicationCount": 2,
+      "progressiveMotilityPercent": 25, "spermConcentrationMillionMl": 28,
+      "totalSpermCountMillion": 80, "normalMorphologyPercent": 3
+    },
+    {
+      "testId": "s004-b", "participantId": "synthetic-004",
+      "collectedAt": "2026-04-13T09:00:00Z", "siteId": "site-b", "labId": "lab-b",
+      "ageYears": 42, "bmi": 30.5, "abstinenceDays": 5, "collectionComplete": true,
+      "transportMinutes": 38, "recentFever": false, "relevantMedicationCount": 2,
+      "progressiveMotilityPercent": 27, "spermConcentrationMillionMl": 30,
+      "totalSpermCountMillion": 85, "normalMorphologyPercent": 3
+    },
+    {
+      "testId": "s004-c", "participantId": "synthetic-004",
+      "collectedAt": "2026-07-18T09:00:00Z", "siteId": "site-b", "labId": "lab-b",
+      "ageYears": 42, "bmi": 30, "abstinenceDays": 5, "collectionComplete": true,
+      "transportMinutes": 35, "recentFever": false, "relevantMedicationCount": 2,
+      "progressiveMotilityPercent": 29, "spermConcentrationMillionMl": 32,
+      "totalSpermCountMillion": 90, "normalMorphologyPercent": 4
+    }
+  ],
+  "dailyObservations": [
+    { "participantId": "synthetic-001", "date": "2026-03-15", "sleepHours": 7.5, "steps": 9000, "activeMinutes": 45, "sedentaryMinutes": 480, "alcoholUnits": 1, "bingeEvent": 0, "nicotineUses": 0, "dietDiversityScore": 8, "mediterraneanDietScore": 10, "fruitVegetableServings": 5, "processedMeatServings": 0, "sugaryDrinks": 0, "fishServings": 1, "heatMinutes": 0, "feverDay": 0 },
+    { "participantId": "synthetic-001", "date": "2026-06-20", "sleepHours": 8, "steps": 10000, "activeMinutes": 50, "sedentaryMinutes": 450, "alcoholUnits": 0, "bingeEvent": 0, "nicotineUses": 0, "dietDiversityScore": 9, "mediterraneanDietScore": 11, "fruitVegetableServings": 6, "processedMeatServings": 0, "sugaryDrinks": 0, "fishServings": 1, "heatMinutes": 0, "feverDay": 0 },
+    { "participantId": "synthetic-002", "date": "2026-03-16", "sleepHours": 6.5, "steps": 6500, "activeMinutes": 25, "sedentaryMinutes": 620, "alcoholUnits": 5, "bingeEvent": 1, "nicotineUses": 0, "dietDiversityScore": 5, "mediterraneanDietScore": 6, "fruitVegetableServings": 3, "processedMeatServings": 1, "sugaryDrinks": 1, "fishServings": 0, "heatMinutes": 20, "feverDay": 0 },
+    { "participantId": "synthetic-002", "date": "2026-06-21", "sleepHours": 7, "steps": 7500, "activeMinutes": 35, "sedentaryMinutes": 560, "alcoholUnits": 2, "bingeEvent": 0, "nicotineUses": 0, "dietDiversityScore": 6, "mediterraneanDietScore": 7, "fruitVegetableServings": 4, "processedMeatServings": 0, "sugaryDrinks": 0, "fishServings": 1, "heatMinutes": 0, "feverDay": 0 },
+    { "participantId": "synthetic-003", "date": "2026-03-17", "sleepHours": 7, "steps": 8500, "activeMinutes": 40, "sedentaryMinutes": 500, "alcoholUnits": 0, "bingeEvent": 0, "nicotineUses": 0, "dietDiversityScore": 8, "mediterraneanDietScore": 9, "fruitVegetableServings": 5, "processedMeatServings": 0, "sugaryDrinks": 0, "fishServings": 1, "heatMinutes": 0, "feverDay": 1 },
+    { "participantId": "synthetic-003", "date": "2026-06-22", "sleepHours": 7.5, "steps": 9000, "activeMinutes": 45, "sedentaryMinutes": 480, "alcoholUnits": 0, "bingeEvent": 0, "nicotineUses": 0, "dietDiversityScore": 8, "mediterraneanDietScore": 10, "fruitVegetableServings": 5, "processedMeatServings": 0, "sugaryDrinks": 0, "fishServings": 1, "heatMinutes": 0, "feverDay": 0 },
+    { "participantId": "synthetic-004", "date": "2026-03-18", "sleepHours": 6, "steps": 4500, "activeMinutes": 15, "sedentaryMinutes": 700, "alcoholUnits": 6, "bingeEvent": 1, "nicotineUses": 5, "dietDiversityScore": 4, "mediterraneanDietScore": 4, "fruitVegetableServings": 2, "processedMeatServings": 2, "sugaryDrinks": 2, "fishServings": 0, "heatMinutes": 40, "feverDay": 0 },
+    { "participantId": "synthetic-004", "date": "2026-06-23", "sleepHours": 6.5, "steps": 5500, "activeMinutes": 20, "sedentaryMinutes": 650, "alcoholUnits": 4, "bingeEvent": 0, "nicotineUses": 3, "dietDiversityScore": 5, "mediterraneanDietScore": 5, "fruitVegetableServings": 3, "processedMeatServings": 1, "sugaryDrinks": 1, "fishServings": 0, "heatMinutes": 20, "feverDay": 0 }
+  ],
+  "hormoneMeasurements": [
+    { "participantId": "synthetic-001", "measuredAt": "2026-03-01T08:00:00Z", "totalTestosteroneNmolL": 19, "estradiolNmolL": 0.13, "shbgNmolL": 30, "fshIUL": 3, "lhIUL": 4 },
+    { "participantId": "synthetic-002", "measuredAt": "2026-03-01T08:00:00Z", "totalTestosteroneNmolL": 15, "estradiolNmolL": 0.15, "shbgNmolL": 35, "fshIUL": 5, "lhIUL": 5 },
+    { "participantId": "synthetic-003", "measuredAt": "2026-03-01T08:00:00Z", "totalTestosteroneNmolL": 21, "estradiolNmolL": 0.12, "shbgNmolL": 28, "fshIUL": 3, "lhIUL": 4 },
+    { "participantId": "synthetic-004", "measuredAt": "2026-03-01T08:00:00Z", "totalTestosteroneNmolL": 11, "estradiolNmolL": 0.17, "shbgNmolL": 42, "fshIUL": 7, "lhIUL": 6 }
+  ]
+}

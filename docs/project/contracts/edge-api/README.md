@@ -42,7 +42,7 @@ Representative capabilities:
 | Onboarding | `PUT /v1/onboarding` |
 | Clinical tests | `POST /v1/clinical-tests`, `GET /v1/clinical-tests/:id` |
 | Markers | `PUT /v1/clinical-tests/:id/markers` |
-| Assessments | Reserved until the cofounder-owned model PRs define inputs and outputs |
+| Assessments | `POST /v1/assessments`, `GET /v1/assessments/latest` for deterministic readiness only |
 | Protocols | `POST /v1/protocols`, `GET /v1/protocols/current` |
 | Adaptations | Reserved until evidence/coach contracts are implemented |
 | Adherence/check-ins | `POST /v1/adherence-events`, `POST /v1/check-ins` |
@@ -52,7 +52,9 @@ Representative capabilities:
 | Uploads | `POST /v1/uploads/intents`, `POST /v1/uploads/:id/confirm` |
 | Environment | `POST /v1/environment/snapshots` |
 
-The first implemented slice is onboarding → clinical test/markers → protocol → adherence/check-in → retest/trends. No ML, assessment, or prediction endpoint exists until the cofounder-owned model PRs define the boundary.
+The implemented slice is onboarding → clinical test/markers → deterministic
+readiness assessment → protocol → adherence/check-in → retest/trends. No ML
+prediction endpoint exists until a model passes its declared promotion gate.
 
 ## Contract rules
 
@@ -71,6 +73,12 @@ The standard success and error envelopes remain transport-independent:
 ```
 
 Collections use cursor pagination. Clinical-test, assessment, protocol, adaptation, upload, and webhook writes use idempotency keys. Mutable drafts use optimistic concurrency. Clinical observations, predictions, score snapshots, protocols, adherence, evidence versions, and audits are append-only.
+
+Readiness assessments use rule version `readiness-v0.1.0`. The first assessment is a
+baseline. A later assessment returns factor-level point changes only when it has the
+same scored input coverage; adding or removing a domain changes confidence and is not
+presented as behavioural improvement. Clinical gates are returned separately and
+never enter the point calculation.
 
 The application rejects bodies larger than 128 KiB before parsing, accepts only UUID request/resource identifiers, and emits `no-store`, `nosniff`, and `no-referrer` headers. Application-generated responses reflect CORS only for exact origins in `ALLOWED_ORIGINS`. Supabase gateway-generated rejections may carry the gateway's own CORS headers before application code runs; bearer authentication and RLS are the security boundaries, not CORS. Clinical values and reference ranges are non-negative; percentage markers cannot exceed 100.
 

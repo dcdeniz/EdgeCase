@@ -5,6 +5,12 @@ This directory contains the evidence base used to shape EdgeCase product hypothe
 ## Documents
 
 - [Male fertility evidence landscape](male-fertility-evidence-landscape.md): evidence tiers, candidate inputs, datasets, modelling boundaries, and primary sources for a male reproductive-health readiness product.
+- [Male fertility evidence supplement](male-fertility-evidence-supplement.md): effect sizes, intervention protocols, verified references, and gaps that still need verification.
+- [Evidence registry v0.1.0](evidence-registry.v0.1.0.json): machine-readable,
+  allow-listed sources referenced by the first deterministic readiness rules.
+- [PreSeed ML workspace](../../ml/README.md): reproducible VISEM progressive-motility
+  baseline plus the UCI normal/altered screening experiment, source-data boundaries,
+  promotion gates, and model-card workflow.
 
 ## Evidence conventions
 

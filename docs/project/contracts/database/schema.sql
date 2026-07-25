@@ -14,7 +14,7 @@ alter table public.profiles enable row level security;
 alter table public.notes enable row level security;
 
 -- Product-domain snapshot; detailed constraints, indexes, functions, and policies
--- are canonical in supabase/migrations/20260725170000_preseed_domain.sql.
+-- are canonical in the ordered files under supabase/migrations/.
 create table public.clinical_tests (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null references auth.users(id) on delete cascade,
@@ -55,6 +55,24 @@ create table public.check_ins (
   protocol_id uuid references public.protocols(id) on delete set null,
   adherence_rating integer, wellbeing_rating integer, created_at timestamptz not null default now()
 );
+create table public.score_snapshots (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  previous_snapshot_id uuid,
+  observed_at timestamptz not null,
+  readiness_score smallint not null,
+  confidence_score smallint not null,
+  rule_version text not null,
+  input_snapshot jsonb not null,
+  domain_scores jsonb not null,
+  factor_scores jsonb not null,
+  clinical_gates jsonb not null,
+  change_explanation jsonb,
+  interpretation text not null,
+  idempotency_key uuid not null,
+  created_at timestamptz not null default now(),
+  unique (user_id, idempotency_key)
+);
 
 alter table public.clinical_tests enable row level security;
 alter table public.clinical_markers enable row level security;
@@ -62,6 +80,7 @@ alter table public.protocols enable row level security;
 alter table public.protocol_items enable row level security;
 alter table public.adherence_events enable row level security;
 alter table public.check_ins enable row level security;
+alter table public.score_snapshots enable row level security;
 
 -- Vector-RAG snapshot; executable source, grants, retrieval function, seed
 -- evidence, and constraints are canonical in

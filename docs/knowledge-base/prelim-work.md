@@ -15,6 +15,28 @@ Date: 2026-07-25
 - Added committed environment templates and kept all real `.env` files ignored.
 - Assigned EdgeCase the 553xx Supabase local port range so its stack can run alongside the existing Newdryve stack.
 - Linked the repository to the hosted EdgeCase Supabase project and added an app-owned `profiles` table plus authenticated notes CRUD Edge Function. Profile creation participates in the same PostgreSQL transaction as Auth signup; foreign keys, checks, triggers, indexes, grants, and RLS enforce integrity and ownership.
+- Added a Python 3.12 `uv` research workspace for a leakage-controlled VISEM
+  progressive-motility baseline. It range-fetches only three pinned CSV members,
+  performs deterministic repeated nested cross-validation, records promotion gates,
+  and exports a non-commercial research artifact and model card.
+- The first real VISEM evaluation did not meet the predeclared runtime gate: core
+  improved MAE by 1.34% over mean with median held-out R² -0.027, and core plus
+  hormones improved MAE by 2.80% with median R² -0.036. No ML runtime preview was
+  added.
+- Added the next-stage prospective research contract: repeated semen tests, strictly
+  pre-target 30/60/90-day features, previous-result baseline, incremental feature
+  blocks, and participant/time/site isolation. Its committed four-person fixture is
+  explicitly synthetic and cannot train or promote a runtime model.
+- Added deterministic readiness rule version `readiness-v0.1.0`, an allow-listed
+  evidence registry, append-only score snapshots, and authenticated assessment
+  operations. The first assessment is a baseline; comparable later inputs produce a
+  separate factor-level point ledger. Clinical gates remain outside the score.
+- Added a pinned UCI Fertility screening experiment with repeated nested stratified
+  validation, fold-local imbalance handling, nested calibration and threshold
+  selection, six model families, two operating-threshold rules, and an explicit
+  all-normal baseline. An exploratory prevalence-threshold forest reached 0.665
+  balanced accuracy, 0.750 sensitivity, and 0.580 specificity. The result varied
+  materially across seeds and the 0.90 target failed, so no runtime model was exported.
 
 ## Important choices
 

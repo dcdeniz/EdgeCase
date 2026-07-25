@@ -1,0 +1,20 @@
+{
+  "name": "UCI Fertility",
+  "uciDatasetId": 244,
+  "doi": "10.24432/C5Z01Z",
+  "licence": "CC BY 4.0",
+  "commercialUsePermittedByDatasetLicence": true,
+  "archiveUrl": "https://archive.ics.uci.edu/static/public/244/fertility.zip",
+  "archiveSha256": "9b346e4908040f17c8980b04f13749d215af9c8b268ec0f64cffab6e94b188e0",
+  "allowListedMembers": {
+    "fertility_Diagnosis.txt": {
+      "sha256": "c04c6f1a676fa6c55fa6c5ee23f9c9a4cada8e64419850767900380aec91cdbb"
+    }
+  },
+  "participantCount": 100,
+  "classCounts": {
+    "normal": 88,
+    "altered": 12
+  },
+  "rawParticipantDataCommitted": false
+}

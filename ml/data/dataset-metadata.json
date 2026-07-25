@@ -1,0 +1,25 @@
+{
+  "name": "VISEM: A Multimodal Video Dataset of Human Spermatozoa",
+  "zenodoRecordId": 2640506,
+  "doi": "10.5281/zenodo.2640506",
+  "archive": {
+    "name": "visem-dataset.zip",
+    "bytes": 35214812547,
+    "md5": "c4ab1788457fa3395d94bb643559f6c5"
+  },
+  "licence": "CC BY-NC 4.0",
+  "commercialUsePermitted": false,
+  "participantCount": 85,
+  "allowListedMembers": {
+    "visem-dataset/participant_related_data.csv": {
+      "sha256": "2731ff291118b2bbc0d5a2d6c0bec1ef593a903793489ee5646d333af8d55702"
+    },
+    "visem-dataset/semen_analysis_data.csv": {
+      "sha256": "2fa0825aa19550aabdd2c2ee1fc77d62068fee7c890df2bc98ff2962e8826080"
+    },
+    "visem-dataset/sex_hormones.csv": {
+      "sha256": "9318552669921f7450fa3bce3412014c4c252887e7351ccfde9709a170e3109d"
+    }
+  },
+  "rawParticipantDataCommitted": false
+}
