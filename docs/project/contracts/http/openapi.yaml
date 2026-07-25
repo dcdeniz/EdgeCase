@@ -66,6 +66,31 @@ components:
         prolactin_miu_l: { testType: hormone_panel, unit: mIU/L }
         shbg_nmol_l: { testType: hormone_panel, unit: nmol/L }
         tsh_miu_l: { testType: hormone_panel, unit: mIU/L }
+    EvidenceAnswer:
+      type: object
+      additionalProperties: false
+      required: [answer, citations, limitations, clinicalEscalation, disclaimer, runId, createdAt]
+      properties:
+        answer: { type: string, minLength: 1, maxLength: 2400 }
+        citations:
+          type: array
+          minItems: 1
+          maxItems: 8
+          items:
+            type: object
+            additionalProperties: false
+            required: [id, title, citation, sourceUrl, evidenceLevel]
+            properties:
+              id: { type: string }
+              title: { type: string }
+              citation: { type: string }
+              sourceUrl: { type: string, format: uri }
+              evidenceLevel: { type: string }
+        limitations: { type: array, minItems: 1, maxItems: 5, items: { type: string } }
+        clinicalEscalation: { type: boolean }
+        disclaimer: { type: string }
+        runId: { type: string, format: uuid }
+        createdAt: { type: string, format: date-time }
 security: [{ bearerAuth: [] }]
 paths:
   /v1/me:
@@ -168,3 +193,24 @@ paths:
       description: Returns measured tests and collection context without ML interpretation.
       responses:
         "200": { description: Chronological measured results }
+  /v1/evidence/answer:
+    post:
+      operationId: createGroundedEvidenceAnswer
+      description: Retrieves approved evidence against account-scoped context and returns a schema-validated explanation. This operation does not predict or diagnose a condition.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [question]
+              properties:
+                question: { type: string, minLength: 1, maxLength: 800 }
+      responses:
+        "200": { description: Grounded answer with server-resolved citations }
+        "401": { description: Authentication required }
+        "403": { description: Browser origin rejected }
+        "422": { description: Invalid question }
+        "502": { description: Provider output failed grounding validation }
+        "503": { description: RAG provider or evidence index unavailable }

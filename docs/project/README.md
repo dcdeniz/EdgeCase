@@ -5,3 +5,5 @@
 The proposed edge-native API, Fastify portability boundary, and on-edit model are in [`contracts/edge-api/`](contracts/edge-api/README.md) and [ADR 0002](adr/0002-fastify-service-boundary.md).
 
 The mobile design system — information architecture, flows, screens, components, tokens, interaction and accessibility specifications — is in [`docs/design/`](../design/README.md) and [ADR 0003](adr/0003-mobile-design-system.md).
+
+The evidence retrieval and grounded-response boundary is defined by the HTTP/database/environment contracts and [ADR 0004](adr/0004-vector-rag-over-trained-prediction.md). It replaces the hackathon's proposed trained predictor with account-scoped vector retrieval and citation-validated explanation.

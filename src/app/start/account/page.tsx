@@ -5,12 +5,40 @@ import { useState } from "react";
 import { FlowShell } from "@/components/shell";
 import { Button, Card, Field, Segmented, TextInput } from "@/components/ui";
 import { usePrototype } from "@/lib/store";
+import { getSupabaseBrowserClient } from "@/lib/supabase-browser";
 
 export default function AccountPage() {
   const router = useRouter();
   const { update } = usePrototype();
   const [mode, setMode] = useState<"create" | "signin">("create");
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [pending, setPending] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function submitAccount() {
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) {
+      setError("Supabase browser environment variables are not configured.");
+      return;
+    }
+    setPending(true);
+    setError(null);
+    const result = mode === "create"
+      ? await supabase.auth.signUp({ email, password })
+      : await supabase.auth.signInWithPassword({ email, password });
+    setPending(false);
+    if (result.error) {
+      setError(result.error.message);
+      return;
+    }
+    if (!result.data.session) {
+      setError("Check your email to confirm the account, then sign in.");
+      return;
+    }
+    update({ signedIn: true, email });
+    router.push("/start/privacy");
+  }
 
   return (
     <FlowShell
@@ -25,12 +53,10 @@ export default function AccountPage() {
           full
           size="lg"
           glyphAfter="chevron-right"
-          onClick={() => {
-            update({ signedIn: true, email: email || "demo@preseed.example" });
-            router.push("/start/privacy");
-          }}
+          disabled={pending || !email || password.length < (mode === "create" ? 10 : 1)}
+          onClick={submitAccount}
         >
-          {mode === "create" ? "Create account" : "Sign in"}
+          {pending ? "Working…" : mode === "create" ? "Create account" : "Sign in"}
         </Button>
       }
     >
@@ -71,15 +97,21 @@ export default function AccountPage() {
             hint={mode === "create"}
             minLength={mode === "create" ? 10 : undefined}
             autoComplete={mode === "create" ? "new-password" : "current-password"}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
         </Field>
       </form>
 
+      {error ? (
+        <p role="alert" className="mt-3 t-body-sm text-danger">{error}</p>
+      ) : null}
+
       <Card className="mt-2">
         <p className="t-micro text-ink-3">Prototype</p>
         <p className="mt-1.5 t-body-sm text-ink-2">
-          This screen does not create a real account. No credentials are sent anywhere, and no data
-          leaves this device.
+          Accounts are handled by Supabase Auth. Clinical records remain protected by per-user
+          PostgreSQL row-level security.
         </p>
       </Card>
     </FlowShell>

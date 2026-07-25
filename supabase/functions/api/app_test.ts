@@ -1,5 +1,10 @@
 import { assertEquals } from "@std/assert";
 import { createApp, markerMatchesTest } from "./app.ts";
+import {
+  extractResponseText,
+  safetyIdentifier,
+  validateGroundedAnswer,
+} from "./rag.ts";
 
 Deno.test("health uses the standard envelope", async () => {
   const response = await createApp().request("http://localhost/api/health");
@@ -79,6 +84,39 @@ Deno.test("marker metadata cannot cross clinical test boundaries", () => {
     markerMatchesTest("volume_ml", "litres", "semen_analysis"),
     false,
   );
+});
+
+Deno.test("RAG output accepts only retrieved evidence IDs", () => {
+  const answer = {
+    answer: "The evidence supports discussing this result with a clinician.",
+    evidenceIds: ["ev_allowed"],
+    limitations: ["This does not establish a diagnosis."],
+    clinicalEscalation: true,
+  };
+  assertEquals(validateGroundedAnswer(answer, new Set(["ev_allowed"])), true);
+  assertEquals(
+    validateGroundedAnswer(
+      { ...answer, evidenceIds: ["ev_invented"] },
+      new Set(["ev_allowed"]),
+    ),
+    false,
+  );
+});
+
+Deno.test("Responses API output text is extracted from message content", () => {
+  assertEquals(
+    extractResponseText({
+      output: [{ content: [{ type: "output_text", text: '{"answer":"ok"}' }] }],
+    }),
+    '{"answer":"ok"}',
+  );
+});
+
+Deno.test("provider safety identifiers do not disclose account UUIDs", async () => {
+  const userId = "00000000-0000-4000-8000-000000000001";
+  const identifier = await safetyIdentifier(userId);
+  assertEquals(identifier.startsWith("preseed_"), true);
+  assertEquals(identifier.includes(userId), false);
 });
 
 const corsMethods = "GET, POST, PUT, OPTIONS";
