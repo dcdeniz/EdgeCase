@@ -42,6 +42,8 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - Applied the product-domain migration with RLS, composite ownership constraints, append-oriented records, validation, indexes, and transactional protocol replacement; verified local and hosted migration histories match.
 - Added Fetch-level contract tests and wired Deno checks/tests into `npm run check` and the on-edit watcher.
 - Verified the hosted API gateway rejects unauthenticated account access with HTTP 401. No user or simulated clinical data was created during deployment verification.
+- Refreshed and queried the NEAT graph for dependencies, policies, and divergence. Hardened request-size, CORS, identifier, pagination, numerical-range, consent, duration, and composite tenant-integrity boundaries under the ACID/data-flow/cybersecurity audit.
+- Applied and deployed the hardening migration/API revision. Hosted verification found Supabase gateway-generated 401 responses use gateway CORS headers before application middleware; this is documented and no protected payload is returned.
 
 ## Deployment sequence
 

@@ -1,4 +1,5 @@
 import { Hono } from "hono";
+import { bodyLimit } from "hono/body-limit";
 import {
   createClient,
   type SupabaseClient,
@@ -8,10 +9,13 @@ import {
 type Variables = { requestId: string; user: User; supabase: SupabaseClient };
 type AppEnv = { Variables: Variables };
 const cors = {
-  origin: "*",
   allowHeaders: "authorization, apikey, content-type, idempotency-key",
   allowMethods: "GET, POST, PUT, OPTIONS",
 };
+const uuidPattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
+const requestIdPattern =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 const markerCodes = [
   "volume_ml",
   "concentration_million_ml",
@@ -49,6 +53,8 @@ const asString = (value: unknown, max: number) =>
     : null;
 const asDate = (value: unknown) =>
   typeof value === "string" && !Number.isNaN(Date.parse(value)) ? value : null;
+const asUuid = (value: unknown) =>
+  typeof value === "string" && uuidPattern.test(value) ? value : null;
 const allowed = <T extends string>(
   value: unknown,
   values: readonly T[],
@@ -66,15 +72,47 @@ export function createApp() {
   const app = new Hono<AppEnv>();
 
   app.use("*", async (c, next) => {
-    const requestId = c.req.header("x-request-id") ?? crypto.randomUUID();
+    const suppliedRequestId = c.req.header("x-request-id");
+    const requestId =
+      suppliedRequestId && requestIdPattern.test(suppliedRequestId)
+        ? suppliedRequestId
+        : crypto.randomUUID();
     c.set("requestId", requestId);
     c.header("x-request-id", requestId);
-    c.header("Access-Control-Allow-Origin", cors.origin);
+    c.header("Cache-Control", "no-store");
+    c.header("Referrer-Policy", "no-referrer");
+    c.header("X-Content-Type-Options", "nosniff");
+    const origin = c.req.header("Origin");
+    const allowedOrigins = new Set(
+      (Deno.env.get("ALLOWED_ORIGINS") ??
+        "http://localhost:3000,http://127.0.0.1:3000")
+        .split(",").map((value) => value.trim()).filter(Boolean),
+    );
+    if (origin && allowedOrigins.has(origin)) {
+      c.header("Access-Control-Allow-Origin", origin);
+      c.header("Vary", "Origin");
+    }
     c.header("Access-Control-Allow-Headers", cors.allowHeaders);
     c.header("Access-Control-Allow-Methods", cors.allowMethods);
     if (c.req.method === "OPTIONS") return c.body(null, 204);
     await next();
   });
+
+  app.use(
+    "/api/v1/*",
+    bodyLimit({
+      maxSize: 128 * 1024,
+      onError: (c) =>
+        c.json(
+          failure(
+            c.get("requestId"),
+            "PAYLOAD_TOO_LARGE",
+            "The request body exceeds 128 KiB.",
+          ),
+          413,
+        ),
+    }),
+  );
 
   app.get(
     "/api/health",
@@ -151,7 +189,8 @@ export function createApp() {
           "pre_treatment_preservation",
         ] as const,
       ) || !isRecord(input.answers) ||
-      typeof input.healthDataConsent !== "boolean"
+      typeof input.healthDataConsent !== "boolean" ||
+      (input.complete === true && input.healthDataConsent !== true)
     ) {
       return c.json(
         failure(
@@ -227,16 +266,47 @@ export function createApp() {
       ascending: false,
     }).limit(limit);
     const before = c.req.query("before");
-    if (before) query = query.lt("collected_at", before);
+    if (before) {
+      const separator = before.lastIndexOf("|");
+      const beforeDate = separator > 0
+        ? asDate(before.slice(0, separator))
+        : null;
+      const beforeId = separator > 0
+        ? asUuid(before.slice(separator + 1))
+        : null;
+      if (!beforeDate || !beforeId) {
+        return c.json(
+          failure(
+            c.get("requestId"),
+            "INVALID_CURSOR",
+            "The pagination cursor is invalid.",
+          ),
+          422,
+        );
+      }
+      query = query.or(
+        `collected_at.lt.${beforeDate},and(collected_at.eq.${beforeDate},id.lt.${beforeId})`,
+      );
+    }
     const { data, error } = await query;
     if (error) throw error;
     const nextCursor = data?.length === limit
-      ? data[data.length - 1]?.collected_at
+      ? `${data[data.length - 1]?.collected_at}|${data[data.length - 1]?.id}`
       : null;
     return c.json(envelope(c.get("requestId"), data, { nextCursor }));
   });
 
   app.get("/api/v1/clinical-tests/:id", async (c) => {
+    if (!asUuid(c.req.param("id"))) {
+      return c.json(
+        failure(
+          c.get("requestId"),
+          "INVALID_ID",
+          "The clinical test identifier is invalid.",
+        ),
+        422,
+      );
+    }
     const { data, error } = await c.get("supabase").from("clinical_tests")
       .select("*,clinical_markers(*)").eq("id", c.req.param("id"))
       .maybeSingle();
@@ -270,6 +340,16 @@ export function createApp() {
         422,
       );
     }
+    if (!asUuid(c.req.param("id"))) {
+      return c.json(
+        failure(
+          requestId,
+          "INVALID_ID",
+          "The clinical test identifier is invalid.",
+        ),
+        422,
+      );
+    }
     const { data: test } = await c.get("supabase").from("clinical_tests")
       .select("id").eq("id", c.req.param("id")).maybeSingle();
     if (!test) {
@@ -287,6 +367,7 @@ export function createApp() {
       if (
         !isRecord(raw) || !allowed(raw.code, markerCodes) ||
         typeof raw.value !== "number" || !Number.isFinite(raw.value) ||
+        raw.value < 0 ||
         !asString(raw.unit, 40) ||
         !allowed(
           raw.verification ?? "user_entered",
@@ -298,6 +379,42 @@ export function createApp() {
             requestId,
             "INVALID_MARKER",
             "Each marker requires a supported code, numeric value, unit, and verification.",
+          ),
+          422,
+        );
+      }
+      if (
+        [
+          "progressive_motility_pct",
+          "total_motility_pct",
+          "normal_morphology_pct",
+          "dna_fragmentation_pct",
+        ].includes(raw.code) &&
+        raw.value > 100
+      ) {
+        return c.json(
+          failure(
+            requestId,
+            "INVALID_MARKER",
+            "Percentage markers must be between zero and one hundred.",
+          ),
+          422,
+        );
+      }
+      if (
+        (raw.referenceLow != null &&
+          (typeof raw.referenceLow !== "number" || raw.referenceLow < 0)) ||
+        (raw.referenceHigh != null &&
+          (typeof raw.referenceHigh !== "number" || raw.referenceHigh < 0)) ||
+        (typeof raw.referenceLow === "number" &&
+          typeof raw.referenceHigh === "number" &&
+          raw.referenceLow > raw.referenceHigh)
+      ) {
+        return c.json(
+          failure(
+            requestId,
+            "INVALID_REFERENCE_RANGE",
+            "Marker reference ranges are invalid.",
           ),
           422,
         );
@@ -340,10 +457,24 @@ export function createApp() {
         422,
       );
     }
+    const durationDays =
+      (Date.parse(String(input.endsOn)) - Date.parse(String(input.startsOn))) /
+      86_400_000;
+    if (durationDays < 0 || durationDays > 730) {
+      return c.json(
+        failure(
+          requestId,
+          "INVALID_PROTOCOL_DURATION",
+          "Protocol duration must be between zero and 730 days.",
+        ),
+        422,
+      );
+    }
     const items = [];
     for (const raw of input.items) {
       if (
         !isRecord(raw) || !Number.isInteger(raw.weekNumber) ||
+        Number(raw.weekNumber) < 1 || Number(raw.weekNumber) > 104 ||
         !allowed(
           raw.category,
           [
@@ -420,7 +551,7 @@ export function createApp() {
     const input = await bodyOf(c);
     const requestId = c.get("requestId");
     if (
-      !isRecord(input) || !asString(input.protocolItemId, 80) ||
+      !isRecord(input) || !asUuid(input.protocolItemId) ||
       !asDate(input.occurredOn) ||
       !allowed(input.status, ["completed", "partial", "skipped"] as const)
     ) {
@@ -451,6 +582,7 @@ export function createApp() {
     const requestId = c.get("requestId");
     if (
       !isRecord(input) ||
+      (input.protocolId != null && !asUuid(input.protocolId)) ||
       (input.adherenceRating != null &&
         (!Number.isInteger(input.adherenceRating) ||
           Number(input.adherenceRating) < 1 ||

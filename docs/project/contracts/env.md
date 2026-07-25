@@ -13,5 +13,6 @@
 | `VERCEL_TOKEN` | CI | deploy | Vercel authentication |
 | `VERCEL_ORG_ID` | CI | deploy | Vercel team/account |
 | `VERCEL_PROJECT_ID` | CI | deploy | Vercel project |
+| `ALLOWED_ORIGINS` | Edge API | yes | Comma-separated exact browser origins accepted by CORS |
 
 Never commit values.
