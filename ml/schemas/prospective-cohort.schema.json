@@ -1,0 +1,127 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edgecase.local/schemas/preseed-prospective-cohort-v1.json",
+  "title": "PreSeed prospective repeated-test research cohort",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "synthetic",
+    "participants",
+    "semenTests",
+    "dailyObservations",
+    "hormoneMeasurements"
+  ],
+  "properties": {
+    "schemaVersion": { "const": 1 },
+    "synthetic": { "type": "boolean" },
+    "participants": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["participantId"],
+        "properties": {
+          "participantId": { "type": "string", "minLength": 1 }
+        }
+      }
+    },
+    "semenTests": {
+      "type": "array",
+      "minItems": 2,
+      "items": { "$ref": "#/$defs/semenTest" }
+    },
+    "dailyObservations": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/dailyObservation" }
+    },
+    "hormoneMeasurements": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/hormoneMeasurement" }
+    }
+  },
+  "$defs": {
+    "nonNegative": { "type": "number", "minimum": 0 },
+    "percentage": { "type": "number", "minimum": 0, "maximum": 100 },
+    "semenTest": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "testId",
+        "participantId",
+        "collectedAt",
+        "siteId",
+        "labId",
+        "ageYears",
+        "bmi",
+        "abstinenceDays",
+        "collectionComplete",
+        "transportMinutes",
+        "recentFever",
+        "progressiveMotilityPercent",
+        "spermConcentrationMillionMl",
+        "totalSpermCountMillion",
+        "normalMorphologyPercent"
+      ],
+      "properties": {
+        "testId": { "type": "string", "minLength": 1 },
+        "participantId": { "type": "string", "minLength": 1 },
+        "collectedAt": { "type": "string", "format": "date-time" },
+        "siteId": { "type": "string", "minLength": 1 },
+        "labId": { "type": "string", "minLength": 1 },
+        "ageYears": { "type": "number", "minimum": 18, "maximum": 100 },
+        "bmi": { "type": "number", "minimum": 10, "maximum": 80 },
+        "abstinenceDays": { "type": "number", "minimum": 0, "maximum": 30 },
+        "collectionComplete": { "type": "boolean" },
+        "transportMinutes": { "$ref": "#/$defs/nonNegative" },
+        "recentFever": { "type": "boolean" },
+        "exogenousTestosterone": { "type": "boolean", "default": false },
+        "anabolicSteroidUse": { "type": "boolean", "default": false },
+        "relevantMedicationCount": { "type": "integer", "minimum": 0 },
+        "progressiveMotilityPercent": { "$ref": "#/$defs/percentage" },
+        "spermConcentrationMillionMl": { "$ref": "#/$defs/nonNegative" },
+        "totalSpermCountMillion": { "$ref": "#/$defs/nonNegative" },
+        "normalMorphologyPercent": { "$ref": "#/$defs/percentage" }
+      }
+    },
+    "dailyObservation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["participantId", "date"],
+      "properties": {
+        "participantId": { "type": "string", "minLength": 1 },
+        "date": { "type": "string", "format": "date" },
+        "sleepHours": { "type": "number", "minimum": 0, "maximum": 24 },
+        "steps": { "$ref": "#/$defs/nonNegative" },
+        "activeMinutes": { "type": "number", "minimum": 0, "maximum": 1440 },
+        "sedentaryMinutes": { "type": "number", "minimum": 0, "maximum": 1440 },
+        "alcoholUnits": { "$ref": "#/$defs/nonNegative" },
+        "bingeEvent": { "type": "integer", "minimum": 0, "maximum": 1 },
+        "nicotineUses": { "$ref": "#/$defs/nonNegative" },
+        "dietDiversityScore": { "type": "number", "minimum": 0, "maximum": 10 },
+        "mediterraneanDietScore": { "type": "number", "minimum": 0, "maximum": 14 },
+        "fruitVegetableServings": { "$ref": "#/$defs/nonNegative" },
+        "processedMeatServings": { "$ref": "#/$defs/nonNegative" },
+        "sugaryDrinks": { "$ref": "#/$defs/nonNegative" },
+        "fishServings": { "$ref": "#/$defs/nonNegative" },
+        "heatMinutes": { "$ref": "#/$defs/nonNegative" },
+        "feverDay": { "type": "integer", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "hormoneMeasurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["participantId", "measuredAt"],
+      "properties": {
+        "participantId": { "type": "string", "minLength": 1 },
+        "measuredAt": { "type": "string", "format": "date-time" },
+        "totalTestosteroneNmolL": { "$ref": "#/$defs/nonNegative" },
+        "estradiolNmolL": { "$ref": "#/$defs/nonNegative" },
+        "shbgNmolL": { "$ref": "#/$defs/nonNegative" },
+        "fshIUL": { "$ref": "#/$defs/nonNegative" },
+        "lhIUL": { "$ref": "#/$defs/nonNegative" }
+      }
+    }
+  }
+}

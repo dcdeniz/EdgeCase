@@ -5,6 +5,12 @@ import {
   type SupabaseClient,
   type User,
 } from "@supabase/supabase-js";
+import {
+  assessReadiness,
+  type ReadinessAssessment,
+  type ReadinessInput,
+  validateReadinessInput,
+} from "./readiness.ts";
 
 type Variables = { requestId: string; user: User; supabase: SupabaseClient };
 type AppEnv = { Variables: Variables };
@@ -59,6 +65,8 @@ const allowed = <T extends string>(
   value: unknown,
   values: readonly T[],
 ): value is T => typeof value === "string" && values.includes(value as T);
+const hasOnlyKeys = (value: Record<string, unknown>, keys: readonly string[]) =>
+  Object.keys(value).every((key) => keys.includes(key));
 
 async function bodyOf(c: { req: { json: () => Promise<unknown> } }) {
   try {
@@ -438,6 +446,133 @@ export function createApp() {
       .upsert(rows, { onConflict: "test_id,code" }).select();
     if (error) throw error;
     return c.json(envelope(requestId, data));
+  });
+
+  const assessmentFromRow = (
+    row: Record<string, unknown>,
+  ): ReadinessAssessment => ({
+    score: Number(row.readiness_score),
+    confidence: Number(row.confidence_score),
+    ruleVersion: String(
+      row.rule_version,
+    ) as ReadinessAssessment["ruleVersion"],
+    factors: row.factor_scores as ReadinessAssessment["factors"],
+    domains: row.domain_scores as ReadinessAssessment["domains"],
+    clinicalGates: row.clinical_gates as ReadinessAssessment["clinicalGates"],
+    change: row.change_explanation as ReadinessAssessment["change"],
+    interpretation: String(row.interpretation),
+  });
+
+  const assessmentResponse = (row: Record<string, unknown>) => ({
+    snapshotId: row.id,
+    observedAt: row.observed_at,
+    previousSnapshotId: row.previous_snapshot_id,
+    ...assessmentFromRow(row),
+  });
+
+  app.post("/api/v1/assessments", async (c) => {
+    const input = await bodyOf(c);
+    const requestId = c.get("requestId");
+    const idempotencyKey = asUuid(c.req.header("idempotency-key"));
+    if (
+      !isRecord(input) ||
+      !hasOnlyKeys(input, ["observedAt", "inputs"]) ||
+      !asDate(input.observedAt) ||
+      !idempotencyKey
+    ) {
+      return c.json(
+        failure(
+          requestId,
+          "INVALID_ASSESSMENT",
+          "A valid observedAt, inputs object, and UUID idempotency-key header are required.",
+        ),
+        422,
+      );
+    }
+    const validationErrors = validateReadinessInput(input.inputs);
+    if (validationErrors.length > 0) {
+      return c.json(
+        failure(
+          requestId,
+          "INVALID_READINESS_INPUTS",
+          "The readiness inputs are invalid.",
+          validationErrors,
+        ),
+        422,
+      );
+    }
+
+    const supabase = c.get("supabase");
+    const userId = c.get("user").id;
+    const observedAt = String(input.observedAt);
+    const { data: existing, error: existingError } = await supabase.from(
+      "score_snapshots",
+    ).select("*").eq("idempotency_key", idempotencyKey).maybeSingle();
+    if (existingError) throw existingError;
+    if (existing) {
+      return c.json(envelope(requestId, assessmentResponse(existing)));
+    }
+
+    const { data: previousRow, error: previousError } = await supabase.from(
+      "score_snapshots",
+    ).select("*").lte("observed_at", observedAt).order("observed_at", {
+      ascending: false,
+    }).order("id", { ascending: false }).limit(1).maybeSingle();
+    if (previousError) throw previousError;
+    const previous = previousRow ? assessmentFromRow(previousRow) : undefined;
+    const assessment = assessReadiness(
+      input.inputs as ReadinessInput,
+      previous,
+    );
+    const row = {
+      user_id: userId,
+      previous_snapshot_id: previousRow?.id ?? null,
+      observed_at: observedAt,
+      readiness_score: assessment.score,
+      confidence_score: assessment.confidence,
+      rule_version: assessment.ruleVersion,
+      input_snapshot: input.inputs,
+      domain_scores: assessment.domains,
+      factor_scores: assessment.factors,
+      clinical_gates: assessment.clinicalGates,
+      change_explanation: assessment.change,
+      interpretation: assessment.interpretation,
+      idempotency_key: idempotencyKey,
+    };
+    const { data, error } = await supabase.from("score_snapshots").insert(row)
+      .select("*").single();
+    if (error) {
+      if (error.code === "23505") {
+        const { data: raced, error: racedError } = await supabase.from(
+          "score_snapshots",
+        ).select("*").eq("idempotency_key", idempotencyKey).single();
+        if (racedError) throw racedError;
+        return c.json(envelope(requestId, assessmentResponse(raced)));
+      }
+      throw error;
+    }
+    return c.json(envelope(requestId, assessmentResponse(data)), 201);
+  });
+
+  app.get("/api/v1/assessments/latest", async (c) => {
+    const { data, error } = await c.get("supabase").from("score_snapshots")
+      .select("*").order("observed_at", { ascending: false }).order("id", {
+        ascending: false,
+      }).limit(1).maybeSingle();
+    if (error) throw error;
+    if (!data) {
+      return c.json(
+        failure(
+          c.get("requestId"),
+          "ASSESSMENT_NOT_FOUND",
+          "No readiness assessment was found.",
+        ),
+        404,
+      );
+    }
+    return c.json(
+      envelope(c.get("requestId"), assessmentResponse(data)),
+    );
   });
 
   app.post("/api/v1/protocols", async (c) => {

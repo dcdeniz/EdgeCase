@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "registryVersion": "0.1.0",
+  "lastReviewed": "2026-07-25",
+  "clinicalReviewStatus": "pending",
+  "claims": [
+    {
+      "id": "sleep-and-semen-andr-2024",
+      "factor": "sleep_duration",
+      "title": "Association between sleep duration and semen parameters",
+      "url": "https://doi.org/10.1111/andr.13560",
+      "evidenceType": "observational",
+      "causal": false,
+      "endpoints": ["semen_volume", "total_motility", "progressive_motility"],
+      "productUse": "readiness_points"
+    },
+    {
+      "id": "leproult-jama-2011",
+      "factor": "sleep_duration",
+      "title": "Effect of one week of sleep restriction on testosterone levels in young healthy men",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4445839/",
+      "evidenceType": "small_controlled_experiment",
+      "causal": true,
+      "endpoints": ["daytime_testosterone"],
+      "productUse": "mechanism_context_only"
+    },
+    {
+      "id": "smoking-meta-analysis-pmid-27113031",
+      "factor": "smoking",
+      "title": "Cigarette smoking and semen quality: a new meta-analysis",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27113031/",
+      "evidenceType": "meta_analysis",
+      "causal": false,
+      "endpoints": ["sperm_concentration", "motility", "morphology"],
+      "productUse": "readiness_points"
+    },
+    {
+      "id": "alcohol-meta-analysis-pmid-37159717",
+      "factor": "alcohol_binges",
+      "title": "Investigating the association between alcohol intake and male reproductive function",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37159717/",
+      "evidenceType": "systematic_review_and_meta_analysis",
+      "causal": false,
+      "endpoints": ["semen_volume", "testosterone", "fsh", "lh"],
+      "productUse": "readiness_points_with_product_hypothesis_thresholds"
+    },
+    {
+      "id": "asrm-tobacco-marijuana-2024",
+      "factor": "cannabis",
+      "title": "Tobacco or marijuana use and infertility: a committee opinion",
+      "url": "https://www.asrm.org/practice-guidance/practice-committee-documents/tobacco-or-marijuana-use/",
+      "evidenceType": "professional_society_evidence_review",
+      "causal": false,
+      "endpoints": ["semen_parameters", "fecundability", "reproductive_hormones"],
+      "productUse": "low_weight_readiness_points"
+    },
+    {
+      "id": "mediterranean-diet-nma-pmid-40419219",
+      "factor": "diet_pattern",
+      "title": "Dietary patterns and interventions for male fertility: a network meta-analysis",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40419219/",
+      "evidenceType": "network_meta_analysis",
+      "causal": false,
+      "endpoints": ["sperm_count", "total_motility", "progressive_motility", "morphology"],
+      "productUse": "readiness_points"
+    },
+    {
+      "id": "exercise-nma-pmc11913713",
+      "factor": "physical_activity",
+      "title": "Exercise interventions and male reproductive outcomes",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11913713/",
+      "evidenceType": "network_meta_analysis",
+      "causal": true,
+      "endpoints": ["sperm_concentration", "motility", "semen_volume"],
+      "productUse": "readiness_points"
+    },
+    {
+      "id": "garolla-sauna-2013",
+      "factor": "heat_exposure",
+      "title": "Seminal and molecular evidence that sauna exposure affects human spermatogenesis",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23411620/",
+      "evidenceType": "small_longitudinal_exposure_study",
+      "causal": true,
+      "endpoints": ["sperm_count", "motility", "sperm_chromatin"],
+      "productUse": "readiness_points"
+    },
+    {
+      "id": "mckinnon-andrology-2022",
+      "factor": "heat_exposure",
+      "title": "Male personal heat exposures and fecundability: a preconception cohort study",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/35924639/",
+      "evidenceType": "prospective_cohort",
+      "causal": false,
+      "endpoints": ["fecundability"],
+      "productUse": "limitations_and_context"
+    },
+    {
+      "id": "abstinence-nma-pmc12257329",
+      "factor": "ejaculation_cadence",
+      "title": "Association of abstinence time with semen and assisted-reproduction outcomes",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12257329/",
+      "evidenceType": "systematic_review_and_network_meta_analysis",
+      "causal": false,
+      "endpoints": ["motility", "dna_fragmentation", "assisted_reproduction_outcomes"],
+      "productUse": "measurement_modifier"
+    },
+    {
+      "id": "plastic-tableware-microplastics-pmc12512996",
+      "factor": "plastic_product_exposure",
+      "title": "Plastic tableware use, seminal microplastics, and sperm quality",
+      "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC12512996/",
+      "evidenceType": "small_observational_study",
+      "causal": false,
+      "endpoints": ["seminal_microplastics", "semen_quality"],
+      "productUse": "low_weight_emerging_exposure_indicator"
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 openapi: 3.1.0
 info:
   title: PreSeed Edge API
-  version: 1.0.0
-  description: Non-ML hackathon API. Predictions and assessments are intentionally absent pending the model-owner contracts.
+  version: 1.1.0
+  description: Hackathon API with a deterministic readiness assessment. ML predictions remain absent pending a promoted model.
 x-request-body-limit: 131072
 servers:
   - url: https://{project}.supabase.co/functions/v1/api
@@ -47,6 +47,79 @@ components:
         referenceLow: { type: [number, "null"] }
         referenceHigh: { type: [number, "null"] }
         verification: { enum: [user_entered, user_confirmed, lab_report] }
+    ReadinessInputs:
+      type: object
+      additionalProperties: false
+      minProperties: 1
+      properties:
+        sleep:
+          type: object
+          additionalProperties: false
+          required: [averageHours, regularityMinutes]
+          properties:
+            averageHours: { type: number, minimum: 0, maximum: 24 }
+            regularityMinutes: { type: number, minimum: 0, maximum: 720 }
+        substances:
+          type: object
+          additionalProperties: false
+          required: [smokingStatus, alcoholUnitsPerWeek, bingeEpisodes30Days, cannabisDays30]
+          properties:
+            smokingStatus: { enum: [never, former, current] }
+            alcoholUnitsPerWeek: { type: number, minimum: 0, maximum: 300 }
+            bingeEpisodes30Days: { type: number, minimum: 0, maximum: 30 }
+            cannabisDays30: { type: number, minimum: 0, maximum: 30 }
+        diet:
+          type: object
+          additionalProperties: false
+          required: [plantVarietyPerWeek, fruitVegetableServingsPerDay, fishMealsPerWeek, processedMeatMealsPerWeek, sugaryDrinksPerWeek]
+          properties:
+            plantVarietyPerWeek: { type: number, minimum: 0, maximum: 100 }
+            fruitVegetableServingsPerDay: { type: number, minimum: 0, maximum: 30 }
+            fishMealsPerWeek: { type: number, minimum: 0, maximum: 21 }
+            processedMeatMealsPerWeek: { type: number, minimum: 0, maximum: 21 }
+            sugaryDrinksPerWeek: { type: number, minimum: 0, maximum: 70 }
+        activity:
+          type: object
+          additionalProperties: false
+          required: [moderateMinutesPerWeek, sedentaryHoursPerDay, extremeTrainingDays30]
+          properties:
+            moderateMinutesPerWeek: { type: number, minimum: 0, maximum: 2000 }
+            sedentaryHoursPerDay: { type: number, minimum: 0, maximum: 24 }
+            extremeTrainingDays30: { type: number, minimum: 0, maximum: 30 }
+        heat:
+          type: object
+          additionalProperties: false
+          required: [saunaHotTubSessions30Days, occupationalHeatDays30, laptopOnLapHoursPerWeek]
+          properties:
+            saunaHotTubSessions30Days: { type: number, minimum: 0, maximum: 60 }
+            occupationalHeatDays30: { type: number, minimum: 0, maximum: 30 }
+            laptopOnLapHoursPerWeek: { type: number, minimum: 0, maximum: 168 }
+        reproductiveHealth:
+          type: object
+          additionalProperties: false
+          required: [baselineTestStatus, ejaculationDaysPerWeek, sexualFunctionConcern]
+          properties:
+            baselineTestStatus: { enum: [none, scheduled, completed] }
+            ejaculationDaysPerWeek: { type: number, minimum: 0, maximum: 7 }
+            sexualFunctionConcern: { type: boolean }
+        environment:
+          type: object
+          additionalProperties: false
+          required: [heatedPlasticMealsPerWeek, plasticDrinkContainersPerDay, occupationalExposureDays30, ppeUsedConsistently]
+          properties:
+            heatedPlasticMealsPerWeek: { type: number, minimum: 0, maximum: 21 }
+            plasticDrinkContainersPerDay: { type: number, minimum: 0, maximum: 20 }
+            occupationalExposureDays30: { type: number, minimum: 0, maximum: 30 }
+            ppeUsedConsistently: { type: boolean }
+        clinicalFlags:
+          type: object
+          additionalProperties: false
+          required: [exogenousTestosterone, anabolicSteroidsOrSarms, chemotherapyOrRadiotherapy, testicularOrObstructionConcern]
+          properties:
+            exogenousTestosterone: { type: boolean }
+            anabolicSteroidsOrSarms: { type: boolean }
+            chemotherapyOrRadiotherapy: { type: boolean }
+            testicularOrObstructionConcern: { type: boolean }
 security: [{ bearerAuth: [] }]
 paths:
   /v1/me:
@@ -118,6 +191,33 @@ paths:
         "200": { description: Upserted markers }
         "404": { description: Absent or non-owned test }
         "422": { description: Invalid marker }
+  /v1/assessments:
+    post:
+      operationId: createReadinessAssessment
+      description: Creates an append-only deterministic readiness snapshot. The score is behavioural readiness, not fertility or semen quality.
+      parameters:
+        - { name: idempotency-key, in: header, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [observedAt, inputs]
+              properties:
+                observedAt: { type: string, format: date-time }
+                inputs: { $ref: "#/components/schemas/ReadinessInputs" }
+      responses:
+        "201": { description: Versioned readiness snapshot with factors, evidence IDs, confidence, clinical gates, and an optional comparable change ledger }
+        "200": { description: Existing snapshot returned for a repeated idempotency key }
+        "422": { description: Invalid readiness inputs or idempotency key }
+  /v1/assessments/latest:
+    get:
+      operationId: getLatestReadinessAssessment
+      responses:
+        "200": { description: Latest owned readiness snapshot }
+        "404": { description: No readiness assessment }
   /v1/protocols:
     post:
       operationId: createProtocol

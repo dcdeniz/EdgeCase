@@ -1,0 +1,341 @@
+{
+  "$schema": "../schemas/model-artifact.schema.json",
+  "modelId": "preseed-visem-progressive-motility",
+  "semanticVersion": "0.1.0",
+  "trainedAt": "2026-07-25T00:00:00Z",
+  "researchOnly": true,
+  "commercialUsePermitted": false,
+  "target": {
+    "name": "progressiveMotilityPercent",
+    "sourceColumn": "Progressive motility (%)",
+    "unit": "percent",
+    "transformation": {
+      "name": "bounded_logit",
+      "formula": "log(((y + 0.5) / 101) / (1 - ((y + 0.5) / 101)))"
+    }
+  },
+  "dataset": {
+    "name": "VISEM: A Multimodal Video Dataset of Human Spermatozoa",
+    "zenodoRecordId": 2640506,
+    "doi": "10.5281/zenodo.2640506",
+    "archiveMd5": "c4ab1788457fa3395d94bb643559f6c5",
+    "archiveBytes": 35214812547,
+    "licence": "CC BY-NC 4.0",
+    "attribution": "Haugen TB, Hicks SA, Andersen JM, Witczak O, Hammer HL, Borgli R, Halvorsen P, Riegler M. VISEM.",
+    "participantCount": 85
+  },
+  "training": {
+    "python": "3.12",
+    "deterministicSeed": 20260725,
+    "bootstrapIterations": 2000,
+    "rawParticipantDataCommitted": false
+  },
+  "models": [
+    {
+      "featureSet": "core",
+      "eligibleForRuntime": false,
+      "orderedFeatures": [
+        {
+          "name": "ageYears",
+          "sourceColumn": "Age (years)",
+          "unit": "years",
+          "trainingRange": {
+            "min": 22.0,
+            "max": 61.0
+          }
+        },
+        {
+          "name": "bmi",
+          "sourceColumn": "Body mass index (kg/m\u00b2)",
+          "unit": "kg/m\u00b2",
+          "trainingRange": {
+            "min": 18.8,
+            "max": 62.7
+          }
+        },
+        {
+          "name": "abstinenceDays",
+          "sourceColumn": "Abstinence time(days)",
+          "unit": "days",
+          "trainingRange": {
+            "min": 0.5,
+            "max": 20.0
+          }
+        }
+      ],
+      "preprocessing": {
+        "imputation": {
+          "strategy": "median",
+          "values": [
+            34.0,
+            29.2,
+            3.0
+          ]
+        },
+        "scaling": {
+          "mean": [
+            36.44705882352941,
+            30.23058823529411,
+            3.847058823529412
+          ],
+          "scale": [
+            9.947516252048803,
+            7.755605540577608,
+            2.346491159422016
+          ]
+        }
+      },
+      "linearModel": {
+        "kind": "ridge",
+        "coefficients": [
+          -0.08924687419498721,
+          -0.10276267989955556,
+          -0.03977233778700064
+        ],
+        "intercept": -0.4247462039345367
+      },
+      "inverseTransformation": {
+        "formula": "clip(101 * sigmoid(linearPrediction) - 0.5, 0, 100)",
+        "boundsPercent": [
+          0,
+          100
+        ]
+      },
+      "researchInterval80": {
+        "method": "symmetric absolute 80th percentile of participant-level repeated OOF residuals",
+        "halfWidthPercentagePoints": 28.021595810765778,
+        "clinicalConfidenceInterval": false
+      },
+      "outOfDistributionPolicy": "Ineligible when any required value is outside its inclusive training range; do not coerce or extrapolate.",
+      "evaluation": {
+        "selectedModel": "ridge",
+        "benchmarkWinner": "ridge",
+        "metrics": {
+          "mae": 17.066506151646532,
+          "rmse": 20.141069437086166,
+          "spearman": 0.1492107022464635,
+          "r2": -0.008203064207117583
+        },
+        "bootstrap95": {
+          "mae": [
+            14.82337413015705,
+            19.424797602884134
+          ],
+          "rmse": [
+            17.979161292531412,
+            22.257432904377417
+          ],
+          "spearman": [
+            -0.06395435653628,
+            0.3525101816920357
+          ],
+          "r2": [
+            -0.14629265976249495,
+            0.0586679966271799
+          ]
+        },
+        "promotionGate": {
+          "passed": false,
+          "maeImprovementOverMean": 0.013421769795522776,
+          "requiredMaeImprovement": 0.1,
+          "medianHeldOutR2": -0.026827311700034828,
+          "requiresPositiveMedianHeldOutR2": true,
+          "linearExportSupported": true
+        }
+      }
+    },
+    {
+      "featureSet": "core+hormones",
+      "eligibleForRuntime": false,
+      "orderedFeatures": [
+        {
+          "name": "ageYears",
+          "sourceColumn": "Age (years)",
+          "unit": "years",
+          "trainingRange": {
+            "min": 22.0,
+            "max": 61.0
+          }
+        },
+        {
+          "name": "bmi",
+          "sourceColumn": "Body mass index (kg/m\u00b2)",
+          "unit": "kg/m\u00b2",
+          "trainingRange": {
+            "min": 18.8,
+            "max": 62.7
+          }
+        },
+        {
+          "name": "abstinenceDays",
+          "sourceColumn": "Abstinence time(days)",
+          "unit": "days",
+          "trainingRange": {
+            "min": 0.5,
+            "max": 20.0
+          }
+        },
+        {
+          "name": "totalTestosteroneNmolL",
+          "sourceColumn": "Serum total testosterone (nmol/L)",
+          "unit": "nmol/L",
+          "trainingRange": {
+            "min": 4.0,
+            "max": 34.5
+          }
+        },
+        {
+          "name": "estradiolNmolL",
+          "sourceColumn": "Serum oestradiol (nmol/L)",
+          "unit": "nmol/L",
+          "trainingRange": {
+            "min": 0.09,
+            "max": 0.22
+          }
+        },
+        {
+          "name": "shbgNmolL",
+          "sourceColumn": "Serum sex hormone-binding globulin, SHBG (nmol/L)",
+          "unit": "nmol/L",
+          "trainingRange": {
+            "min": 7.0,
+            "max": 63.0
+          }
+        },
+        {
+          "name": "fshIUL",
+          "sourceColumn": "Serum follicle-stimulating hormone, FSH (IU/L)",
+          "unit": "IU/L",
+          "trainingRange": {
+            "min": 1.0,
+            "max": 14.2
+          }
+        },
+        {
+          "name": "lhIUL",
+          "sourceColumn": "Serum Luteinizing hormone, LH (IU/L)",
+          "unit": "IU/L",
+          "trainingRange": {
+            "min": 0.9,
+            "max": 10.3
+          }
+        }
+      ],
+      "preprocessing": {
+        "imputation": {
+          "strategy": "median",
+          "values": [
+            34.0,
+            29.2,
+            3.0,
+            16.3,
+            0.14,
+            30.0,
+            4.1,
+            3.84
+          ]
+        },
+        "scaling": {
+          "mean": [
+            36.44705882352941,
+            30.23058823529411,
+            3.847058823529412,
+            17.64117647058824,
+            0.14223529411764707,
+            30.788235294117648,
+            4.349305882352941,
+            4.055764705882352
+          ],
+          "scale": [
+            9.947516252048803,
+            7.755605540577608,
+            2.346491159422016,
+            6.980296540433476,
+            0.024512972344226006,
+            12.088978079368836,
+            2.358824383276947,
+            1.8128640820345017
+          ]
+        }
+      },
+      "linearModel": {
+        "kind": "ridge",
+        "coefficients": [
+          -0.07273830697588816,
+          -0.07437314058647854,
+          -0.05436977063674357,
+          0.05125284045536768,
+          -0.07601956328560788,
+          0.032877774177115356,
+          -0.08758481387433538,
+          -0.0741445482995004
+        ],
+        "intercept": -0.4247462039345367
+      },
+      "inverseTransformation": {
+        "formula": "clip(101 * sigmoid(linearPrediction) - 0.5, 0, 100)",
+        "boundsPercent": [
+          0,
+          100
+        ]
+      },
+      "researchInterval80": {
+        "method": "symmetric absolute 80th percentile of participant-level repeated OOF residuals",
+        "halfWidthPercentagePoints": 26.712309376803983,
+        "clinicalConfidenceInterval": false
+      },
+      "outOfDistributionPolicy": "Ineligible when any required value is outside its inclusive training range; do not coerce or extrapolate.",
+      "evaluation": {
+        "selectedModel": "ridge",
+        "benchmarkWinner": "ridge",
+        "metrics": {
+          "mae": 16.813507926970754,
+          "rmse": 19.882145294601465,
+          "spearman": 0.283427024064098,
+          "r2": 0.0175522869276028
+        },
+        "bootstrap95": {
+          "mae": [
+            14.570201996350677,
+            19.169900403041574
+          ],
+          "rmse": [
+            17.763448610624554,
+            21.976241321018932
+          ],
+          "spearman": [
+            0.07886630265228804,
+            0.4743703309294544
+          ],
+          "r2": [
+            -0.15738145210368576,
+            0.11438870182092016
+          ]
+        },
+        "promotionGate": {
+          "passed": false,
+          "maeImprovementOverMean": 0.028047056220736586,
+          "requiredMaeImprovement": 0.1,
+          "medianHeldOutR2": -0.03622801879875892,
+          "requiresPositiveMedianHeldOutR2": true,
+          "linearExportSupported": true
+        }
+      }
+    }
+  ],
+  "intendedUse": "Hackathon and non-commercial research into a progressive-motility estimate for adults matching the VISEM feature ranges.",
+  "prohibitedUse": [
+    "Diagnosis or classification as fertile or infertile",
+    "Conception, pregnancy, or live-birth probability",
+    "Clinical decision-making or treatment selection",
+    "Commercial use under the source dataset licence",
+    "Claiming that behaviour change improved semen quality without a follow-up test"
+  ],
+  "limitations": [
+    "Only 85 participants from one small research dataset",
+    "No external, geographic, temporal, site, or prospective validation",
+    "No wearable, diet, product, or environmental longitudinal inputs",
+    "The residual interval is empirical research uncertainty, not a clinical interval",
+    "Predictions do not replace a standardized semen analysis"
+  ]
+}

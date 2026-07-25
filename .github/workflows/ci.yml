@@ -7,6 +7,23 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22, cache: npm }
+      - uses: denoland/setup-deno@v2
+        with: { deno-version: "2.6.1" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: "0.11.24"
+          enable-cache: true
+      - run: uv sync --project ml --frozen
+      - run: uv run --project ml ruff check
+      - run: uv run --project ml pytest
+      - run: uv run --project ml preseed-ml fetch
+      - run: uv run --project ml preseed-ml regenerate
+      - run: uv run --project ml preseed-ml uci-fetch
+      - run: uv run --project ml preseed-ml uci-regenerate
+      - name: Verify generated ML artifacts are clean
+        run: git diff --exit-code -- ml/models ml/reports
       - run: npm ci
       - run: npm run check
       - run: npm run build

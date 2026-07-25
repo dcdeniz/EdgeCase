@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://edgecase.local/schemas/preseed-model-artifact-v1.json",
+  "title": "PreSeed research model artifact",
+  "type": "object",
+  "required": [
+    "modelId",
+    "semanticVersion",
+    "trainedAt",
+    "researchOnly",
+    "commercialUsePermitted",
+    "target",
+    "dataset",
+    "training",
+    "models",
+    "intendedUse",
+    "prohibitedUse",
+    "limitations"
+  ],
+  "properties": {
+    "modelId": { "type": "string" },
+    "semanticVersion": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "trainedAt": { "type": "string", "format": "date-time" },
+    "researchOnly": { "const": true },
+    "commercialUsePermitted": { "const": false },
+    "models": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": ["featureSet", "eligibleForRuntime", "evaluation"]
+      }
+    }
+  }
+}
