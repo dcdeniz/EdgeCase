@@ -3,6 +3,7 @@ info:
   title: PreSeed Edge API
   version: 1.0.0
   description: Non-ML hackathon API. Predictions and assessments are intentionally absent pending the model-owner contracts.
+x-request-body-limit: 131072
 servers:
   - url: https://{project}.supabase.co/functions/v1/api
     variables: { project: { default: project-ref } }
@@ -78,7 +79,7 @@ paths:
       operationId: listClinicalTests
       parameters:
         - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
-        - { name: before, in: query, schema: { type: string, format: date-time } }
+        - { name: before, in: query, description: "Opaque collected_at|id cursor returned by the previous page", schema: { type: string } }
       responses:
         "200": { description: Cursor-paginated tests and markers }
     post:
@@ -89,6 +90,7 @@ paths:
       responses:
         "201": { description: Clinical test created }
         "422": { description: Invalid test }
+        "413": { description: Request body exceeds 128 KiB }
   /v1/clinical-tests/{id}:
     get:
       operationId: getClinicalTest

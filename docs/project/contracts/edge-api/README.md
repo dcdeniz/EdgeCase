@@ -72,6 +72,10 @@ The standard success and error envelopes remain transport-independent:
 
 Collections use cursor pagination. Clinical-test, assessment, protocol, adaptation, upload, and webhook writes use idempotency keys. Mutable drafts use optimistic concurrency. Clinical observations, predictions, score snapshots, protocols, adherence, evidence versions, and audits are append-only.
 
+The application rejects bodies larger than 128 KiB before parsing, accepts only UUID request/resource identifiers, and emits `no-store`, `nosniff`, and `no-referrer` headers. Application-generated responses reflect CORS only for exact origins in `ALLOWED_ORIGINS`. Supabase gateway-generated rejections may carry the gateway's own CORS headers before application code runs; bearer authentication and RLS are the security boundaries, not CORS. Clinical values and reference ranges are non-negative; percentage markers cannot exceed 100.
+
+Clinical-test pagination uses the ordered pair `(collected_at, id)` so equal timestamps cannot skip or duplicate records. Child records use composite foreign keys containing parent ID and user ID, preventing cross-tenant parent/child relationships even if an identifier is disclosed.
+
 ## Authentication and database access
 
 The Supabase gateway and edge adapter validate the user session. The request receives a user-scoped Supabase client carrying the caller's authorization token, so Postgres RLS is enforced. Domain services receive an explicit user context, never global mutable auth state.
