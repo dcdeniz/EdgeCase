@@ -180,7 +180,11 @@ export default function FoodPage() {
               }
               glyph={plate.confidence === "high" ? "check-circle" : "attention"}
             >
-              {plate.confidence} confidence
+              {plate.confidence === "high"
+                ? "High confidence"
+                : plate.confidence === "moderate"
+                  ? "Moderate confidence"
+                  : "Low confidence"}
             </StatusChip>
           </div>
           <p className="mt-2 t-body-sm text-ink-2">{confidenceCopy[plate.confidence]}</p>
@@ -296,7 +300,7 @@ export default function FoodPage() {
 
       <p className="mt-6 flex gap-2 t-caption text-ink-3">
         <Icon name="info" size={14} className="mt-0.5 shrink-0" />
-        Scored on dietary pattern, not calories. No single meal is judged alone.
+        Scored on overall dietary pattern rather than calories. No single meal is assessed on its own.
       </p>
 
       <DisclaimerFooter />

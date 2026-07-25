@@ -28,7 +28,7 @@ export const NO_CONCEPTION_CLAIM =
   "Improving a parameter is not the same as improving your chance of conceiving. The largest review of these compounds did not show a clear pregnancy-rate benefit.";
 
 export const SUPPLEMENT_DISCLAIMER =
-  "PreSeed does not recommend supplements. These are compounds under research, shown so you can ask a clinician about them rather than a shop.";
+  "PreSeed does not recommend supplements. These compounds are under research and are listed here so you can discuss them with a clinician.";
 
 export type SupplementCandidate = {
   id: string;

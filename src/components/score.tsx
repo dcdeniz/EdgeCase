@@ -455,7 +455,7 @@ export function ContributionGrid({
       </div>
 
       <div className="mt-3 flex items-center justify-between gap-3">
-        <p className="t-caption text-ink-3">Nothing logged reads as a gap, not a failure.</p>
+        <p className="t-caption text-ink-3">Days without data are shown as gaps in the record.</p>
         <div className="flex shrink-0 items-center gap-1.5">
           <span className="t-caption text-ink-3">Less</span>
           {([0, 1, 2, 3, 4] as const).map((level) => (

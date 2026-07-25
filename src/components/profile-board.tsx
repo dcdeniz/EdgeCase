@@ -78,7 +78,9 @@ function MarkerRow({ marker }: { marker: MarkerValue }) {
         {flagged ? (
           <StatusChip tone="attention" glyph="attention">
             {/* Direction matters: DFI and WBC breach an upper limit, not a lower one. */}
-            {definition.shape === "upper_limit" ? "Above range" : "Below range"}
+            {definition.shape === "upper_limit"
+              ? "Above reference context"
+              : "Below reference context"}
           </StatusChip>
         ) : (
           <Icon name="chevron-right" size={16} className="shrink-0 text-ink-3" />
@@ -131,7 +133,7 @@ export function SemenProfileBoard({
           <p className="t-micro text-ink-3">Semen profile</p>
           <p className="mt-1 t-caption text-ink-2">
             {relativeDays(test.collectedAt.slice(0, 10))}
-            {flaggedCount > 0 ? ` · ${flaggedCount} outside range` : null}
+            {flaggedCount > 0 ? ` · ${flaggedCount} outside reference context` : null}
           </p>
         </div>
         <SimulatedBadge compact />

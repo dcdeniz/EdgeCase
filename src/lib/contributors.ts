@@ -237,4 +237,4 @@ export function isCandidate(contributor: Contributor): boolean {
  * surface, not per row, but never omitted.
  */
 export const CONTRIBUTOR_CAVEAT =
-  "Associations from observational evidence, matched to your own inputs. These are not causes, they do not decompose the result, and parameters share upstream mechanisms.";
+  "These are associations found in observational research, matched against what you have recorded. They are not causes, and no single one accounts for a result on its own — these measurements share underlying biology.";

@@ -104,7 +104,7 @@ export default function GoalsPage() {
 
       <p className="mt-4 flex gap-2 t-caption text-ink-3">
         <Icon name="info" size={14} className="mt-0.5 shrink-0" />
-        Behavioural targets only. No streak.
+        Behavioural targets only. Progress is shown as distance remaining, never as a missed streak.
       </p>
 
       <DisclaimerFooter />

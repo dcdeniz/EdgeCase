@@ -326,9 +326,9 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
  * it mean something. Dropping the clinical term would fail the second test.
  */
 export const plainLabel: Record<MarkerCode, string> = {
-  volume_ml: "How much semen",
-  concentration_million_ml: "How crowded the sample is",
-  total_count_million: "How many sperm in total",
+  volume_ml: "Amount of semen",
+  concentration_million_ml: "Sperm per millilitre",
+  total_count_million: "Total number of sperm",
   progressive_motility_pct: "Sperm swimming forward",
   total_motility_pct: "Sperm moving at all",
   normal_morphology_pct: "Normally shaped sperm",
@@ -355,7 +355,8 @@ export const plainMeaning: Record<MarkerCode, string> = {
   normal_morphology_pct:
     "The share with a normal head and tail. Low percentages here are normal — the bar is strict.",
   dna_fragmentation_pct: "Damage to the genetic material the sperm carries.",
-  leukocytes_million_ml: "A raised count can point to inflammation. One for a doctor, not a diet.",
+  leukocytes_million_ml:
+    "A raised count can indicate inflammation. This is a question for a clinician rather than for a lifestyle protocol.",
   fsh_iu_l: "The hormone that tells the testes to make sperm.",
   lh_iu_l: "The hormone that tells the testes to make testosterone.",
   total_testosterone_nmol_l: "The main male hormone, measured in total.",
