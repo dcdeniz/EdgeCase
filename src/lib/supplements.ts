@@ -30,6 +30,70 @@ export const NO_CONCEPTION_CLAIM =
 export const SUPPLEMENT_DISCLAIMER =
   "PreSeed does not recommend supplements. These compounds are under research and are listed here so you can discuss them with a clinician.";
 
+/* ==========================================================================
+   Named products
+   --------------------------------------------------------------------------
+   A branded product attached to a contributor. Held to a higher bar than the
+   generic compounds, not a lower one: the evidence level is quoted as the
+   manufacturer themselves characterise it, and the gap between what the
+   product is studied for and what this app is about is stated outright.
+   ========================================================================== */
+
+export type SupplementProduct = {
+  id: string;
+  brand: string;
+  name: string;
+  tagline: string;
+  /** Plain-language opener, in the register of the reference screenshot. */
+  what: string;
+  suggestedUse: string;
+  /** What the manufacturer positions it against. Not a PreSeed claim. */
+  positivelyImpacts: string[];
+  scientificRationale: string;
+  /** Named strains, actives or ingredients, as published. */
+  ingredients: string[];
+  /** Quoted from the manufacturer where they state it. */
+  evidenceLevel: string;
+  /** The gap between the product's evidence and this product's domain. */
+  limitations: string[];
+  sourceUrl: string;
+  /** Which contributor this is offered against. */
+  contributorId: string;
+};
+
+export const supplementProducts: SupplementProduct[] = [
+  {
+    id: "winnow",
+    brand: "Winnow Labs",
+    name: "Winnow",
+    tagline: "The Microplastic Binding Daily Probiotic",
+    what: "Winnow is a daily probiotic containing three well-studied strains of lactobacillus bacteria. It is designed to bind microplastic particles in the gut so they pass through rather than being absorbed.",
+    suggestedUse: "Follow the manufacturer's directions. A dose is not published on their science page.",
+    positivelyImpacts: [
+      "Microplastic clearance (preclinical)",
+      "Digestive comfort",
+      "Immune support",
+    ],
+    scientificRationale:
+      "The proposed mechanism is adsorption. Microplastic particles moving through the gut stick to exopolysaccharides and S-layer proteins on the bacterial surface through electrostatic and hydrophobic interaction, and are then carried out in normal intestinal transit. The whole process is described as taking place inside the intestine.",
+    ingredients: [
+      "Lactobacillus rhamnosus (ATCC 53103)",
+      "Lactobacillus reuteri (DSM 17938)",
+      "Lactobacillus acidophilus (ATCC SD5212)",
+    ],
+    evidenceLevel:
+      "The manufacturer describes the microplastic-binding mechanism as preclinical — laboratory work, not yet tested in people.",
+    limitations: [
+      "The randomised trials behind these strains cover digestive comfort, immune support and skin health. None of them measured a semen parameter.",
+      "No study has shown that binding microplastics in the gut changes sperm concentration, motility or morphology.",
+      "The manufacturer's science page links to PubMed searches rather than to specific papers, so the underlying studies have not been checked here.",
+      "The microplastics evidence in male fertility is itself emerging: small samples, difficult exposure attribution, and no intervention data.",
+    ],
+    sourceUrl: "https://winnowlabs.com/pages/science",
+    contributorId: "microplastics",
+  },
+];
+
 export type SupplementCandidate = {
   id: string;
   name: string;

@@ -193,12 +193,22 @@ function scoreAdherenceDay(state: PrototypeState, iso: string): number | null {
    Day, week and year
    ========================================================================== */
 
-export function behaviourDay(state: PrototypeState, iso: string): BehaviourDay {
+/**
+ * Forced domain scores, used only by the what-if projection. Overriding is
+ * how a scenario is evaluated: the same model runs, with one input replaced.
+ */
+export type DomainOverrides = Partial<Record<BehaviourDomainId, number>>;
+
+export function behaviourDay(
+  state: PrototypeState,
+  iso: string,
+  overrides?: DomainOverrides,
+): BehaviourDay {
   const domainScores: Record<BehaviourDomainId, number | null> = {
-    sleep: scoreSleepDay(iso),
-    diet: scoreDietDayFor(state, iso),
-    activity: scoreActivityDay(iso),
-    adherence: scoreAdherenceDay(state, iso),
+    sleep: overrides?.sleep ?? scoreSleepDay(iso),
+    diet: overrides?.diet ?? scoreDietDayFor(state, iso),
+    activity: overrides?.activity ?? scoreActivityDay(iso),
+    adherence: overrides?.adherence ?? scoreAdherenceDay(state, iso),
   };
 
   let weighted = 0;
@@ -240,10 +250,11 @@ export function behaviourWindow(
   state: PrototypeState,
   days: number,
   endingOn = TODAY,
+  overrides?: DomainOverrides,
 ): BehaviourWindow {
   const rows: BehaviourDay[] = [];
   for (let offset = days - 1; offset >= 0; offset -= 1) {
-    rows.push(behaviourDay(state, addDays(endingOn, -offset)));
+    rows.push(behaviourDay(state, addDays(endingOn, -offset), overrides));
   }
 
   const scored = rows.filter((row) => row.score != null);

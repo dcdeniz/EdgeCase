@@ -30,7 +30,12 @@ import {
   type Contributor,
 } from "@/lib/contributors";
 import { evidenceById } from "@/lib/fixtures";
-import { NO_CONCEPTION_CLAIM, type SupplementCandidate } from "@/lib/supplements";
+import {
+  NO_CONCEPTION_CLAIM,
+  supplementProducts,
+  type SupplementCandidate,
+  type SupplementProduct,
+} from "@/lib/supplements";
 
 /** Below its lower limit, or above its upper limit. */
 export function outOfReference(marker: MarkerValue): boolean {
@@ -413,6 +418,90 @@ export function SupplementCandidateCard({
   );
 }
 
+/**
+ * A named product, laid out like the reference supplement screen: plain
+ * opener, suggested use, what it is positioned against, scientific rationale.
+ *
+ * The differences from that reference are the point. The evidence level is
+ * quoted as the manufacturer characterises it, the limitations name the gap
+ * between what the product is studied for and what this app measures, and the
+ * card is marked as information rather than a recommendation.
+ */
+export function ProductCard({ product }: { product: SupplementProduct }) {
+  return (
+    <Card className="border-dashed">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="t-micro text-ink-3">{product.brand}</p>
+          <h3 className="mt-1 t-title-2 text-ink-1">{product.name}</h3>
+          <p className="mt-0.5 t-caption text-ink-2">{product.tagline}</p>
+        </div>
+        <StatusChip tone="unavailable" glyph="pending">
+          Information only
+        </StatusChip>
+      </div>
+
+      <p className="mt-3 t-prose text-ink-1">{product.what}</p>
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="t-micro text-ink-3">Suggested use</p>
+        <p className="mt-1 t-body-sm text-ink-1">{product.suggestedUse}</p>
+      </div>
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="t-micro text-ink-3">Positioned against</p>
+        <div className="mt-1.5 flex flex-wrap gap-1.5">
+          {product.positivelyImpacts.map((item) => (
+            <span
+              key={item}
+              className="inline-flex items-center gap-1.5 rounded-full bg-surface-inverse px-2.5 py-1"
+            >
+              <span aria-hidden="true" className="size-1.5 shrink-0 rounded-full bg-information" />
+              <span className="t-caption text-ink-inverse">{item}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="t-micro text-ink-3">Scientific rationale</p>
+        <p className="mt-1 t-body-sm text-ink-2">{product.scientificRationale}</p>
+        <ul className="mt-2.5 space-y-1">
+          {product.ingredients.map((item) => (
+            <li key={item} className="t-mono text-ink-3">
+              {item}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="flex gap-2 t-caption text-ink-2">
+          <Icon name="attention" size={14} className="mt-0.5 shrink-0 text-attention" />
+          {product.evidenceLevel}
+        </p>
+        <ul className="mt-2 space-y-1.5">
+          {product.limitations.map((line) => (
+            <li key={line} className="flex gap-2 t-caption text-ink-3">
+              <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+              {line}
+            </li>
+          ))}
+        </ul>
+        <a
+          href={product.sourceUrl}
+          target="_blank"
+          rel="noreferrer"
+          className="mt-3 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+        >
+          Manufacturer&rsquo;s science page
+          <Icon name="external" size={14} />
+        </a>
+      </div>
+    </Card>
+  );
+}
+
 export function ContributorList({
   contributors,
   test,
@@ -484,6 +573,15 @@ export function ContributorList({
           );
         })}
       </div>
+
+      {/* Products offered against a contributor the user actually has. */}
+      {supplementProducts
+        .filter((product) => contributors.some((c) => c.id === product.contributorId))
+        .map((product) => (
+          <div key={product.id} className="mt-3">
+            <ProductCard product={product} />
+          </div>
+        ))}
 
       <p className="mt-3 t-caption text-ink-3">{CONTRIBUTOR_CAVEAT}</p>
     </div>
