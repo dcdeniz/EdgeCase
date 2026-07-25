@@ -23,6 +23,22 @@ app. Run `npm run dev` and open `/prototype` for the connected screen map, or
 | [Interaction specification](interaction-spec.md) | Behaviour, transitions, gestures, feedback and error handling |
 | [Accessibility](accessibility.md) | WCAG 2.2 AA checklist with the verification performed |
 | [Backend and ML dependencies](dependencies.md) | What is implemented, what is pending, and the open product decisions |
+| [Native shell](../project/adr/0006-capacitor-native-shell.md) | Why iOS and Android ship as a Capacitor wrapper around this system rather than a React Native rewrite |
+
+## Native builds
+
+The same screens ship to iOS and Android through Capacitor, wrapping a static export.
+The web deployment is untouched — the native target is gated behind `BUILD_TARGET`.
+
+```bash
+npm run native:build      # static export into out/
+npm run native:sync       # rebuild, then copy into ios/ and android/
+npm run native:ios        # rebuild, sync, open Xcode
+npm run native:android    # rebuild, sync, open Android Studio
+```
+
+`next build` deletes `out/`, so every native script rebuilds first rather than
+assuming a current bundle. See [ADR 0006](../project/adr/0006-capacitor-native-shell.md).
 
 ## Design rationale
 
