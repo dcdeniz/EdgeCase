@@ -125,6 +125,8 @@ export function createApp() {
     c.header("Cache-Control", "no-store");
     c.header("Referrer-Policy", "no-referrer");
     c.header("X-Content-Type-Options", "nosniff");
+    const publicDemoMode = Deno.env.get("PUBLIC_DEMO_MODE") === "true";
+    if (publicDemoMode) c.header("X-PreSeed-Demo", "public-shared-data");
     const origin = c.req.header("Origin");
     const allowedOrigins = new Set(
       (Deno.env.get("ALLOWED_ORIGINS") ??
@@ -132,7 +134,7 @@ export function createApp() {
         .split(",").map((value) => value.trim()).filter(Boolean),
     );
     if (
-      origin && !allowedOrigins.has(origin) &&
+      !publicDemoMode && origin && !allowedOrigins.has(origin) &&
       c.req.path.startsWith("/api/v1/")
     ) {
       return c.json(
@@ -184,6 +186,28 @@ export function createApp() {
 
   app.use("/api/v1/*", async (c, next) => {
     const requestId = c.get("requestId");
+    if (Deno.env.get("PUBLIC_DEMO_MODE") === "true") {
+      const url = Deno.env.get("SUPABASE_URL");
+      const serviceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+      const demoUserId = Deno.env.get("PUBLIC_DEMO_USER_ID");
+      if (!url || !serviceKey || !demoUserId || !asUuid(demoUserId)) {
+        return c.json(
+          failure(
+            requestId,
+            "DEMO_NOT_CONFIGURED",
+            "The public demo account is not configured.",
+          ),
+          503,
+        );
+      }
+      const supabase = createClient(url, serviceKey, {
+        auth: { persistSession: false, autoRefreshToken: false },
+      });
+      c.set("user", { id: demoUserId } as User);
+      c.set("supabase", supabase);
+      await next();
+      return;
+    }
     const authorization = c.req.header("Authorization");
     if (!authorization?.match(/^Bearer\s+\S+$/i)) {
       return c.json(

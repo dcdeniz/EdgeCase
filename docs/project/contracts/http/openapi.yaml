@@ -5,6 +5,7 @@ info:
   description: Non-ML hackathon API. Predictions and assessments are intentionally absent pending the model-owner contracts.
 x-request-body-limit: 131072
 x-origin-policy: Protected routes reject browser requests whose Origin is not in ALLOWED_ORIGINS. Requests without Origin remain valid for native and server clients.
+x-public-demo-mode: When PUBLIC_DEMO_MODE is true, bearer security and origin rejection are disabled and every operation reads or writes one shared demo user's records. Never use real personal or health data in this mode.
 servers:
   - url: https://{project}.supabase.co/functions/v1/api
     variables: { project: { default: project-ref } }
