@@ -502,6 +502,55 @@ export function ProductCard({ product }: { product: SupplementProduct }) {
   );
 }
 
+/**
+ * Sperm Epigenetic Age.
+ *
+ * Real, published science — a DNA-methylation clock associated with time to
+ * pregnancy (Hum Reprod, 379 men). It is rendered as PENDING rather than as a
+ * number because it requires a methylation assay on a sperm sample and cannot
+ * be derived from lifestyle data. Producing an "age" from sleep and diet logs
+ * would be inventing a measurement, which is the one thing this product must
+ * not do.
+ */
+export function SpermAgeCard() {
+  return (
+    <Card className="border-dashed">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0">
+          <p className="t-micro text-ink-3">Sperm Epigenetic Age</p>
+          <p className="mt-1 t-display-2 text-ink-3">—</p>
+        </div>
+        <StatusChip tone="unavailable" glyph="pending">
+          Requires a lab assay
+        </StatusChip>
+      </div>
+
+      <p className="mt-2 t-body-sm text-ink-2">
+        A DNA-methylation measure of how old your sperm looks biologically, which can differ from
+        your age in years. Higher sperm epigenetic age has been associated with a longer time to
+        pregnancy.
+      </p>
+
+      <div className="mt-3 border-t border-hairline pt-3">
+        <p className="flex gap-2 t-caption text-ink-3">
+          <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+          It needs a methylation assay on a semen sample. It cannot be estimated from your sleep,
+          diet or activity, and PreSeed will not show a number it has not measured.
+        </p>
+        <a
+          href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9247414/"
+          target="_blank"
+          rel="noreferrer"
+          className="mt-2.5 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+        >
+          Sperm epigenetic clock and pregnancy outcomes
+          <Icon name="external" size={14} />
+        </a>
+      </div>
+    </Card>
+  );
+}
+
 export function ContributorList({
   contributors,
   test,

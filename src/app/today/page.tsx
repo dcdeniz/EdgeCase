@@ -13,7 +13,7 @@ import {
 } from "@/components/protocol";
 import { ReadinessSummary } from "@/components/domain";
 import { MetricTile, ReadinessHero } from "@/components/score";
-import { ContributorList, SemenProfileBoard } from "@/components/profile-board";
+import { SemenProfileBoard, SpermAgeCard } from "@/components/profile-board";
 import { contributorsFor } from "@/lib/contributors";
 import { Button, ButtonLink, Card, EmptyState, SectionHeader, SimulatedBadge } from "@/components/ui";
 import { TODAY, daysBetween, formatDate } from "@/lib/format";
@@ -100,12 +100,28 @@ export default function TodayPage() {
           </h2>
           <SemenProfileBoard test={latestSemen} hormones={hormonePanel} />
 
+          {/*
+            An entry point rather than the list. The caveats on an association
+            list matter too much to have it skimmed between a score and a plan.
+          */}
           {contributors.length > 0 ? (
-            <div className="mt-4">
-              <SectionHeader eyebrow="From your own inputs" title="Contributors" level={3} />
-              <ContributorList contributors={contributors} test={latestSemen} compact />
-            </div>
+            <Link
+              href="/contributors"
+              className="mt-3 flex min-h-(--ps-touch-min) items-center justify-between gap-3 rounded-md border border-hairline bg-surface-1 px-4 py-3"
+            >
+              <span className="min-w-0">
+                <span className="block t-title-3 text-ink-1">What&rsquo;s affecting this</span>
+                <span className="mt-0.5 block t-caption text-ink-3">
+                  {contributors.length} associations from your own inputs
+                </span>
+              </span>
+              <Icon name="chevron-right" size={18} className="shrink-0 text-ink-3" />
+            </Link>
           ) : null}
+
+          <div className="mt-3">
+            <SpermAgeCard />
+          </div>
         </section>
       ) : null}
 

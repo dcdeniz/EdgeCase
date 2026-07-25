@@ -117,6 +117,33 @@ export function project(state: PrototypeState, scenario: Scenario): Projection {
   };
 }
 
+/* ==========================================================================
+   Domain headroom
+   --------------------------------------------------------------------------
+   How much Seed Score is still available in a domain, if it were taken to a
+   realistic ceiling.
+
+   Deliberately PER DOMAIN and not per protocol action. Three sleep actions do
+   not each deliver their own points — they compete for the same headroom, and
+   attaching a number to each would sum to a total the model cannot produce.
+   Ceiling is 95 rather than 100 because a perfect week is not the target and
+   promising the last five points would be a promise about someone's life
+   rather than about arithmetic.
+   ========================================================================== */
+
+const DOMAIN_CEILING = 95;
+
+export function domainHeadroom(
+  state: PrototypeState,
+  domain: BehaviourDomainId,
+): { current: number | null; available: number } {
+  const before = behaviourWindow(state, 7);
+  const after = behaviourWindow(state, 7, undefined, { [domain]: DOMAIN_CEILING });
+  const available =
+    before.score == null || after.score == null ? 0 : Math.max(0, after.score - before.score);
+  return { current: before.domains[domain], available };
+}
+
 /** Loose keyword match, so typing finds a scenario the model can actually run. */
 export function matchScenario(text: string): Scenario | null {
   const query = text.toLowerCase();

@@ -88,7 +88,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (cigarettes != null) {
     found.push({
       id: "smoking",
-      label: "Cigarette smoking",
+      label: "Cigarette Smoking",
       yourValue: `${cigarettes} a week`,
       source: "Tracked",
       affects: [...SEMEN_CORE, "dna_fragmentation_pct"],
@@ -103,7 +103,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (units != null && units >= 8) {
     found.push({
       id: "alcohol",
-      label: "Alcohol intake",
+      label: "Alcohol Intake",
       yourValue: `${units} units a week`,
       source: "Tracked",
       affects: SEMEN_CORE,
@@ -120,7 +120,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (air.pm25 > PM25_WHO_GUIDELINE) {
     found.push({
       id: "air-pollution",
-      label: "Air pollution",
+      label: "Air Pollution",
       yourValue: `PM2.5 ${air.pm25} µg/m³ · ${daysAboveGuideline()}/30 days above guideline`,
       source: "Location",
       affects: SEMEN_CORE,
@@ -139,7 +139,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (exposures.includes("plastics")) {
     found.push({
       id: "microplastics",
-      label: "Plastics and microplastics",
+      label: "Plastics and Microplastics",
       yourValue: "Reported",
       source: "Exposure log",
       affects: ["concentration_million_ml", "total_motility_pct"],
@@ -152,7 +152,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (exposures.includes("chemicals")) {
     found.push({
       id: "heavy-metals",
-      label: "Occupational chemicals and metals",
+      label: "Chemicals and Metals",
       yourValue: "Reported",
       source: "Exposure log",
       affects: SEMEN_CORE,
@@ -168,7 +168,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (heatSources.length > 0) {
     found.push({
       id: "heat",
-      label: "Recurrent scrotal heat",
+      label: "Recurrent Scrotal Heat",
       yourValue: `${heatSources.length} source${heatSources.length === 1 ? "" : "s"} reported`,
       source: "Onboarding",
       affects: ["concentration_million_ml", "total_count_million", "progressive_motility_pct"],
@@ -184,7 +184,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (meanSleep != null && meanSleep < 390) {
     found.push({
       id: "short-sleep",
-      label: "Short sleep",
+      label: "Short Sleep",
       yourValue: `${(meanSleep / 60).toFixed(1)}h mean over 14 nights`,
       source: "Wearable",
       affects: ["concentration_million_ml", "total_count_million"],
@@ -199,7 +199,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (dietToday != null && dietToday < 50) {
     found.push({
       id: "diet-pattern",
-      label: "Western dietary pattern",
+      label: "Western Dietary Pattern",
       yourValue: `Pattern score ${dietToday}/100`,
       source: "Food log",
       affects: SEMEN_CORE,
@@ -217,7 +217,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (exposures.includes("pesticides")) {
     found.push({
       id: "pesticides",
-      label: "Pesticide exposure",
+      label: "Pesticide Exposure",
       yourValue: "Dietary residue, self-reported",
       source: "Exposure log",
       affects: ["concentration_million_ml", "total_motility_pct"],

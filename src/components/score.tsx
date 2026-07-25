@@ -42,6 +42,7 @@ export function ScoreRing({
   unit,
   sublabel,
   label,
+  centreLabel,
   tone = "accent",
   caveat = true,
 }: {
@@ -53,6 +54,8 @@ export function ScoreRing({
   unit?: string;
   sublabel?: string;
   label: string;
+  /** Small caps label rendered inside the ring, above the figure. */
+  centreLabel?: string;
   tone?: "accent" | "information" | "attention";
   /** Only set false where the caveat is already stated in adjacent copy. */
   caveat?: boolean;
@@ -124,6 +127,9 @@ export function ScoreRing({
             </>
           ) : (
             <>
+              {centreLabel ? (
+                <span className="mb-1 t-micro text-ink-3">{centreLabel}</span>
+              ) : null}
               <span
                 className="text-ink-1 ps-num"
                 style={{
@@ -206,23 +212,23 @@ export function ReadinessHero({ progress }: { progress: ReadinessProgress }) {
 
   return (
     <Card>
-      <div className="flex items-center justify-between gap-3">
-        <p className="t-micro text-ink-3">Seed Score</p>
+      <div className="flex items-center justify-end gap-3">
         <SimulatedBadge compact />
       </div>
 
-      <p className="mt-4 text-center t-title-2 text-ink-1">
-        {behaviourBandLabel(current.score)}
-      </p>
-
-      <div className="mt-2 flex justify-center">
+      <div className="mt-1 flex justify-center">
         <ScoreRing
           value={current.score}
           size={244}
+          centreLabel="Seed Score"
           label="Seed Score, trailing seven days"
           caveat={false}
         />
       </div>
+
+      <p className="mt-2 text-center t-title-2 text-ink-1">
+        {behaviourBandLabel(current.score)}
+      </p>
 
       {/* The headline the whole card exists for. */}
       <div className="mt-4 flex flex-col items-center gap-1.5">
