@@ -3,12 +3,21 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from preseed_ml.artifact import build_artifact
+from preseed_ml.artifact import build_artifact, write_json
 from preseed_ml.dataset import load_visem
 from preseed_ml.modeling import evaluate_feature_set
 from preseed_ml.reporting import model_card
 
 FIXTURES = Path(__file__).parent / "fixtures"
+
+
+def test_json_output_canonicalizes_cross_platform_float_noise(tmp_path: Path) -> None:
+    first = tmp_path / "first.json"
+    second = tmp_path / "second.json"
+    write_json({"probability": 0.12077994729305393}, first)
+    write_json({"probability": 0.12077994729305394}, second)
+    assert first.read_bytes() == second.read_bytes()
+    assert json.loads(first.read_text())["probability"] == 0.120779947293
 
 
 def test_artifact_and_model_card_are_complete() -> None:

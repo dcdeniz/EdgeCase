@@ -74,25 +74,25 @@
         },
         "scaling": {
           "mean": [
-            36.44705882352941,
-            30.23058823529411,
-            3.847058823529412
+            36.4470588235,
+            30.2305882353,
+            3.84705882353
           ],
           "scale": [
-            9.947516252048803,
-            7.755605540577608,
-            2.346491159422016
+            9.94751625205,
+            7.75560554058,
+            2.34649115942
           ]
         }
       },
       "linearModel": {
         "kind": "ridge",
         "coefficients": [
-          -0.08924687419498721,
-          -0.10276267989955556,
-          -0.03977233778700064
+          -0.089246874195,
+          -0.1027626799,
+          -0.039772337787
         ],
-        "intercept": -0.4247462039345367
+        "intercept": -0.424746203935
       },
       "inverseTransformation": {
         "formula": "clip(101 * sigmoid(linearPrediction) - 0.5, 0, 100)",
@@ -103,7 +103,7 @@
       },
       "researchInterval80": {
         "method": "symmetric absolute 80th percentile of participant-level repeated OOF residuals",
-        "halfWidthPercentagePoints": 28.021595810765778,
+        "halfWidthPercentagePoints": 28.0215958108,
         "clinicalConfidenceInterval": false
       },
       "outOfDistributionPolicy": "Ineligible when any required value is outside its inclusive training range; do not coerce or extrapolate.",
@@ -111,34 +111,34 @@
         "selectedModel": "ridge",
         "benchmarkWinner": "ridge",
         "metrics": {
-          "mae": 17.066506151646532,
-          "rmse": 20.141069437086166,
-          "spearman": 0.1492107022464635,
-          "r2": -0.008203064207117583
+          "mae": 17.0665061516,
+          "rmse": 20.1410694371,
+          "spearman": 0.149210702246,
+          "r2": -0.00820306420712
         },
         "bootstrap95": {
           "mae": [
-            14.82337413015705,
-            19.424797602884134
+            14.8233741302,
+            19.4247976029
           ],
           "rmse": [
-            17.979161292531412,
-            22.257432904377417
+            17.9791612925,
+            22.2574329044
           ],
           "spearman": [
-            -0.06395435653628,
-            0.3525101816920357
+            -0.0639543565363,
+            0.352510181692
           ],
           "r2": [
-            -0.14629265976249495,
-            0.0586679966271799
+            -0.146292659762,
+            0.0586679966272
           ]
         },
         "promotionGate": {
           "passed": false,
-          "maeImprovementOverMean": 0.013421769795522776,
+          "maeImprovementOverMean": 0.0134217697955,
           "requiredMaeImprovement": 0.1,
-          "medianHeldOutR2": -0.026827311700034828,
+          "medianHeldOutR2": -0.0268273117,
           "requiresPositiveMedianHeldOutR2": true,
           "linearExportSupported": true
         }
@@ -237,40 +237,40 @@
         },
         "scaling": {
           "mean": [
-            36.44705882352941,
-            30.23058823529411,
-            3.847058823529412,
-            17.64117647058824,
-            0.14223529411764707,
-            30.788235294117648,
-            4.349305882352941,
-            4.055764705882352
+            36.4470588235,
+            30.2305882353,
+            3.84705882353,
+            17.6411764706,
+            0.142235294118,
+            30.7882352941,
+            4.34930588235,
+            4.05576470588
           ],
           "scale": [
-            9.947516252048803,
-            7.755605540577608,
-            2.346491159422016,
-            6.980296540433476,
-            0.024512972344226006,
-            12.088978079368836,
-            2.358824383276947,
-            1.8128640820345017
+            9.94751625205,
+            7.75560554058,
+            2.34649115942,
+            6.98029654043,
+            0.0245129723442,
+            12.0889780794,
+            2.35882438328,
+            1.81286408203
           ]
         }
       },
       "linearModel": {
         "kind": "ridge",
         "coefficients": [
-          -0.07273830697588816,
-          -0.07437314058647854,
-          -0.05436977063674357,
-          0.05125284045536768,
-          -0.07601956328560788,
-          0.032877774177115356,
-          -0.08758481387433538,
-          -0.0741445482995004
+          -0.0727383069759,
+          -0.0743731405865,
+          -0.0543697706367,
+          0.0512528404554,
+          -0.0760195632856,
+          0.0328777741771,
+          -0.0875848138743,
+          -0.0741445482995
         ],
-        "intercept": -0.4247462039345367
+        "intercept": -0.424746203935
       },
       "inverseTransformation": {
         "formula": "clip(101 * sigmoid(linearPrediction) - 0.5, 0, 100)",
@@ -281,7 +281,7 @@
       },
       "researchInterval80": {
         "method": "symmetric absolute 80th percentile of participant-level repeated OOF residuals",
-        "halfWidthPercentagePoints": 26.712309376803983,
+        "halfWidthPercentagePoints": 26.7123093768,
         "clinicalConfidenceInterval": false
       },
       "outOfDistributionPolicy": "Ineligible when any required value is outside its inclusive training range; do not coerce or extrapolate.",
@@ -289,34 +289,34 @@
         "selectedModel": "ridge",
         "benchmarkWinner": "ridge",
         "metrics": {
-          "mae": 16.813507926970754,
-          "rmse": 19.882145294601465,
-          "spearman": 0.283427024064098,
-          "r2": 0.0175522869276028
+          "mae": 16.813507927,
+          "rmse": 19.8821452946,
+          "spearman": 0.283427024064,
+          "r2": 0.0175522869276
         },
         "bootstrap95": {
           "mae": [
-            14.570201996350677,
-            19.169900403041574
+            14.5702019964,
+            19.169900403
           ],
           "rmse": [
-            17.763448610624554,
-            21.976241321018932
+            17.7634486106,
+            21.976241321
           ],
           "spearman": [
-            0.07886630265228804,
-            0.4743703309294544
+            0.0788663026523,
+            0.474370330929
           ],
           "r2": [
-            -0.15738145210368576,
-            0.11438870182092016
+            -0.157381452104,
+            0.114388701821
           ]
         },
         "promotionGate": {
           "passed": false,
-          "maeImprovementOverMean": 0.028047056220736586,
+          "maeImprovementOverMean": 0.0280470562207,
           "requiredMaeImprovement": 0.1,
-          "medianHeldOutR2": -0.03622801879875892,
+          "medianHeldOutR2": -0.0362280187988,
           "requiresPositiveMedianHeldOutR2": true,
           "linearExportSupported": true
         }

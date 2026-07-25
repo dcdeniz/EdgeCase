@@ -175,8 +175,20 @@ def build_artifact(joined: pd.DataFrame, reports: dict[str, dict[str, Any]]) -> 
 
 
 def write_json(payload: dict[str, Any], path: Path) -> None:
+    def canonicalize(value: Any) -> Any:
+        if isinstance(value, dict):
+            return {key: canonicalize(item) for key, item in value.items()}
+        if isinstance(value, list | tuple):
+            return [canonicalize(item) for item in value]
+        if isinstance(value, float | np.floating):
+            return float(f"{float(value):.12g}")
+        if isinstance(value, np.integer):
+            return int(value)
+        return value
+
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(
-        json.dumps(payload, indent=2, sort_keys=False, allow_nan=False) + "\n",
+        json.dumps(canonicalize(payload), indent=2, sort_keys=False, allow_nan=False)
+        + "\n",
         encoding="utf-8",
     )
