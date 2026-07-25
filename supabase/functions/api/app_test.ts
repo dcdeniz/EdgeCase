@@ -119,4 +119,17 @@ Deno.test("provider safety identifiers do not disclose account UUIDs", async () 
   assertEquals(identifier.includes(userId), false);
 });
 
+Deno.test("public demo mode labels responses and permits untrusted origins", async () => {
+  Deno.env.set("PUBLIC_DEMO_MODE", "true");
+  try {
+    const response = await createApp().request("http://localhost/api/health", {
+      headers: { Origin: "https://hackathon.example" },
+    });
+    assertEquals(response.status, 200);
+    assertEquals(response.headers.get("X-PreSeed-Demo"), "public-shared-data");
+  } finally {
+    Deno.env.delete("PUBLIC_DEMO_MODE");
+  }
+});
+
 const corsMethods = "GET, POST, PUT, OPTIONS";

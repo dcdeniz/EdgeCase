@@ -14,7 +14,7 @@ import {
   StatusChip,
 } from "@/components/ui";
 import { coachResponses, evidenceById, suggestedQuestions, type CoachResponse } from "@/lib/fixtures";
-import { edgeApiUrl, getSupabaseBrowserClient } from "@/lib/supabase-browser";
+import { edgeApiUrl } from "@/lib/supabase-browser";
 
 type RagAnswer = {
   answer: string;
@@ -49,16 +49,9 @@ function CoachThread() {
   const hasPrepared = available.length > 0;
 
   async function askEvidence() {
-    const supabase = getSupabaseBrowserClient();
     const url = edgeApiUrl("evidence/answer");
-    const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-    if (!supabase || !url || !key) {
+    if (!url) {
       setRagError("The evidence service is not configured in this environment.");
-      return;
-    }
-    const { data: { session } } = await supabase.auth.getSession();
-    if (!session) {
-      setRagError("Sign in before asking an account-based evidence question.");
       return;
     }
     setRagPending(true);
@@ -68,8 +61,6 @@ function CoachThread() {
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${session.access_token}`,
-          apikey: key,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ question }),

@@ -4,6 +4,8 @@ Date: 2026-07-25
 
 ## Delivered
 
+- Added a reviewable public hackathon demo mode. When `PUBLIC_DEMO_MODE=true`, the API accepts requests without bearer authentication and uses the service role for one dedicated synthetic `PUBLIC_DEMO_USER_ID`; the login screen is removed and the UI clearly warns that all visitors share mutable demo data. PostgreSQL RLS remains defined for future authenticated use, while this mode intentionally bypasses it at the API boundary. Never configure it with a real user's ID or real health information.
+
 - Initialized the existing Git workspace as an npm-based Next.js 16 App Router project with TypeScript, Tailwind CSS, ESLint, a starter landing page, and `/api/health` route for Vercel.
 - Installed `@supabase/supabase-js`, `@supabase/ssr`, and the project-local Supabase CLI. Generated `supabase/config.toml`, a public `health` Edge Function, and an initial `notes` Postgres migration with timestamps, ownership index, update trigger, RLS, and per-user CRUD policies.
 - Installed `neat.is` 0.6.x. Ran its discovery preview and then `neat init . --apply`; NEAT generated the supported Next.js Node and Edge OpenTelemetry hooks and added its required OpenTelemetry dependencies.
