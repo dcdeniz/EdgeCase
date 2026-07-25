@@ -74,6 +74,7 @@ change the VISEM result or the readiness score.
 uv run --project ml preseed-ml uci-fetch
 uv run --project ml preseed-ml uci-validate
 uv run --project ml preseed-ml uci-regenerate
+uv run --project ml preseed-ml verify-generated
 ```
 
 The fetch verifies the official UCI dataset 244 archive and its single allow-listed
@@ -107,6 +108,12 @@ not an untouched confirmation result. The requested 0.90 target still failed, so
 executable artifact or runtime feature is exported. See the
 [UCI model card](models/UCI_MODEL_CARD.md) and
 [machine-readable report](reports/uci-fertility-evaluation.json).
+
+`verify-generated` checks the fixed dataset and validation contracts, failed
+promotion gates, runtime blocks, selected procedures, and reviewed metric tolerances.
+Exact JSON bytes are not compared across operating systems because calibrated tree
+models can produce small architecture-dependent probability differences even with
+fixed seeds. Meaningful metric or safety-contract drift still fails CI.
 
 ## Prospective repeated-test foundation
 

@@ -23,8 +23,8 @@ jobs:
       - run: uv run --project ml preseed-ml regenerate
       - run: uv run --project ml preseed-ml uci-fetch
       - run: uv run --project ml preseed-ml uci-regenerate
-      - name: Verify generated ML artifacts are clean
-        run: git diff --exit-code -- ml/models ml/reports
+      - name: Verify generated ML safety and metric contracts
+        run: uv run --project ml preseed-ml verify-generated
       - run: npm ci
       - run: npm run check
       - run: npm run build

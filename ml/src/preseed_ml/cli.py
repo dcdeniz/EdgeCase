@@ -15,6 +15,7 @@ from .reporting import write_model_card
 from .uci_dataset import fetch_uci_fertility, load_uci_fertility
 from .uci_modeling import evaluate_uci_fertility
 from .uci_reporting import write_uci_outputs
+from .verification import verify_generated_reports
 
 
 def regenerate(data_dir: Path = RAW_DATA_DIR) -> dict:
@@ -67,6 +68,10 @@ def _parser() -> argparse.ArgumentParser:
     subcommands.add_parser(
         "uci-regenerate",
         help="Run repeated nested UCI evaluation and regenerate its research reports",
+    )
+    subcommands.add_parser(
+        "verify-generated",
+        help="Verify regenerated reports against reviewed cross-platform safety contracts",
     )
     prospective = subcommands.add_parser(
         "validate-prospective",
@@ -135,6 +140,9 @@ def main() -> None:
                 indent=2,
             )
         )
+        return
+    if args.command == "verify-generated":
+        print(json.dumps(verify_generated_reports(), indent=2))
         return
     evaluation = regenerate()
     summary = {
