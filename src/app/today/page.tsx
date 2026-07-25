@@ -71,7 +71,7 @@ export default function TodayPage() {
       */}
       <section className="mb-4" aria-labelledby="today-readiness-hero">
         <h2 id="today-readiness-hero" className="visually-hidden">
-          Fertility readiness
+          Seed Score
         </h2>
         <ReadinessHero progress={progress} />
         <div className="mt-3 grid grid-cols-2 gap-3">

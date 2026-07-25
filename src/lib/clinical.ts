@@ -85,12 +85,22 @@ export type MarkerDefinition = {
   meaning: string;
   /** Present only for markers requiring a specialist assay. */
   specialistOnly?: boolean;
+  /**
+   * Approximate 50th centile of the WHO reference population, used ONLY to
+   * draw the "optimal" band on the reference bar.
+   *
+   * REQUIRES VERIFICATION. These are widely circulated figures that have not
+   * been checked against the source manual in this prototype, exactly like the
+   * supplement effect sizes. The band is a presentational aid, not a clinical
+   * threshold, and nothing scores off it.
+   */
+  referenceMedian?: number;
 };
 
 export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   volume_ml: {
     code: "volume_ml",
-    label: "Semen volume",
+    label: "Semen Volume",
     shortLabel: "Volume",
     unit: "mL",
     unitSpoken: "millilitres",
@@ -101,10 +111,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 1,
     meaning: "The total volume of the ejaculate. Low volume can also mean part of the sample was lost during collection.",
+    referenceMedian: 3.7,
   },
   concentration_million_ml: {
     code: "concentration_million_ml",
-    label: "Sperm concentration",
+    label: "Sperm Concentration",
     shortLabel: "Concentration",
     unit: "×10⁶/mL",
     unitSpoken: "million per millilitre",
@@ -115,10 +126,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 1,
     meaning: "How many sperm are present per millilitre. Reflects spermatogenic output and the hormonal axis that drives it.",
+    referenceMedian: 66,
   },
   total_count_million: {
     code: "total_count_million",
-    label: "Total sperm count",
+    label: "Total Sperm Count",
     shortLabel: "Total count",
     unit: "×10⁶",
     unitSpoken: "million",
@@ -129,10 +141,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 1,
     meaning: "Concentration multiplied by volume. Usually the more informative of the two for overall output.",
+    referenceMedian: 210,
   },
   progressive_motility_pct: {
     code: "progressive_motility_pct",
-    label: "Progressive motility",
+    label: "Progressive Motility",
     shortLabel: "Prog. motility",
     unit: "%",
     unitSpoken: "percent",
@@ -143,10 +156,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 0,
     meaning: "The share of sperm moving purposefully forward. Depends on the mitochondria powering the tail.",
+    referenceMedian: 55,
   },
   total_motility_pct: {
     code: "total_motility_pct",
-    label: "Total motility",
+    label: "Total Motility",
     shortLabel: "Total motility",
     unit: "%",
     unitSpoken: "percent",
@@ -157,10 +171,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 0,
     meaning: "The share of sperm moving at all, including non-progressive movement.",
+    referenceMedian: 64,
   },
   normal_morphology_pct: {
     code: "normal_morphology_pct",
-    label: "Normal morphology",
+    label: "Normal Morphology",
     shortLabel: "Morphology",
     unit: "%",
     unitSpoken: "percent",
@@ -171,10 +186,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 0,
     meaning: "The share of sperm with normally formed heads and tails. Strict criteria mean low percentages are expected.",
+    referenceMedian: 14,
   },
   dna_fragmentation_pct: {
     code: "dna_fragmentation_pct",
-    label: "DNA fragmentation index",
+    label: "DNA Fragmentation Index",
     shortLabel: "DNA fragmentation",
     unit: "%",
     unitSpoken: "percent",
@@ -189,8 +205,8 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   leukocytes_million_ml: {
     code: "leukocytes_million_ml",
-    label: "Peroxidase-positive leukocytes",
-    shortLabel: "WBC",
+    label: "White Blood Cell Count",
+    shortLabel: "White Blood Cells",
     unit: "×10⁶/mL",
     unitSpoken: "million per millilitre",
     panel: "semen_analysis",
@@ -205,7 +221,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   fsh_iu_l: {
     code: "fsh_iu_l",
-    label: "Follicle-stimulating hormone",
+    label: "Follicle-Stimulating Hormone",
     shortLabel: "FSH",
     unit: "IU/L",
     unitSpoken: "international units per litre",
@@ -219,7 +235,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   lh_iu_l: {
     code: "lh_iu_l",
-    label: "Luteinising hormone",
+    label: "Luteinising Hormone",
     shortLabel: "LH",
     unit: "IU/L",
     unitSpoken: "international units per litre",
@@ -233,7 +249,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   total_testosterone_nmol_l: {
     code: "total_testosterone_nmol_l",
-    label: "Total testosterone",
+    label: "Total Testosterone",
     shortLabel: "Total testosterone",
     unit: "nmol/L",
     unitSpoken: "nanomoles per litre",
@@ -247,7 +263,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   free_testosterone_nmol_l: {
     code: "free_testosterone_nmol_l",
-    label: "Free testosterone",
+    label: "Free Testosterone",
     shortLabel: "Free testosterone",
     unit: "nmol/L",
     unitSpoken: "nanomoles per litre",

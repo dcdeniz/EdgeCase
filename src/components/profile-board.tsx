@@ -42,6 +42,99 @@ export function outOfReference(marker: MarkerValue): boolean {
   return (low != null && marker.value < low) || (high != null && marker.value > high);
 }
 
+export type ReferenceBand = "below" | "within" | "optimal";
+
+export const bandLabel: Record<ReferenceBand, string> = {
+  below: "Below range",
+  within: "In range",
+  optimal: "Optimal",
+};
+
+/**
+ * Which band a value falls in.
+ *
+ * For an upper-limit marker (DFI, white cells) there is no optimal band —
+ * being under the threshold is simply within range, and above it is out.
+ */
+export function bandOf(marker: MarkerValue): ReferenceBand {
+  const definition = markerCatalogue[marker.code];
+  const low = marker.referenceLow ?? definition.referenceLow;
+  const high = marker.referenceHigh ?? definition.referenceHigh;
+
+  if (definition.shape === "upper_limit") {
+    return high != null && marker.value > high ? "below" : "within";
+  }
+  if (low != null && marker.value < low) return "below";
+  if (definition.referenceMedian != null && marker.value >= definition.referenceMedian) {
+    return "optimal";
+  }
+  return "within";
+}
+
+const bandColour: Record<ReferenceBand, string> = {
+  below: "var(--ps-escalation)",
+  within: "var(--ps-information)",
+  optimal: "var(--ps-supported)",
+};
+
+/**
+ * Where the value sits against its reference, as a filled bar.
+ *
+ * Colour here is a deliberate departure from the original rule that no
+ * red/green scoring appears on a clinical value (ADR 0007). The word is kept
+ * beside the bar so colour is never the sole carrier, and the "optimal" edge
+ * is drawn from an unverified population median — it is a presentational
+ * band, and nothing in the product scores off it.
+ */
+function ReferenceBar({ marker }: { marker: MarkerValue }) {
+  const definition = markerCatalogue[marker.code];
+  const band = bandOf(marker);
+  const low = marker.referenceLow ?? definition.referenceLow;
+  const high = marker.referenceHigh ?? definition.referenceHigh;
+
+  // Scale: headroom past the median, or past the upper limit for capped markers.
+  const scaleMax =
+    definition.shape === "upper_limit"
+      ? Math.max((high ?? 1) * 2, marker.value * 1.15)
+      : Math.max((definition.referenceMedian ?? (low ?? 1) * 3) * 1.35, marker.value * 1.1);
+
+  const position = Math.max(2, Math.min(100, (marker.value / scaleMax) * 100));
+  const lowMark = low == null ? null : (low / scaleMax) * 100;
+  const medianMark =
+    definition.referenceMedian == null ? null : (definition.referenceMedian / scaleMax) * 100;
+  const highMark = high == null ? null : (high / scaleMax) * 100;
+
+  return (
+    <span className="mt-2 block">
+      <span className="relative block h-1.5 overflow-hidden rounded-full bg-surface-3">
+        <span
+          className="absolute inset-y-0 left-0 rounded-full"
+          style={{ width: `${position}%`, background: bandColour[band] }}
+        />
+        {/* Threshold ticks, so the bar is readable without the legend. */}
+        {[lowMark, medianMark, highMark].map((mark, index) =>
+          mark == null || mark >= 100 ? null : (
+            <span
+              key={index}
+              aria-hidden="true"
+              className="absolute inset-y-0 w-px bg-[var(--ps-ink-3)]"
+              style={{ left: `${mark}%` }}
+            />
+          ),
+        )}
+      </span>
+      <span className="mt-1.5 flex items-center gap-1.5">
+        <span
+          aria-hidden="true"
+          className="size-2 shrink-0 rounded-full"
+          style={{ background: bandColour[band] }}
+        />
+        <span className="t-caption text-ink-2">{bandLabel[band]}</span>
+      </span>
+    </span>
+  );
+}
+
 /** The reference limit, phrased the way the approved vocabulary phrases it. */
 function referenceText(marker: MarkerValue): string {
   const definition = markerCatalogue[marker.code];
@@ -72,7 +165,6 @@ function MarkerRow({
   onExplain: (code: MarkerCode) => void;
 }) {
   const definition = markerCatalogue[marker.code];
-  const flagged = outOfReference(marker);
 
   /*
    * The row is a link and the help control is a button, so they are siblings
@@ -96,16 +188,8 @@ function MarkerRow({
           <span className="ml-auto shrink-0 t-mono text-ink-3">{referenceText(marker)}</span>
         </span>
 
-        {flagged ? (
-          <span className="mt-2 block">
-            <StatusChip tone="attention" glyph="attention">
-              {/* Direction matters: DFI and WBC breach an upper limit, not a lower one. */}
-              {definition.shape === "upper_limit"
-                ? "Above reference context"
-                : "Below reference context"}
-            </StatusChip>
-          </span>
-        ) : null}
+        {/* The bar replaces the warning chip: same information, no alarm glyph. */}
+        <ReferenceBar marker={marker} />
       </Link>
 
       <button
@@ -220,7 +304,7 @@ export function SemenProfileBoard({
           <p className="t-micro text-ink-3">Semen profile</p>
           <p className="mt-1 t-caption text-ink-2">
             {relativeDays(test.collectedAt.slice(0, 10))}
-            {flaggedCount > 0 ? ` · ${flaggedCount} outside reference context` : null}
+            {flaggedCount > 0 ? ` · ${flaggedCount} below range` : null}
           </p>
         </div>
         <SimulatedBadge compact />

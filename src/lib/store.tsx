@@ -112,7 +112,7 @@ export type PrototypeState = {
   offline: boolean;
   /**
    * Meals the user confirmed, which override the synthetic log for their date.
-   * These feed the diet domain, so a logged meal moves fertility readiness.
+   * These feed the diet domain, so a logged meal moves Seed Score.
    */
   foodEntries: FoodEntry[];
   /** User-set behavioural targets. Empty means none chosen yet. */

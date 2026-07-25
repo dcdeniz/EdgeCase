@@ -191,7 +191,7 @@ export function ReadinessHero({ progress }: { progress: ReadinessProgress }) {
     <Card>
       <div className="flex items-start justify-between gap-3">
         <div>
-          <p className="t-micro text-ink-3">Fertility readiness</p>
+          <p className="t-micro text-ink-3">Seed Score</p>
           <p className="mt-1 t-title-2 text-ink-1">{behaviourBandLabel(current.score)}</p>
         </div>
         <SimulatedBadge compact />
@@ -201,7 +201,7 @@ export function ReadinessHero({ progress }: { progress: ReadinessProgress }) {
         <ScoreRing
           value={current.score}
           size={176}
-          label="Fertility readiness, trailing seven days"
+          label="Seed Score, trailing seven days"
           caveat={false}
         />
       </div>

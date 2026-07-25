@@ -57,7 +57,7 @@ export default function ScorePage() {
   const selectedDay = selected ? behaviourDay(state, selected) : null;
 
   return (
-    <Screen title="Fertility readiness" eyebrow="Weekly and yearly">
+    <Screen title="Seed Score" eyebrow="Weekly and yearly">
       <Segmented<Range>
         label="Score range"
         value={range}
@@ -87,7 +87,7 @@ export default function ScorePage() {
         <div className="mt-5 flex justify-center">
           <ScoreRing
             value={active.score}
-            label={`Fertility readiness, ${range === "week" ? "trailing seven days" : "trailing year"}`}
+            label={`Seed Score, ${range === "week" ? "trailing seven days" : "trailing year"}`}
             sublabel={behaviourBandLabel(active.score)}
             size={188}
           />
