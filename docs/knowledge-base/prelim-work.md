@@ -12,6 +12,7 @@ Date: 2026-07-25
 - Added a fast documentation validator, on-edit watcher, checked-in pre-commit hook, and GitHub Actions workflow. The validator checks knowledge-manifest completeness, ADR structure/status, relative links, and basic OpenAPI structure.
 - Added committed environment templates and kept all real `.env` files ignored.
 - Assigned EdgeCase the 553xx Supabase local port range so its stack can run alongside the existing Newdryve stack.
+- Linked the repository to the hosted EdgeCase Supabase project and added an app-owned `profiles` table plus authenticated notes CRUD Edge Function. Profile creation participates in the same PostgreSQL transaction as Auth signup; foreign keys, checks, triggers, indexes, grants, and RLS enforce integrity and ownership.
 
 ## Important choices
 
@@ -25,6 +26,14 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - `npm run check` passed (documentation validation, ESLint with two non-blocking warnings in NEAT-generated code, and strict TypeScript). `npm run build` passed and produced static `/` plus dynamic `/api/health` routes.
 - A complete local Supabase database reset requires the Docker-based local stack and was not completed. No existing Supabase or Vercel provider account was linked, queried, or changed.
 - npm reported transitive dependency vulnerabilities after adding the young NEAT toolchain. Do not run a breaking `npm audit fix --force` during the hackathon without reviewing the dependency changes.
+
+## Hosted Supabase status
+
+- Linked project: `EdgeCase` (`gxwahadomgbgpavihvsp`, `eu-west-1`).
+- Applied migration `20260725000000` and verified local/remote migration history matches.
+- Deployed `health` and JWT-protected `notes` Edge Functions.
+- Verified hosted `health` returns a successful JSON response and unauthenticated `notes` requests are rejected with HTTP 401.
+- No seed users or notes were created. Authenticated CRUD should be exercised by the frontend once its product sign-in flow is chosen.
 
 ## Deployment sequence
 
