@@ -42,6 +42,7 @@ export function ScoreRing({
   unit,
   sublabel,
   label,
+  centreLabel,
   tone = "accent",
   caveat = true,
 }: {
@@ -53,11 +54,13 @@ export function ScoreRing({
   unit?: string;
   sublabel?: string;
   label: string;
+  /** Small caps label rendered inside the ring, above the figure. */
+  centreLabel?: string;
   tone?: "accent" | "information" | "attention";
   /** Only set false where the caveat is already stated in adjacent copy. */
   caveat?: boolean;
 }) {
-  const stroke = 12;
+  const stroke = Math.max(10, Math.round(size * 0.075));
   const radius = (size - stroke) / 2;
   const circumference = 2 * Math.PI * radius;
   const ratio = value == null ? 0 : Math.max(0, Math.min(1, value / max));
@@ -82,12 +85,19 @@ export function ScoreRing({
           aria-label={label}
           aria-valuetext={value == null ? "Not enough logged" : `${value} out of ${max}`}
         >
+          {/*
+            The unfilled track is a muted step of the same hue rather than
+            grey, so the ring reads as one object with a filled and unfilled
+            portion — the contrast Whoop gets between its bright arc and its
+            darker remainder.
+          */}
           <circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="var(--ps-surface-3)"
+            stroke={value == null ? "var(--ps-surface-3)" : colour}
+            strokeOpacity={value == null ? 1 : 0.22}
             strokeWidth={stroke}
             strokeDasharray={value == null ? "3 7" : undefined}
           />
@@ -117,7 +127,20 @@ export function ScoreRing({
             </>
           ) : (
             <>
-              <span className="t-display-1 text-ink-1 ps-num">{headline ?? value}</span>
+              {centreLabel ? (
+                <span className="mb-1 t-micro text-ink-3">{centreLabel}</span>
+              ) : null}
+              <span
+                className="text-ink-1 ps-num"
+                style={{
+                  fontSize: `${Math.round(size * 0.34)}px`,
+                  lineHeight: 1,
+                  letterSpacing: "-0.03em",
+                  fontWeight: 500,
+                }}
+              >
+                {headline ?? value}
+              </span>
               {unit ? <span className="t-caption text-ink-3">{unit}</span> : null}
               {sublabel ? (
                 <span className="mt-0.5 max-w-[8rem] t-caption text-ink-3">{sublabel}</span>
@@ -189,22 +212,23 @@ export function ReadinessHero({ progress }: { progress: ReadinessProgress }) {
 
   return (
     <Card>
-      <div className="flex items-start justify-between gap-3">
-        <div>
-          <p className="t-micro text-ink-3">Fertility readiness</p>
-          <p className="mt-1 t-title-2 text-ink-1">{behaviourBandLabel(current.score)}</p>
-        </div>
+      <div className="flex items-center justify-end gap-3">
         <SimulatedBadge compact />
       </div>
 
-      <div className="mt-4 flex justify-center">
+      <div className="mt-1 flex justify-center">
         <ScoreRing
           value={current.score}
-          size={176}
-          label="Fertility readiness, trailing seven days"
+          size={244}
+          centreLabel="Seed Score"
+          label="Seed Score, trailing seven days"
           caveat={false}
         />
       </div>
+
+      <p className="mt-2 text-center t-title-2 text-ink-1">
+        {behaviourBandLabel(current.score)}
+      </p>
 
       {/* The headline the whole card exists for. */}
       <div className="mt-4 flex flex-col items-center gap-1.5">
@@ -270,6 +294,24 @@ export function ReadinessHero({ progress }: { progress: ReadinessProgress }) {
    Metric tile
    ========================================================================== */
 
+/**
+ * Where a metric came from. Provenance is already mandatory for clinical
+ * values; a wearable figure is no different, and "via Whoop" is the fastest
+ * way for a user to know whether a number is his device's or ours.
+ *
+ * Rendered as a text chip rather than a logo: shipping third-party marks means
+ * trademark permission and a partnership that does not exist yet. Swap the
+ * chip for the mark once it does.
+ */
+export function SourceChip({ source }: { source: string }) {
+  return (
+    <span className="inline-flex shrink-0 items-center gap-1 rounded-full border border-hairline bg-surface-3 px-2 py-0.5">
+      <span className="size-1.5 rounded-full bg-ink-3" aria-hidden="true" />
+      <span className="t-micro tracking-normal text-ink-3">via {source}</span>
+    </span>
+  );
+}
+
 export function MetricTile({
   glyph,
   label,
@@ -277,6 +319,7 @@ export function MetricTile({
   unit,
   detail,
   href,
+  source,
   tone = "neutral",
 }: {
   glyph: IconName;
@@ -285,6 +328,8 @@ export function MetricTile({
   unit?: string;
   detail?: string;
   href?: string;
+  /** Device or service the figure came from. */
+  source?: string;
   tone?: "neutral" | "accent";
 }) {
   const body = (
@@ -295,8 +340,13 @@ export function MetricTile({
           size={15}
           className={tone === "accent" ? "text-accent" : "text-ink-3"}
         />
-        <span className="t-micro text-ink-3">{label}</span>
+        <span className="min-w-0 flex-1 truncate t-micro text-ink-3">{label}</span>
       </div>
+      {source ? (
+        <span className="mt-1.5 block">
+          <SourceChip source={source} />
+        </span>
+      ) : null}
       <p className="mt-2 t-title-1 text-ink-1 ps-num">
         {value}
         {unit ? <span className="ml-1 t-caption font-normal text-ink-3">{unit}</span> : null}

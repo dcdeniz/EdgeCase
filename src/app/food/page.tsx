@@ -91,7 +91,7 @@ export default function FoodPage() {
     });
     setStage("idle");
     setItems([]);
-    announce("Meal saved to today's log. Fertility readiness updated.");
+    announce("Meal saved to today's log. Seed Score updated.");
   }
 
   return (

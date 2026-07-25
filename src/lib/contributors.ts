@@ -33,6 +33,13 @@ import type { PrototypeState } from "@/lib/store";
 import { dietDayFor } from "@/lib/nutrition";
 import { TODAY } from "@/lib/format";
 import { mean, sleepHistory } from "@/lib/wearable";
+import {
+  airQuality,
+  alcoholUnitsPerWeek,
+  cigarettesPerWeek,
+  daysAboveGuideline,
+  PM25_WHO_GUIDELINE,
+} from "@/lib/exposure";
 
 export type ContributorStrength = "established" | "probable" | "emerging";
 
@@ -48,7 +55,7 @@ export type Contributor = {
   /** The user's own value, verbatim enough to be checkable. */
   yourValue: string;
   /** Where that value came from. Provenance, same as a lab result. */
-  source: "Onboarding" | "Wearable" | "Food log" | "Exposure log";
+  source: "Onboarding" | "Wearable" | "Food log" | "Exposure log" | "Tracked" | "Location";
   /** Parameters this exposure is associated with in the cited work. */
   affects: MarkerCode[];
   mechanism: string;
@@ -77,12 +84,13 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   const found: Contributor[] = [];
 
   /* --- Smoking. Strongest lifestyle signal in the library. -------------- */
-  if (answers.smoking === "under10" || answers.smoking === "over10") {
+  const cigarettes = cigarettesPerWeek(answers);
+  if (cigarettes != null) {
     found.push({
       id: "smoking",
-      label: "Cigarette smoking",
-      yourValue: answers.smoking === "over10" ? "Over 10/day" : "Under 10/day",
-      source: "Onboarding",
+      label: "Cigarette Smoking",
+      yourValue: `${cigarettes} a week`,
+      source: "Tracked",
       affects: [...SEMEN_CORE, "dna_fragmentation_pct"],
       mechanism: OXIDATIVE,
       evidenceId: "smoking-umbrella",
@@ -91,12 +99,13 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   }
 
   /* --- Alcohol. Dose-dependent; light intake is not flagged. ------------ */
-  if (answers.alcoholUnits === "8to14" || answers.alcoholUnits === "over14") {
+  const units = alcoholUnitsPerWeek(answers);
+  if (units != null && units >= 8) {
     found.push({
       id: "alcohol",
-      label: "Alcohol intake",
-      yourValue: answers.alcoholUnits === "over14" ? "Over 14 units/week" : "8–14 units/week",
-      source: "Onboarding",
+      label: "Alcohol Intake",
+      yourValue: `${units} units a week`,
+      source: "Tracked",
       affects: SEMEN_CORE,
       mechanism: `${OXIDATIVE} Sertoli and Leydig cell function is also affected at higher intakes.`,
       evidenceId: "alcohol-umbrella",
@@ -107,41 +116,16 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   /* --- Reported environmental exposures. -------------------------------- */
   const exposures = answers.exposures ?? [];
 
-  if (exposures.includes("air_quality")) {
+  const air = airQuality();
+  if (air.pm25 > PM25_WHO_GUIDELINE) {
     found.push({
       id: "air-pollution",
-      label: "Air pollution (PM2.5 / NO₂)",
-      yourValue: "Reported in your area",
-      source: "Exposure log",
+      label: "Air Pollution",
+      yourValue: `PM2.5 ${air.pm25} µg/m³ · ${daysAboveGuideline()}/30 days above guideline`,
+      source: "Location",
       affects: SEMEN_CORE,
       mechanism: `${OXIDATIVE} Particulate exposure raises systemic inflammatory load.`,
       evidenceId: "air-pollution-sr",
-      strength: "established",
-    });
-  }
-
-  if (exposures.includes("pesticides")) {
-    found.push({
-      id: "pesticides",
-      label: "Pesticide exposure",
-      yourValue: "Occupational or dietary, reported",
-      source: "Exposure log",
-      affects: ["concentration_million_ml", "total_motility_pct", "normal_morphology_pct"],
-      mechanism: ENDOCRINE,
-      evidenceId: "pesticide-sr",
-      strength: "probable",
-    });
-  }
-
-  if (exposures.includes("chemicals")) {
-    found.push({
-      id: "heavy-metals",
-      label: "Occupational chemicals and metals",
-      yourValue: "Reported",
-      source: "Exposure log",
-      affects: SEMEN_CORE,
-      mechanism: `${ENDOCRINE} Lead has the most consistent human evidence of the metals.`,
-      evidenceId: "lead-ma",
       strength: "established",
     });
   }
@@ -155,7 +139,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (exposures.includes("plastics")) {
     found.push({
       id: "microplastics",
-      label: "Plastics and microplastics",
+      label: "Plastics and Microplastics",
       yourValue: "Reported",
       source: "Exposure log",
       affects: ["concentration_million_ml", "total_motility_pct"],
@@ -165,13 +149,26 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
     });
   }
 
+  if (exposures.includes("chemicals")) {
+    found.push({
+      id: "heavy-metals",
+      label: "Chemicals and Metals",
+      yourValue: "Reported",
+      source: "Exposure log",
+      affects: SEMEN_CORE,
+      mechanism: `${ENDOCRINE} Lead has the most consistent human evidence of the metals.`,
+      evidenceId: "lead-ma",
+      strength: "established",
+    });
+  }
+
   /* --- Heat. Scrotal thermoregulation. ---------------------------------- */
   const heat = answers.heatExposure ?? [];
   const heatSources = heat.filter((entry) => entry !== "none" && entry !== "prefer_not");
   if (heatSources.length > 0) {
     found.push({
       id: "heat",
-      label: "Recurrent scrotal heat",
+      label: "Recurrent Scrotal Heat",
       yourValue: `${heatSources.length} source${heatSources.length === 1 ? "" : "s"} reported`,
       source: "Onboarding",
       affects: ["concentration_million_ml", "total_count_million", "progressive_motility_pct"],
@@ -187,7 +184,7 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (meanSleep != null && meanSleep < 390) {
     found.push({
       id: "short-sleep",
-      label: "Short sleep",
+      label: "Short Sleep",
       yourValue: `${(meanSleep / 60).toFixed(1)}h mean over 14 nights`,
       source: "Wearable",
       affects: ["concentration_million_ml", "total_count_million"],
@@ -202,13 +199,31 @@ export function contributorsFor(state: PrototypeState): Contributor[] {
   if (dietToday != null && dietToday < 50) {
     found.push({
       id: "diet-pattern",
-      label: "Western dietary pattern",
+      label: "Western Dietary Pattern",
       yourValue: `Pattern score ${dietToday}/100`,
       source: "Food log",
       affects: SEMEN_CORE,
       mechanism: OXIDATIVE,
       evidenceId: "diet-pattern-sr",
       strength: "probable",
+    });
+  }
+
+  /*
+   * Pesticides last. The dietary-residue evidence in general populations is
+   * weak and mixed — the signal is concentrated in occupational exposure — so
+   * it ranks below the exposures with consistent human data.
+   */
+  if (exposures.includes("pesticides")) {
+    found.push({
+      id: "pesticides",
+      label: "Pesticide Exposure",
+      yourValue: "Dietary residue, self-reported",
+      source: "Exposure log",
+      affects: ["concentration_million_ml", "total_motility_pct"],
+      mechanism: ENDOCRINE,
+      evidenceId: "pesticide-sr",
+      strength: "emerging",
     });
   }
 
