@@ -22,11 +22,13 @@ import {
 import { categoryLabel, protocolTemplate, type ProtocolCategory } from "@/lib/fixtures";
 import { formatDate } from "@/lib/format";
 import { itemsForWeek, protocolWeek, usePrototype } from "@/lib/store";
+import { SupplementCandidateCard } from "@/components/profile-board";
+import { SUPPLEMENT_DISCLAIMER, supplementCandidates } from "@/lib/supplements";
 
 const categories = Object.keys(categoryLabel) as ProtocolCategory[];
 
 export default function ProtocolPage() {
-  const { state, seedDemo } = usePrototype();
+  const { state, latestSemen, seedDemo } = usePrototype();
   const protocol = state.protocol;
 
   if (!protocol) {
@@ -142,6 +144,25 @@ export default function ProtocolPage() {
           </p>
         </Disclosure>
       </Card>
+
+      <section className="mt-6" aria-labelledby="supplements">
+        <SectionHeader
+          id="supplements"
+          eyebrow="Under research"
+          title="Supplements"
+          level={2}
+        />
+        <p className="mb-3 t-caption text-ink-3">{SUPPLEMENT_DISCLAIMER}</p>
+        <div className="space-y-3">
+          {supplementCandidates.map((candidate) => (
+            <SupplementCandidateCard
+              key={candidate.id}
+              candidate={candidate}
+              test={latestSemen}
+            />
+          ))}
+        </div>
+      </section>
 
       <DisclaimerFooter />
     </Screen>

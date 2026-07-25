@@ -60,6 +60,13 @@ The fourth exists so the other three never have to lie. Missing data lands on
 confidence, which means the readiness score only ever moves when behaviour does, and
 adding a hormone panel never looks like a health improvement.
 
+The behaviour score at `/score` ([ADR 0006](../project/adr/0006-behaviour-score-surface.md))
+is the second of these four rendered at greater density — weekly, yearly, and
+across four logged domains. It is a composite, but strictly *within* output two:
+no clinical value, prediction or confidence term enters it, so it does not
+collapse the separation this section is about. That exclusion is the whole
+justification, and it is enforced in `src/lib/behaviour-score.ts`.
+
 ### 2. The reasoning chain is the product
 
 The signature screen renders one argument as four typed stations on a rail:
@@ -132,6 +139,12 @@ Adherence is a rolling-window percentage over the last 14 days, not an unbroken
 count. A window metric cannot be broken, so there is nothing to shame, no freeze to
 sell, and a two-week holiday reads as a gap in the record rather than a failure.
 
+The year grid added by [ADR 0006](../project/adr/0006-behaviour-score-surface.md)
+does not change this. It is a *record* of logged days, with no current-streak
+count, no longest-streak count and no loss-aversion copy; the rolling window
+remains the headline number. Adding a consecutive-day count to it would
+reintroduce the mechanic this section exists to refuse.
+
 This is a deliberate rejection of the most effective retention mechanic in consumer
 software, on three grounds: it converts a health behaviour into a debt; a missed day
 inside a 100-day protocol is clinically meaningless given a 64–74 day sperm
@@ -155,7 +168,11 @@ right shape:
 ### What was deliberately not done
 
 - No mascot, no baby imagery, no sperm iconography.
-- No gauge, dial or ring for scores — those read as game scores.
+- No gauge, dial or ring for **clinical** scores — those read as game scores.
+  Narrowed by [ADR 0006](../project/adr/0006-behaviour-score-surface.md): a ring
+  is permitted for the behaviour score, which contains no clinical measurement,
+  prediction or confidence term, and which cannot render without its caveat.
+  Marker values, risks and confidence keep their existing flat treatments.
 - No seven-colour category system for protocol categories; they are distinguished by
   their words, which also keeps the chart palette uncontested.
 - No live model inference, no invented endpoints, no percentage probabilities.

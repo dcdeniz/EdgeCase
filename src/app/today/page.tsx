@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import { Icon } from "@/components/icons";
 import { DisclaimerFooter, SafetyAlert, Screen } from "@/components/shell";
 import {
@@ -11,17 +12,29 @@ import {
   RetestPrompt,
 } from "@/components/protocol";
 import { ReadinessSummary } from "@/components/domain";
+import { MetricTile, ReadinessHero } from "@/components/score";
+import { ContributorList, SemenProfileBoard } from "@/components/profile-board";
+import { contributorsFor } from "@/lib/contributors";
 import { Button, ButtonLink, Card, EmptyState, SectionHeader, SimulatedBadge } from "@/components/ui";
 import { TODAY, daysBetween, formatDate } from "@/lib/format";
 import { itemsForWeek, protocolDay, protocolWeek, usePrototype } from "@/lib/store";
+import { readinessProgress } from "@/lib/behaviour-score";
+import { dietDayFor } from "@/lib/nutrition";
+import { formatDuration, latestHealthDay, latestSleepNight, sleepNeedPercent } from "@/lib/wearable";
 
 /**
  * Today answers one question: what do I do now. Everything competing with that
  * answer is either removed or pushed below it.
  */
 export default function TodayPage() {
-  const { state, readiness, latestSemen, seedDemo } = usePrototype();
+  const { state, readiness, latestSemen, hormonePanel, seedDemo } = usePrototype();
   const protocol = state.protocol;
+  const contributors = useMemo(() => contributorsFor(state), [state]);
+
+  const night = useMemo(() => latestSleepNight(), []);
+  const health = useMemo(() => latestHealthDay(), []);
+  const diet = useMemo(() => dietDayFor(TODAY), []);
+  const progress = useMemo(() => readinessProgress(state), [state]);
 
   return (
     <Screen title="Today" eyebrow={formatDate(TODAY)}>
@@ -50,6 +63,103 @@ export default function TodayPage() {
           <AdaptationProposal />
         </div>
       ) : null}
+
+      {/*
+        Readiness leads the screen. A safety gate still outranks it above —
+        "serious flags sit above everything, including a good score" is not
+        negotiable — but below that, this card is the first thing read.
+      */}
+      <section className="mb-4" aria-labelledby="today-readiness-hero">
+        <h2 id="today-readiness-hero" className="visually-hidden">
+          Fertility readiness
+        </h2>
+        <ReadinessHero progress={progress} />
+        <div className="mt-3 grid grid-cols-2 gap-3">
+          <Link
+            href="/score"
+            className="flex min-h-(--ps-touch-min) items-center justify-between rounded-sm border border-hairline bg-surface-1 px-3.5 t-body-sm font-medium text-ink-1"
+          >
+            Week and year
+            <Icon name="chevron-right" size={18} className="text-ink-3" />
+          </Link>
+          <Link
+            href="/goals"
+            className="flex min-h-(--ps-touch-min) items-center justify-between rounded-sm border border-hairline bg-surface-1 px-3.5 t-body-sm font-medium text-ink-1"
+          >
+            Goals
+            <Icon name="chevron-right" size={18} className="text-ink-3" />
+          </Link>
+        </div>
+      </section>
+
+      {/* SemenProfile. Measured values, kept separate from the score above. */}
+      {latestSemen ? (
+        <section className="mb-4" aria-labelledby="today-profile">
+          <h2 id="today-profile" className="visually-hidden">
+            Semen profile
+          </h2>
+          <SemenProfileBoard test={latestSemen} hormones={hormonePanel} />
+
+          {contributors.length > 0 ? (
+            <div className="mt-4">
+              <SectionHeader eyebrow="From your own inputs" title="Contributors" level={3} />
+              <ContributorList contributors={contributors} test={latestSemen} compact />
+            </div>
+          ) : null}
+        </section>
+      ) : null}
+
+      {/*
+        Connected data. These are the inputs that move the score above, so they
+        sit directly beneath it; each tile is a door to its own screen rather
+        than an interpretation in itself.
+      */}
+      <section aria-labelledby="today-metrics">
+        <h2 id="today-metrics" className="visually-hidden">
+          Today&rsquo;s data
+        </h2>
+        <div className="grid grid-cols-2 gap-3">
+          <MetricTile
+            glyph="moon"
+            label="Sleep"
+            value={night ? formatDuration(night.asleepMinutes) : "—"}
+            detail={night ? `${sleepNeedPercent(night)}% of need` : "No night recorded"}
+            href="/sleep"
+            tone="accent"
+          />
+          <MetricTile
+            glyph="food"
+            label="Diet pattern"
+            value={diet.score == null ? "—" : String(diet.score)}
+            unit={diet.score == null ? undefined : "/100"}
+            detail={
+              diet.entries.length === 0
+                ? "Nothing logged"
+                : `${diet.entries.length} meal${diet.entries.length === 1 ? "" : "s"}`
+            }
+            href="/food"
+          />
+          <MetricTile
+            glyph="steps"
+            label="Steps"
+            value={health ? health.steps.toLocaleString("en-GB") : "—"}
+            detail={health ? `${health.activeMinutes} active minutes` : "No data"}
+          />
+          <MetricTile
+            glyph="heart"
+            label="Resting heart rate"
+            value={health ? String(health.restingHeartRate) : "—"}
+            unit="bpm"
+            detail={health ? `HRV ${health.heartRateVariability} ms` : "No data"}
+          />
+        </div>
+        <p className="mt-2 t-caption text-ink-3">
+          Wearable figures are simulated. Heart-rate variability is a recovery proxy, never a
+          hormone measurement.
+        </p>
+      </section>
+
+      <div className="mt-6" />
 
       {!protocol ? (
         <EmptyState
@@ -127,8 +237,19 @@ export default function TodayPage() {
         </>
       )}
 
+      {/*
+        The questionnaire score, kept and relabelled. It answers a different
+        question from the card at the top — a point-in-time assessment from
+        what you reported, rather than a rolling view of what you logged — and
+        two surfaces both called "readiness" would be unreadable.
+      */}
       <section className="mt-6" aria-labelledby="today-readiness">
-        <SectionHeader id="today-readiness" eyebrow="Behaviour" title="Readiness" level={3} />
+        <SectionHeader
+          id="today-readiness"
+          eyebrow="From your onboarding answers"
+          title="Questionnaire readiness"
+          level={3}
+        />
         <ReadinessSummary readiness={readiness} />
       </section>
 
