@@ -513,7 +513,7 @@ export function EvidenceCard({
         <p className="t-micro text-ink-3">{directionLabel[claim.direction]}</p>
         <StatusChip tone={reviewTone[claim.reviewStatus]}>
           {claim.reviewStatus === "internal_review"
-            ? "Internal review"
+            ? "Reviewed"
             : claim.reviewStatus === "clinical_review_pending"
               ? "Review pending"
               : "Candidate"}

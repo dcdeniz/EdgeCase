@@ -19,9 +19,15 @@
 
 import Link from "next/link";
 import { Icon, type IconName } from "@/components/icons";
-import { cx } from "@/components/ui";
+import { Card, SimulatedBadge, cx } from "@/components/ui";
 import { formatDateShort } from "@/lib/format";
-import { BEHAVIOUR_SCORE_CAVEAT, type GridCell } from "@/lib/behaviour-score";
+import {
+  BEHAVIOUR_SCORE_CAVEAT,
+  behaviourBandLabel,
+  formatDelta,
+  type GridCell,
+  type ReadinessProgress,
+} from "@/lib/behaviour-score";
 
 /* ==========================================================================
    Score ring
@@ -126,6 +132,131 @@ export function ScoreRing({
         </p>
       ) : null}
     </div>
+  );
+}
+
+/* ==========================================================================
+   Delta
+   --------------------------------------------------------------------------
+   Colour follows the existing roles rather than inventing a reward green: a
+   gain takes `accent` (measured and supported), a loss takes `attention`
+   (look here). That keeps "warmth means look here, never well done" intact
+   while still reading as progress. The arrow carries the direction too, so
+   the meaning survives greyscale and colour-vision deficiency.
+   ========================================================================== */
+
+export function DeltaBadge({
+  delta,
+  suffix,
+  size = "md",
+}: {
+  delta: number | null;
+  suffix?: string;
+  size?: "sm" | "md" | "lg";
+}) {
+  if (delta == null) {
+    return <span className="t-caption text-ink-3">No baseline</span>;
+  }
+
+  const direction = delta > 0 ? "up" : delta < 0 ? "down" : "flat";
+  const glyph: IconName =
+    direction === "up" ? "arrow-up" : direction === "down" ? "arrow-down" : "arrow-flat";
+
+  return (
+    <span
+      className={cx(
+        "inline-flex items-center gap-1 rounded-xs px-1.5 py-0.5 font-medium",
+        size === "lg" ? "t-title-3" : size === "md" ? "t-body-sm" : "t-caption",
+        direction === "up" && "bg-accent-quiet text-accent",
+        direction === "down" && "bg-attention-quiet text-attention",
+        direction === "flat" && "bg-surface-3 text-ink-2",
+      )}
+    >
+      <Icon name={glyph} size={size === "lg" ? 16 : 13} />
+      {formatDelta(delta)}
+      {suffix ? <span className="font-normal text-ink-3">{suffix}</span> : null}
+    </span>
+  );
+}
+
+/* ==========================================================================
+   Readiness hero
+   ========================================================================== */
+
+export function ReadinessHero({ progress }: { progress: ReadinessProgress }) {
+  const { current, baseline, delta, weekDelta, domains } = progress;
+
+  return (
+    <Card>
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <p className="t-micro text-ink-3">Fertility readiness</p>
+          <p className="mt-1 t-title-2 text-ink-1">{behaviourBandLabel(current.score)}</p>
+        </div>
+        <SimulatedBadge compact />
+      </div>
+
+      <div className="mt-4 flex justify-center">
+        <ScoreRing
+          value={current.score}
+          size={176}
+          label="Fertility readiness, trailing seven days"
+          caveat={false}
+        />
+      </div>
+
+      {/* The headline the whole card exists for. */}
+      <div className="mt-4 flex flex-col items-center gap-1.5">
+        <DeltaBadge delta={delta} size="lg" suffix="since you started" />
+        {weekDelta != null ? (
+          <p className="t-caption text-ink-3">
+            {formatDelta(weekDelta)} in the last seven days
+          </p>
+        ) : null}
+      </div>
+
+      {/* Baseline to today, as a track rather than a second ring. */}
+      {baseline.score != null && current.score != null ? (
+        <div className="mt-4">
+          <div className="relative h-2 rounded-full bg-surface-3">
+            <span
+              className="absolute inset-y-0 left-0 rounded-full bg-accent"
+              style={{ width: `${current.score}%` }}
+            />
+            <span
+              aria-hidden="true"
+              className="absolute -top-1 h-4 w-0.5 rounded-full bg-ink-2"
+              style={{ left: `${baseline.score}%` }}
+            />
+          </div>
+          <div className="mt-1.5 flex justify-between t-caption text-ink-3">
+            <span>Started at {baseline.score}</span>
+            <span className="text-ink-1">Now {current.score}</span>
+          </div>
+        </div>
+      ) : null}
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="t-micro text-ink-3">What moved it</p>
+        <ul className="mt-2 space-y-2">
+          {domains.map((domain) => (
+            <li key={domain.id} className="flex items-center justify-between gap-3">
+              <span className="min-w-0 flex-1 truncate t-body-sm text-ink-2">{domain.label}</span>
+              <span className="shrink-0 t-mono text-ink-3">{domain.current ?? "—"}</span>
+              <span className="w-16 shrink-0 text-right">
+                {domain.isNew ? (
+                  <span className="t-caption text-ink-3">New</span>
+                ) : (
+                  <DeltaBadge delta={domain.delta} size="sm" />
+                )}
+              </span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <p className="mt-3 t-caption text-ink-3">{BEHAVIOUR_SCORE_CAVEAT}</p>
+    </Card>
   );
 }
 

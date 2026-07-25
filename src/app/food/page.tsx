@@ -25,10 +25,10 @@ import {
   recogniseFrame,
   recognitionLimits,
   scoreDietDay,
-  type FoodEntry,
   type FoodItem,
   type MealSlot,
 } from "@/lib/nutrition";
+import { usePrototype } from "@/lib/store";
 
 type Stage = "idle" | "reviewing";
 
@@ -46,17 +46,19 @@ type Stage = "idle" | "reviewing";
  * what the evidence base actually supports.
  */
 export default function FoodPage() {
+  const { state, addFoodEntry, removeFoodEntry } = usePrototype();
   const [stage, setStage] = useState<Stage>("idle");
   const [slot, setSlot] = useState<MealSlot>("lunch");
   const [frame, setFrame] = useState(0);
   const [items, setItems] = useState<FoodItem[]>([]);
-  const [committed, setCommitted] = useState<FoodEntry[]>([]);
 
   const plate = useMemo(() => recogniseFrame(frame), [frame]);
   const today = useMemo(() => dietDayFor(TODAY), []);
   const recent = useMemo(() => dietHistory(14), []);
 
-  const allEntries = [...today.entries, ...committed];
+  // Synthetic entries are earlier meals that day; a confirmed capture appends.
+  const confirmed = state.foodEntries.filter((entry) => entry.date === TODAY);
+  const allEntries = [...today.entries, ...confirmed];
   const dayScore = scoreDietDay(allEntries);
 
   const loggedDays = recent.filter((day) => day.score != null);
@@ -79,18 +81,17 @@ export default function FoodPage() {
   }
 
   function commit() {
-    const entry: FoodEntry = {
+    addFoodEntry({
       id: `entry-${Date.now()}`,
       date: TODAY,
       slot,
       items,
       capture: "camera",
       confirmed: true,
-    };
-    setCommitted((previous) => [...previous, entry]);
+    });
     setStage("idle");
     setItems([]);
-    announce("Meal saved to today's log.");
+    announce("Meal saved to today's log. Fertility readiness updated.");
   }
 
   return (
@@ -261,9 +262,20 @@ export default function FoodPage() {
               <Card key={entry.id}>
                 <div className="flex items-baseline justify-between gap-3">
                   <h3 className="t-title-3 text-ink-1">{mealSlotLabel[entry.slot]}</h3>
-                  <MetaBadge glyph={entry.capture === "camera" ? "camera" : "hand"}>
-                    {entry.capture === "camera" ? "Photo, confirmed" : "Entered by hand"}
-                  </MetaBadge>
+                  <span className="flex shrink-0 items-center gap-2">
+                    <MetaBadge glyph={entry.capture === "camera" ? "camera" : "hand"}>
+                      {entry.capture === "camera" ? "Photo, confirmed" : "Entered by hand"}
+                    </MetaBadge>
+                    {confirmed.some((row) => row.id === entry.id) ? (
+                      <button
+                        type="button"
+                        onClick={() => removeFoodEntry(entry.id)}
+                        className="t-caption text-accent"
+                      >
+                        Remove
+                      </button>
+                    ) : null}
+                  </span>
                 </div>
                 <ul className="mt-2 space-y-1">
                   {entry.items.map((item) => (

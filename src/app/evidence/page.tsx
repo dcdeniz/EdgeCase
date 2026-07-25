@@ -81,7 +81,7 @@ export default function EvidencePage() {
         <Disclosure label="What the three statuses mean" glyph="info" defaultOpen>
           <dl className="space-y-3">
             <div>
-              <dt className="t-body-sm font-medium text-ink-1">Internal review complete</dt>
+              <dt className="t-body-sm font-medium text-ink-1">Reviewed</dt>
               <dd className="mt-0.5 t-body-sm text-ink-2">
                 The source has been retrieved and read, the endpoint and study design recorded, and the
                 limitations written down. Clinical review is still outstanding. These may back a

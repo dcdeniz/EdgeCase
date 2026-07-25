@@ -118,16 +118,17 @@ export function sleepNightFor(iso: string): SleepNight | null {
   const isWeekend = weekday === 0 || weekday === 6;
 
   /*
-   * A slow upward drift across the year, so the record shows a man whose
-   * behaviour improved. This describes sleep only. It is not, and must never be
+   * Upward drift across the year, so the record shows a man whose behaviour
+   * genuinely improved: roughly 5h30m and erratic a year ago, roughly 7h30m and
+   * steady now. This describes sleep only. It is not, and must never be
    * rendered as, evidence that a clinical measurement moved.
    */
   const daysAgo = daysBetween(iso, TODAY);
-  const drift = ((365 - Math.min(daysAgo, 365)) / 365) * 42;
+  const drift = (365 - Math.min(daysAgo, 365)) / 365;
 
-  const base = 402 + drift + (isWeekend ? 34 : 0);
+  const base = 312 + drift * 136 + (isWeekend ? 30 : 0);
   const asleepMinutes = Math.round(
-    Math.max(268, Math.min(552, base + (random() - 0.5) * 96)),
+    Math.max(255, Math.min(552, base + (random() - 0.5) * 88)),
   );
 
   /*
@@ -163,7 +164,8 @@ export function sleepNightFor(iso: string): SleepNight | null {
     wakeTime,
     stages: { deep, rem, light, awake },
     segments: buildSegments(asleepMinutes, { deep, rem, light, awake }, random),
-    bedtimeVarianceMinutes: Math.round(22 + random() * 46),
+    // Schedule steadies over the year alongside duration: ±100 min early, ±30 now.
+    bedtimeVarianceMinutes: Math.round(104 - drift * 74 + random() * 24),
     source: "simulated",
   };
 }
@@ -281,10 +283,14 @@ export function healthDayFor(iso: string): HealthDay | null {
 
   return {
     date: iso,
-    restingHeartRate: Math.round(62 - drift * 5 + (random() - 0.5) * 7),
-    heartRateVariability: Math.round(46 + drift * 12 + (random() - 0.5) * 18),
-    steps: Math.round((isWeekend ? 6400 : 8600) + drift * 1400 + (random() - 0.5) * 5200),
-    activeMinutes: Math.round(Math.max(0, (isWeekend ? 26 : 38) + drift * 10 + (random() - 0.5) * 44)),
+    restingHeartRate: Math.round(66 - drift * 9 + (random() - 0.5) * 6),
+    heartRateVariability: Math.round(40 + drift * 22 + (random() - 0.5) * 14),
+    steps: Math.round(
+      (isWeekend ? 2900 : 3700) + drift * 5300 + (random() - 0.5) * 3000,
+    ),
+    activeMinutes: Math.round(
+      Math.max(0, (isWeekend ? 6 : 9) + drift * 31 + (random() - 0.5) * 22),
+    ),
     source: "simulated",
   };
 }

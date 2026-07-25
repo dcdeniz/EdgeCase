@@ -338,8 +338,19 @@ export function dietDayFor(iso: string): DietDay {
   const slots: MealSlot[] = ["breakfast", "lunch", "dinner"];
   const entries: FoodEntry[] = [];
 
+  /*
+   * The pattern improves across the year alongside the wearable record. Early
+   * days draw mostly from the processed end of the table, recent days mostly
+   * from the Mediterranean end, with enough overlap that no week is uniform —
+   * a monotonically improving diet would look synthetic, because it is.
+   */
+  const drift = (365 - Math.min(daysAgo, 365)) / 365;
+  const favourable = [0, 1, 2, 6];
+  const poor = [3, 4, 5];
+
   for (let index = 0; index < mealCount; index += 1) {
-    const plate = plateTable[Math.floor(random() * plateTable.length)];
+    const pool = random() < 0.12 + drift * 0.74 ? favourable : poor;
+    const plate = plateTable[pool[Math.floor(random() * pool.length)]];
     entries.push({
       id: `${iso}-${slots[index]}`,
       date: iso,

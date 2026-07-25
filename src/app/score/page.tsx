@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { Icon } from "@/components/icons";
-import { ContributionGrid, ScoreRing, WeeklySparkline } from "@/components/score";
+import { ContributionGrid, DeltaBadge, ScoreRing, WeeklySparkline } from "@/components/score";
 import { DisclaimerFooter, Screen } from "@/components/shell";
 import {
   Card,
@@ -21,6 +21,7 @@ import {
   behaviourDomains,
   behaviourGrid,
   behaviourWindow,
+  readinessProgress,
   weeklySeries,
   type BehaviourDomainId,
 } from "@/lib/behaviour-score";
@@ -49,12 +50,13 @@ export default function ScorePage() {
   const year = useMemo(() => behaviourWindow(state, 365), [state]);
   const grid = useMemo(() => behaviourGrid(state), [state]);
   const series = useMemo(() => weeklySeries(state), [state]);
+  const progress = useMemo(() => readinessProgress(state), [state]);
 
   const active = range === "week" ? week : year;
   const selectedDay = selected ? behaviourDay(state, selected) : null;
 
   return (
-    <Screen title="Behaviour" eyebrow="Weekly and yearly">
+    <Screen title="Fertility readiness" eyebrow="Weekly and yearly">
       <Segmented<Range>
         label="Score range"
         value={range}
@@ -84,10 +86,17 @@ export default function ScorePage() {
         <div className="mt-5 flex justify-center">
           <ScoreRing
             value={active.score}
-            label={`Behaviour score, ${range === "week" ? "trailing seven days" : "trailing year"}`}
+            label={`Fertility readiness, ${range === "week" ? "trailing seven days" : "trailing year"}`}
             sublabel={behaviourBandLabel(active.score)}
             size={188}
           />
+        </div>
+
+        <div className="mt-4 flex flex-col items-center gap-1.5">
+          <DeltaBadge delta={progress.delta} size="lg" suffix="since you started" />
+          <p className="t-caption text-ink-3">
+            Baseline {progress.baseline.score ?? "—"} over the first fortnight logged
+          </p>
         </div>
 
         {/*
@@ -187,13 +196,21 @@ export default function ScorePage() {
           {(Object.keys(behaviourDomains) as BehaviourDomainId[]).map((id) => {
             const domain = behaviourDomains[id];
             const score = active.domains[id];
+            const domainProgress = progress.domains.find((row) => row.id === id);
             return (
               <Card key={id}>
                 <div className="flex items-baseline justify-between gap-3">
                   <h3 className="t-title-3 text-ink-1">{domain.label}</h3>
-                  <span className="shrink-0 t-title-2 text-ink-1 ps-num">
-                    {score ?? "—"}
-                    <span className="t-caption font-normal text-ink-3">/100</span>
+                  <span className="flex shrink-0 items-center gap-2">
+                    {domainProgress?.isNew ? (
+                      <span className="t-caption text-ink-3">New</span>
+                    ) : (
+                      <DeltaBadge delta={domainProgress?.delta ?? null} size="sm" />
+                    )}
+                    <span className="t-title-2 text-ink-1 ps-num">
+                      {score ?? "—"}
+                      <span className="t-caption font-normal text-ink-3">/100</span>
+                    </span>
                   </span>
                 </div>
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-3">

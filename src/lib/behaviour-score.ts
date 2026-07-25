@@ -27,7 +27,7 @@
  */
 
 import { TODAY, addDays, daysBetween } from "@/lib/format";
-import { dietDayFor } from "@/lib/nutrition";
+import { dietDayFor, scoreDietDay } from "@/lib/nutrition";
 import { healthDayFor, sleepNightFor } from "@/lib/wearable";
 import { adherenceKey, type PrototypeState } from "@/lib/store";
 
@@ -126,7 +126,15 @@ function scoreSleepDay(iso: string): number | null {
   return Math.round(duration * 0.7 + regularity * 0.3);
 }
 
-function scoreDietDayFor(iso: string): number | null {
+/**
+ * Confirmed meals override the synthetic log for their date. A meal the user
+ * logs today therefore moves the diet domain, and through it fertility
+ * readiness — in either direction, which is the point. Logging a burger should
+ * be visible in the number, or the number is decorative.
+ */
+function scoreDietDayFor(state: PrototypeState, iso: string): number | null {
+  const entered = state.foodEntries.filter((entry) => entry.date === iso);
+  if (entered.length > 0) return scoreDietDay(entered).score;
   return dietDayFor(iso).score;
 }
 
@@ -180,7 +188,7 @@ function scoreAdherenceDay(state: PrototypeState, iso: string): number | null {
 export function behaviourDay(state: PrototypeState, iso: string): BehaviourDay {
   const domainScores: Record<BehaviourDomainId, number | null> = {
     sleep: scoreSleepDay(iso),
-    diet: scoreDietDayFor(iso),
+    diet: scoreDietDayFor(state, iso),
     activity: scoreActivityDay(iso),
     adherence: scoreAdherenceDay(state, iso),
   };
@@ -257,11 +265,88 @@ export function behaviourWindow(
 
 export const behaviourBandLabel = (score: number | null): string => {
   if (score == null) return "Not enough logged";
-  if (score >= 80) return "Consistent";
-  if (score >= 65) return "Mostly consistent";
-  if (score >= 45) return "Mixed";
-  return "Sparse";
+  if (score >= 80) return "Excellent";
+  if (score >= 65) return "Strong";
+  if (score >= 45) return "Building";
+  return "Getting started";
 };
+
+/* ==========================================================================
+   Baseline and progress
+   --------------------------------------------------------------------------
+   The score opens at a baseline drawn from the earliest logged fortnight, so
+   "+32 since you started" is a real comparison between two measured windows
+   rather than a number counting up from a decorative zero.
+   ========================================================================== */
+
+export const BASELINE_WINDOW_DAYS = 14;
+/** Days back to the close of the baseline window — the start of the record. */
+const BASELINE_OFFSET_DAYS = 351;
+
+export type DomainProgress = {
+  id: BehaviourDomainId;
+  label: string;
+  weight: number;
+  baseline: number | null;
+  current: number | null;
+  /** Null when either end is missing. `isNew` distinguishes the two cases. */
+  delta: number | null;
+  /** True when the domain had no baseline because it did not exist yet. */
+  isNew: boolean;
+};
+
+export type ReadinessProgress = {
+  baseline: BehaviourWindow;
+  current: BehaviourWindow;
+  /** Points gained or lost since the baseline window. */
+  delta: number | null;
+  /** Change over the last seven days against the seven before that. */
+  weekDelta: number | null;
+  domains: DomainProgress[];
+};
+
+export function readinessProgress(state: PrototypeState, endingOn = TODAY): ReadinessProgress {
+  const current = behaviourWindow(state, 7, endingOn);
+  const baseline = behaviourWindow(
+    state,
+    BASELINE_WINDOW_DAYS,
+    addDays(endingOn, -BASELINE_OFFSET_DAYS),
+  );
+  const previousWeek = behaviourWindow(state, 7, addDays(endingOn, -7));
+
+  const domains = (Object.keys(behaviourDomains) as BehaviourDomainId[]).map((id) => {
+    const before = baseline.domains[id];
+    const now = current.domains[id];
+    return {
+      id,
+      label: behaviourDomains[id].label,
+      weight: behaviourDomains[id].weight,
+      baseline: before,
+      current: now,
+      delta: before == null || now == null ? null : now - before,
+      isNew: before == null && now != null,
+    };
+  });
+
+  return {
+    baseline,
+    current,
+    delta:
+      current.score == null || baseline.score == null ? null : current.score - baseline.score,
+    weekDelta:
+      current.score == null || previousWeek.score == null
+        ? null
+        : current.score - previousWeek.score,
+    domains,
+  };
+}
+
+/** "+7" / "−3" / "0", with a true minus sign rather than a hyphen. */
+export function formatDelta(delta: number | null): string {
+  if (delta == null) return "—";
+  if (delta === 0) return "0";
+  return delta > 0 ? `+${delta}` : `−${Math.abs(delta)}`;
+}
 
 /* ==========================================================================
    Contribution grid

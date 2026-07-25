@@ -157,9 +157,13 @@ Today rather than from a sixth navigation slot, which stays at five.
 
 | Route | Screen | Notes |
 | --- | --- | --- |
-| `/score` | Behaviour | Weekly and yearly score, year grid, four domains |
+| `/score` | Fertility readiness | Weekly and yearly score, baseline delta, year grid, four domains |
 | `/sleep` | Sleep | Hypnogram, stages, seven-night duration. Simulated |
 | `/food` | Food | Camera capture with a confirmation loop, pattern score |
+| `/goals` | Goals | Behavioural targets against logged data. No clinical targets |
+
+Today additionally carries the SemenProfile board and parameter contributors
+([mapping](parameter-contributors.md)).
 
 ### Tracks
 

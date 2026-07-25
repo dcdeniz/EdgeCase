@@ -19,6 +19,7 @@ export type MarkerCode =
   | "total_motility_pct"
   | "normal_morphology_pct"
   | "dna_fragmentation_pct"
+  | "leukocytes_million_ml"
   | "fsh_iu_l"
   | "lh_iu_l"
   | "total_testosterone_nmol_l"
@@ -186,6 +187,22 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     specialistOnly: true,
     meaning: "The share of sperm carrying fragmented DNA. Requires a specialist assay and is reported against that laboratory's own threshold.",
   },
+  leukocytes_million_ml: {
+    code: "leukocytes_million_ml",
+    label: "Peroxidase-positive leukocytes",
+    shortLabel: "WBC",
+    unit: "×10⁶/mL",
+    unitSpoken: "million per millilitre",
+    panel: "semen_analysis",
+    referenceSet: "who-6e",
+    // An upper limit: at or above 1.0 the sample is termed leukocytospermia.
+    shape: "upper_limit",
+    referenceLow: null,
+    referenceHigh: 1,
+    decimals: 1,
+    meaning:
+      "White blood cells in the sample. A raised count may indicate inflammation or infection somewhere in the reproductive tract, which is a question for a clinician rather than for a lifestyle protocol.",
+  },
   fsh_iu_l: {
     code: "fsh_iu_l",
     label: "Follicle-stimulating hormone",
@@ -308,6 +325,7 @@ export const semenMarkerOrder: MarkerCode[] = [
   "total_motility_pct",
   "normal_morphology_pct",
   "dna_fragmentation_pct",
+  "leukocytes_million_ml",
 ];
 
 export const hormoneMarkerOrder: MarkerCode[] = [
