@@ -10,11 +10,12 @@
 
 import Link from "next/link";
 import { Icon } from "@/components/icons";
-import { Card, MetaBadge, SimulatedBadge, StatusChip, cx } from "@/components/ui";
+import { Card, Disclosure, MetaBadge, SimulatedBadge, StatusChip, cx } from "@/components/ui";
 import {
   hormoneMarkerOrder,
   markerCatalogue,
   plainLabel,
+  plainMeaning,
   semenMarkerOrder,
   type ClinicalTest,
   type MarkerCode,
@@ -72,11 +73,8 @@ function MarkerRow({ marker }: { marker: MarkerValue }) {
       className="block border-t border-hairline py-3 first:border-t-0 first:pt-0 hover:bg-surface-3"
     >
       <span className="flex items-start justify-between gap-3">
-        <span className="min-w-0">
-          {/* Plain first, clinical term beneath — readable by him, usable by his doctor. */}
-          <span className="block t-title-3 text-ink-1">{plainLabel[marker.code]}</span>
-          <span className="mt-0.5 block t-mono text-ink-3">{definition.label}</span>
-        </span>
+        {/* Plain language only. The clinical terms live in the dropdown below. */}
+        <span className="min-w-0 t-title-3 text-ink-1">{plainLabel[marker.code]}</span>
         {flagged ? (
           <StatusChip tone="attention" glyph="attention">
             {/* Direction matters: DFI and WBC breach an upper limit, not a lower one. */}
@@ -148,6 +146,30 @@ export function SemenProfileBoard({
         ) : (
           <p className="t-caption text-ink-3">Not on file.</p>
         )}
+      </div>
+
+      {/*
+        The clinical vocabulary, on request. Kept off the rows so a first-time
+        reader is not made to decode "progressive motility" to read his own
+        result, and kept in the product so the screen is still usable in front
+        of a urologist.
+      */}
+      <div className="mt-4 border-t border-hairline pt-1">
+        <Disclosure label="Clinical terms" glyph="lab">
+          <dl className="space-y-2.5">
+            {[...semenMarkerOrder, ...(hormones ? hormoneMarkerOrder.slice(0, 3) : [])].map(
+              (code) => (
+                <div key={code}>
+                  <dt className="t-body-sm text-ink-1">{markerCatalogue[code].label}</dt>
+                  <dd className="t-caption text-ink-2">
+                    <span className="text-ink-3">{plainLabel[code]} · </span>
+                    {plainMeaning[code]}
+                  </dd>
+                </div>
+              ),
+            )}
+          </dl>
+        </Disclosure>
       </div>
     </Card>
   );

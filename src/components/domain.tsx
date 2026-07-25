@@ -21,6 +21,7 @@ import {
   type ClinicalTest,
   type MarkerValue,
   markerCatalogue,
+  plainLabel,
   referenceContextLabel,
   referenceContextOf,
   referenceContextTone,
@@ -107,8 +108,9 @@ export function MarkerCard({
     <>
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="t-micro text-ink-3">{definition.label}</p>
-          <p className="mt-1 flex items-baseline gap-1.5">
+          {/* Plain name only. The clinical term lives behind the terms dropdown. */}
+          <p className="t-title-3 text-ink-1">{plainLabel[marker.code]}</p>
+          <p className="mt-1.5 flex items-baseline gap-1.5">
             <span className="t-display-2 text-ink-1">{formatMarker(marker)}</span>
             <span className="t-body-sm text-ink-2">{definition.unit}</span>
           </p>
