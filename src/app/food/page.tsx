@@ -119,6 +119,7 @@ export default function FoodPage() {
       {stage === "idle" ? (
         <Card className="mt-4">
           <SectionHeader eyebrow="Add a meal" title="Photograph the plate" level={2} />
+          {/* Limits stay — they are the condition for borrowing the capture pattern. */}
 
           <div className="flex aspect-[4/3] items-center justify-center rounded-sm border border-dashed border-line-control bg-surface-3">
             <div className="text-center">
@@ -293,20 +294,10 @@ export default function FoodPage() {
         )}
       </section>
 
-      <Card className="mt-6" tone="information">
-        <div className="flex gap-3">
-          <Icon name="info" size={20} className="mt-0.5 shrink-0 text-information" />
-          <div>
-            <h2 className="t-title-3 text-ink-1">Pattern, not calories</h2>
-            <p className="mt-1.5 t-body-sm text-ink-2">
-              This log scores how closely your days resemble the dietary pattern the evidence
-              supports — produce, oily fish, wholegrains, legumes and olive oil, against processed
-              meat and ultra-processed food. It does not count calories, and no single meal is
-              judged on its own.
-            </p>
-          </div>
-        </div>
-      </Card>
+      <p className="mt-6 flex gap-2 t-caption text-ink-3">
+        <Icon name="info" size={14} className="mt-0.5 shrink-0" />
+        Scored on dietary pattern, not calories. No single meal is judged alone.
+      </p>
 
       <DisclaimerFooter />
     </Screen>

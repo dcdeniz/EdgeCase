@@ -246,24 +246,16 @@ export default function ScorePage() {
 
       {/* The boundary statement. This is the reason a composite is allowed here at all. */}
       <Card className="mt-6" tone="information">
-        <div className="flex gap-3">
-          <Icon name="info" size={20} className="mt-0.5 shrink-0 text-information" />
-          <div>
-            <h2 className="t-title-3 text-ink-1">What this number is not</h2>
-            <p className="mt-1.5 t-body-sm text-ink-2">
-              {BEHAVIOUR_SCORE_CAVEAT} It blends four things you can change. It deliberately
-              excludes your clinical results, screening outputs and data confidence, because those
-              have a different standing and merging them would make all four less honest.
-            </p>
-            <Link
-              href="/results"
-              className="mt-2.5 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
-            >
-              See the clinical outputs separately
-              <Icon name="chevron-right" size={15} />
-            </Link>
-          </div>
-        </div>
+        <p className="t-body-sm text-ink-2">
+          {BEHAVIOUR_SCORE_CAVEAT} Excludes clinical results, screening and confidence.
+        </p>
+        <Link
+          href="/results"
+          className="mt-2 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+        >
+          Clinical outputs
+          <Icon name="chevron-right" size={15} />
+        </Link>
       </Card>
 
       <p className="mt-4 t-mono text-ink-3">

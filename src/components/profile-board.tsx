@@ -38,28 +38,57 @@ export function outOfReference(marker: MarkerValue): boolean {
   return (low != null && marker.value < low) || (high != null && marker.value > high);
 }
 
-function MarkerCell({ marker }: { marker: MarkerValue }) {
+/** The reference limit, phrased the way the approved vocabulary phrases it. */
+function referenceText(marker: MarkerValue): string {
+  const definition = markerCatalogue[marker.code];
+  const low = marker.referenceLow ?? definition.referenceLow;
+  const high = marker.referenceHigh ?? definition.referenceHigh;
+  if (definition.shape === "lower_limit" && low != null) {
+    return `${formatNumber(low, definition.decimals)} or above`;
+  }
+  if (definition.shape === "upper_limit" && high != null) {
+    return `Below ${formatNumber(high, definition.decimals)}`;
+  }
+  if (low != null && high != null) {
+    return `${formatNumber(low, definition.decimals)}–${formatNumber(high, definition.decimals)}`;
+  }
+  return "Not set";
+}
+
+/**
+ * One parameter, one row. The name sits alone on its own line in bold — the
+ * single most legible thing in the hundred. reference (docs/design/hundred-reference.md)
+ * and the reason this replaced a three-column grid of abbreviations.
+ */
+function MarkerRow({ marker }: { marker: MarkerValue }) {
   const definition = markerCatalogue[marker.code];
   const flagged = outOfReference(marker);
 
   return (
     <Link
       href={`/results/profile/${marker.code}`}
-      className={cx(
-        "block rounded-sm border p-2.5",
-        flagged ? "border-attention/40 bg-attention-quiet" : "border-hairline bg-surface-1",
-        "transition-colors duration-(--ps-duration-fast) hover:bg-surface-3",
-      )}
+      className="block border-t border-hairline py-3 first:border-t-0 first:pt-0 hover:bg-surface-3"
     >
-      <span className="flex items-center gap-1.5">
-        <span className="t-micro text-ink-3">{definition.shortLabel}</span>
+      <span className="flex items-baseline justify-between gap-3">
+        <span className="t-title-3 text-ink-1">{definition.label}</span>
         {flagged ? (
-          <Icon name="attention" size={12} className="shrink-0 text-attention" />
-        ) : null}
+          <StatusChip tone="attention" glyph="attention">
+            {/* Direction matters: DFI and WBC breach an upper limit, not a lower one. */}
+            {definition.shape === "upper_limit" ? "Above reference" : "Below reference"}
+          </StatusChip>
+        ) : (
+          <Icon name="chevron-right" size={16} className="shrink-0 text-ink-3" />
+        )}
       </span>
-      <span className="mt-1 block t-title-2 text-ink-1 ps-num">
-        {formatNumber(marker.value, definition.decimals)}
-        <span className="ml-1 t-caption font-normal text-ink-3">{definition.unit}</span>
+
+      <span className="mt-1.5 flex items-baseline gap-3">
+        <span className="t-display-2 text-ink-1 ps-num">
+          {formatNumber(marker.value, definition.decimals)}
+        </span>
+        <span className="t-caption text-ink-3">{definition.unit}</span>
+        <span className="ml-auto shrink-0 t-mono text-ink-3">
+          {referenceText(marker)}
+        </span>
       </span>
     </Link>
   );
@@ -77,21 +106,18 @@ export function SemenProfileBoard({
 
   const flaggedCount = test.markers.filter(outOfReference).length;
 
-  const renderRow = (codes: MarkerCode[], lookup: Map<MarkerCode, MarkerValue>) =>
+  const renderRows = (codes: MarkerCode[], lookup: Map<MarkerCode, MarkerValue>) =>
     codes.map((code) => {
       const marker = lookup.get(code);
       if (!marker) {
         return (
-          <div
-            key={code}
-            className="rounded-sm border border-dashed border-hairline p-2.5 opacity-70"
-          >
-            <span className="t-micro text-ink-3">{markerCatalogue[code].shortLabel}</span>
-            <span className="mt-1 block t-title-3 text-ink-3">—</span>
+          <div key={code} className="border-t border-hairline py-3 first:border-t-0 first:pt-0">
+            <span className="t-title-3 text-ink-3">{markerCatalogue[code].label}</span>
+            <span className="mt-1.5 block t-caption text-ink-3">Not measured</span>
           </div>
         );
       }
-      return <MarkerCell key={code} marker={marker} />;
+      return <MarkerRow key={code} marker={marker} />;
     });
 
   return (
@@ -99,33 +125,24 @@ export function SemenProfileBoard({
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="t-micro text-ink-3">Semen profile</p>
-          <p className="mt-1 t-caption text-ink-2">{relativeDays(test.collectedAt.slice(0, 10))}</p>
+          <p className="mt-1 t-caption text-ink-2">
+            {relativeDays(test.collectedAt.slice(0, 10))}
+            {flaggedCount > 0 ? ` · ${flaggedCount} outside reference` : null}
+          </p>
         </div>
         <SimulatedBadge compact />
       </div>
 
-      {flaggedCount > 0 ? (
-        <p className="mt-2.5">
-          <StatusChip tone="attention" glyph="attention">
-            {flaggedCount} below reference
-          </StatusChip>
-        </p>
-      ) : null}
+      <div className="mt-4">{renderRows(semenMarkerOrder, byCode)}</div>
 
-      <div className="mt-3 grid grid-cols-3 gap-2">{renderRow(semenMarkerOrder, byCode)}</div>
-
-      {hormones ? (
-        <>
-          <p className="mt-4 t-micro text-ink-3">Hormone panel</p>
-          <div className="mt-2 grid grid-cols-3 gap-2">
-            {renderRow(hormoneMarkerOrder.slice(0, 3), hormoneByCode)}
-          </div>
-        </>
-      ) : (
-        <p className="mt-3 t-caption text-ink-3">
-          No hormone panel on file. FSH, LH and testosterone give endocrine context.
-        </p>
-      )}
+      <p className="mt-5 t-micro text-ink-3">Hormone panel</p>
+      <div className="mt-2">
+        {hormones ? (
+          renderRows(hormoneMarkerOrder.slice(0, 3), hormoneByCode)
+        ) : (
+          <p className="t-caption text-ink-3">Not on file.</p>
+        )}
+      </div>
     </Card>
   );
 }

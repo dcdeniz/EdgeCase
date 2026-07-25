@@ -23,12 +23,7 @@ export default function GoalsPage() {
 
   return (
     <Screen title="Goals" eyebrow="Behavioural targets" back="/today">
-      <p className="t-body-sm text-ink-2">
-        Targets sit on what you log, so progress is measured rather than self-reported. Nothing here
-        targets a semen parameter.
-      </p>
-
-      <div className="mt-4 space-y-3">
+      <div className="space-y-3">
         {(Object.keys(goalCatalogue) as GoalId[]).map((id) => {
           const definition = goalCatalogue[id];
           const active = state.goals.find((goal) => goal.id === id);
@@ -107,15 +102,10 @@ export default function GoalsPage() {
         })}
       </div>
 
-      <Card className="mt-6" tone="information">
-        <div className="flex gap-3">
-          <Icon name="info" size={20} className="mt-0.5 shrink-0 text-information" />
-          <p className="t-body-sm text-ink-2">
-            A missed target reads as distance remaining, not as a failure. There is no streak and
-            nothing to lose.
-          </p>
-        </div>
-      </Card>
+      <p className="mt-4 flex gap-2 t-caption text-ink-3">
+        <Icon name="info" size={14} className="mt-0.5 shrink-0" />
+        Behavioural targets only. No streak.
+      </p>
 
       <DisclaimerFooter />
     </Screen>

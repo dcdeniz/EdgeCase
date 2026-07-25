@@ -95,10 +95,6 @@ export default function SleepPage() {
         <SectionHeader id="hypnogram" eyebrow="Through the night" title="Sleep stages" level={2} />
         <Card>
           <Hypnogram night={night} />
-          <p className="mt-3 t-caption text-ink-3">
-            Deep sleep concentrates early in the night and REM late, which is the ordinary shape.
-            Brief wakings are normal and appear here rather than being smoothed away.
-          </p>
         </Card>
       </section>
 
@@ -138,17 +134,9 @@ export default function SleepPage() {
         </Card>
       </section>
 
-      <Card className="mt-6">
-        <SectionHeader eyebrow="How this is used" title="Where sleep goes" level={3} />
-        <p className="t-body-sm text-ink-2">
-          Sleep is the heaviest of the four behaviour domains, at weight 30. It is scored on
-          duration against need and on how steady your bedtime is, because the evidence card covers
-          circadian disruption as well as short sleep.
-        </p>
-        <div className="mt-3 border-t border-hairline pt-3">
-          <SleepEvidenceNote />
-        </div>
-      </Card>
+      <div className="mt-6">
+        <SleepEvidenceNote />
+      </div>
 
       <DisclaimerFooter />
     </Screen>
