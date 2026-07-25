@@ -1,0 +1,18 @@
+openapi: 3.1.0
+info: { title: EdgeCase API, version: 0.1.0 }
+paths:
+  /health:
+    get:
+      operationId: getHealth
+      responses:
+        "200":
+          description: Service is available
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [ok, service, timestamp]
+                properties:
+                  ok: { type: boolean, const: true }
+                  service: { type: string, const: edgecase-api }
+                  timestamp: { type: string, format: date-time }
