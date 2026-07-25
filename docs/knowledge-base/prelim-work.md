@@ -24,7 +24,7 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 
 - Dependency installation and NEAT generation completed successfully.
 - `npm run check` passed (documentation validation, ESLint with two non-blocking warnings in NEAT-generated code, and strict TypeScript). `npm run build` passed and produced static `/` plus dynamic `/api/health` routes.
-- A complete local Supabase database reset requires the Docker-based local stack and was not completed. No existing Supabase or Vercel provider account was linked, queried, or changed.
+- The Docker-based local Supabase stack is running. All migrations were applied non-destructively with `supabase migration up --local`, and `supabase db lint --local --level warning` reports no schema errors.
 - npm reported transitive dependency vulnerabilities after adding the young NEAT toolchain. Do not run a breaking `npm audit fix --force` during the hackathon without reviewing the dependency changes.
 
 ## Hosted Supabase status
@@ -44,6 +44,17 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - Verified the hosted API gateway rejects unauthenticated account access with HTTP 401. No user or simulated clinical data was created during deployment verification.
 - Refreshed and queried the NEAT graph for dependencies, policies, and divergence. Hardened request-size, CORS, identifier, pagination, numerical-range, consent, duration, and composite tenant-integrity boundaries under the ACID/data-flow/cybersecurity audit.
 - Applied and deployed the hardening migration/API revision. Hosted verification found Supabase gateway-generated 401 responses use gateway CORS headers before application middleware; this is documented and no protected payload is returned.
+
+## ACID, data-flow, and cybersecurity continuation
+
+- NEAT initially reported no incidents or policy violations and one high-confidence divergence: the Edge Function's declared Supabase dependency had no observed runtime traffic. Runtime verification showed that the local function was not being served; after starting it, `/functions/v1/api/health` returned 200 and the protected `/functions/v1/api/v1/me` path returned 401 without a bearer token.
+- Fixed a domain-integrity hole that allowed semen and hormone markers to be attached to the wrong clinical-test type and allowed arbitrary units. The Edge Function now validates a closed marker-to-test-type-to-unit mapping, and a PostgreSQL trigger enforces the same invariant for direct Data API clients and concurrent writes.
+- Tightened least privilege by explicitly revoking domain-table access from `anon`, revoking protocol mutation privileges not required by the immutable protocol flow, and revoking direct execution of trigger-only helper functions.
+- Runtime gateway testing found local Supabase/Kong adds `Access-Control-Allow-Origin: *`, so omission of an application CORS header was not an effective enforcement boundary. Protected routes now actively return 403 for browser origins outside `ALLOWED_ORIGINS`; native and server clients without an `Origin` header remain supported.
+- Corrected the Supabase CLI configuration section from unsupported `[local_smtp]` to `[inbucket]`, restoring local status, migration, and lint commands.
+- Updated NEAT from 0.4.6 to 0.6.2 to resolve snapshot-schema incompatibility. The refreshed graph contains the current source snapshot; it still reports the Supabase dependency as missing-observed because Deno Edge Function traffic is not currently exported into NEAT's Node OpenTelemetry collector.
+- Verification after these changes: eight Edge Function tests pass, documentation contracts pass, strict TypeScript passes, PostgreSQL lint reports no errors, and the complete `npm run check` passes with only two pre-existing warnings in NEAT-generated instrumentation.
+- Pushed migration `20260725230000` and deployed the revised `api` function to the linked EdgeCase project. Hosted gateway JWT verification remains enabled as defense in depth, so unauthenticated requests are rejected by Supabase before application middleware; use the separate public `health` function for availability checks.
 
 ## Deployment sequence
 

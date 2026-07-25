@@ -33,6 +33,39 @@ const markerCodes = [
   "shbg_nmol_l",
   "tsh_miu_l",
 ] as const;
+type MarkerCode = (typeof markerCodes)[number];
+type ClinicalTestType = "semen_analysis" | "hormone_panel";
+const markerMetadata: Record<
+  MarkerCode,
+  { testType: ClinicalTestType; unit: string }
+> = {
+  volume_ml: { testType: "semen_analysis", unit: "mL" },
+  concentration_million_ml: {
+    testType: "semen_analysis",
+    unit: "million/mL",
+  },
+  total_count_million: { testType: "semen_analysis", unit: "million" },
+  progressive_motility_pct: { testType: "semen_analysis", unit: "%" },
+  total_motility_pct: { testType: "semen_analysis", unit: "%" },
+  normal_morphology_pct: { testType: "semen_analysis", unit: "%" },
+  dna_fragmentation_pct: { testType: "semen_analysis", unit: "%" },
+  fsh_iu_l: { testType: "hormone_panel", unit: "IU/L" },
+  lh_iu_l: { testType: "hormone_panel", unit: "IU/L" },
+  total_testosterone_nmol_l: { testType: "hormone_panel", unit: "nmol/L" },
+  free_testosterone_nmol_l: { testType: "hormone_panel", unit: "nmol/L" },
+  estradiol_pmol_l: { testType: "hormone_panel", unit: "pmol/L" },
+  prolactin_miu_l: { testType: "hormone_panel", unit: "mIU/L" },
+  shbg_nmol_l: { testType: "hormone_panel", unit: "nmol/L" },
+  tsh_miu_l: { testType: "hormone_panel", unit: "mIU/L" },
+};
+
+export const markerMatchesTest = (
+  code: MarkerCode,
+  unit: string,
+  testType: ClinicalTestType,
+) =>
+  markerMetadata[code].testType === testType &&
+  markerMetadata[code].unit === unit;
 
 const envelope = (
   requestId: string,
@@ -88,6 +121,19 @@ export function createApp() {
         "http://localhost:3000,http://127.0.0.1:3000")
         .split(",").map((value) => value.trim()).filter(Boolean),
     );
+    if (
+      origin && !allowedOrigins.has(origin) &&
+      c.req.path.startsWith("/api/v1/")
+    ) {
+      return c.json(
+        failure(
+          requestId,
+          "ORIGIN_FORBIDDEN",
+          "The request origin is not allowed.",
+        ),
+        403,
+      );
+    }
     if (origin && allowedOrigins.has(origin)) {
       c.header("Access-Control-Allow-Origin", origin);
       c.header("Vary", "Origin");
@@ -350,8 +396,11 @@ export function createApp() {
         422,
       );
     }
-    const { data: test } = await c.get("supabase").from("clinical_tests")
-      .select("id").eq("id", c.req.param("id")).maybeSingle();
+    const { data: test, error: testError } = await c.get("supabase").from(
+      "clinical_tests",
+    )
+      .select("id,test_type").eq("id", c.req.param("id")).maybeSingle();
+    if (testError) throw testError;
     if (!test) {
       return c.json(
         failure(
@@ -379,6 +428,23 @@ export function createApp() {
             requestId,
             "INVALID_MARKER",
             "Each marker requires a supported code, numeric value, unit, and verification.",
+          ),
+          422,
+        );
+      }
+      const unit = asString(raw.unit, 40)!;
+      if (
+        !markerMatchesTest(
+          raw.code,
+          unit,
+          test.test_type as ClinicalTestType,
+        )
+      ) {
+        return c.json(
+          failure(
+            requestId,
+            "MARKER_TEST_MISMATCH",
+            "Each marker must match the clinical test type and canonical unit.",
           ),
           422,
         );
@@ -424,7 +490,7 @@ export function createApp() {
         user_id: c.get("user").id,
         code: raw.code,
         numeric_value: raw.value,
-        unit: raw.unit,
+        unit,
         reference_low: typeof raw.referenceLow === "number"
           ? raw.referenceLow
           : null,

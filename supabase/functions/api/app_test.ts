@@ -1,5 +1,5 @@
 import { assertEquals } from "@std/assert";
-import { createApp } from "./app.ts";
+import { createApp, markerMatchesTest } from "./app.ts";
 
 Deno.test("health uses the standard envelope", async () => {
   const response = await createApp().request("http://localhost/api/health");
@@ -41,6 +41,15 @@ Deno.test("CORS reflects only an allowed origin", async () => {
   assertEquals(denied.headers.get("Access-Control-Allow-Origin"), null);
 });
 
+Deno.test("protected operations reject an untrusted browser origin", async () => {
+  const response = await createApp().request("http://localhost/api/v1/me", {
+    headers: { Origin: "https://attacker.example" },
+  });
+  const body = await response.json();
+  assertEquals(response.status, 403);
+  assertEquals(body.error.code, "ORIGIN_FORBIDDEN");
+});
+
 Deno.test("invalid caller request IDs are replaced", async () => {
   const response = await createApp().request("http://localhost/api/health", {
     headers: { "x-request-id": "log-forgery" },
@@ -61,6 +70,15 @@ Deno.test("oversized protected payloads are rejected before parsing", async () =
     },
   );
   assertEquals(response.status, 413);
+});
+
+Deno.test("marker metadata cannot cross clinical test boundaries", () => {
+  assertEquals(markerMatchesTest("volume_ml", "mL", "semen_analysis"), true);
+  assertEquals(markerMatchesTest("fsh_iu_l", "IU/L", "semen_analysis"), false);
+  assertEquals(
+    markerMatchesTest("volume_ml", "litres", "semen_analysis"),
+    false,
+  );
 });
 
 const corsMethods = "GET, POST, PUT, OPTIONS";

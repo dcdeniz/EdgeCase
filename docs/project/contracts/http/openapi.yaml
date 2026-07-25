@@ -4,6 +4,7 @@ info:
   version: 1.0.0
   description: Non-ML hackathon API. Predictions and assessments are intentionally absent pending the model-owner contracts.
 x-request-body-limit: 131072
+x-origin-policy: Protected routes reject browser requests whose Origin is not in ALLOWED_ORIGINS. Requests without Origin remain valid for native and server clients.
 servers:
   - url: https://{project}.supabase.co/functions/v1/api
     variables: { project: { default: project-ref } }
@@ -40,13 +41,31 @@ components:
       type: object
       additionalProperties: false
       required: [code, value, unit]
+      description: The code determines both the owning clinical test type and the canonical storage unit. Cross-panel markers and alternate units are rejected rather than converted implicitly.
       properties:
-        code: { type: string }
-        value: { type: number }
-        unit: { type: string, minLength: 1, maxLength: 40 }
+        code:
+          enum: [volume_ml, concentration_million_ml, total_count_million, progressive_motility_pct, total_motility_pct, normal_morphology_pct, dna_fragmentation_pct, fsh_iu_l, lh_iu_l, total_testosterone_nmol_l, free_testosterone_nmol_l, estradiol_pmol_l, prolactin_miu_l, shbg_nmol_l, tsh_miu_l]
+        value: { type: number, minimum: 0 }
+        unit: { enum: [mL, million/mL, million, "%", IU/L, nmol/L, pmol/L, mIU/L] }
         referenceLow: { type: [number, "null"] }
         referenceHigh: { type: [number, "null"] }
         verification: { enum: [user_entered, user_confirmed, lab_report] }
+      x-marker-metadata:
+        volume_ml: { testType: semen_analysis, unit: mL }
+        concentration_million_ml: { testType: semen_analysis, unit: million/mL }
+        total_count_million: { testType: semen_analysis, unit: million }
+        progressive_motility_pct: { testType: semen_analysis, unit: "%" }
+        total_motility_pct: { testType: semen_analysis, unit: "%" }
+        normal_morphology_pct: { testType: semen_analysis, unit: "%" }
+        dna_fragmentation_pct: { testType: semen_analysis, unit: "%" }
+        fsh_iu_l: { testType: hormone_panel, unit: IU/L }
+        lh_iu_l: { testType: hormone_panel, unit: IU/L }
+        total_testosterone_nmol_l: { testType: hormone_panel, unit: nmol/L }
+        free_testosterone_nmol_l: { testType: hormone_panel, unit: nmol/L }
+        estradiol_pmol_l: { testType: hormone_panel, unit: pmol/L }
+        prolactin_miu_l: { testType: hormone_panel, unit: mIU/L }
+        shbg_nmol_l: { testType: hormone_panel, unit: nmol/L }
+        tsh_miu_l: { testType: hormone_panel, unit: mIU/L }
 security: [{ bearerAuth: [] }]
 paths:
   /v1/me:
@@ -117,7 +136,7 @@ paths:
       responses:
         "200": { description: Upserted markers }
         "404": { description: Absent or non-owned test }
-        "422": { description: Invalid marker }
+        "422": { description: Invalid marker, cross-panel marker, or non-canonical unit }
   /v1/protocols:
     post:
       operationId: createProtocol
