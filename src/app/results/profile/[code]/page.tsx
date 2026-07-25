@@ -17,7 +17,6 @@ import {
 import {
   changeExceedsVariability,
   markerCatalogue,
-  plainLabel,
   plainMeaning,
   referenceContextLabel,
   referenceContextOf,
@@ -65,7 +64,7 @@ export default function MarkerDetailPage() {
 
   if (!marker || !latestTest) {
     return (
-      <Screen title={plainLabel[code]} back="/results/profile">
+      <Screen title={definition.label} back="/results/profile">
         <Card className="border-dashed">
           <p className="t-title-2 text-ink-3">Not measured</p>
           <p className="mt-2 t-body-sm text-ink-2">{plainMeaning[code]}</p>
@@ -83,9 +82,9 @@ export default function MarkerDetailPage() {
   const meaningful = priorMarker ? changeExceedsVariability(priorMarker.value, marker.value) : false;
 
   return (
-    <Screen title={plainLabel[code]} eyebrow={definition.label} back="/results/profile">
+    <Screen title={definition.shortLabel} eyebrow="Measured marker" back="/results/profile">
       <Card>
-        <p className="t-mono text-ink-3">{definition.label}</p>
+        <p className="t-micro text-ink-3">{definition.label}</p>
         <p className="mt-1.5 flex items-baseline gap-2">
           <span className="t-display-1 text-ink-1">{formatMarker(marker)}</span>
           <span className="t-body text-ink-2">{definition.unit}</span>

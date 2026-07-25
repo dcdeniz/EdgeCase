@@ -49,7 +49,8 @@ export type IconName =
   | "pulse"
   | "food"
   | "grid"
-  | "steps";
+  | "steps"
+  | "help";
 
 const paths: Record<IconName, React.ReactNode> = {
   // Horizon with a rising arc: the start of a day, not a sun cliché.
@@ -307,6 +308,14 @@ const paths: Record<IconName, React.ReactNode> = {
     <>
       <path d="M7.5 20.5c-1.5 0-2.5-1-2.5-2.5s.5-2 .5-3.5-1-2.5-1-4.5a3 3 0 0 1 6 0c0 2-1 3-1 4.5s.5 2 .5 3.5-1 2.5-2.5 2.5Z" />
       <path d="M16.5 14.5c-1.5 0-2.5-1-2.5-2.5s.5-2 .5-3.5-1-2.5-1-4.5a3 3 0 0 1 6 0c0 2-1 3-1 4.5s.5 2 .5 3.5-1 2.5-2.5 2.5Z" />
+    </>
+  ),
+  // Question mark in a circle. Opens the explanation for a marker.
+  help: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M9.6 9.4a2.5 2.5 0 0 1 4.85.85c0 1.7-2.45 2.25-2.45 3.75" />
+      <path d="M12 17.2h.01" />
     </>
   ),
 };
