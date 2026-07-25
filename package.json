@@ -19,7 +19,8 @@
     "supabase:functions": "supabase functions serve --env-file supabase/functions/.env.local",
     "neat:init": "neat init .",
     "neat:apply": "neat init . --apply",
-    "rag:ingest": "node scripts/rag-ingest.mjs"
+    "rag:ingest": "node scripts/rag-ingest.mjs",
+    "native:build": "node scripts/native-build.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",
