@@ -151,70 +151,102 @@ export function SemenProfileBoard({
    Contributors
    ========================================================================== */
 
+/**
+ * An affected parameter, as a dark pill with a status dot — the pattern from
+ * the hundred. supplement screen (docs/design/hundred-reference.md).
+ *
+ * The dot colours by whether *this user's* value for that parameter currently
+ * sits outside its reference, which is the one place colour here carries real
+ * information. It is not a pass/fail on the parameter: the word in the profile
+ * row above still does that job, and this only says which of the associated
+ * parameters are in play for him.
+ */
+function ParameterPill({ code, flagged }: { code: MarkerCode; flagged: boolean }) {
+  return (
+    <span className="inline-flex items-center gap-1.5 rounded-full bg-surface-inverse px-2.5 py-1">
+      <span
+        aria-hidden="true"
+        className={cx("size-1.5 shrink-0 rounded-full", flagged ? "bg-attention" : "bg-supported")}
+      />
+      <span className="t-caption text-ink-inverse">{markerCatalogue[code].shortLabel}</span>
+      <span className="visually-hidden">
+        {flagged ? "outside reference" : "within reference"}
+      </span>
+    </span>
+  );
+}
+
 export function ContributorList({
   contributors,
+  test,
   compact = false,
 }: {
   contributors: Contributor[];
+  /** Used only to colour the parameter dots. Optional — dots default to neutral. */
+  test?: ClinicalTest;
   compact?: boolean;
 }) {
   if (contributors.length === 0) {
     return (
       <p className="t-body-sm text-ink-2">
-        Nothing in your record maps to an approved association for this parameter.
+        Nothing in your record maps to an approved association here.
       </p>
     );
   }
 
+  const flaggedCodes = new Set(
+    (test?.markers ?? []).filter(outOfReference).map((marker) => marker.code),
+  );
+
   return (
     <div>
-      <ul className="space-y-2">
+      {/* Each contributor is its own card, not a row in a list. */}
+      <div className="space-y-3">
         {contributors.map((contributor) => {
           const claim = evidenceById.get(contributor.evidenceId);
           const candidate = isCandidate(contributor);
           return (
-            <li
-              key={contributor.id}
-              className={cx(
-                "rounded-sm border p-2.5",
-                candidate ? "border-dashed border-hairline" : "border-hairline bg-surface-1",
-              )}
-            >
+            <Card key={contributor.id} className={cx(candidate && "border-dashed")}>
               <div className="flex items-baseline justify-between gap-3">
-                <span className="t-body-sm font-medium text-ink-1">{contributor.label}</span>
+                <h3 className="t-title-3 text-ink-1">{contributor.label}</h3>
                 <span className="shrink-0 t-mono text-ink-3">{contributor.yourValue}</span>
               </div>
 
-              <div className="mt-1.5 flex flex-wrap items-center gap-1.5">
+              <div className="mt-2 flex flex-wrap items-center gap-1.5">
                 <MetaBadge glyph={candidate ? "pending" : "results"}>
                   {strengthLabel[contributor.strength]}
                 </MetaBadge>
                 <MetaBadge glyph="hand">{contributor.source}</MetaBadge>
               </div>
 
+              <p className="mt-3 t-micro text-ink-3">Associated with</p>
+              <div className="mt-1.5 flex flex-wrap gap-1.5">
+                {contributor.affects.map((code) => (
+                  <ParameterPill key={code} code={code} flagged={flaggedCodes.has(code)} />
+                ))}
+              </div>
+
               {!compact ? (
-                <p className="mt-2 t-caption text-ink-2">{contributor.mechanism}</p>
+                <p className="mt-3 t-body-sm text-ink-2">{contributor.mechanism}</p>
               ) : null}
 
               {claim ? (
                 <Link
                   href={`/evidence/${claim.id}`}
-                  className="mt-2 inline-flex items-center gap-1 t-caption font-medium text-accent"
+                  className="mt-3 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
                 >
                   {claim.source}
-                  <Icon name="chevron-right" size={13} />
+                  <Icon name="chevron-right" size={14} />
                 </Link>
               ) : null}
 
               {candidate ? (
-                <p className="mt-1.5 t-caption text-ink-3">
-                  Not cleared for recommendations.
-                </p>
+                <p className="mt-1.5 t-caption text-ink-3">Not cleared for recommendations.</p>
               ) : null}
-            </li>
+            </Card>
           );
         })}
-      </ul>
+      </div>
 
       <p className="mt-3 t-caption text-ink-3">{CONTRIBUTOR_CAVEAT}</p>
     </div>

@@ -101,10 +101,10 @@ export default function TodayPage() {
           <SemenProfileBoard test={latestSemen} hormones={hormonePanel} />
 
           {contributors.length > 0 ? (
-            <Card className="mt-3">
-              <SectionHeader eyebrow="Associated with your inputs" title="Contributors" level={3} />
-              <ContributorList contributors={contributors} compact />
-            </Card>
+            <div className="mt-4">
+              <SectionHeader eyebrow="From your own inputs" title="Contributors" level={3} />
+              <ContributorList contributors={contributors} test={latestSemen} compact />
+            </div>
           ) : null}
         </section>
       ) : null}
