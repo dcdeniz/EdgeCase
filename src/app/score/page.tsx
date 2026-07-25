@@ -21,6 +21,7 @@ import {
   behaviourDomains,
   behaviourGrid,
   behaviourWindow,
+  domainColour,
   readinessProgress,
   weeklySeries,
   type BehaviourDomainId,
@@ -200,7 +201,14 @@ export default function ScorePage() {
             return (
               <Card key={id}>
                 <div className="flex items-baseline justify-between gap-3">
-                  <h3 className="t-title-3 text-ink-1">{domain.label}</h3>
+                  <h3 className="flex items-center gap-2 t-title-3 text-ink-1">
+                    <span
+                      aria-hidden="true"
+                      className="size-2.5 shrink-0 rounded-full"
+                      style={{ background: domainColour[id] }}
+                    />
+                    {domain.label}
+                  </h3>
                   <span className="flex shrink-0 items-center gap-2">
                     {domainProgress?.isNew ? (
                       <span className="t-caption text-ink-3">New</span>
@@ -216,8 +224,8 @@ export default function ScorePage() {
                 <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-3">
                   {score != null ? (
                     <span
-                      className="block h-full rounded-full bg-accent"
-                      style={{ width: `${score}%` }}
+                      className="block h-full rounded-full"
+                      style={{ width: `${score}%`, background: domainColour[id] }}
                     />
                   ) : (
                     <span

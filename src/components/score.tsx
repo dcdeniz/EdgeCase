@@ -24,6 +24,7 @@ import { formatDateShort } from "@/lib/format";
 import {
   BEHAVIOUR_SCORE_CAVEAT,
   behaviourBandLabel,
+  domainColour,
   formatDelta,
   type GridCell,
   type ReadinessProgress,
@@ -241,6 +242,11 @@ export function ReadinessHero({ progress }: { progress: ReadinessProgress }) {
         <ul className="mt-2 space-y-2">
           {domains.map((domain) => (
             <li key={domain.id} className="flex items-center justify-between gap-3">
+              <span
+                aria-hidden="true"
+                className="size-2 shrink-0 rounded-full"
+                style={{ background: domainColour[domain.id] }}
+              />
               <span className="min-w-0 flex-1 truncate t-body-sm text-ink-2">{domain.label}</span>
               <span className="shrink-0 t-mono text-ink-3">{domain.current ?? "—"}</span>
               <span className="w-16 shrink-0 text-right">

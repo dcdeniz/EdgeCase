@@ -14,6 +14,7 @@ import { Card, MetaBadge, SimulatedBadge, StatusChip, cx } from "@/components/ui
 import {
   hormoneMarkerOrder,
   markerCatalogue,
+  plainLabel,
   semenMarkerOrder,
   type ClinicalTest,
   type MarkerCode,
@@ -27,6 +28,7 @@ import {
   type Contributor,
 } from "@/lib/contributors";
 import { evidenceById } from "@/lib/fixtures";
+import { NO_CONCEPTION_CLAIM, type SupplementCandidate } from "@/lib/supplements";
 
 /** Below its lower limit, or above its upper limit. */
 export function outOfReference(marker: MarkerValue): boolean {
@@ -69,12 +71,16 @@ function MarkerRow({ marker }: { marker: MarkerValue }) {
       href={`/results/profile/${marker.code}`}
       className="block border-t border-hairline py-3 first:border-t-0 first:pt-0 hover:bg-surface-3"
     >
-      <span className="flex items-baseline justify-between gap-3">
-        <span className="t-title-3 text-ink-1">{definition.label}</span>
+      <span className="flex items-start justify-between gap-3">
+        <span className="min-w-0">
+          {/* Plain first, clinical term beneath — readable by him, usable by his doctor. */}
+          <span className="block t-title-3 text-ink-1">{plainLabel[marker.code]}</span>
+          <span className="mt-0.5 block t-mono text-ink-3">{definition.label}</span>
+        </span>
         {flagged ? (
           <StatusChip tone="attention" glyph="attention">
             {/* Direction matters: DFI and WBC breach an upper limit, not a lower one. */}
-            {definition.shape === "upper_limit" ? "Above reference" : "Below reference"}
+            {definition.shape === "upper_limit" ? "Above range" : "Below range"}
           </StatusChip>
         ) : (
           <Icon name="chevron-right" size={16} className="shrink-0 text-ink-3" />
@@ -112,7 +118,7 @@ export function SemenProfileBoard({
       if (!marker) {
         return (
           <div key={code} className="border-t border-hairline py-3 first:border-t-0 first:pt-0">
-            <span className="t-title-3 text-ink-3">{markerCatalogue[code].label}</span>
+            <span className="t-title-3 text-ink-3">{plainLabel[code]}</span>
             <span className="mt-1.5 block t-caption text-ink-3">Not measured</span>
           </div>
         );
@@ -127,7 +133,7 @@ export function SemenProfileBoard({
           <p className="t-micro text-ink-3">Semen profile</p>
           <p className="mt-1 t-caption text-ink-2">
             {relativeDays(test.collectedAt.slice(0, 10))}
-            {flaggedCount > 0 ? ` · ${flaggedCount} outside reference` : null}
+            {flaggedCount > 0 ? ` · ${flaggedCount} outside range` : null}
           </p>
         </div>
         <SimulatedBadge compact />
@@ -173,6 +179,58 @@ function ParameterPill({ code, flagged }: { code: MarkerCode; flagged: boolean }
         {flagged ? "outside reference" : "within reference"}
       </span>
     </span>
+  );
+}
+
+/* ==========================================================================
+   Supplement research candidates
+   ========================================================================== */
+
+export function SupplementCandidateCard({
+  candidate,
+  test,
+}: {
+  candidate: SupplementCandidate;
+  test?: ClinicalTest;
+}) {
+  const flaggedCodes = new Set(
+    (test?.markers ?? []).filter(outOfReference).map((marker) => marker.code),
+  );
+
+  return (
+    <Card className="border-dashed">
+      <div className="flex items-start justify-between gap-3">
+        <h3 className="t-title-2 text-ink-1">{candidate.name}</h3>
+        <StatusChip tone="unavailable" glyph="pending">
+          Not recommended
+        </StatusChip>
+      </div>
+
+      <p className="mt-2 t-body-sm text-ink-2">{candidate.what}</p>
+
+      <p className="mt-3 t-micro text-ink-3">Researched for</p>
+      <div className="mt-1.5 flex flex-wrap gap-1.5">
+        {candidate.discussedFor.map((code) => (
+          <ParameterPill key={code} code={code} flagged={flaggedCodes.has(code)} />
+        ))}
+      </div>
+
+      <div className="mt-3 border-t border-hairline pt-3">
+        <p className="t-micro text-ink-3">Dose used in studies</p>
+        {/* Deliberately not "suggested use". This is what trials used, not advice. */}
+        <p className="mt-1 t-body-sm text-ink-1">{candidate.studiedDose}</p>
+      </div>
+
+      <p className="mt-3 t-body-sm text-ink-2">{candidate.rationale}</p>
+
+      <div className="mt-3 border-t border-hairline pt-3">
+        <p className="flex gap-2 t-caption text-ink-2">
+          <Icon name="attention" size={14} className="mt-0.5 shrink-0 text-attention" />
+          {candidate.blocker}
+        </p>
+        <p className="mt-2 t-caption text-ink-3">{NO_CONCEPTION_CLAIM}</p>
+      </div>
+    </Card>
   );
 }
 

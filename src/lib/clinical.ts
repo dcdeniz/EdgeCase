@@ -317,6 +317,55 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
 };
 
+/**
+ * Plain-language names, for a consumer who has never seen a semen analysis.
+ *
+ * These lead in the interface and the clinical term sits beneath them, rather
+ * than replacing it. A man should be able to read his own result without a
+ * glossary, and still be able to take the same screen to a urologist and have
+ * it mean something. Dropping the clinical term would fail the second test.
+ */
+export const plainLabel: Record<MarkerCode, string> = {
+  volume_ml: "How much semen",
+  concentration_million_ml: "How crowded the sample is",
+  total_count_million: "How many sperm in total",
+  progressive_motility_pct: "Sperm swimming forward",
+  total_motility_pct: "Sperm moving at all",
+  normal_morphology_pct: "Normally shaped sperm",
+  dna_fragmentation_pct: "Sperm with damaged DNA",
+  leukocytes_million_ml: "White blood cells",
+  fsh_iu_l: "The signal to make sperm",
+  lh_iu_l: "The signal to make testosterone",
+  total_testosterone_nmol_l: "Testosterone",
+  free_testosterone_nmol_l: "Available testosterone",
+  estradiol_pmol_l: "Oestrogen",
+  prolactin_miu_l: "Prolactin",
+  shbg_nmol_l: "Testosterone carrier protein",
+  tsh_miu_l: "Thyroid signal",
+};
+
+/** One sentence, no jargon, for why the parameter matters. */
+export const plainMeaning: Record<MarkerCode, string> = {
+  volume_ml: "The amount of fluid. Low volume can also mean some of the sample was lost.",
+  concentration_million_ml: "How many sperm are packed into each millilitre.",
+  total_count_million: "Concentration multiplied by volume — the fullest picture of output.",
+  progressive_motility_pct:
+    "Sperm have to swim forward to reach an egg. This is the share that do.",
+  total_motility_pct: "The share moving at all, including those not going anywhere useful.",
+  normal_morphology_pct:
+    "The share with a normal head and tail. Low percentages here are normal — the bar is strict.",
+  dna_fragmentation_pct: "Damage to the genetic material the sperm carries.",
+  leukocytes_million_ml: "A raised count can point to inflammation. One for a doctor, not a diet.",
+  fsh_iu_l: "The hormone that tells the testes to make sperm.",
+  lh_iu_l: "The hormone that tells the testes to make testosterone.",
+  total_testosterone_nmol_l: "The main male hormone, measured in total.",
+  free_testosterone_nmol_l: "The share of testosterone actually available to your body.",
+  estradiol_pmol_l: "Present in men too, and part of the same hormonal balance.",
+  prolactin_miu_l: "Raised levels can interfere with the hormones above.",
+  shbg_nmol_l: "Binds testosterone and changes how much is usable.",
+  tsh_miu_l: "Thyroid function, which affects the wider hormonal picture.",
+};
+
 export const semenMarkerOrder: MarkerCode[] = [
   "volume_ml",
   "concentration_million_ml",

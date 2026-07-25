@@ -48,6 +48,14 @@ export type BehaviourDomain = {
   framing: string;
 };
 
+/** Identity hue per domain. Behaviour only — never a clinical parameter. */
+export const domainColour: Record<BehaviourDomainId, string> = {
+  sleep: "var(--ps-domain-sleep)",
+  diet: "var(--ps-domain-diet)",
+  activity: "var(--ps-domain-activity)",
+  adherence: "var(--ps-domain-adherence)",
+};
+
 export const behaviourDomains: Record<BehaviourDomainId, BehaviourDomain> = {
   sleep: {
     id: "sleep",

@@ -183,6 +183,29 @@
    Non-colour tokens
    -------------------------------------------------------------------------- */
 
+/* --------------------------------------------------------------------------
+   Behaviour-domain identity hues
+   --------------------------------------------------------------------------
+   Aliases onto already-verified roles rather than new hex, so every one keeps
+   its measured contrast in both themes and repaints with the theme.
+
+   These are IDENTITY colours for the four logged behaviour domains, not status
+   roles and not chart series. They never appear on a clinical parameter: a
+   coloured semen value would convert a WHO reference distribution into a
+   pass/fail, which docs/research bars.
+
+   Debt: the three-slot chart palette was validated under an all-pairs CVD
+   rule. Four domain hues have NOT been through that validator. Run it before
+   these are used for anything denser than a bar and a dot.
+   -------------------------------------------------------------------------- */
+
+:root {
+  --ps-domain-sleep: var(--ps-series-3);
+  --ps-domain-diet: var(--ps-supported);
+  --ps-domain-activity: var(--ps-series-2);
+  --ps-domain-adherence: var(--ps-series-1);
+}
+
 :root {
   --ps-radius-xs: 0.375rem;
   --ps-radius-sm: 0.625rem;
@@ -254,6 +277,11 @@
   --color-series-1: var(--ps-series-1);
   --color-series-2: var(--ps-series-2);
   --color-series-3: var(--ps-series-3);
+
+  --color-domain-sleep: var(--ps-domain-sleep);
+  --color-domain-diet: var(--ps-domain-diet);
+  --color-domain-activity: var(--ps-domain-activity);
+  --color-domain-adherence: var(--ps-domain-adherence);
 
   --radius-xs: var(--ps-radius-xs);
   --radius-sm: var(--ps-radius-sm);
