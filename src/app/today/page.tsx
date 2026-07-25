@@ -125,6 +125,7 @@ export default function TodayPage() {
             value={night ? formatDuration(night.asleepMinutes) : "—"}
             detail={night ? `${sleepNeedPercent(night)}% of need` : "No night recorded"}
             href="/sleep"
+            source="Whoop"
             tone="accent"
           />
           <MetricTile
@@ -138,12 +139,14 @@ export default function TodayPage() {
                 : `${diet.entries.length} meal${diet.entries.length === 1 ? "" : "s"}`
             }
             href="/food"
+            source="Your log"
           />
           <MetricTile
             glyph="steps"
             label="Steps"
             value={health ? health.steps.toLocaleString("en-GB") : "—"}
             detail={health ? `${health.activeMinutes} active minutes` : "No data"}
+            source="Whoop"
           />
           <MetricTile
             glyph="heart"
@@ -151,6 +154,7 @@ export default function TodayPage() {
             value={health ? String(health.restingHeartRate) : "—"}
             unit="bpm"
             detail={health ? `HRV ${health.heartRateVariability} ms` : "No data"}
+            source="Whoop"
           />
         </div>
         <p className="mt-2 t-caption text-ink-3">

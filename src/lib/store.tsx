@@ -517,7 +517,9 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             previous.protocol ?? buildProtocol("2026-04-20", previous.answers.protocolDays ?? 100);
           return {
             ...previous,
-            tests: [demoBaseline],
+            // Hormone panel ships with the baseline: FSH, LH and testosterone
+            // are the endocrine context the semen result is read against.
+            tests: [demoBaseline, demoHormonePanel],
             protocol,
             adherence: seedAdherence(protocol),
             /*
