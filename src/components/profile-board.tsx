@@ -9,13 +9,14 @@
  */
 
 import Link from "next/link";
+import { useState } from "react";
 import { Icon } from "@/components/icons";
-import { Card, Disclosure, MetaBadge, SimulatedBadge, StatusChip, cx } from "@/components/ui";
+import { Card, MetaBadge, MetaList, Sheet, SimulatedBadge, StatusChip, cx } from "@/components/ui";
 import {
   hormoneMarkerOrder,
   markerCatalogue,
-  plainLabel,
   plainMeaning,
+  referenceSets,
   semenMarkerOrder,
   type ClinicalTest,
   type MarkerCode,
@@ -63,40 +64,112 @@ function referenceText(marker: MarkerValue): string {
  * single most legible thing in the hundred. reference (docs/design/hundred-reference.md)
  * and the reason this replaced a three-column grid of abbreviations.
  */
-function MarkerRow({ marker }: { marker: MarkerValue }) {
+function MarkerRow({
+  marker,
+  onExplain,
+}: {
+  marker: MarkerValue;
+  onExplain: (code: MarkerCode) => void;
+}) {
   const definition = markerCatalogue[marker.code];
   const flagged = outOfReference(marker);
 
+  /*
+   * The row is a link and the help control is a button, so they are siblings
+   * rather than nested. A button inside an anchor is invalid and would make
+   * the explanation unreachable by keyboard.
+   */
   return (
-    <Link
-      href={`/results/profile/${marker.code}`}
-      className="block border-t border-hairline py-3 first:border-t-0 first:pt-0 hover:bg-surface-3"
-    >
-      <span className="flex items-start justify-between gap-3">
-        {/* Plain language only. The clinical terms live in the dropdown below. */}
-        <span className="min-w-0 t-title-3 text-ink-1">{plainLabel[marker.code]}</span>
-        {flagged ? (
-          <StatusChip tone="attention" glyph="attention">
-            {/* Direction matters: DFI and WBC breach an upper limit, not a lower one. */}
-            {definition.shape === "upper_limit"
-              ? "Above reference context"
-              : "Below reference context"}
-          </StatusChip>
-        ) : (
-          <Icon name="chevron-right" size={16} className="shrink-0 text-ink-3" />
-        )}
-      </span>
+    <div className="flex items-start gap-2 border-t border-hairline py-3 first:border-t-0 first:pt-0">
+      <Link
+        href={`/results/profile/${marker.code}`}
+        className="min-w-0 flex-1 rounded-sm hover:bg-surface-3"
+      >
+        {/* The name gets the full width of the row; nothing shares its line. */}
+        <span className="block t-title-3 text-ink-1">{definition.label}</span>
 
-      <span className="mt-1.5 flex items-baseline gap-3">
-        <span className="t-display-2 text-ink-1 ps-num">
-          {formatNumber(marker.value, definition.decimals)}
+        <span className="mt-1.5 flex items-baseline gap-3">
+          <span className="t-display-2 text-ink-1 ps-num">
+            {formatNumber(marker.value, definition.decimals)}
+          </span>
+          <span className="t-caption text-ink-3">{definition.unit}</span>
+          <span className="ml-auto shrink-0 t-mono text-ink-3">{referenceText(marker)}</span>
         </span>
-        <span className="t-caption text-ink-3">{definition.unit}</span>
-        <span className="ml-auto shrink-0 t-mono text-ink-3">
-          {referenceText(marker)}
-        </span>
-      </span>
-    </Link>
+
+        {flagged ? (
+          <span className="mt-2 block">
+            <StatusChip tone="attention" glyph="attention">
+              {/* Direction matters: DFI and WBC breach an upper limit, not a lower one. */}
+              {definition.shape === "upper_limit"
+                ? "Above reference context"
+                : "Below reference context"}
+            </StatusChip>
+          </span>
+        ) : null}
+      </Link>
+
+      <button
+        type="button"
+        onClick={() => onExplain(marker.code)}
+        aria-label={`What ${definition.label} means`}
+        className="flex size-11 shrink-0 items-center justify-center rounded-full text-ink-3 hover:bg-surface-3 hover:text-ink-1"
+      >
+        <Icon name="help" size={19} />
+      </button>
+    </div>
+  );
+}
+
+/** The explanation sheet behind each row's question mark. */
+function MarkerExplainer({
+  code,
+  marker,
+  onClose,
+}: {
+  code: MarkerCode;
+  marker?: MarkerValue;
+  onClose: () => void;
+}) {
+  const definition = markerCatalogue[code];
+  const set = referenceSets[definition.referenceSet];
+
+  return (
+    <Sheet open onClose={onClose} eyebrow="What this measures" title={definition.label}>
+      <p className="t-prose text-ink-1">{plainMeaning[code]}</p>
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="t-micro text-ink-3">In more detail</p>
+        <p className="mt-1.5 t-body-sm text-ink-2">{definition.meaning}</p>
+      </div>
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <MetaList
+          items={[
+            { label: "Unit", value: definition.unit },
+            {
+              label: "Reference",
+              value: marker ? referenceText(marker) : "—",
+              hint: set?.label,
+            },
+            ...(marker
+              ? [{ label: "Your value", value: formatNumber(marker.value, definition.decimals) }]
+              : []),
+          ]}
+        />
+      </div>
+
+      {set ? (
+        <p className="mt-3 t-caption text-ink-2">{set.note}</p>
+      ) : null}
+
+      {definition.specialistOnly ? (
+        <p className="mt-3">
+          <StatusChip tone="information" glyph="info">
+            Specialist assay
+          </StatusChip>
+        </p>
+      ) : null}
+    </Sheet>
   );
 }
 
@@ -111,19 +184,33 @@ export function SemenProfileBoard({
   const hormoneByCode = new Map((hormones?.markers ?? []).map((m) => [m.code, m]));
 
   const flaggedCount = test.markers.filter(outOfReference).length;
+  const [explaining, setExplaining] = useState<MarkerCode | null>(null);
 
   const renderRows = (codes: MarkerCode[], lookup: Map<MarkerCode, MarkerValue>) =>
     codes.map((code) => {
       const marker = lookup.get(code);
       if (!marker) {
         return (
-          <div key={code} className="border-t border-hairline py-3 first:border-t-0 first:pt-0">
-            <span className="t-title-3 text-ink-3">{plainLabel[code]}</span>
-            <span className="mt-1.5 block t-caption text-ink-3">Not measured</span>
+          <div
+            key={code}
+            className="flex items-start gap-2 border-t border-hairline py-3 first:border-t-0 first:pt-0"
+          >
+            <span className="min-w-0 flex-1">
+              <span className="t-title-3 text-ink-3">{markerCatalogue[code].label}</span>
+              <span className="mt-1.5 block t-caption text-ink-3">Not measured</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => setExplaining(code)}
+              aria-label={`What ${markerCatalogue[code].label} means`}
+              className="flex size-11 shrink-0 items-center justify-center rounded-full text-ink-3 hover:bg-surface-3 hover:text-ink-1"
+            >
+              <Icon name="help" size={19} />
+            </button>
           </div>
         );
       }
-      return <MarkerRow key={code} marker={marker} />;
+      return <MarkerRow key={code} marker={marker} onExplain={setExplaining} />;
     });
 
   return (
@@ -150,29 +237,13 @@ export function SemenProfileBoard({
         )}
       </div>
 
-      {/*
-        The clinical vocabulary, on request. Kept off the rows so a first-time
-        reader is not made to decode "progressive motility" to read his own
-        result, and kept in the product so the screen is still usable in front
-        of a urologist.
-      */}
-      <div className="mt-4 border-t border-hairline pt-1">
-        <Disclosure label="Clinical terms" glyph="lab">
-          <dl className="space-y-2.5">
-            {[...semenMarkerOrder, ...(hormones ? hormoneMarkerOrder.slice(0, 3) : [])].map(
-              (code) => (
-                <div key={code}>
-                  <dt className="t-body-sm text-ink-1">{markerCatalogue[code].label}</dt>
-                  <dd className="t-caption text-ink-2">
-                    <span className="text-ink-3">{plainLabel[code]} · </span>
-                    {plainMeaning[code]}
-                  </dd>
-                </div>
-              ),
-            )}
-          </dl>
-        </Disclosure>
-      </div>
+      {explaining ? (
+        <MarkerExplainer
+          code={explaining}
+          marker={byCode.get(explaining) ?? hormoneByCode.get(explaining)}
+          onClose={() => setExplaining(null)}
+        />
+      ) : null}
     </Card>
   );
 }

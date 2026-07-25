@@ -118,7 +118,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   total_count_million: {
     code: "total_count_million",
-    label: "Total sperm number",
+    label: "Total sperm count",
     shortLabel: "Total count",
     unit: "×10⁶",
     unitSpoken: "million",
