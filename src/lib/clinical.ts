@@ -86,13 +86,13 @@ export type MarkerDefinition = {
   /** Present only for markers requiring a specialist assay. */
   specialistOnly?: boolean;
   /**
-   * Approximate 50th centile of the WHO reference population, used ONLY to
-   * draw the "optimal" band on the reference bar.
+   * Approximate 50th centile of the WHO reference population.
    *
-   * REQUIRES VERIFICATION. These are widely circulated figures that have not
-   * been checked against the source manual in this prototype, exactly like the
-   * supplement effect sizes. The band is a presentational aid, not a clinical
-   * threshold, and nothing scores off it.
+   * UNVERIFIED and currently UNUSED. These figures are widely circulated but
+   * could not be confirmed against the source manual, so the "optimal" band
+   * they once drew has been removed and the reference bar now uses only the
+   * verified 5th-centile limits. Retained for whoever checks the manual: swap
+   * in the real centiles, then restore the third band in profile-board.tsx.
    */
   referenceMedian?: number;
 };

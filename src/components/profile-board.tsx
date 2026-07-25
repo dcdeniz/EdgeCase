@@ -23,6 +23,7 @@ import {
   type MarkerValue,
 } from "@/lib/clinical";
 import { formatNumber, relativeDays } from "@/lib/format";
+import { formatAgeGap, spermAge } from "@/lib/wearable";
 import {
   CONTRIBUTOR_CAVEAT,
   isCandidate,
@@ -47,19 +48,22 @@ export function outOfReference(marker: MarkerValue): boolean {
   return (low != null && marker.value < low) || (high != null && marker.value > high);
 }
 
-export type ReferenceBand = "below" | "within" | "optimal";
+export type ReferenceBand = "below" | "within";
 
 export const bandLabel: Record<ReferenceBand, string> = {
   below: "Below range",
   within: "In range",
-  optimal: "Optimal",
 };
 
 /**
  * Which band a value falls in.
  *
- * For an upper-limit marker (DFI, white cells) there is no optimal band —
- * being under the threshold is simply within range, and above it is out.
+ * TWO BANDS ONLY, both anchored to the WHO 5th-centile lower reference limits,
+ * which are verified against the source review. An "optimal" band was removed:
+ * it needed a 50th-centile threshold, and the median figures in circulation
+ * could not be confirmed against the WHO manual. Telling a man he is "optimal"
+ * against an unsourced number is worse than not saying it. Restore the band
+ * once the manual's centile table is to hand.
  */
 export function bandOf(marker: MarkerValue): ReferenceBand {
   const definition = markerCatalogue[marker.code];
@@ -69,27 +73,21 @@ export function bandOf(marker: MarkerValue): ReferenceBand {
   if (definition.shape === "upper_limit") {
     return high != null && marker.value > high ? "below" : "within";
   }
-  if (low != null && marker.value < low) return "below";
-  if (definition.referenceMedian != null && marker.value >= definition.referenceMedian) {
-    return "optimal";
-  }
-  return "within";
+  return low != null && marker.value < low ? "below" : "within";
 }
 
 const bandColour: Record<ReferenceBand, string> = {
   below: "var(--ps-escalation)",
   within: "var(--ps-information)",
-  optimal: "var(--ps-supported)",
 };
 
 /**
  * Where the value sits against its reference, as a filled bar.
  *
  * Colour here is a deliberate departure from the original rule that no
- * red/green scoring appears on a clinical value (ADR 0007). The word is kept
- * beside the bar so colour is never the sole carrier, and the "optimal" edge
- * is drawn from an unverified population median — it is a presentational
- * band, and nothing in the product scores off it.
+ * red/green scoring appears on a clinical value. The band word is kept beside
+ * the bar so colour is never the sole carrier, and both thresholds are the
+ * verified WHO 5th-centile limits.
  */
 function ReferenceBar({ marker }: { marker: MarkerValue }) {
   const definition = markerCatalogue[marker.code];
@@ -97,16 +95,14 @@ function ReferenceBar({ marker }: { marker: MarkerValue }) {
   const low = marker.referenceLow ?? definition.referenceLow;
   const high = marker.referenceHigh ?? definition.referenceHigh;
 
-  // Scale: headroom past the median, or past the upper limit for capped markers.
+  // Scale gives headroom past the limit so a value at the limit is not pinned.
   const scaleMax =
     definition.shape === "upper_limit"
       ? Math.max((high ?? 1) * 2, marker.value * 1.15)
-      : Math.max((definition.referenceMedian ?? (low ?? 1) * 3) * 1.35, marker.value * 1.1);
+      : Math.max((low ?? 1) * 2.6, marker.value * 1.1);
 
   const position = Math.max(2, Math.min(100, (marker.value / scaleMax) * 100));
   const lowMark = low == null ? null : (low / scaleMax) * 100;
-  const medianMark =
-    definition.referenceMedian == null ? null : (definition.referenceMedian / scaleMax) * 100;
   const highMark = high == null ? null : (high / scaleMax) * 100;
 
   return (
@@ -117,7 +113,7 @@ function ReferenceBar({ marker }: { marker: MarkerValue }) {
           style={{ width: `${position}%`, background: bandColour[band] }}
         />
         {/* Threshold ticks, so the bar is readable without the legend. */}
-        {[lowMark, medianMark, highMark].map((mark, index) =>
+        {[lowMark, highMark].map((mark, index) =>
           mark == null || mark >= 100 ? null : (
             <span
               key={index}
@@ -513,35 +509,59 @@ export function ProductCard({ product }: { product: SupplementProduct }) {
  * not do.
  */
 export function SpermAgeCard() {
+  const age = spermAge();
+  const older = age.differenceYears >= 0;
+
   return (
-    <Card className="border-dashed">
+    <Card>
       <div className="flex items-start justify-between gap-3">
-        <div className="min-w-0">
-          <p className="t-micro text-ink-3">Sperm Epigenetic Age</p>
-          <p className="mt-1 t-display-2 text-ink-3">—</p>
-        </div>
-        <StatusChip tone="unavailable" glyph="pending">
-          Requires a lab assay
-        </StatusChip>
+        <p className="t-micro text-ink-3">Sperm Epigenetic Age</p>
+        <SimulatedBadge compact />
       </div>
 
-      <p className="mt-2 t-body-sm text-ink-2">
-        A DNA-methylation measure of how old your sperm looks biologically, which can differ from
-        your age in years. Higher sperm epigenetic age has been associated with a longer time to
-        pregnancy.
+      <p className="mt-4 text-center t-display-1 text-ink-1 ps-num">{age.epigeneticAge}</p>
+      <p className="mx-auto mt-2 max-w-[18rem] text-center t-body text-ink-2">
+        That&rsquo;s {formatAgeGap(age.differenceYears)}.
       </p>
 
-      <div className="mt-3 border-t border-hairline pt-3">
-        <p className="flex gap-2 t-caption text-ink-3">
-          <Icon name="info" size={13} className="mt-0.5 shrink-0" />
-          It needs a methylation assay on a semen sample. It cannot be estimated from your sleep,
-          diet or activity, and PreSeed will not show a number it has not measured.
+      <div className="mt-4 flex items-center justify-center gap-6 border-t border-hairline pt-3">
+        <span className="text-center">
+          <span className="block t-micro text-ink-3">Your age</span>
+          <span className="mt-0.5 block t-title-2 text-ink-1 ps-num">{age.chronologicalAge}</span>
+        </span>
+        <span className="text-center">
+          <span className="block t-micro text-ink-3">Sperm reads</span>
+          <span className="mt-0.5 block t-title-2 text-ink-1 ps-num">{age.epigeneticAge}</span>
+        </span>
+      </div>
+
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="t-body-sm text-ink-2">
+          A DNA-methylation measure of how old your sperm looks biologically. Higher sperm
+          epigenetic age has been associated with a longer time to pregnancy, and is higher in men
+          who smoke.
         </p>
+        <ul className="mt-2.5 space-y-1.5">
+          <li className="flex gap-2 t-caption text-ink-3">
+            <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+            From a simulated methylation assay. It cannot be derived from sleep, diet or activity.
+          </li>
+          <li className="flex gap-2 t-caption text-ink-3">
+            <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+            {older
+              ? "Reading older is an association with time to pregnancy, not a diagnosis and not a prediction about you."
+              : "Reading younger is an association only, and does not predict conception."}
+          </li>
+          <li className="flex gap-2 t-caption text-ink-3">
+            <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+            No protocol action in this app has been shown to move it.
+          </li>
+        </ul>
         <a
           href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9247414/"
           target="_blank"
           rel="noreferrer"
-          className="mt-2.5 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+          className="mt-3 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
         >
           Sperm epigenetic clock and pregnancy outcomes
           <Icon name="external" size={14} />

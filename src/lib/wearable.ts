@@ -312,6 +312,56 @@ export function latestHealthDay(endingOn = TODAY): HealthDay | null {
   return null;
 }
 
+/* ==========================================================================
+   Sperm Epigenetic Age
+   --------------------------------------------------------------------------
+   SIMULATED, exactly like the semen analysis it sits beside.
+
+   Sperm Epigenetic Age is a real DNA-methylation clock. Higher SEA has been
+   associated with a longer time to pregnancy and with shorter gestation, and
+   is higher in men who smoke (Hum Reprod, 379 men — see the card for the link).
+
+   It cannot be computed from lifestyle logs. The figure below stands in for a
+   laboratory methylation assay that has not been run, and every surface
+   rendering it must carry the simulated label. Nothing in the app scores off
+   it, and no protocol action claims to move it.
+   ========================================================================== */
+
+export type SpermAge = {
+  /** Years, from the simulated methylation assay. */
+  epigeneticAge: number;
+  /** Years, from date of birth. */
+  chronologicalAge: number;
+  /** Positive means the sperm reads older than the man. */
+  differenceYears: number;
+  collectedOn: string;
+  source: "simulated";
+};
+
+export function spermAge(): SpermAge {
+  const epigeneticAge = 38.4;
+  const chronologicalAge = 34;
+  return {
+    epigeneticAge,
+    chronologicalAge,
+    differenceYears: Number((epigeneticAge - chronologicalAge).toFixed(1)),
+    collectedOn: "2026-04-18",
+    source: "simulated",
+  };
+}
+
+/** "4 years and 5 months older", from a decimal year difference. */
+export function formatAgeGap(differenceYears: number): string {
+  const absolute = Math.abs(differenceYears);
+  const years = Math.floor(absolute);
+  const months = Math.round((absolute - years) * 12);
+  const parts: string[] = [];
+  if (years > 0) parts.push(`${years} year${years === 1 ? "" : "s"}`);
+  if (months > 0) parts.push(`${months} month${months === 1 ? "" : "s"}`);
+  const span = parts.length > 0 ? parts.join(" and ") : "less than a month";
+  return `${span} ${differenceYears >= 0 ? "older" : "younger"} than your age in years`;
+}
+
 export function mean(values: number[]): number | null {
   if (values.length === 0) return null;
   return values.reduce((sum, value) => sum + value, 0) / values.length;
