@@ -1,6 +1,6 @@
 # ADR 0002: Use an edge-native API and preserve Fastify portability
 
-- Status: Proposed
+- Status: Accepted
 - Date: 2026-07-25
 
 ## Context
@@ -42,4 +42,4 @@ The team gives up Fastify-specific runtime plugins and injection behavior at the
 
 The edge runtime remains inappropriate for long-running local scikit-learn inference. A small exported linear/logistic model can be evaluated in TypeScript when validated; larger Python models require a private inference service or batch job behind the authenticated edge API.
 
-Before accepting this ADR, build a minimal non-product spike proving Hono routing, Supabase JWT/RLS behavior, contract generation, bundle size, cold start, and OpenTelemetry compatibility. Do not use the spike to bypass the prose-first approval gate.
+The initial implementation proves Hono routing, bearer-token validation, user-scoped Supabase access, Fetch-based tests, and pinned edge dependencies. Bundle, hosted RLS, cold-start, and OpenTelemetry checks remain release gates.

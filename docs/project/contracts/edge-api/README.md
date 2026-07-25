@@ -1,6 +1,6 @@
 # Proposed Supabase Edge API contract and on-edit model
 
-- Status: Design proposal; no implementation exists yet
+- Status: Accepted baseline; first non-ML vertical slice implemented
 - Product: PreSeed
 - Runtime: Supabase Edge Runtime (Deno-compatible)
 - Transport adapter: Hono
@@ -42,17 +42,17 @@ Representative capabilities:
 | Onboarding | `PUT /v1/onboarding` |
 | Clinical tests | `POST /v1/clinical-tests`, `GET /v1/clinical-tests/:id` |
 | Markers | `PUT /v1/clinical-tests/:id/markers` |
-| Assessments | `POST /v1/assessments`, `GET /v1/assessments/:id` |
+| Assessments | Reserved until the cofounder-owned model PRs define inputs and outputs |
 | Protocols | `POST /v1/protocols`, `GET /v1/protocols/current` |
-| Adaptations | `POST /v1/protocols/:id/adaptations` |
+| Adaptations | Reserved until evidence/coach contracts are implemented |
 | Adherence/check-ins | `POST /v1/adherence-events`, `POST /v1/check-ins` |
 | Trends | `GET /v1/trends` |
-| Coach | `POST /v1/coach/messages` |
+| Coach | Reserved for on-demand Vector RAG after account outputs exist |
 | Evidence | `GET /v1/evidence/:id` |
 | Uploads | `POST /v1/uploads/intents`, `POST /v1/uploads/:id/confirm` |
 | Environment | `POST /v1/environment/snapshots` |
 
-The first vertical slice is onboarding → clinical test → assessment → protocol → adherence → retest/trends.
+The first implemented slice is onboarding → clinical test/markers → protocol → adherence/check-in → retest/trends. No ML, assessment, or prediction endpoint exists until the cofounder-owned model PRs define the boundary.
 
 ## Contract rules
 

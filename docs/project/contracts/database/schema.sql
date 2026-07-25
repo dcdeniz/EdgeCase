@@ -12,3 +12,53 @@ create table public.notes (
 );
 alter table public.profiles enable row level security;
 alter table public.notes enable row level security;
+
+-- Product-domain snapshot; detailed constraints, indexes, functions, and policies
+-- are canonical in supabase/migrations/20260725170000_preseed_domain.sql.
+create table public.clinical_tests (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  test_type text not null, source text not null, collected_at timestamptz not null,
+  created_at timestamptz not null default now()
+);
+create table public.clinical_markers (
+  id uuid primary key default gen_random_uuid(),
+  test_id uuid not null references public.clinical_tests(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  code text not null, numeric_value numeric not null, unit text not null,
+  unique (test_id, code)
+);
+create table public.protocols (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  version integer not null, status text not null, starts_on date not null,
+  ends_on date not null, title text not null, created_at timestamptz not null default now(),
+  unique (user_id, version)
+);
+create table public.protocol_items (
+  id uuid primary key default gen_random_uuid(),
+  protocol_id uuid not null references public.protocols(id) on delete cascade,
+  user_id uuid not null references auth.users(id) on delete cascade,
+  week_number integer not null, category text not null, title text not null,
+  description text not null, evidence_status text not null, evidence_ids text[] not null default '{}'
+);
+create table public.adherence_events (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  protocol_item_id uuid not null references public.protocol_items(id) on delete cascade,
+  occurred_on date not null, status text not null,
+  unique (user_id, protocol_item_id, occurred_on)
+);
+create table public.check_ins (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  protocol_id uuid references public.protocols(id) on delete set null,
+  adherence_rating integer, wellbeing_rating integer, created_at timestamptz not null default now()
+);
+
+alter table public.clinical_tests enable row level security;
+alter table public.clinical_markers enable row level security;
+alter table public.protocols enable row level security;
+alter table public.protocol_items enable row level security;
+alter table public.adherence_events enable row level security;
+alter table public.check_ins enable row level security;
