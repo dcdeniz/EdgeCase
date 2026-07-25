@@ -1,62 +1,149 @@
 openapi: 3.1.0
-info: { title: EdgeCase API, version: 0.2.0 }
+info:
+  title: PreSeed Edge API
+  version: 1.0.0
+  description: Non-ML hackathon API. Predictions and assessments are intentionally absent pending the model-owner contracts.
+servers:
+  - url: https://{project}.supabase.co/functions/v1/api
+    variables: { project: { default: project-ref } }
 components:
   securitySchemes:
     bearerAuth: { type: http, scheme: bearer, bearerFormat: JWT }
   schemas:
-    Note:
+    Error:
       type: object
-      required: [id, title, body, created_at, updated_at]
+      required: [error]
       properties:
-        id: { type: string, format: uuid }
-        title: { type: string, minLength: 1, maxLength: 200 }
-        body: { type: string }
-        created_at: { type: string, format: date-time }
-        updated_at: { type: string, format: date-time }
-    NoteInput:
+        error:
+          type: object
+          required: [code, message, requestId, details]
+          properties:
+            code: { type: string }
+            message: { type: string }
+            requestId: { type: string, format: uuid }
+            details: { type: array, items: {} }
+    ClinicalTestInput:
       type: object
-      required: [title]
+      additionalProperties: false
+      required: [testType, source, collectedAt]
       properties:
-        title: { type: string, minLength: 1, maxLength: 200 }
-        body: { type: string, default: "" }
+        testType: { enum: [semen_analysis, hormone_panel] }
+        source: { enum: [manual, upload, simulated] }
+        collectedAt: { type: string, format: date-time }
+        labName: { type: [string, "null"], maxLength: 200 }
+        abstinenceHours: { type: [integer, "null"], minimum: 0, maximum: 720 }
+        collectionComplete: { type: [boolean, "null"] }
+        recentFever: { type: boolean, default: false }
+        notes: { type: [string, "null"], maxLength: 2000 }
+    MarkerInput:
+      type: object
+      additionalProperties: false
+      required: [code, value, unit]
+      properties:
+        code: { type: string }
+        value: { type: number }
+        unit: { type: string, minLength: 1, maxLength: 40 }
+        referenceLow: { type: [number, "null"] }
+        referenceHigh: { type: [number, "null"] }
+        verification: { enum: [user_entered, user_confirmed, lab_report] }
+security: [{ bearerAuth: [] }]
 paths:
-  /health:
+  /v1/me:
     get:
-      operationId: getHealth
+      operationId: getMe
       responses:
-        "200": { description: Service is available }
-  /notes:
-    get:
-      operationId: listOrGetNotes
-      security: [{ bearerAuth: [] }]
-      parameters:
-        - { name: id, in: query, required: false, schema: { type: string, format: uuid } }
-      responses:
-        "200": { description: User-owned note or notes }
-        "401": { description: Unauthorized }
-    post:
-      operationId: createNote
-      security: [{ bearerAuth: [] }]
+        "200": { description: Account profile }
+        "401": { description: Unauthorized, content: { application/json: { schema: { $ref: "#/components/schemas/Error" } } } }
+  /v1/onboarding:
+    put:
+      operationId: putOnboarding
       requestBody:
         required: true
-        content: { application/json: { schema: { $ref: "#/components/schemas/NoteInput" } } }
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [fertilityTrack, answers, healthDataConsent]
+              properties:
+                fertilityTrack: { enum: [general, vasectomy_reversal, pre_treatment_preservation] }
+                answers: { type: object }
+                healthDataConsent: { type: boolean }
+                complete: { type: boolean }
       responses:
-        "201": { description: Note created }
-        "400": { description: Invalid input }
-        "401": { description: Unauthorized }
-    patch:
-      operationId: updateNote
-      security: [{ bearerAuth: [] }]
+        "200": { description: Updated onboarding }
+        "422": { description: Invalid onboarding }
+  /v1/clinical-tests:
+    get:
+      operationId: listClinicalTests
       parameters:
-        - { name: id, in: query, required: true, schema: { type: string, format: uuid } }
+        - { name: limit, in: query, schema: { type: integer, minimum: 1, maximum: 100 } }
+        - { name: before, in: query, schema: { type: string, format: date-time } }
       responses:
-        "200": { description: Note updated }
-        "404": { description: Note not found }
-    delete:
-      operationId: deleteNote
-      security: [{ bearerAuth: [] }]
+        "200": { description: Cursor-paginated tests and markers }
+    post:
+      operationId: createClinicalTest
+      requestBody:
+        required: true
+        content: { application/json: { schema: { $ref: "#/components/schemas/ClinicalTestInput" } } }
+      responses:
+        "201": { description: Clinical test created }
+        "422": { description: Invalid test }
+  /v1/clinical-tests/{id}:
+    get:
+      operationId: getClinicalTest
       parameters:
-        - { name: id, in: query, required: true, schema: { type: string, format: uuid } }
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
       responses:
-        "204": { description: Note deleted }
-        "404": { description: Note not found }
+        "200": { description: Clinical test and markers }
+        "404": { description: Absent or non-owned test }
+  /v1/clinical-tests/{id}/markers:
+    put:
+      operationId: putClinicalMarkers
+      parameters:
+        - { name: id, in: path, required: true, schema: { type: string, format: uuid } }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [markers]
+              properties:
+                markers: { type: array, minItems: 1, maxItems: 30, items: { $ref: "#/components/schemas/MarkerInput" } }
+      responses:
+        "200": { description: Upserted markers }
+        "404": { description: Absent or non-owned test }
+        "422": { description: Invalid marker }
+  /v1/protocols:
+    post:
+      operationId: createProtocol
+      description: Transactionally supersedes the previous active protocol and creates a new immutable version with items.
+      responses:
+        "201": { description: Active protocol created }
+        "422": { description: Invalid protocol }
+  /v1/protocols/current:
+    get:
+      operationId: getCurrentProtocol
+      responses:
+        "200": { description: Active protocol and items }
+        "404": { description: No active protocol }
+  /v1/adherence-events:
+    post:
+      operationId: putAdherenceEvent
+      responses:
+        "201": { description: Idempotent daily adherence event }
+        "422": { description: Invalid event }
+  /v1/check-ins:
+    post:
+      operationId: createCheckIn
+      responses:
+        "201": { description: Check-in created }
+        "422": { description: Invalid check-in }
+  /v1/trends:
+    get:
+      operationId: getTrends
+      description: Returns measured tests and collection context without ML interpretation.
+      responses:
+        "200": { description: Chronological measured results }

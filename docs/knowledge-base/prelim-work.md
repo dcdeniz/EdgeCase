@@ -35,6 +35,14 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - Verified hosted `health` returns a successful JSON response and unauthenticated `notes` requests are rejected with HTTP 401.
 - No seed users or notes were created. Authenticated CRUD should be exercised by the frontend once its product sign-in flow is chosen.
 
+## PreSeed Edge API
+
+- Added and deployed a pinned Hono/Deno `api` Edge Function with standard envelopes, request IDs, CORS, token validation, and user-scoped Supabase access.
+- Added onboarding, clinical-test/marker, protocol, adherence, check-in, and trend operations. ML/assessment endpoints are intentionally absent pending the cofounder model PRs.
+- Applied the product-domain migration with RLS, composite ownership constraints, append-oriented records, validation, indexes, and transactional protocol replacement; verified local and hosted migration histories match.
+- Added Fetch-level contract tests and wired Deno checks/tests into `npm run check` and the on-edit watcher.
+- Verified the hosted API gateway rejects unauthenticated account access with HTTP 401. No user or simulated clinical data was created during deployment verification.
+
 ## Deployment sequence
 
 1. Create a Supabase project, authenticate/link the CLI, dry-run and push the migration, then deploy `health`.
