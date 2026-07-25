@@ -1,19 +1,547 @@
 @import "tailwindcss";
 
+/* ==========================================================================
+   PreSeed design tokens
+   --------------------------------------------------------------------------
+   Semantic role names only. No component may reference a raw hex value.
+   Every ink and status role is verified at >= 4.5:1 against every surface in
+   both themes; control borders are verified at >= 3:1 (WCAG 2.2 AA 1.4.11).
+   Chart series pass the six categorical checks in both themes.
+   Reference: docs/design/tokens.md
+   ========================================================================== */
+
 :root {
-  --background: #09090b;
-  --foreground: #f4f4f5;
+  color-scheme: dark;
+
+  /* --- Surfaces: ground is the page plane, 1-3 ascend toward the user ----- */
+  --ps-ground: #0b1113;
+  --ps-surface-1: #141b1d;
+  --ps-surface-2: #1b2427;
+  --ps-surface-3: #232e31;
+  --ps-surface-inverse: #e6edec;
+  --ps-scrim: rgb(4 8 9 / 0.72);
+
+  /* --- Ink: 1 primary, 2 secondary, 3 muted labels ----------------------- */
+  --ps-ink-1: #e6edec;
+  --ps-ink-2: #a3b1b0;
+  --ps-ink-3: #8a9998;
+  --ps-ink-inverse: #0b1113;
+
+  /* --- Lines: hairline is decorative, control meets 3:1 for borders ------ */
+  --ps-line-hairline: rgb(230 237 236 / 0.1);
+  --ps-line-strong: rgb(230 237 236 / 0.18);
+  --ps-line-control: #6c7b7a;
+
+  /* --- Accent: interactive + measured-and-supported ----------------------- */
+  --ps-accent: #4fc2b5;
+  --ps-accent-ink: #04211f;
+  --ps-accent-quiet: rgb(79 194 181 / 0.14);
+  --ps-accent-line: rgb(79 194 181 / 0.38);
+
+  /* --- Status roles. Never the sole carrier of meaning. ------------------- */
+  --ps-supported: #4cbe83;
+  --ps-supported-quiet: rgb(76 190 131 / 0.13);
+  --ps-attention: #e3a05f;
+  --ps-attention-quiet: rgb(227 160 95 / 0.14);
+  --ps-escalation: #e77a6c;
+  --ps-escalation-quiet: rgb(231 122 108 / 0.14);
+  --ps-information: #8fb3ce;
+  --ps-information-quiet: rgb(143 179 206 / 0.14);
+  --ps-unavailable: #8a9998;
+  --ps-unavailable-quiet: rgb(138 153 152 / 0.12);
+
+  /* --- Charts ------------------------------------------------------------ */
+  --ps-series-1: #12a398;
+  --ps-series-2: #c98500;
+  --ps-series-3: #7c7ce8;
+  --ps-chart-grid: rgb(230 237 236 / 0.08);
+  --ps-chart-axis: rgb(230 237 236 / 0.22);
+  --ps-chart-band: rgb(143 179 206 / 0.13);
+  --ps-chart-band-line: rgb(143 179 206 / 0.34);
+  --ps-chart-mark: #e6edec;
+  --ps-chart-mark-prior: #8a9998;
+
+  /* --- Elevation. Dark leans on surface step + hairline, not shadow. ----- */
+  --ps-elevation-1: 0 1px 0 rgb(230 237 236 / 0.04);
+  --ps-elevation-2: 0 8px 24px -12px rgb(0 0 0 / 0.7), 0 1px 0 rgb(230 237 236 / 0.05);
+  --ps-elevation-3: 0 -2px 48px -8px rgb(0 0 0 / 0.8), 0 1px 0 rgb(230 237 236 / 0.06);
 }
+
+/* Light theme. Applied when the OS asks for it, unless the user pinned dark. */
+@media (prefers-color-scheme: light) {
+  :root:where(:not([data-theme="dark"])) {
+    color-scheme: light;
+
+    --ps-ground: #f2f5f4;
+    --ps-surface-1: #ffffff;
+    --ps-surface-2: #fbfcfc;
+    --ps-surface-3: #eff3f2;
+    --ps-surface-inverse: #101718;
+    --ps-scrim: rgb(16 23 24 / 0.4);
+
+    --ps-ink-1: #101718;
+    --ps-ink-2: #48575a;
+    --ps-ink-3: #5f6d6f;
+    --ps-ink-inverse: #ffffff;
+
+    --ps-line-hairline: rgb(16 23 24 / 0.1);
+    --ps-line-strong: rgb(16 23 24 / 0.16);
+    --ps-line-control: #7e8a8a;
+
+    --ps-accent: #0a6e66;
+    --ps-accent-ink: #ffffff;
+    --ps-accent-quiet: rgb(10 110 102 / 0.09);
+    --ps-accent-line: rgb(10 110 102 / 0.3);
+
+    --ps-supported: #0f7a46;
+    --ps-supported-quiet: rgb(15 122 70 / 0.09);
+    --ps-attention: #9c5a16;
+    --ps-attention-quiet: rgb(156 90 22 / 0.1);
+    --ps-escalation: #a6342a;
+    --ps-escalation-quiet: rgb(166 52 42 / 0.09);
+    --ps-information: #3a5c7a;
+    --ps-information-quiet: rgb(58 92 122 / 0.09);
+    --ps-unavailable: #5f6d6f;
+    --ps-unavailable-quiet: rgb(95 109 111 / 0.09);
+
+    --ps-series-1: #008d81;
+    --ps-series-2: #a46e00;
+    --ps-series-3: #4b4bc4;
+    --ps-chart-grid: rgb(16 23 24 / 0.07);
+    --ps-chart-axis: rgb(16 23 24 / 0.2);
+    --ps-chart-band: rgb(58 92 122 / 0.1);
+    --ps-chart-band-line: rgb(58 92 122 / 0.28);
+    --ps-chart-mark: #101718;
+    --ps-chart-mark-prior: #7e8a8a;
+
+    --ps-elevation-1: 0 1px 2px rgb(16 23 24 / 0.05);
+    --ps-elevation-2: 0 8px 24px -12px rgb(16 23 24 / 0.18), 0 1px 2px rgb(16 23 24 / 0.05);
+    --ps-elevation-3: 0 -2px 48px -8px rgb(16 23 24 / 0.2), 0 1px 3px rgb(16 23 24 / 0.07);
+  }
+}
+
+/* The in-app theme control stamps data-theme and must win in both directions. */
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --ps-ground: #f2f5f4;
+  --ps-surface-1: #ffffff;
+  --ps-surface-2: #fbfcfc;
+  --ps-surface-3: #eff3f2;
+  --ps-surface-inverse: #101718;
+  --ps-scrim: rgb(16 23 24 / 0.4);
+
+  --ps-ink-1: #101718;
+  --ps-ink-2: #48575a;
+  --ps-ink-3: #5f6d6f;
+  --ps-ink-inverse: #ffffff;
+
+  --ps-line-hairline: rgb(16 23 24 / 0.1);
+  --ps-line-strong: rgb(16 23 24 / 0.16);
+  --ps-line-control: #7e8a8a;
+
+  --ps-accent: #0a6e66;
+  --ps-accent-ink: #ffffff;
+  --ps-accent-quiet: rgb(10 110 102 / 0.09);
+  --ps-accent-line: rgb(10 110 102 / 0.3);
+
+  --ps-supported: #0f7a46;
+  --ps-supported-quiet: rgb(15 122 70 / 0.09);
+  --ps-attention: #9c5a16;
+  --ps-attention-quiet: rgb(156 90 22 / 0.1);
+  --ps-escalation: #a6342a;
+  --ps-escalation-quiet: rgb(166 52 42 / 0.09);
+  --ps-information: #3a5c7a;
+  --ps-information-quiet: rgb(58 92 122 / 0.09);
+  --ps-unavailable: #5f6d6f;
+  --ps-unavailable-quiet: rgb(95 109 111 / 0.09);
+
+  --ps-series-1: #008d81;
+  --ps-series-2: #a46e00;
+  --ps-series-3: #4b4bc4;
+  --ps-chart-grid: rgb(16 23 24 / 0.07);
+  --ps-chart-axis: rgb(16 23 24 / 0.2);
+  --ps-chart-band: rgb(58 92 122 / 0.1);
+  --ps-chart-band-line: rgb(58 92 122 / 0.28);
+  --ps-chart-mark: #101718;
+  --ps-chart-mark-prior: #7e8a8a;
+
+  --ps-elevation-1: 0 1px 2px rgb(16 23 24 / 0.05);
+  --ps-elevation-2: 0 8px 24px -12px rgb(16 23 24 / 0.18), 0 1px 2px rgb(16 23 24 / 0.05);
+  --ps-elevation-3: 0 -2px 48px -8px rgb(16 23 24 / 0.2), 0 1px 3px rgb(16 23 24 / 0.07);
+}
+
+/* --------------------------------------------------------------------------
+   Non-colour tokens
+   -------------------------------------------------------------------------- */
+
+:root {
+  --ps-radius-xs: 0.375rem;
+  --ps-radius-sm: 0.625rem;
+  --ps-radius-md: 0.875rem;
+  --ps-radius-lg: 1.25rem;
+  --ps-radius-xl: 1.75rem;
+
+  --ps-border-hairline: 1px;
+  --ps-border-control: 1px;
+  --ps-border-emphasis: 2px;
+  --ps-focus-width: 3px;
+  --ps-focus-offset: 2px;
+
+  --ps-duration-instant: 80ms;
+  --ps-duration-fast: 130ms;
+  --ps-duration-base: 190ms;
+  --ps-duration-slow: 280ms;
+  --ps-duration-sheet: 320ms;
+  --ps-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ps-ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+  --ps-ease-in: cubic-bezier(0.4, 0, 1, 1);
+
+  /* Multiplied into the root font size by the display settings screen. */
+  --ps-text-scale: 1;
+
+  --ps-touch-min: 2.75rem;
+  --ps-shell-max: 30rem;
+  --ps-header-height: 3.5rem;
+  --ps-nav-height: 4rem;
+}
+
+/* --------------------------------------------------------------------------
+   Tailwind theme bridge. `inline` keeps utilities pointing at the custom
+   properties, so a theme or contrast switch repaints without a rebuild.
+   -------------------------------------------------------------------------- */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: Arial, Helvetica, sans-serif;
-  --font-mono: "SFMono-Regular", Consolas, monospace;
+  --color-ground: var(--ps-ground);
+  --color-surface-1: var(--ps-surface-1);
+  --color-surface-2: var(--ps-surface-2);
+  --color-surface-3: var(--ps-surface-3);
+  --color-surface-inverse: var(--ps-surface-inverse);
+
+  --color-ink-1: var(--ps-ink-1);
+  --color-ink-2: var(--ps-ink-2);
+  --color-ink-3: var(--ps-ink-3);
+  --color-ink-inverse: var(--ps-ink-inverse);
+
+  --color-hairline: var(--ps-line-hairline);
+  --color-line-strong: var(--ps-line-strong);
+  --color-line-control: var(--ps-line-control);
+
+  --color-accent: var(--ps-accent);
+  --color-accent-ink: var(--ps-accent-ink);
+  --color-accent-quiet: var(--ps-accent-quiet);
+  --color-accent-line: var(--ps-accent-line);
+
+  --color-supported: var(--ps-supported);
+  --color-supported-quiet: var(--ps-supported-quiet);
+  --color-attention: var(--ps-attention);
+  --color-attention-quiet: var(--ps-attention-quiet);
+  --color-escalation: var(--ps-escalation);
+  --color-escalation-quiet: var(--ps-escalation-quiet);
+  --color-information: var(--ps-information);
+  --color-information-quiet: var(--ps-information-quiet);
+  --color-unavailable: var(--ps-unavailable);
+  --color-unavailable-quiet: var(--ps-unavailable-quiet);
+
+  --color-series-1: var(--ps-series-1);
+  --color-series-2: var(--ps-series-2);
+  --color-series-3: var(--ps-series-3);
+
+  --radius-xs: var(--ps-radius-xs);
+  --radius-sm: var(--ps-radius-sm);
+  --radius-md: var(--ps-radius-md);
+  --radius-lg: var(--ps-radius-lg);
+  --radius-xl: var(--ps-radius-xl);
+
+  --shadow-e1: var(--ps-elevation-1);
+  --shadow-e2: var(--ps-elevation-2);
+  --shadow-e3: var(--ps-elevation-3);
+
+  --font-sans: var(--ps-font-sans);
+  --font-serif: var(--ps-font-serif);
+  --font-mono: var(--ps-font-mono);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* --------------------------------------------------------------------------
+   User preference overrides
+   -------------------------------------------------------------------------- */
+
+:root[data-text-scale="large"] { --ps-text-scale: 1.125; }
+:root[data-text-scale="larger"] { --ps-text-scale: 1.25; }
+:root[data-text-scale="largest"] { --ps-text-scale: 1.5; }
+
+/* Reinforce low-chroma borders and muted ink when contrast is requested. */
+@media (prefers-contrast: more) {
+  :root:where(:not([data-contrast="standard"])) {
+    --ps-ink-3: var(--ps-ink-2);
+    --ps-line-hairline: var(--ps-line-control);
+    --ps-line-strong: var(--ps-ink-2);
+    --ps-chart-grid: var(--ps-line-strong);
+    --ps-chart-axis: var(--ps-ink-2);
+  }
+}
+
+:root[data-contrast="high"] {
+  --ps-ink-3: var(--ps-ink-2);
+  --ps-line-hairline: var(--ps-line-control);
+  --ps-line-strong: var(--ps-ink-2);
+  --ps-chart-grid: var(--ps-line-strong);
+  --ps-chart-axis: var(--ps-ink-2);
+}
+
+/* --------------------------------------------------------------------------
+   Base
+   -------------------------------------------------------------------------- */
+
+@layer base {
+  html {
+    font-size: calc(100% * var(--ps-text-scale));
+    -webkit-text-size-adjust: 100%;
+    scrollbar-gutter: stable;
+  }
+
+  body {
+    background-color: var(--ps-ground);
+    color: var(--ps-ink-1);
+    font-family: var(--ps-font-sans);
+    font-synthesis-weight: none;
+    line-height: 1.55;
+    text-align: start;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* One visible focus treatment everywhere, including inside dark sheets. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: var(--ps-focus-width) solid var(--ps-accent);
+    outline-offset: var(--ps-focus-offset);
+    border-radius: var(--ps-radius-xs);
+  }
+
+  :where(h1, h2, h3, h4) {
+    text-wrap: balance;
+    letter-spacing: -0.012em;
+  }
+
+  :where(p, li) {
+    text-wrap: pretty;
+  }
+
+  /* Measured values, axis ticks and table columns must align vertically. */
+  :where(table, .ps-num, [data-numeric]) {
+    font-variant-numeric: tabular-nums;
+  }
+
+  ::selection {
+    background-color: var(--ps-accent-quiet);
+  }
+
+  dialog::backdrop {
+    background-color: var(--ps-scrim);
+    animation: ps-fade-in var(--ps-duration-base) var(--ps-ease-out) both;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Typography roles
+   Sans measures. Serif reasons. Mono reports machine metadata.
+   -------------------------------------------------------------------------- */
+
+@layer components {
+  .t-display-1 {
+    font-size: 2.75rem;
+    line-height: 1.02;
+    letter-spacing: -0.03em;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .t-display-2 {
+    font-size: 2rem;
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    font-weight: 400;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .t-title-1 {
+    font-size: 1.375rem;
+    line-height: 1.24;
+    letter-spacing: -0.017em;
+    font-weight: 600;
+  }
+
+  .t-title-2 {
+    font-size: 1.125rem;
+    line-height: 1.3;
+    letter-spacing: -0.012em;
+    font-weight: 600;
+  }
+
+  .t-title-3 {
+    font-size: 1rem;
+    line-height: 1.35;
+    letter-spacing: -0.008em;
+    font-weight: 600;
+  }
+
+  .t-body {
+    font-size: 1rem;
+    line-height: 1.55;
+  }
+
+  .t-body-sm {
+    font-size: 0.875rem;
+    line-height: 1.5;
+  }
+
+  .t-caption {
+    font-size: 0.8125rem;
+    line-height: 1.45;
+  }
+
+  /* Eyebrows and field labels. Uppercase is structural here, not emphasis. */
+  .t-micro {
+    font-size: 0.6875rem;
+    line-height: 1.3;
+    letter-spacing: 0.085em;
+    font-weight: 600;
+    text-transform: uppercase;
+  }
+
+  /* The explanation register: mechanism, evidence, limitations. */
+  .t-prose {
+    font-family: var(--ps-font-serif);
+    font-size: 1.0625rem;
+    line-height: 1.62;
+    letter-spacing: 0;
+    max-width: 68ch;
+  }
+
+  .t-prose-lead {
+    font-family: var(--ps-font-serif);
+    font-size: 1.25rem;
+    line-height: 1.42;
+    letter-spacing: -0.005em;
+    max-width: 40ch;
+  }
+
+  /* Machine metadata: marker codes, versions, identifiers, timestamps. */
+  .t-mono {
+    font-family: var(--ps-font-mono);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    letter-spacing: 0.01em;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Utilities
+   -------------------------------------------------------------------------- */
+
+@utility visually-hidden {
+  &:where(:not(:focus-within, :active)) {
+    position: absolute !important;
+    clip-path: inset(50%) !important;
+    overflow: hidden !important;
+    width: 1px !important;
+    height: 1px !important;
+    margin: -1px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    white-space: nowrap !important;
+  }
+}
+
+@utility pad-safe-bottom {
+  padding-bottom: max(env(safe-area-inset-bottom), 0px);
+}
+
+@utility pad-safe-top {
+  padding-top: max(env(safe-area-inset-top), 0px);
+}
+
+/* --------------------------------------------------------------------------
+   Motion
+   -------------------------------------------------------------------------- */
+
+@keyframes ps-fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes ps-rise-in {
+  from { opacity: 0; transform: translateY(0.5rem); }
+}
+
+@keyframes ps-sheet-in {
+  from { transform: translateY(100%); }
+}
+
+@keyframes ps-shimmer {
+  to { background-position: 200% 0; }
+}
+
+/* Directional screen transitions. Forward slides in from the trailing edge. */
+::view-transition-group(root) {
+  animation-duration: var(--ps-duration-slow);
+  animation-timing-function: var(--ps-ease-out);
+}
+
+@keyframes ps-slide-to-start { to { transform: translateX(-18%); opacity: 0; } }
+@keyframes ps-slide-from-end { from { transform: translateX(18%); opacity: 0; } }
+@keyframes ps-slide-to-end { to { transform: translateX(18%); opacity: 0; } }
+@keyframes ps-slide-from-start { from { transform: translateX(-18%); opacity: 0; } }
+
+html:active-view-transition-type(forward)::view-transition-old(root) {
+  animation-name: ps-slide-to-start;
+}
+html:active-view-transition-type(forward)::view-transition-new(root) {
+  animation-name: ps-slide-from-end;
+}
+html:active-view-transition-type(backward)::view-transition-old(root) {
+  animation-name: ps-slide-to-end;
+}
+html:active-view-transition-type(backward)::view-transition-new(root) {
+  animation-name: ps-slide-from-start;
+}
+
+/* Reduced motion keeps state changes legible but removes travel. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --ps-duration-instant: 1ms;
+    --ps-duration-fast: 1ms;
+    --ps-duration-base: 1ms;
+    --ps-duration-slow: 1ms;
+    --ps-duration-sheet: 1ms;
+  }
+
+  ::view-transition-group(root) { animation: none !important; }
+
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  @keyframes ps-rise-in { from { opacity: 0; transform: none; } }
+  @keyframes ps-sheet-in { from { opacity: 0; transform: none; } }
+}
+
+:root[data-motion="reduced"] {
+  --ps-duration-instant: 1ms;
+  --ps-duration-fast: 1ms;
+  --ps-duration-base: 1ms;
+  --ps-duration-slow: 1ms;
+  --ps-duration-sheet: 1ms;
+}
+
+:root[data-motion="reduced"] ::view-transition-group(root) { animation: none !important; }
+
+:root[data-motion="reduced"] *,
+:root[data-motion="reduced"] *::before,
+:root[data-motion="reduced"] *::after {
+  animation-duration: 1ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 1ms !important;
 }

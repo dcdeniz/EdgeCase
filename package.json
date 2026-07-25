@@ -11,14 +11,15 @@
     "check": "npm run docs:check && npm run lint && npm run typecheck && npm run edge:check",
     "docs:check": "node scripts/docs-check.mjs",
     "docs:watch": "node scripts/docs-watch.mjs",
-    "edge:check": "deno check --config supabase/functions/api/deno.json supabase/functions/api/index.ts supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts && deno test --allow-env=ALLOWED_ORIGINS,SUPABASE_URL,SUPABASE_ANON_KEY --config supabase/functions/api/deno.json supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts",
+    "edge:check": "deno check --config supabase/functions/api/deno.json supabase/functions/api/index.ts supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts && deno test --allow-env=ALLOWED_ORIGINS,SUPABASE_URL,SUPABASE_ANON_KEY,PUBLIC_DEMO_MODE --config supabase/functions/api/deno.json supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts",
     "hooks:install": "git config core.hooksPath .githooks",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
     "supabase:reset": "supabase db reset",
     "supabase:functions": "supabase functions serve --env-file supabase/functions/.env.local",
     "neat:init": "neat init .",
-    "neat:apply": "neat init . --apply"
+    "neat:apply": "neat init . --apply",
+    "rag:ingest": "node scripts/rag-ingest.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",

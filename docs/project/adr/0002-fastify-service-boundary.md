@@ -40,6 +40,6 @@ The first product stays inside the chosen Supabase platform and uses its native 
 
 The team gives up Fastify-specific runtime plugins and injection behavior at the edge. Hono becomes a thin transport adapter, not the domain architecture. Portable JSON Schema/OpenAPI contracts and framework-neutral services retain a credible migration path to Fastify without maintaining two implementations today.
 
-The edge runtime remains inappropriate for long-running local scikit-learn inference. A small exported linear/logistic model can be evaluated in TypeScript when validated; larger Python models require a private inference service or batch job behind the authenticated edge API.
+The initial product does not train or host a scikit-learn predictor. Evidence retrieval and grounded explanation run through the edge API using the vector-RAG boundary defined in ADR 0004. A future validated predictive model would require a separate ADR, dataset provenance, calibration, subgroup evaluation, and explicit clinical-safety review.
 
 The initial implementation proves Hono routing, bearer-token validation, user-scoped Supabase access, Fetch-based tests, and pinned edge dependencies. Bundle, hosted RLS, cold-start, and OpenTelemetry checks remain release gates.

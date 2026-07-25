@@ -81,3 +81,33 @@ alter table public.protocol_items enable row level security;
 alter table public.adherence_events enable row level security;
 alter table public.check_ins enable row level security;
 alter table public.score_snapshots enable row level security;
+
+-- Vector-RAG snapshot; executable source, grants, retrieval function, seed
+-- evidence, and constraints are canonical in
+-- supabase/migrations/20260725233000_vector_rag.sql.
+create table public.evidence_chunks (
+  id text primary key,
+  title text not null,
+  source_url text not null,
+  citation text not null,
+  content text not null,
+  evidence_level text not null,
+  tags text[] not null default '{}',
+  embedding extensions.vector(1536),
+  embedding_model text,
+  reviewed_at date not null,
+  created_at timestamptz not null default now()
+);
+create table public.rag_runs (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  question text not null,
+  answer jsonb not null,
+  retrieved_evidence_ids text[] not null,
+  response_model text not null,
+  embedding_model text not null,
+  prompt_version text not null,
+  created_at timestamptz not null default now()
+);
+alter table public.evidence_chunks enable row level security;
+alter table public.rag_runs enable row level security;
