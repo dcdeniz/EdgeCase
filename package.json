@@ -18,7 +18,8 @@
     "supabase:reset": "supabase db reset",
     "supabase:functions": "supabase functions serve --env-file supabase/functions/.env.local",
     "neat:init": "neat init .",
-    "neat:apply": "neat init . --apply"
+    "neat:apply": "neat init . --apply",
+    "rag:ingest": "node scripts/rag-ingest.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.3",

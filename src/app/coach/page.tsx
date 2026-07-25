@@ -14,6 +14,21 @@ import {
   StatusChip,
 } from "@/components/ui";
 import { coachResponses, evidenceById, suggestedQuestions, type CoachResponse } from "@/lib/fixtures";
+import { edgeApiUrl, getSupabaseBrowserClient } from "@/lib/supabase-browser";
+
+type RagAnswer = {
+  answer: string;
+  limitations: string[];
+  clinicalEscalation: boolean;
+  disclaimer: string;
+  citations: Array<{
+    id: string;
+    title: string;
+    citation: string;
+    sourceUrl: string;
+    evidenceLevel: string;
+  }>;
+};
 
 /**
  * Contextual explanation, launched from a result, risk, domain, recommendation,
@@ -25,9 +40,51 @@ function CoachThread() {
   const contextId = params.get("context") ?? "";
   const contextLabel = params.get("label") ?? "your account";
   const [asked, setAsked] = useState<CoachResponse | null>(null);
+  const [question, setQuestion] = useState("");
+  const [ragAnswer, setRagAnswer] = useState<RagAnswer | null>(null);
+  const [ragError, setRagError] = useState<string | null>(null);
+  const [ragPending, setRagPending] = useState(false);
 
   const available = coachResponses.filter((response) => response.contextId === contextId);
   const hasPrepared = available.length > 0;
+
+  async function askEvidence() {
+    const supabase = getSupabaseBrowserClient();
+    const url = edgeApiUrl("evidence/answer");
+    const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
+    if (!supabase || !url || !key) {
+      setRagError("The evidence service is not configured in this environment.");
+      return;
+    }
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) {
+      setRagError("Sign in before asking an account-based evidence question.");
+      return;
+    }
+    setRagPending(true);
+    setRagError(null);
+    setRagAnswer(null);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+          apikey: key,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ question }),
+      });
+      const payload = await response.json();
+      if (!response.ok) {
+        throw new Error(payload?.error?.message ?? "The evidence service could not answer.");
+      }
+      setRagAnswer(payload.data as RagAnswer);
+    } catch (caught) {
+      setRagError(caught instanceof Error ? caught.message : "The evidence service could not answer.");
+    } finally {
+      setRagPending(false);
+    }
+  }
 
   return (
     <>
@@ -54,6 +111,76 @@ function CoachThread() {
           </div>
         </div>
       </Card>
+
+      <section className="mt-6" aria-labelledby="rag-question">
+        <SectionHeader
+          id="rag-question"
+          eyebrow="Approved evidence"
+          title="Ask about your results"
+          level={2}
+        />
+        <label htmlFor="evidence-question" className="t-caption text-ink-2">
+          Question
+        </label>
+        <textarea
+          id="evidence-question"
+          value={question}
+          onChange={(event) => setQuestion(event.target.value)}
+          maxLength={800}
+          rows={4}
+          placeholder="Why does my motility result change what the protocol emphasises?"
+          className="mt-2 w-full rounded-sm border border-line-control bg-surface-1 px-3 py-2.5 t-body-sm text-ink-1 outline-none focus:border-accent"
+        />
+        <div className="mt-3">
+          <Button
+            full
+            disabled={ragPending || question.trim().length === 0}
+            onClick={askEvidence}
+          >
+            {ragPending ? "Retrieving evidence…" : "Ask PreSeed"}
+          </Button>
+        </div>
+        {ragError ? <p role="alert" className="mt-3 t-body-sm text-danger">{ragError}</p> : null}
+      </section>
+
+      {ragAnswer ? (
+        <Card className="mt-5" tone={ragAnswer.clinicalEscalation ? "attention" : undefined}>
+          <div className="flex flex-wrap items-center gap-2">
+            <StatusChip tone="supported" glyph="evidence">Retrieved + cited</StatusChip>
+            {ragAnswer.clinicalEscalation ? (
+              <StatusChip tone="attention" glyph="attention">Clinician recommended</StatusChip>
+            ) : null}
+          </div>
+          <p className="mt-3 t-prose text-ink-1">{ragAnswer.answer}</p>
+          <div className="mt-4 border-t border-hairline pt-3">
+            <p className="t-micro text-ink-3">Sources used</p>
+            <ul className="mt-2 space-y-2">
+              {ragAnswer.citations.map((citation) => (
+                <li key={citation.id}>
+                  <a
+                    href={citation.sourceUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="block rounded-sm border border-hairline p-2.5 hover:bg-surface-3"
+                  >
+                    <span className="block t-body-sm text-ink-1">{citation.title}</span>
+                    <span className="mt-1 block t-caption text-ink-3">{citation.citation}</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="mt-4 border-t border-hairline pt-3">
+            <p className="t-micro text-ink-3">Limits</p>
+            <ul className="mt-2 space-y-1.5">
+              {ragAnswer.limitations.map((limitation) => (
+                <li key={limitation} className="t-caption text-ink-2">{limitation}</li>
+              ))}
+            </ul>
+            <p className="mt-3 t-caption text-ink-3">{ragAnswer.disclaimer}</p>
+          </div>
+        </Card>
+      ) : null}
 
       {!hasPrepared ? (
         <div className="mt-4">
@@ -190,10 +317,10 @@ function CoachThread() {
       <Card className="mt-6">
         <p className="t-micro text-ink-3">Prototype</p>
         <p className="mt-1.5 t-body-sm text-ink-2">
-          These answers are written in advance, not generated. In production this is a retrieval layer
-          over an approved evidence set with output validated against a closed schema — it cannot invent
-          a citation, change a score, alter a clinical gate, recommend hormone treatment, or apply a
-          protocol change without your confirmation.
+          Prepared demo answers remain below for offline walkthroughs. The form above uses live vector
+          retrieval over the approved evidence set, validates output against a closed schema, and rejects
+          citations that were not retrieved. It cannot change a score, diagnose a condition, recommend
+          hormone treatment, or apply a protocol change.
         </p>
       </Card>
 

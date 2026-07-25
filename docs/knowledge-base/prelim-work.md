@@ -61,3 +61,15 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 1. Create a Supabase project, authenticate/link the CLI, dry-run and push the migration, then deploy `health`.
 2. Create/link a Vercel project, add the browser-safe Supabase variables and optional NEAT collector variables, and deploy.
 3. Point `OTEL_EXPORTER_OTLP_ENDPOINT` at an accessible NEAT collector for hosted traces; local NEAT defaults to its local OTLP listener.
+
+## Vector-RAG implementation
+
+- Replaced the planned hackathon scikit-learn predictor with the vector-RAG architecture in ADR 0004. The product now produces evidence-grounded explanation, not a diagnostic probability or disease prediction.
+- Added real browser Supabase sign-up/sign-in and connected the coach screen to an authenticated account-scoped Edge API route.
+- Added pgvector-backed `evidence_chunks`, cosine retrieval through `match_evidence`, per-user `rag_runs` audit records, RLS, least-privilege grants, an HNSW index, and six reviewed evidence seeds spanning supplements, smoking, weight, pollution, sleep/testosterone, and azoospermia laboratory requirements.
+- Added `scripts/rag-ingest.mjs`. It embeds only unindexed reviewed evidence with `text-embedding-3-small`, validates 1,536 dimensions, and writes vectors using the server-only Supabase secret key.
+- Added the grounded Responses API path. It builds retrieval context from the authenticated user's track, onboarding data, and three most recent clinical tests; sends only retrieved evidence to synthesis; requires a closed JSON shape; rejects invented evidence IDs; resolves source metadata server-side; hashes the provider safety identifier; and persists the auditable result before returning it.
+- Added a live coach question form with loading/error states, citations, limitations, clinician-escalation status, and the research-prototype disclaimer. Prepared fixture answers remain for offline demos.
+- Added RAG unit tests covering citation allow-list enforcement, Responses payload extraction, and privacy-preserving safety identifiers. Eleven Edge Function tests, strict TypeScript, documentation checks, PostgreSQL lint, and the production Next.js build pass.
+- Applied migrations `20260725233000` and `20260725233500` locally and to hosted EdgeCase, then deployed the revised `api` function with gateway JWT verification retained.
+- Live provider completion is deliberately not claimed: `OPENAI_API_KEY` is not present in the local environment, and the six seeded hosted/local evidence rows still require `npm run rag:ingest`. The authenticated local endpoint was exercised and correctly returned `503 RAG_NOT_CONFIGURED` rather than generating an uncited fallback.
