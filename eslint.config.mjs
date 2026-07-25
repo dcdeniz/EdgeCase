@@ -14,6 +14,10 @@ const eslintConfig = defineConfig([
     "ml/.venv/**",
     "ml/**/__pycache__/**",
     "next-env.d.ts",
+    // Capacitor native projects. These hold generated platform scaffolding and
+    // a copy of the built web bundle, neither of which is source.
+    "ios/**",
+    "android/**",
   ]),
 ]);
 

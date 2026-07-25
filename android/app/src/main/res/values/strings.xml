@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">PreSeed</string>
+    <string name="title_activity_main">PreSeed</string>
+    <string name="package_name">is.neat.preseed</string>
+    <string name="custom_url_scheme">is.neat.preseed</string>
+</resources>
