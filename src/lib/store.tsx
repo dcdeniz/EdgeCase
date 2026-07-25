@@ -122,7 +122,13 @@ const initialState: PrototypeState = {
   adherence: {},
   checkIns: [],
   adaptation: null,
-  settings: { theme: "system", textScale: "default", motion: "system", contrast: "system" },
+  /*
+   * Light is the default rather than system, because the warm-cream surface is
+   * the intended presentation. The display settings screen changes it in both
+   * directions and the choice persists, so this is a starting point, not a
+   * removal of the preference.
+   */
+  settings: { theme: "light", textScale: "default", motion: "system", contrast: "system" },
   preservation: { treatmentStart: null, checklist: {} },
   offline: false,
 };

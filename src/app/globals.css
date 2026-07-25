@@ -72,21 +72,28 @@
   :root:where(:not([data-theme="dark"])) {
     color-scheme: light;
 
-    --ps-ground: #f2f5f4;
-    --ps-surface-1: #ffffff;
-    --ps-surface-2: #fbfcfc;
-    --ps-surface-3: #eff3f2;
-    --ps-surface-inverse: #101718;
-    --ps-scrim: rgb(16 23 24 / 0.4);
+    /*
+     * Warm cream rather than cool near-white. Chosen so every verified ratio
+     * survives: ground drops from L 0.908 to 0.881, which scales the two
+     * tightest pairs — light `ink-3` on ground (4.90) and light `attention` on
+     * ground (4.92) — to 4.76 and 4.78. Both still clear 4.5.
+     */
+    --ps-ground: #f4f1ea;
+    --ps-surface-1: #fffdf8;
+    --ps-surface-2: #fbf8f2;
+    --ps-surface-3: #f1ede5;
+    --ps-surface-inverse: #191410;
+    --ps-scrim: rgb(28 22 14 / 0.4);
 
     --ps-ink-1: #101718;
     --ps-ink-2: #48575a;
     --ps-ink-3: #5f6d6f;
-    --ps-ink-inverse: #ffffff;
+    --ps-ink-inverse: #fffdf8;
 
-    --ps-line-hairline: rgb(16 23 24 / 0.1);
-    --ps-line-strong: rgb(16 23 24 / 0.16);
-    --ps-line-control: #7e8a8a;
+    --ps-line-hairline: rgb(43 33 20 / 0.1);
+    --ps-line-strong: rgb(43 33 20 / 0.16);
+    /* Warmed to sit on cream; 3.92 on surface-1 and 3.40 on surface-3. */
+    --ps-line-control: #857f74;
 
     --ps-accent: #0a6e66;
     --ps-accent-ink: #ffffff;
@@ -114,9 +121,9 @@
     --ps-chart-mark: #101718;
     --ps-chart-mark-prior: #7e8a8a;
 
-    --ps-elevation-1: 0 1px 2px rgb(16 23 24 / 0.05);
-    --ps-elevation-2: 0 8px 24px -12px rgb(16 23 24 / 0.18), 0 1px 2px rgb(16 23 24 / 0.05);
-    --ps-elevation-3: 0 -2px 48px -8px rgb(16 23 24 / 0.2), 0 1px 3px rgb(16 23 24 / 0.07);
+    --ps-elevation-1: 0 1px 2px rgb(43 33 20 / 0.05);
+    --ps-elevation-2: 0 8px 24px -12px rgb(43 33 20 / 0.18), 0 1px 2px rgb(43 33 20 / 0.05);
+    --ps-elevation-3: 0 -2px 48px -8px rgb(43 33 20 / 0.2), 0 1px 3px rgb(43 33 20 / 0.07);
   }
 }
 
@@ -124,21 +131,22 @@
 :root[data-theme="light"] {
   color-scheme: light;
 
-  --ps-ground: #f2f5f4;
-  --ps-surface-1: #ffffff;
-  --ps-surface-2: #fbfcfc;
-  --ps-surface-3: #eff3f2;
-  --ps-surface-inverse: #101718;
-  --ps-scrim: rgb(16 23 24 / 0.4);
+  /* Warm cream. See the note in the prefers-color-scheme block above. */
+  --ps-ground: #f4f1ea;
+  --ps-surface-1: #fffdf8;
+  --ps-surface-2: #fbf8f2;
+  --ps-surface-3: #f1ede5;
+  --ps-surface-inverse: #191410;
+  --ps-scrim: rgb(28 22 14 / 0.4);
 
   --ps-ink-1: #101718;
   --ps-ink-2: #48575a;
   --ps-ink-3: #5f6d6f;
-  --ps-ink-inverse: #ffffff;
+  --ps-ink-inverse: #fffdf8;
 
-  --ps-line-hairline: rgb(16 23 24 / 0.1);
-  --ps-line-strong: rgb(16 23 24 / 0.16);
-  --ps-line-control: #7e8a8a;
+  --ps-line-hairline: rgb(43 33 20 / 0.1);
+  --ps-line-strong: rgb(43 33 20 / 0.16);
+  --ps-line-control: #857f74;
 
   --ps-accent: #0a6e66;
   --ps-accent-ink: #ffffff;
@@ -166,9 +174,9 @@
   --ps-chart-mark: #101718;
   --ps-chart-mark-prior: #7e8a8a;
 
-  --ps-elevation-1: 0 1px 2px rgb(16 23 24 / 0.05);
-  --ps-elevation-2: 0 8px 24px -12px rgb(16 23 24 / 0.18), 0 1px 2px rgb(16 23 24 / 0.05);
-  --ps-elevation-3: 0 -2px 48px -8px rgb(16 23 24 / 0.2), 0 1px 3px rgb(16 23 24 / 0.07);
+  --ps-elevation-1: 0 1px 2px rgb(43 33 20 / 0.05);
+  --ps-elevation-2: 0 8px 24px -12px rgb(43 33 20 / 0.18), 0 1px 2px rgb(43 33 20 / 0.05);
+  --ps-elevation-3: 0 -2px 48px -8px rgb(43 33 20 / 0.2), 0 1px 3px rgb(43 33 20 / 0.07);
 }
 
 /* --------------------------------------------------------------------------

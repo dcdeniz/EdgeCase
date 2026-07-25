@@ -146,9 +146,20 @@ once in the safety centre. Screens carry a single-line footer, not a paragraph.
 
 | Route | Screen | Notes |
 | --- | --- | --- |
-| `/today` | Today † | One question, answered |
+| `/today` | Today † | One question, answered — plus today's logged data |
 | `/protocol` | Protocol † | Progress, actions, timeline, versions |
 | `/protocol/check-in` | Check-in † | Log actions, then two questions |
+
+### Behaviour and logged data
+
+Added by [ADR 0006](../project/adr/0006-behaviour-score-surface.md). Reached from
+Today rather than from a sixth navigation slot, which stays at five.
+
+| Route | Screen | Notes |
+| --- | --- | --- |
+| `/score` | Behaviour | Weekly and yearly score, year grid, four domains |
+| `/sleep` | Sleep | Hypnogram, stages, seven-night duration. Simulated |
+| `/food` | Food | Camera capture with a confirmation loop, pattern score |
 
 ### Tracks
 

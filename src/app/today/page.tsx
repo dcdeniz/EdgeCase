@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useMemo } from "react";
 import { Icon } from "@/components/icons";
 import { DisclaimerFooter, SafetyAlert, Screen } from "@/components/shell";
 import {
@@ -11,9 +12,13 @@ import {
   RetestPrompt,
 } from "@/components/protocol";
 import { ReadinessSummary } from "@/components/domain";
+import { MetricTile, ScoreRing } from "@/components/score";
 import { Button, ButtonLink, Card, EmptyState, SectionHeader, SimulatedBadge } from "@/components/ui";
 import { TODAY, daysBetween, formatDate } from "@/lib/format";
 import { itemsForWeek, protocolDay, protocolWeek, usePrototype } from "@/lib/store";
+import { behaviourBandLabel, behaviourWindow } from "@/lib/behaviour-score";
+import { dietDayFor } from "@/lib/nutrition";
+import { formatDuration, latestHealthDay, latestSleepNight, sleepNeedPercent } from "@/lib/wearable";
 
 /**
  * Today answers one question: what do I do now. Everything competing with that
@@ -22,6 +27,11 @@ import { itemsForWeek, protocolDay, protocolWeek, usePrototype } from "@/lib/sto
 export default function TodayPage() {
   const { state, readiness, latestSemen, seedDemo } = usePrototype();
   const protocol = state.protocol;
+
+  const night = useMemo(() => latestSleepNight(), []);
+  const health = useMemo(() => latestHealthDay(), []);
+  const diet = useMemo(() => dietDayFor(TODAY), []);
+  const week = useMemo(() => behaviourWindow(state, 7), [state]);
 
   return (
     <Screen title="Today" eyebrow={formatDate(TODAY)}>
@@ -50,6 +60,84 @@ export default function TodayPage() {
           <AdaptationProposal />
         </div>
       ) : null}
+
+      {/*
+        Connected data, above the plan but below any safety flag. These are
+        inputs the user supplied today, so they belong near the top; each tile
+        is a door to its own screen rather than an interpretation in itself.
+      */}
+      <section aria-labelledby="today-metrics">
+        <h2 id="today-metrics" className="visually-hidden">
+          Today&rsquo;s data
+        </h2>
+        <div className="grid grid-cols-2 gap-3">
+          <MetricTile
+            glyph="moon"
+            label="Sleep"
+            value={night ? formatDuration(night.asleepMinutes) : "—"}
+            detail={night ? `${sleepNeedPercent(night)}% of need` : "No night recorded"}
+            href="/sleep"
+            tone="accent"
+          />
+          <MetricTile
+            glyph="food"
+            label="Diet pattern"
+            value={diet.score == null ? "—" : String(diet.score)}
+            unit={diet.score == null ? undefined : "/100"}
+            detail={
+              diet.entries.length === 0
+                ? "Nothing logged"
+                : `${diet.entries.length} meal${diet.entries.length === 1 ? "" : "s"}`
+            }
+            href="/food"
+          />
+          <MetricTile
+            glyph="steps"
+            label="Steps"
+            value={health ? health.steps.toLocaleString("en-GB") : "—"}
+            detail={health ? `${health.activeMinutes} active minutes` : "No data"}
+          />
+          <MetricTile
+            glyph="heart"
+            label="Resting heart rate"
+            value={health ? String(health.restingHeartRate) : "—"}
+            unit="bpm"
+            detail={health ? `HRV ${health.heartRateVariability} ms` : "No data"}
+          />
+        </div>
+        <p className="mt-2 t-caption text-ink-3">
+          Wearable figures are simulated. Heart-rate variability is a recovery proxy, never a
+          hormone measurement.
+        </p>
+      </section>
+
+      <Card className="mt-4">
+        <div className="flex items-center gap-4">
+          <ScoreRing
+            value={week.score}
+            size={104}
+            label="Behaviour score, trailing seven days"
+            caveat={false}
+          />
+          <div className="min-w-0 flex-1">
+            <p className="t-micro text-ink-3">This week</p>
+            <p className="mt-1 t-title-2 text-ink-1">{behaviourBandLabel(week.score)}</p>
+            <p className="mt-1 t-caption text-ink-2">
+              Across sleep, diet, activity and adherence. Reflects modifiable behaviours, not
+              measured sperm quality.
+            </p>
+            <Link
+              href="/score"
+              className="mt-2 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+            >
+              Week and year
+              <Icon name="chevron-right" size={15} />
+            </Link>
+          </div>
+        </div>
+      </Card>
+
+      <div className="mt-6" />
 
       {!protocol ? (
         <EmptyState
