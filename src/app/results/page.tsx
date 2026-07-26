@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { DisclaimerFooter, Screen } from "@/components/shell";
 import {
-  ConfidenceCard,
   MarkerCard,
   ReadinessSummary,
   ReasoningSummaryCard,
@@ -22,12 +21,18 @@ import { formatDate, relativeDays } from "@/lib/format";
 import { usePrototype } from "@/lib/store";
 
 /**
- * The four outputs are kept visually distinct and never merged into a headline
- * number. Order is deliberate: what was measured, then what you can change,
- * then what a model would guess, then how much of it can be trusted.
+ * Outputs are kept visually distinct and never merged into a headline number.
+ * Order is deliberate: what was measured, then what you can change, then what a
+ * model would guess.
+ *
+ * Data confidence is no longer a section here. The invariant it exists to
+ * protect is unaffected — missing data still lands on confidence rather than on
+ * readiness, and that is enforced in the scoring engines, not by this screen.
+ * The full breakdown remains at /results/confidence and on the account data
+ * screen.
  */
 export default function ResultsPage() {
-  const { readiness, confidence, latestSemen, baselineSemen, belowReferenceCodes, semenTests } =
+  const { readiness, latestSemen, baselineSemen, belowReferenceCodes, semenTests } =
     usePrototype();
 
   const priorTest = semenTests.length > 1 ? semenTests.at(-2) : undefined;
@@ -38,7 +43,7 @@ export default function ResultsPage() {
     );
 
   return (
-    <Screen title="Results" eyebrow="Four separate outputs">
+    <Screen title="Results" eyebrow="Three separate outputs">
       {!latestSemen ? (
         <EmptyState
           glyph="results"
@@ -172,12 +177,6 @@ export default function ResultsPage() {
             <Icon name="chevron-right" size={18} className="text-ink-3" />
           </Link>
         </Card>
-      </section>
-
-      {/* 4 — how much any of this can be trusted */}
-      <section className="mt-8" aria-labelledby="confidence-heading">
-        <SectionHeader id="confidence-heading" eyebrow="4 · Trust" title="Data confidence" />
-        <ConfidenceCard confidence={confidence} />
       </section>
 
       {baselineSemen && semenTests.length > 1 ? (
