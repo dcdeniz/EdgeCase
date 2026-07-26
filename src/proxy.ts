@@ -7,7 +7,13 @@ export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });
   const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const key = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  if (!url || !key || publicPaths.has(request.nextUrl.pathname)) return response;
+  if (publicPaths.has(request.nextUrl.pathname)) return response;
+  if (!url || !key) {
+    const destination = request.nextUrl.clone();
+    destination.pathname = "/start/account";
+    destination.searchParams.set("error", "auth_not_configured");
+    return NextResponse.redirect(destination);
+  }
 
   const supabase = createServerClient(url, key, {
     cookies: {
