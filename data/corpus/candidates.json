@@ -1,0 +1,2312 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-07-25T21:30:21.696Z",
+  "sourceApis": [
+    "https://www.ebi.ac.uk/europepmc/webservices/rest/search",
+    "https://www.ncbi.nlm.nih.gov/pmc/utils/oa/oa.fcgi"
+  ],
+  "licensePolicy": [
+    "CC0",
+    "CC BY",
+    "CC BY-SA",
+    "CC BY-ND"
+  ],
+  "warning": "Discovery metadata only. No candidate is approved evidence until human claim review.",
+  "searches": [
+    {
+      "topic": "measurement",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND (\"semen analysis\" AND (variability OR abstinence OR WHO))",
+      "hitCount": 7173
+    },
+    {
+      "topic": "supplements",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND ((antioxidant OR carnitine OR coenzyme Q10 OR omega-3) AND (sperm OR semen))",
+      "hitCount": 23533
+    },
+    {
+      "topic": "smoking_alcohol",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND ((smoking OR alcohol OR cannabis) AND (sperm OR semen))",
+      "hitCount": 23790
+    },
+    {
+      "topic": "weight_diet",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND ((obesity OR weight loss OR mediterranean diet) AND (sperm OR semen))",
+      "hitCount": 20993
+    },
+    {
+      "topic": "exercise_sleep_heat",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND ((exercise OR sleep OR heat exposure) AND (sperm OR semen))",
+      "hitCount": 45724
+    },
+    {
+      "topic": "environment",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND ((air pollution OR pesticide OR lead OR phthalate) AND (sperm OR semen))",
+      "hitCount": 21437
+    },
+    {
+      "topic": "endocrine_medication",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND ((testosterone OR endocrine OR medication) AND male infertility)",
+      "hitCount": 25403
+    },
+    {
+      "topic": "dna_fragmentation",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND (\"sperm DNA fragmentation\")",
+      "hitCount": 3043
+    },
+    {
+      "topic": "vasectomy_reversal",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND (\"vasectomy reversal\")",
+      "hitCount": 285
+    },
+    {
+      "topic": "oncofertility",
+      "query": "OPEN_ACCESS:Y AND HAS_FT:Y AND SRC:MED AND ((oncofertility OR fertility preservation) AND (male OR sperm))",
+      "hitCount": 129738
+    }
+  ],
+  "candidates": [
+    {
+      "pmcid": "PMC4722087",
+      "pmid": "26563120",
+      "doi": "10.1007/s12072-015-9675-4",
+      "title": "Asian-Pacific clinical practice guidelines on the management of hepatitis B: a 2015 update.",
+      "authors": "Sarin SK, Kumar M, Lau GK, Abbas Z, Chan HL, Chen CJ, Chen DS, Chen HL, Chen PJ, Chien RN, Dokmeci AK, Gane E, Hou JL, Jafri W, Jia J, Kim JH, Lai CL, Lee HC, Lim SG, Liu CJ, Locarnini S, Al Mahtab M, Mohamed R, Omata M, Park J, Piratvisuth T, Sharma BC, Sollano J, Wang FS, Wei L, Yuen MF, Zheng SS, Kao JH.",
+      "journal": null,
+      "publicationYear": 2016,
+      "publicationTypes": [
+        "editorial",
+        "Practice Guideline",
+        "Journal Article"
+      ],
+      "citedByCount": 1928,
+      "topics": [
+        "exercise_sleep_heat",
+        "smoking_alcohol",
+        "supplements"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4722087/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 11
+    },
+    {
+      "pmcid": "PMC7003341",
+      "pmid": "32029004",
+      "doi": "10.1186/s40779-020-0233-6",
+      "title": "A rapid advice guideline for the diagnosis and treatment of 2019 novel coronavirus (2019-nCoV) infected pneumonia (standard version).",
+      "authors": "Jin YH, Cai L, Cheng ZS, Cheng H, Deng T, Fan YP, Fang C, Huang D, Huang LQ, Huang Q, Han Y, Hu B, Hu F, Li BH, Li YR, Liang K, Lin LK, Luo LS, Ma J, Ma LL, Peng ZY, Pan YB, Pan ZY, Ren XQ, Sun HM, Wang Y, Wang YY, Weng H, Wei CJ, Wu DF, Xia J, Xiong Y, Xu HB, Yao XM, Yuan YF, Ye TS, Zhang XC, Zhang YW, Zhang YG, Zhang HM, Zhao Y, Zhao MJ, Zi H, Zeng XT, Wang YY, Wang XH, , for the Zhongnan Hospital of Wuhan University Novel Coronavirus Management and Research Team, Evidence-Based Medicine Chapter of China International Exchange and Promotive Association for Medical and Health Care (CPAM).",
+      "journal": null,
+      "publicationYear": 2020,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Practice Guideline",
+        "Journal Article"
+      ],
+      "citedByCount": 1214,
+      "topics": [
+        "environment",
+        "supplements",
+        "weight_diet"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7003341/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 11
+    },
+    {
+      "pmcid": "PMC8344968",
+      "pmid": "34292926",
+      "doi": "10.15585/mmwr.rr7004a1",
+      "title": "Sexually Transmitted Infections Treatment Guidelines, 2021.",
+      "authors": "Workowski KA, Bachmann LH, Chan PA, Johnston CM, Muzny CA, Park I, Reno H, Zenilman JM, Bolan GA.",
+      "journal": null,
+      "publicationYear": 2021,
+      "publicationTypes": [
+        "research-article",
+        "Practice Guideline",
+        "Journal Article"
+      ],
+      "citedByCount": 1549,
+      "topics": [
+        "endocrine_medication",
+        "environment",
+        "exercise_sleep_heat",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "license": "CC0",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8344968/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 11
+    },
+    {
+      "pmcid": "PMC1240129",
+      "pmid": "11049816",
+      "doi": "10.1289/ehp.00108961",
+      "title": "The question of declining sperm density revisited: an analysis of 101 studies published 1934-1996.",
+      "authors": "Swan SH, Elkin EP, Fenster L.",
+      "journal": null,
+      "publicationYear": 2000,
+      "publicationTypes": [
+        "Meta-Analysis",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 432,
+      "topics": [
+        "measurement"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1240129/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC2797382",
+      "pmid": "20042772",
+      "doi": "10.2337/dc10-s011",
+      "title": "Standards of medical care in diabetes--2010.",
+      "authors": "American Diabetes Association.",
+      "journal": null,
+      "publicationYear": 2010,
+      "publicationTypes": [
+        "Practice Guideline",
+        "review-article",
+        "Journal Article"
+      ],
+      "citedByCount": 2024,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2797382/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC3103296",
+      "pmid": "19747629",
+      "doi": "10.1016/j.bbmt.2009.06.019",
+      "title": "Guidelines for preventing infectious complications among hematopoietic cell transplantation recipients: a global perspective.",
+      "authors": "Tomblyn M, Chiller T, Einsele H, Gress R, Sepkowitz K, Storek J, Wingard JR, Young JA, Boeckh MJ, Center for International Blood and Marrow Research, National Marrow Donor program, European Blood and MarrowTransplant Group, American Society of Blood and Marrow Transplantation, Canadian Blood and Marrow Transplant Group, Infectious Diseases Society of America, Society for Healthcare Epidemiology of America, Association of Medical Microbiology and Infectious Disease Canada, Centers for Disease Control and Prevention.",
+      "journal": null,
+      "publicationYear": 2009,
+      "publicationTypes": [
+        "Research Support, U.S. Gov't, P.H.S.",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Practice Guideline",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "Journal Article"
+      ],
+      "citedByCount": 1186,
+      "topics": [
+        "environment"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3103296/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC3357214",
+      "pmid": "22517736",
+      "doi": "10.2337/dc12-0413",
+      "title": "Management of hyperglycemia in type 2 diabetes: a patient-centered approach: position statement of the American Diabetes Association (ADA) and the European Association for the Study of Diabetes (EASD).",
+      "authors": "Inzucchi SE, Bergenstal RM, Buse JB, Diamant M, Ferrannini E, Nauck M, Peters AL, Tsapas A, Wender R, Matthews DR, American Diabetes Association (ADA), European Association for the Study of Diabetes (EASD).",
+      "journal": null,
+      "publicationYear": 2012,
+      "publicationTypes": [
+        "research-article",
+        "Practice Guideline",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 2407,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3357214/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC3443608",
+      "pmid": "22991565",
+      "doi": "10.1155/2012/713696",
+      "title": "Endocrine-disrupting chemicals: associated disorders and mechanisms of action.",
+      "authors": "De Coster S, van Larebeke N.",
+      "journal": null,
+      "publicationYear": 2012,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 342,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3443608/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC3699442",
+      "pmid": "23803387",
+      "doi": "10.1186/1741-7015-11-154",
+      "title": "New insights into mechanisms behind miscarriage.",
+      "authors": "Larsen EC, Christiansen OB, Kolte AM, Macklon N.",
+      "journal": null,
+      "publicationYear": 2013,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 389,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3699442/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC4284370",
+      "pmid": "24938819",
+      "doi": "10.1007/s11356-014-3180-5",
+      "title": "A review of the direct and indirect effects of neonicotinoids and fipronil on vertebrate wildlife.",
+      "authors": "Gibbons D, Morrissey C, Mineau P.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 405,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4284370/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC4455614",
+      "pmid": "25928123",
+      "doi": "10.1186/s12958-015-0028-x",
+      "title": "Effects of increased paternal age on sperm quality, reproductive outcome and associated epigenetic risks to offspring.",
+      "authors": "Sharma R, Agarwal A, Rohra VK, Assidi M, Abu-Elmagd M, Turki RF.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 242,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4455614/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC4770482",
+      "pmid": "26763551",
+      "doi": "10.4103/1008-682x.172640",
+      "title": "Epidemiology of varicocele.",
+      "authors": "Alsaikhan B, Alrabeeah K, Delouya G, Zini A.",
+      "journal": null,
+      "publicationYear": 2016,
+      "publicationTypes": [
+        "Systematic Review",
+        "review-article",
+        "Journal Article"
+      ],
+      "citedByCount": 157,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4770482/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC5227680",
+      "pmid": "27345006",
+      "doi": "10.4103/1008-682x.182822",
+      "title": "A systematic review and meta-analysis to determine the effect of sperm DNA damage on &lt;i&gt;in vitro&lt;/i&gt; fertilization and intracytoplasmic sperm injection outcome.",
+      "authors": "Simon L, Zini A, Dyachenko A, Ciampi A, Carrell DT.",
+      "journal": null,
+      "publicationYear": 2017,
+      "publicationTypes": [
+        "Meta-Analysis",
+        "research-article",
+        "Systematic Review",
+        "Journal Article"
+      ],
+      "citedByCount": 249,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5227680/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC6377728",
+      "pmid": "30815248",
+      "doi": "10.1186/s13578-019-0282-2",
+      "title": "Exosomes: biogenesis, biologic function and clinical potential.",
+      "authors": "Zhang Y, Liu Y, Liu H, Tang WH.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1582,
+      "topics": [
+        "supplements"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6377728/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC6600059",
+      "pmid": "31285919",
+      "doi": "10.1080/2090598x.2019.1599624",
+      "title": "Oxidative stress and sperm function: A systematic review on evaluation and management.",
+      "authors": "Dutta S, Majzoub A, Agarwal A.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 314,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6600059/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC6733338",
+      "pmid": "30970326",
+      "doi": "10.1530/rep-18-0523",
+      "title": "Artificial intelligence in reproductive medicine.",
+      "authors": "Wang R, Pan W, Jin L, Li Y, Geng Y, Gao C, Chen G, Wang H, Ma D, Liao S.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 122,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6733338/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC7897327",
+      "pmid": "33611339",
+      "doi": "10.1038/s41392-020-00450-x",
+      "title": "The role of m6A modification in the biological functions and diseases.",
+      "authors": "Jiang X, Liu B, Nie Z, Duan L, Xiong Q, Jin Z, Yang C, Chen Y.",
+      "journal": null,
+      "publicationYear": 2021,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1778,
+      "topics": [
+        "endocrine_medication",
+        "weight_diet"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7897327/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC8078867",
+      "pmid": "33927623",
+      "doi": "10.3389/fphar.2021.643972",
+      "title": "Toxic Mechanisms of Five Heavy Metals: Mercury, Lead, Chromium, Cadmium, and Arsenic.",
+      "authors": "Balali-Mood M, Naseri K, Tahergorabi Z, Khazdair MR, Sadeghi M.",
+      "journal": null,
+      "publicationYear": 2021,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1190,
+      "topics": [
+        "environment",
+        "supplements",
+        "weight_diet"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8078867/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC9755275",
+      "pmid": "36522308",
+      "doi": "10.1038/s41392-022-01251-0",
+      "title": "Aging and aging-related diseases: from molecular mechanisms to interventions and treatments.",
+      "authors": "Guo J, Huang X, Dou L, Yan M, Shen T, Tang W, Li J.",
+      "journal": null,
+      "publicationYear": 2022,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1148,
+      "topics": [
+        "supplements"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9755275/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 8
+    },
+    {
+      "pmcid": "PMC7377258",
+      "pmid": "32663912",
+      "doi": "10.1056/nejmoa2022483",
+      "title": "An mRNA Vaccine against SARS-CoV-2 - Preliminary Report.",
+      "authors": "Jackson LA, Anderson EJ, Rouphael NG, Roberts PC, Makhene M, Coler RN, McCullough MP, Chappell JD, Denison MR, Stevens LJ, Pruijssers AJ, McDermott A, Flach B, Doria-Rose NA, Corbett KS, Morabito KM, O'Dell S, Schmidt SD, Swanson PA, Padilla M, Mascola JR, Neuzil KM, Bennett H, Sun W, Peters E, Makowski M, Albert J, Cross K, Buchanan W, Pikaart-Tautges R, Ledgerwood JE, Graham BS, Beigel JH, mRNA-1273 Study Group.",
+      "journal": null,
+      "publicationYear": 2020,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Clinical Trial, Phase I",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 2675,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7377258/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 7
+    },
+    {
+      "pmcid": "PMC11126520",
+      "pmid": "38582094",
+      "doi": "10.1016/s0140-6736(24)00367-2",
+      "title": "Global burden of 288 causes of death and life expectancy decomposition in 204 countries and territories and 811 subnational locations, 1990-2021: a systematic analysis for the Global Burden of Disease Study 2021.",
+      "authors": "GBD 2021 Causes of Death Collaborators.",
+      "journal": null,
+      "publicationYear": 2024,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 2027,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11126520/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC1382018",
+      "pmid": "16494531",
+      "doi": "10.1371/journal.pbio.0040072",
+      "title": "A map of recent positive selection in the human genome.",
+      "authors": "Voight BF, Kudaravalli S, Wen X, Pritchard JK.",
+      "journal": null,
+      "publicationYear": 2006,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 2137,
+      "topics": [
+        "smoking_alcohol"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1382018/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC2199288",
+      "pmid": "18197297",
+      "doi": "10.1289/ehp.10753",
+      "title": "Exposure of the U.S. population to bisphenol A and 4-tertiary-octylphenol: 2003-2004.",
+      "authors": "Calafat AM, Ye X, Wong LY, Reidy JA, Needham LL.",
+      "journal": null,
+      "publicationYear": 2008,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1314,
+      "topics": [
+        "environment",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "license": "CC0",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2199288/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC2724665",
+      "pmid": "19721819",
+      "doi": "10.2174/157015909787602823",
+      "title": "Oxidative stress and neurodegenerative diseases: a review of upstream and downstream antioxidant therapeutic options.",
+      "authors": "Uttara B, Singh AV, Zamboni P, Mahajan RT.",
+      "journal": null,
+      "publicationYear": 2009,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1896,
+      "topics": [
+        "supplements",
+        "weight_diet"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2724665/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC3092750",
+      "pmid": "21589916",
+      "doi": "10.1371/journal.pone.0018973",
+      "title": "The relationship between anogenital distance, fatherhood, and fertility in adult men.",
+      "authors": "Eisenberg ML, Hsieh MH, Walters RC, Krasnow R, Lipshultz LI.",
+      "journal": null,
+      "publicationYear": 2011,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 149,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3092750/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC3532182",
+      "pmid": "22568884",
+      "doi": "10.1186/1471-2105-13-86",
+      "title": "DNA methylation arrays as surrogate measures of cell mixture distribution.",
+      "authors": "Houseman EA, Accomando WP, Koestler DC, Christensen BC, Marsit CJ, Nelson HH, Wiencke JK, Kelsey KT.",
+      "journal": null,
+      "publicationYear": 2012,
+      "publicationTypes": [
+        "research-article",
+        "Validation Study",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 2763,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3532182/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC3760646",
+      "pmid": "24009894",
+      "doi": "10.3402/jev.v2i0.20360",
+      "title": "Standardization of sample collection, isolation and analysis methods in extracellular vesicle research.",
+      "authors": "Witwer KW, Buzás EI, Bemis LT, Bora A, Lässer C, Lötvall J, Nolte-'t Hoen EN, Piper MG, Sivaraman S, Skog J, Théry C, Wauben MH, Hochberg F.",
+      "journal": null,
+      "publicationYear": 2013,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1796,
+      "topics": [
+        "exercise_sleep_heat",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3760646/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC4375400",
+      "pmid": "25398609",
+      "doi": "10.1093/bioinformatics/btu739",
+      "title": "UniRef clusters: a comprehensive and scalable alternative for improving sequence similarity searches.",
+      "authors": "Suzek BE, Wang Y, Huang H, McGarvey PB, Wu CH, UniProt Consortium.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 1608,
+      "topics": [
+        "supplements"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4375400/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC4424520",
+      "pmid": "25928197",
+      "doi": "10.1186/s12958-015-0032-1",
+      "title": "A unique view on male infertility around the globe.",
+      "authors": "Agarwal A, Mulgund A, Hamada A, Chyatte MR.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1305,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4424520/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC5055577",
+      "pmid": "27733282",
+      "doi": "10.1016/s0140-6736(16)31678-6",
+      "title": "Global, regional, and national incidence, prevalence, and years lived with disability for 310 diseases and injuries, 1990-2015: a systematic analysis for the Global Burden of Disease Study 2015.",
+      "authors": "GBD 2015 Disease and Injury Incidence and Prevalence Collaborators.",
+      "journal": null,
+      "publicationYear": 2016,
+      "publicationTypes": [
+        "Comment",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 4986,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5055577/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC5388903",
+      "pmid": "27733281",
+      "doi": "10.1016/s0140-6736(16)31012-1",
+      "title": "Global, regional, and national life expectancy, all-cause mortality, and cause-specific mortality for 249 causes of death, 1980-2015: a systematic analysis for the Global Burden of Disease Study 2015.",
+      "authors": "GBD 2015 Mortality and Causes of Death Collaborators.",
+      "journal": null,
+      "publicationYear": 2016,
+      "publicationTypes": [
+        "Comment",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 4492,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5388903/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC5605509",
+      "pmid": "28919117",
+      "doi": "10.1016/s0140-6736(17)32154-2",
+      "title": "Global, regional, and national incidence, prevalence, and years lived with disability for 328 diseases and injuries for 195 countries, 1990-2016: a systematic analysis for the Global Burden of Disease Study 2016.",
+      "authors": "GBD 2016 Disease and Injury Incidence and Prevalence Collaborators.",
+      "journal": null,
+      "publicationYear": 2017,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 5448,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5605509/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC5605883",
+      "pmid": "28919116",
+      "doi": "10.1016/s0140-6736(17)32152-9",
+      "title": "Global, regional, and national age-sex specific mortality for 264 causes of death, 1980-2016: a systematic analysis for the Global Burden of Disease Study 2016.",
+      "authors": "GBD 2016 Causes of Death Collaborators.",
+      "journal": null,
+      "publicationYear": 2017,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 3536,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5605883/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC5675447",
+      "pmid": "28935708",
+      "doi": "10.1242/dev.152413",
+      "title": "Unraveling transcriptome dynamics in human spermatogenesis.",
+      "authors": "Jan SZ, Vormer TL, Jongejan A, Röling MD, Silber SJ, de Rooij DG, Hamer G, Repping S, van Pelt AMM.",
+      "journal": null,
+      "publicationYear": 2017,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 151,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5675447/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC6227505",
+      "pmid": "30340847",
+      "doi": "10.1016/s0140-6736(18)31694-5",
+      "title": "Forecasting life expectancy, years of life lost, and all-cause and cause-specific mortality for 250 causes of death: reference and alternative scenarios for 2016-40 for 195 countries and territories.",
+      "authors": "Foreman KJ, Marquez N, Dolgert A, Fukutaki K, Fullman N, McGaughey M, Pletcher MA, Smith AE, Tang K, Yuan CW, Brown JC, Friedman J, He J, Heuton KR, Holmberg M, Patel DJ, Reidy P, Carter A, Cercy K, Chapin A, Douwes-Schultz D, Frank T, Goettsch F, Liu PY, Nandakumar V, Reitsma MB, Reuter V, Sadat N, Sorensen RJD, Srinivasan V, Updike RL, York H, Lopez AD, Lozano R, Lim SS, Mokdad AH, Vollset SE, Murray CJL.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1905,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6227505/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC6227606",
+      "pmid": "30496103",
+      "doi": "10.1016/s0140-6736(18)32203-7",
+      "title": "Global, regional, and national age-sex-specific mortality for 282 causes of death in 195 countries and territories, 1980-2017: a systematic analysis for the Global Burden of Disease Study 2017.",
+      "authors": "GBD 2017 Causes of Death Collaborators.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 5449,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6227606/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC6227754",
+      "pmid": "30496104",
+      "doi": "10.1016/s0140-6736(18)32279-7",
+      "title": "Global, regional, and national incidence, prevalence, and years lived with disability for 354 diseases and injuries for 195 countries and territories, 1990-2017: a systematic analysis for the Global Burden of Disease Study 2017.",
+      "authors": "GBD 2017 Disease and Injury Incidence and Prevalence Collaborators.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 9612,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6227754/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC6252083",
+      "pmid": "30415748",
+      "doi": "10.1016/s0140-6736(18)32335-3",
+      "title": "Global, regional, and national disability-adjusted life-years (DALYs) for 359 diseases and injuries and healthy life expectancy (HALE) for 195 countries and territories, 1990-2017: a systematic analysis for the Global Burden of Disease Study 2017.",
+      "authors": "GBD 2017 DALYs and HALE Collaborators.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "Comparative Study",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 2297,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6252083/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC8081667",
+      "pmid": "33911273",
+      "doi": "10.1038/s41586-021-03451-0",
+      "title": "Towards complete and error-free genome assemblies of all vertebrate species.",
+      "authors": "Rhie A, McCarthy SA, Fedrigo O, Damas J, Formenti G, Koren S, Uliano-Silva M, Chow W, Fungtammasan A, Kim J, Lee C, Ko BJ, Chaisson M, Gedman GL, Cantin LJ, Thibaud-Nissen F, Haggerty L, Bista I, Smith M, Haase B, Mountcastle J, Winkler S, Paez S, Howard J, Vernes SC, Lama TM, Grutzner F, Warren WC, Balakrishnan CN, Burt D, George JM, Biegler MT, Iorns D, Digby A, Eason D, Robertson B, Edwards T, Wilkinson M, Turner G, Meyer A, Kautt AF, Franchini P, Detrich HW, Svardal H, Wagner M, Naylor GJP, Pippel M, Malinsky M, Mooney M, Simbirsky M, Hannigan BT, Pesout T, Houck M, Misuraca A, Kingan SB, Hall R, Kronenberg Z, Sović I, Dunn C, Ning Z, Hastie A, Lee J, Selvaraj S, Green RE, Putnam NH, Gut I, Ghurye J, Garrison E, Sims Y, Collins J, Pelan S, Torrance J, Tracey A, Wood J, Dagnew RE, Guan D, London SE, Clayton DF, Mello CV, Friedrich SR, Lovell PV, Osipova E, Al-Ajli FO, Secomandi S, Kim H, Theofanopoulou C, Hiller M, Zhou Y, Harris RS, Makova KD, Medvedev P, Hoffman J, Masterson P, Clark K, Martin F, Howe K, Flicek P, Walenz BP, Kwak W, Clawson H, Diekhans M, Nassar L, Paten B, Kraus RHS, Crawford AJ, Gilbert MTP, Zhang G, Venkatesh B, Murphy RW, Koepfli KP, Shapiro B, Johnson WE, Di Palma F, Marques-Bonet T, Teeling EC, Warnow T, Graves JM, Ryder OA, Haussler D, O'Brien SJ, Korlach J, Lewin HA, Howe K, Myers EW, Durbin R, Phillippy AM, Jarvis ED.",
+      "journal": null,
+      "publicationYear": 2021,
+      "publicationTypes": [
+        "Research Support, N.I.H., Intramural",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 3582,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8081667/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 6
+    },
+    {
+      "pmcid": "PMC1469672",
+      "pmid": "8880001",
+      "doi": "10.1289/ehp.96104s4741",
+      "title": "Male reproductive health and environmental xenoestrogens.",
+      "authors": "Toppari J, Larsen JC, Christiansen P, Giwercman A, Grandjean P, Guillette LJ, Jégou B, Jensen TK, Jouannet P, Keiding N, Leffers H, McLachlan JA, Meyer O, Müller J, Rajpert-De Meyts E, Scheike T, Sharpe R, Sumpter J, Skakkebaek NE.",
+      "journal": null,
+      "publicationYear": 1996,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 708,
+      "topics": [
+        "measurement"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1469672/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC1519860",
+      "pmid": "8080506",
+      "doi": "10.1289/ehp.93101378",
+      "title": "Developmental effects of endocrine-disrupting chemicals in wildlife and humans.",
+      "authors": "Colborn T, vom Saal FS, Soto AM.",
+      "journal": null,
+      "publicationYear": 1993,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1861,
+      "topics": [
+        "environment",
+        "exercise_sleep_heat"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1519860/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC2115416",
+      "pmid": "2645293",
+      "doi": "10.1083/jcb.108.2.229",
+      "title": "The scanning model for translation: an update.",
+      "authors": "Kozak M.",
+      "journal": null,
+      "publicationYear": 1989,
+      "publicationTypes": [
+        "Research Support, U.S. Gov't, P.H.S.",
+        "research-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 2735,
+      "topics": [
+        "environment",
+        "smoking_alcohol",
+        "supplements"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2115416/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC2423221",
+      "pmid": "18535003",
+      "doi": "10.1093/humupd/dmn017",
+      "title": "Cytogenetic determinants of male fertility.",
+      "authors": "Martin RH.",
+      "journal": null,
+      "publicationYear": 2008,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 110,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2423221/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC2569858",
+      "pmid": "18820005",
+      "doi": "10.1093/humupd/dmn042",
+      "title": "Infertility and the provision of infertility medical services in developing countries.",
+      "authors": "Ombelet W, Cooke I, Dyer S, Serour G, Devroey P.",
+      "journal": null,
+      "publicationYear": 2008,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 384,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2569858/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC293422",
+      "pmid": "14617368",
+      "doi": "10.1186/1477-7827-1-108",
+      "title": "Sperm preparation for ART.",
+      "authors": "Henkel RR, Schill WB.",
+      "journal": null,
+      "publicationYear": 2003,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 309,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC293422/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC3575529",
+      "pmid": "23420871",
+      "doi": "10.1083/jcb.201211138",
+      "title": "Extracellular vesicles: exosomes, microvesicles, and friends.",
+      "authors": "Raposo G, Stoorvogel W.",
+      "journal": null,
+      "publicationYear": 2013,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 6052,
+      "topics": [
+        "exercise_sleep_heat"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3575529/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC3789364",
+      "pmid": "24137539",
+      "doi": "10.7554/elife.01009",
+      "title": "Slo1 is the principal potassium channel of human spermatozoa.",
+      "authors": "Mannowetz N, Naidoo NM, Choo SA, Smith JF, Lishko PV.",
+      "journal": null,
+      "publicationYear": 2013,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 87,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3789364/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC4026229",
+      "pmid": "24872947",
+      "doi": "10.5534/wjmh.2014.32.1.1",
+      "title": "Effect of oxidative stress on male reproduction.",
+      "authors": "Agarwal A, Virk G, Ong C, du Plessis SS.",
+      "journal": null,
+      "publicationYear": 2014,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 742,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4026229/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC4124057",
+      "pmid": "25105055",
+      "doi": "10.4161/spmg.28218",
+      "title": "Review of Azoospermia.",
+      "authors": "Wosnitzer M, Goldstein M, Hardy MP.",
+      "journal": null,
+      "publicationYear": 2014,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 182,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4124057/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC4433489",
+      "pmid": "25979354",
+      "doi": "10.3402/jev.v4.27066",
+      "title": "Biological properties of extracellular vesicles and their physiological functions.",
+      "authors": "Yáñez-Mó M, Siljander PR, Andreu Z, Zavec AB, Borràs FE, Buzas EI, Buzas K, Casal E, Cappello F, Carvalho J, Colás E, Cordeiro-da Silva A, Fais S, Falcon-Perez JM, Ghobrial IM, Giebel B, Gimona M, Graner M, Gursel I, Gursel M, Heegaard NH, Hendrix A, Kierulf P, Kokubun K, Kosanovic M, Kralj-Iglic V, Krämer-Albers EM, Laitinen S, Lässer C, Lener T, Ligeti E, Linē A, Lipps G, Llorente A, Lötvall J, Manček-Keber M, Marcilla A, Mittelbrunn M, Nazarenko I, Nolte-'t Hoen EN, Nyman TA, O'Driscoll L, Olivan M, Oliveira C, Pállinger É, Del Portillo HA, Reventós J, Rigau M, Rohde E, Sammar M, Sánchez-Madrid F, Santarém N, Schallmoser K, Ostenfeld MS, Stoorvogel W, Stukelj R, Van der Grein SG, Vasconcelos MH, Wauben MH, De Wever O.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "review-article",
+        "Journal Article"
+      ],
+      "citedByCount": 4622,
+      "topics": [
+        "exercise_sleep_heat",
+        "weight_diet"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4433489/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC4691969",
+      "pmid": "26752853",
+      "doi": "10.4103/0974-1208.170370",
+      "title": "Trends of male factor infertility, an important cause of infertility: A review of literature.",
+      "authors": "Kumar N, Singh AK.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 552,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4691969/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC4890267",
+      "pmid": "27159875",
+      "doi": "10.1210/er.2015-1137",
+      "title": "Sex and Gender Differences in Risk, Pathophysiology and Complications of Type 2 Diabetes Mellitus.",
+      "authors": "Kautzky-Willer A, Harreiter J, Pacini G.",
+      "journal": null,
+      "publicationYear": 2016,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1262,
+      "topics": [
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4890267/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC5182232",
+      "pmid": "28078226",
+      "doi": "10.21037/tau.2016.10.03",
+      "title": "Clinical utility of sperm DNA fragmentation testing: practice recommendations based on clinical scenarios.",
+      "authors": "Agarwal A, Majzoub A, Esteves SC, Ko E, Ramasamy R, Zini A.",
+      "journal": null,
+      "publicationYear": 2016,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 277,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5182232/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC5440030",
+      "pmid": "28553146",
+      "doi": "10.2147/ijwh.s100817",
+      "title": "Recurrent pregnancy loss: current perspectives.",
+      "authors": "El Hachem H, Crepaux V, May-Panloup P, Descamps P, Legendre G, Bouet PE.",
+      "journal": null,
+      "publicationYear": 2017,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 270,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5440030/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC5864239",
+      "pmid": "29362479",
+      "doi": "10.1038/s41418-017-0012-4",
+      "title": "Molecular mechanisms of cell death: recommendations of the Nomenclature Committee on Cell Death 2018.",
+      "authors": "Galluzzi L, Vitale I, Aaronson SA, Abrams JM, Adam D, Agostinis P, Alnemri ES, Altucci L, Amelio I, Andrews DW, Annicchiarico-Petruzzelli M, Antonov AV, Arama E, Baehrecke EH, Barlev NA, Bazan NG, Bernassola F, Bertrand MJM, Bianchi K, Blagosklonny MV, Blomgren K, Borner C, Boya P, Brenner C, Campanella M, Candi E, Carmona-Gutierrez D, Cecconi F, Chan FK, Chandel NS, Cheng EH, Chipuk JE, Cidlowski JA, Ciechanover A, Cohen GM, Conrad M, Cubillos-Ruiz JR, Czabotar PE, D'Angiolella V, Dawson TM, Dawson VL, De Laurenzi V, De Maria R, Debatin KM, DeBerardinis RJ, Deshmukh M, Di Daniele N, Di Virgilio F, Dixit VM, Dixon SJ, Duckett CS, Dynlacht BD, El-Deiry WS, Elrod JW, Fimia GM, Fulda S, García-Sáez AJ, Garg AD, Garrido C, Gavathiotis E, Golstein P, Gottlieb E, Green DR, Greene LA, Gronemeyer H, Gross A, Hajnoczky G, Hardwick JM, Harris IS, Hengartner MO, Hetz C, Ichijo H, Jäättelä M, Joseph B, Jost PJ, Juin PP, Kaiser WJ, Karin M, Kaufmann T, Kepp O, Kimchi A, Kitsis RN, Klionsky DJ, Knight RA, Kumar S, Lee SW, Lemasters JJ, Levine B, Linkermann A, Lipton SA, Lockshin RA, López-Otín C, Lowe SW, Luedde T, Lugli E, MacFarlane M, Madeo F, Malewicz M, Malorni W, Manic G, Marine JC, Martin SJ, Martinou JC, Medema JP, Mehlen P, Meier P, Melino S, Miao EA, Molkentin JD, Moll UM, Muñoz-Pinedo C, Nagata S, Nuñez G, Oberst A, Oren M, Overholtzer M, Pagano M, Panaretakis T, Pasparakis M, Penninger JM, Pereira DM, Pervaiz S, Peter ME, Piacentini M, Pinton P, Prehn JHM, Puthalakath H, Rabinovich GA, Rehm M, Rizzuto R, Rodrigues CMP, Rubinsztein DC, Rudel T, Ryan KM, Sayan E, Scorrano L, Shao F, Shi Y, Silke J, Simon HU, Sistigu A, Stockwell BR, Strasser A, Szabadkai G, Tait SWG, Tang D, Tavernarakis N, Thorburn A, Tsujimoto Y, Turk B, Vanden Berghe T, Vandenabeele P, Vander Heiden MG, Villunger A, Virgin HW, Vousden KH, Vucic D, Wagner EF, Walczak H, Wallach D, Wang Y, Wells JA, Wood W, Yuan J, Zakeri Z, Zhivotovsky B, Zitvogel L, Melino G, Kroemer G.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Review",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 5207,
+      "topics": [
+        "exercise_sleep_heat",
+        "oncofertility",
+        "supplements"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5864239/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC5884436",
+      "pmid": "27558841",
+      "doi": "10.1093/glycob/cww086",
+      "title": "Biological roles of glycans.",
+      "authors": "Varki A.",
+      "journal": null,
+      "publicationYear": 2017,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1860,
+      "topics": [
+        "exercise_sleep_heat",
+        "supplements"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5884436/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC5927356",
+      "pmid": "29731617",
+      "doi": "10.2147/cia.s158513",
+      "title": "Oxidative stress, aging, and diseases.",
+      "authors": "Liguori I, Russo G, Curcio F, Bulli G, Aran L, Della-Morte D, Gargiulo G, Testa G, Cacciatore F, Bonaduce D, Abete P.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 2286,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5927356/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC6472207",
+      "pmid": "31007461",
+      "doi": "10.4103/jhrs.jhrs_150_18",
+      "title": "Role of Oxidative Stress in Male Infertility: An Updated Review.",
+      "authors": "Alahmar AT.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 326,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6472207/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC6704307",
+      "pmid": "31081299",
+      "doi": "10.5534/wjmh.190055",
+      "title": "Male Oxidative Stress Infertility (MOSI): Proposed Terminology and Clinical Practice Guidelines for Management of Idiopathic Male Infertility.",
+      "authors": "Agarwal A, Parekh N, Panner Selvam MK, Henkel R, Shah R, Homa ST, Ramasamy R, Ko E, Tremellen K, Esteves S, Majzoub A, Alvarez JG, Gardner DK, Jayasena CN, Ramsay JW, Cho CL, Saleh R, Sakkas D, Hotaling JM, Lundy SD, Vij S, Marmar J, Gosalvez J, Sabanegh E, Park HJ, Zini A, Kavoussi P, Micic S, Smith R, Busetto GM, Bakırcıoğlu ME, Haidl G, Balercia G, Puchalt NG, Ben-Khalifa M, Tadros N, Kirkman-Browne J, Moskovtsev S, Huang X, Borges E, Franken D, Bar-Chama N, Morimoto Y, Tomita K, Srini VS, Ombelet W, Baldi E, Muratori M, Yumura Y, La Vignera S, Kosgi R, Martinez MP, Evenson DP, Zylbersztejn DS, Roque M, Cocuzza M, Vieira M, Ben-Meir A, Orvieto R, Levitas E, Wiser A, Arafa M, Malhotra V, Parekattil SJ, Elbardisi H, Carvalho L, Dada R, Sifer C, Talwar P, Gudeloglu A, Mahmoud AMA, Terras K, Yazbeck C, Nebojsa B, Durairajanayagam D, Mounir A, Kahn LG, Baskaran S, Pai RD, Paoli D, Leisegang K, Moein MR, Malik S, Yaman O, Yaman O, Samanta L, Bayane F, Jindal SK, Kendirci M, Altay B, Perovic D, Harlev A.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 293,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6704307/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC6847974",
+      "pmid": "31665287",
+      "doi": "10.1093/humupd/dmz032",
+      "title": "Human sperm ion channel (dys)function: implications for fertilization.",
+      "authors": "Brown SG, Publicover SJ, Barratt CLR, Martins da Silva SJ.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 78,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6847974/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": true,
+      "reviewState": "candidate_needs_human_review",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC6939856",
+      "pmid": "30033227",
+      "doi": "10.1016/j.fertnstert.2018.05.004",
+      "title": "Recommendations from the international evidence-based guideline for the assessment and management of polycystic ovary syndrome.",
+      "authors": "Teede HJ, Misso ML, Costello MF, Dokras A, Laven J, Moran L, Piltonen T, Norman RJ, International PCOS Network.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 776,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6939856/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC7440877",
+      "pmid": "32828189",
+      "doi": "10.1016/s0140-6736(20)31561-0",
+      "title": "Sex and gender: modifiers of health, disease, and medicine.",
+      "authors": "Mauvais-Jarvis F, Bairey Merz N, Barnes PJ, Brinton RD, Carrero JJ, DeMeo DL, De Vries GJ, Epperson CN, Govindan R, Klein SL, Lonardo A, Maki PM, McCullough LD, Regitz-Zagrosek V, Regensteiner JG, Rubin JB, Sandberg K, Suzuki A.",
+      "journal": null,
+      "publicationYear": 2020,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 1486,
+      "topics": [
+        "environment",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7440877/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC7490536",
+      "pmid": "32964150",
+      "doi": "10.1016/j.heliyon.2020.e04691",
+      "title": "Heavy metal pollution in the environment and their toxicological effects on humans.",
+      "authors": "Briffa J, Sinagra E, Blundell R.",
+      "journal": null,
+      "publicationYear": 2020,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 1443,
+      "topics": [
+        "environment",
+        "smoking_alcohol",
+        "supplements",
+        "weight_diet"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7490536/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC7502318",
+      "pmid": "32777871",
+      "doi": "10.5534/wjmh.200128",
+      "title": "Sperm DNA Fragmentation: A New Guideline for Clinicians.",
+      "authors": "Agarwal A, Majzoub A, Baskaran S, Panner Selvam MK, Cho CL, Henkel R, Finelli R, Leisegang K, Sengupta P, Barbarosie C, Parekh N, Alves MG, Ko E, Arafa M, Tadros N, Ramasamy R, Kavoussi P, Ambar R, Kuchakulla M, Robert KA, Iovine C, Durairajanayagam D, Jindal S, Shah R.",
+      "journal": null,
+      "publicationYear": 2020,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 205,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7502318/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC9839201",
+      "pmid": "36639608",
+      "doi": "10.1038/s41579-022-00846-2",
+      "title": "Long COVID: major findings, mechanisms and recommendations.",
+      "authors": "Davis HE, McCorkell L, Vogel JM, Topol EJ.",
+      "journal": null,
+      "publicationYear": 2023,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 2975,
+      "topics": [
+        "environment",
+        "supplements"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9839201/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 5
+    },
+    {
+      "pmcid": "PMC10505534",
+      "pmid": "37580314",
+      "doi": "10.1210/clinem/dgad463",
+      "title": "Recommendations From the 2023 International Evidence-based Guideline for the Assessment and Management of Polycystic Ovary Syndrome.",
+      "authors": "Teede HJ, Tay CT, Laven JJE, Dokras A, Moran LJ, Piltonen TT, Costello MF, Boivin J, Redman LM, Boyle JA, Norman RJ, Mousa A, Joham AE.",
+      "journal": null,
+      "publicationYear": 2023,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 499,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10505534/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC10653297",
+      "pmid": "37363821",
+      "doi": "10.1097/hep.0000000000000520",
+      "title": "A multisociety Delphi consensus statement on new fatty liver disease nomenclature.",
+      "authors": "Rinella ME, Lazarus JV, Ratziu V, Francque SM, Sanyal AJ, Kanwal F, Romero D, Abdelmalek MF, Anstee QM, Arab JP, Arrese M, Bataller R, Beuers U, Boursier J, Bugianesi E, Byrne CD, Castro Narro GE, Chowdhury A, Cortez-Pinto H, Cryer DR, Cusi K, El-Kassas M, Klein S, Eskridge W, Fan J, Gawrieh S, Guy CD, Harrison SA, Kim SU, Koot BG, Korenjak M, Kowdley KV, Lacaille F, Loomba R, Mitchell-Thain R, Morgan TR, Powell EE, Roden M, Romero-Gómez M, Silva M, Singh SP, Sookoian SC, Spearman CW, Tiniakos D, Valenti L, Vos MB, Wong VW, Xanthakos S, Yilmaz Y, Younossi Z, Hobbs A, Villota-Rivas M, Newsome PN, NAFLD Nomenclature consensus group.",
+      "journal": null,
+      "publicationYear": 2023,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1958,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10653297/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC2119614",
+      "pmid": "8314838",
+      "doi": "10.1083/jcb.122.1.103",
+      "title": "Transforming growth factor-beta 1 induces alpha-smooth muscle actin expression in granulation tissue myofibroblasts and in quiescent and growing cultured fibroblasts.",
+      "authors": "Desmoulière A, Geinoz A, Gabbiani F, Gabbiani G.",
+      "journal": null,
+      "publicationYear": 1993,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1642,
+      "topics": [
+        "environment"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2119614/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC2135445",
+      "pmid": "19871359",
+      "doi": "10.1084/jem.79.2.137",
+      "title": "STUDIES ON THE CHEMICAL NATURE OF THE SUBSTANCE INDUCING TRANSFORMATION OF PNEUMOCOCCAL TYPES : INDUCTION OF TRANSFORMATION BY A DESOXYRIBONUCLEIC ACID FRACTION ISOLATED FROM PNEUMOCOCCUS TYPE III.",
+      "authors": "Avery OT, Macleod CM, McCarty M.",
+      "journal": null,
+      "publicationYear": 1944,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1400,
+      "topics": [
+        "smoking_alcohol"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2135445/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC2193846",
+      "pmid": "12642603",
+      "doi": "10.1084/jem.20021553",
+      "title": "Interferon and granulopoiesis signatures in systemic lupus erythematosus blood.",
+      "authors": "Bennett L, Palucka AK, Arce E, Cantrell V, Borvak J, Banchereau J, Pascual V.",
+      "journal": null,
+      "publicationYear": 2003,
+      "publicationTypes": [
+        "Research Support, U.S. Gov't, P.H.S.",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1552,
+      "topics": [
+        "exercise_sleep_heat"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2193846/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC2290891",
+      "pmid": "8276896",
+      "doi": "10.1083/jcb.123.6.1777",
+      "title": "Occludin: a novel integral membrane protein localizing at tight junctions.",
+      "authors": "Furuse M, Hirase T, Itoh M, Nagafuchi A, Yonemura S, Tsukita S, Tsukita S.",
+      "journal": null,
+      "publicationYear": 1993,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1845,
+      "topics": [
+        "environment"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2290891/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC3537269",
+      "pmid": "23264422",
+      "doi": "10.2337/dc13-s011",
+      "title": "Standards of medical care in diabetes--2013.",
+      "authors": "American Diabetes Association.",
+      "journal": null,
+      "publicationYear": 2013,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 2231,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3537269/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC3600618",
+      "pmid": "22507743",
+      "doi": "10.1093/ije/dys064",
+      "title": "Cohort Profile: the 'children of the 90s'--the index offspring of the Avon Longitudinal Study of Parents and Children.",
+      "authors": "Boyd A, Golding J, Macleod J, Lawlor DA, Fraser A, Henderson J, Molloy L, Ness A, Ring S, Davey Smith G.",
+      "journal": null,
+      "publicationYear": 2013,
+      "publicationTypes": [
+        "Historical Article",
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 2737,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3600618/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC3998662",
+      "pmid": "20613842",
+      "doi": "10.1038/nature09165",
+      "title": "Conserved role of intragenic DNA methylation in regulating alternative promoters.",
+      "authors": "Maunakea AK, Nagarajan RP, Bilenky M, Ballinger TJ, D'Souza C, Fouse SD, Johnson BE, Hong C, Nielsen C, Zhao Y, Turecki G, Delaney A, Varhol R, Thiessen N, Shchors K, Heine VM, Rowitch DH, Xing X, Fiore C, Schillebeeckx M, Jones SJ, Haussler D, Marra MA, Hirst M, Wang T, Costello JF.",
+      "journal": null,
+      "publicationYear": 2010,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 1292,
+      "topics": [
+        "smoking_alcohol"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3998662/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC4047566",
+      "pmid": "24431278",
+      "doi": "10.1002/bies.201300113",
+      "title": "A paternal environmental legacy: evidence for epigenetic inheritance through the male germ line.",
+      "authors": "Soubry A, Hoyo C, Jirtle RL, Murphy SK.",
+      "journal": null,
+      "publicationYear": 2014,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 261,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4047566/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC4178976",
+      "pmid": "25079558",
+      "doi": "10.1038/nature13581",
+      "title": "DNA methylation dynamics of the human preimplantation embryo.",
+      "authors": "Smith ZD, Chan MM, Humm KC, Karnik R, Mekhoubad S, Regev A, Eggan K, Meissner A.",
+      "journal": null,
+      "publicationYear": 2014,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 452,
+      "topics": [
+        "measurement"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4178976/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC4544753",
+      "pmid": "25741868",
+      "doi": "10.1038/gim.2015.30",
+      "title": "Standards and guidelines for the interpretation of sequence variants: a joint consensus recommendation of the American College of Medical Genetics and Genomics and the Association for Molecular Pathology.",
+      "authors": "Richards S, Aziz N, Bale S, Bick D, Das S, Gastier-Foster J, Grody WW, Hegde M, Lyon E, Spector E, Voelkerding K, Rehm HL, ACMG Laboratory Quality Assurance Committee.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "research-article",
+        "Consensus Statement",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 25794,
+      "topics": [
+        "exercise_sleep_heat"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4544753/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC4739640",
+      "pmid": "25822800",
+      "doi": "10.1038/nmeth.3337",
+      "title": "Robust enumeration of cell subsets from tissue expression profiles.",
+      "authors": "Newman AM, Liu CL, Green MR, Gentles AJ, Feng W, Xu Y, Hoang CD, Diehn M, Alizadeh AA.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Research Support, U.S. Gov't, Non-P.H.S.",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 10803,
+      "topics": [
+        "oncofertility"
+      ],
+      "license": "none",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4739640/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC5850297",
+      "pmid": "29117321",
+      "doi": "10.1093/humrep/dex234",
+      "title": "The International Glossary on Infertility and Fertility Care, 2017.",
+      "authors": "Zegers-Hochschild F, Adamson GD, Dyer S, Racowsky C, de Mouzon J, Sokol R, Rienzi L, Sunde A, Schmidt L, Cooke ID, Simpson JL, van der Poel S.",
+      "journal": null,
+      "publicationYear": 2017,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 946,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5850297/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC6112576",
+      "pmid": "30052961",
+      "doi": "10.1093/humrep/dey256",
+      "title": "Recommendations from the international evidence-based guideline for the assessment and management of polycystic ovary syndrome.",
+      "authors": "Teede HJ, Misso ML, Costello MF, Dokras A, Laven J, Moran L, Piltonen T, Norman RJ, International PCOS Network.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1036,
+      "topics": [
+        "measurement"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6112576/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC6276652",
+      "pmid": "31486805",
+      "doi": "10.1093/hropen/hoy004",
+      "title": "ESHRE guideline: recurrent pregnancy loss.",
+      "authors": "ESHRE Guideline Group on RPL, Bender Atik R, Christiansen OB, Elson J, Kolte AM, Lewis S, Middeldorp S, Nelen W, Peramo B, Quenby S, Vermeulen N, Goddijn M.",
+      "journal": null,
+      "publicationYear": 2018,
+      "publicationTypes": [
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 570,
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6276652/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC6402825",
+      "pmid": "30726734",
+      "doi": "10.1016/j.celrep.2019.01.045",
+      "title": "The Neonatal and Adult Human Testis Defined at the Single-Cell Level.",
+      "authors": "Sohni A, Tan K, Song HW, Burow D, de Rooij DG, Laurent L, Hsieh TC, Rabah R, Hammoud SS, Vicini E, Wilkinson MF.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article",
+        "Research Support, N.I.H., Extramural"
+      ],
+      "citedByCount": 284,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6402825/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC6872448",
+      "pmid": "31562236",
+      "doi": "10.1136/gutjnl-2019-318484",
+      "title": "British Society of Gastroenterology consensus guidelines on the management of inflammatory bowel disease in adults.",
+      "authors": "Lamb CA, Kennedy NA, Raine T, Hendy PA, Smith PJ, Limdi JK, Hayee B, Lomer MCE, Parkes GC, Selinger C, Barrett KJ, Davies RJ, Bennett C, Gittens S, Dunlop MG, Faiz O, Fraser A, Garrick V, Johnston PD, Parkes M, Sanderson J, Terry H, IBD guidelines eDelphi consensus group, Gaya DR, Iqbal TH, Taylor SA, Smith M, Brookes M, Hansen R, Hawthorne AB.",
+      "journal": null,
+      "publicationYear": 2019,
+      "publicationTypes": [
+        "research-article",
+        "Consensus Statement",
+        "Journal Article"
+      ],
+      "citedByCount": 1729,
+      "topics": [
+        "endocrine_medication"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6872448/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC9553112",
+      "pmid": "36238954",
+      "doi": "10.1080/26895269.2022.2100644",
+      "title": "Standards of Care for the Health of Transgender and Gender Diverse People, Version 8.",
+      "authors": "Coleman E, Radix AE, Bouman WP, Brown GR, de Vries ALC, Deutsch MB, Ettner R, Fraser L, Goodman M, Green J, Hancock AB, Johnson TW, Karasic DH, Knudson GA, Leibowitz SF, Meyer-Bahlburg HFL, Monstrey SJ, Motmans J, Nahata L, Nieder TO, Reisner SL, Richards C, Schechter LS, Tangpricha V, Tishelman AC, Van Trotsenburg MAA, Winter S, Ducheny K, Adams NJ, Adrián TM, Allen LR, Azul D, Bagga H, Başar K, Bathory DS, Belinky JJ, Berg DR, Berli JU, Bluebond-Langner RO, Bouman MB, Bowers ML, Brassard PJ, Byrne J, Capitán L, Cargill CJ, Carswell JM, Chang SC, Chelvakumar G, Corneil T, Dalke KB, De Cuypere G, de Vries E, Den Heijer M, Devor AH, Dhejne C, D'Marco A, Edmiston EK, Edwards-Leeper L, Ehrbar R, Ehrensaft D, Eisfeld J, Elaut E, Erickson-Schroth L, Feldman JL, Fisher AD, Garcia MM, Gijs L, Green SE, Hall BP, Hardy TLD, Irwig MS, Jacobs LA, Janssen AC, Johnson K, Klink DT, Kreukels BPC, Kuper LE, Kvach EJ, Malouf MA, Massey R, Mazur T, McLachlan C, Morrison SD, Mosser SW, Neira PM, Nygren U, Oates JM, Obedin-Maliver J, Pagkalos G, Patton J, Phanuphak N, Rachlin K, Reed T, Rider GN, Ristori J, Robbins-Cherry S, Roberts SA, Rodriguez-Wallberg KA, Rosenthal SM, Sabir K, Safer JD, Scheim AI, Seal LJ, Sehoole TJ, Spencer K, St Amand C, Steensma TD, Strang JF, Taylor GB, Tilleman K, T'Sjoen GG, Vala LN, Van Mello NM, Veale JF, Vencill JA, Vincent B, Wesp LM, West MA, Arcelus J.",
+      "journal": null,
+      "publicationYear": 2022,
+      "publicationTypes": [
+        "report",
+        "Journal Article"
+      ],
+      "citedByCount": 1513,
+      "topics": [
+        "exercise_sleep_heat",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "license": "CC BY-NC-ND",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9553112/",
+      "excludedAnimalKeyword": false,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": 3
+    },
+    {
+      "pmcid": "PMC4640836",
+      "pmid": "26556802",
+      "doi": "10.1371/journal.pone.0140650",
+      "title": "Sperm Proteome Maturation in the Mouse Epididymis.",
+      "authors": "Skerget S, Rosenow MA, Petritis K, Karr TL.",
+      "journal": null,
+      "publicationYear": 2015,
+      "publicationTypes": [
+        "Comparative Study",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 93,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4640836/",
+      "excludedAnimalKeyword": true,
+      "commerciallyReusable": true,
+      "reviewState": "excluded_automatically",
+      "priorityScore": -5
+    },
+    {
+      "pmcid": "PMC4037763",
+      "pmid": "24883268",
+      "doi": "10.5999/aps.2014.41.3.201",
+      "title": "The rat model in microsurgery education: classical exercises and new horizons.",
+      "authors": "Shurey S, Akelina Y, Legagneux J, Malzone G, Jiga L, Ghanem AM.",
+      "journal": null,
+      "publicationYear": 2014,
+      "publicationTypes": [
+        "review-article",
+        "Review",
+        "Journal Article"
+      ],
+      "citedByCount": 71,
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "license": "CC BY-NC",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4037763/",
+      "excludedAnimalKeyword": true,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": -6
+    },
+    {
+      "pmcid": "PMC2171928",
+      "pmid": "15866887",
+      "doi": "10.1083/jcb.200412022",
+      "title": "Impairment of starvation-induced and constitutive autophagy in Atg7-deficient mice.",
+      "authors": "Komatsu M, Waguri S, Ueno T, Iwata J, Murata S, Tanida I, Ezaki J, Mizushima N, Ohsumi Y, Uchiyama Y, Kominami E, Tanaka K, Chiba T.",
+      "journal": null,
+      "publicationYear": 2005,
+      "publicationTypes": [
+        "Research Support, Non-U.S. Gov't",
+        "research-article",
+        "Journal Article"
+      ],
+      "citedByCount": 1971,
+      "topics": [
+        "exercise_sleep_heat",
+        "oncofertility"
+      ],
+      "license": "CC BY-NC-SA",
+      "retracted": "no",
+      "fullTextUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2171928/",
+      "excludedAnimalKeyword": true,
+      "commerciallyReusable": false,
+      "reviewState": "excluded_automatically",
+      "priorityScore": -7
+    }
+  ]
+}

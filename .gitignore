@@ -45,6 +45,11 @@ next-env.d.ts
 
 # NEAT — machine-local snapshots and events
 neat-out/
+docs/neat-local-problem.md
+
+# Licensed corpus working files; metadata and review decisions stay tracked.
+data/corpus/fulltext/
+data/corpus/review-queue.json
 
 # Python / ML
 ml/.venv/

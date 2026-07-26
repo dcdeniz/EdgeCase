@@ -91,7 +91,15 @@ export function validateGroundedAnswer(
 }
 
 export function evidencePrompt(matches: EvidenceMatch[]): string {
+  const escape = (value: string) =>
+    value.replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;").replaceAll("'", "&apos;");
   return matches.map((match) =>
-    `<evidence id="${match.id}">\nTitle: ${match.title}\nCitation: ${match.citation}\nContent: ${match.content}\n</evidence>`
+    `<evidence id="${escape(match.id)}">\nTitle: ${
+      escape(match.title)
+    }\nCitation: ${escape(match.citation)}\nContent: ${
+      escape(match.content)
+    }\n</evidence>`
   ).join("\n\n");
 }

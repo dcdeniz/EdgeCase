@@ -192,9 +192,7 @@ samples from male partners.
 
 - Official cohort description: <https://www.nichd.nih.gov/about/org/diphr/od/research/longitudinal>
 - Best use: future controlled-data exposure and fecundity investigation
-- Access caveat: no verified public training accession is documented here. The
-  previously linked dbGaP accession `phs001692.v1.p1` describes an unrelated
-  eight-subject UCSF small-RNA study, despite using the LIFE acronym.
+- Access caveat: treat participant-level access as controlled until a repository accession and data-use agreement are verified. The previously linked dbGaP accession `phs001692.v1.p1` describes an unrelated eight-subject UCSF small-RNA study, despite using the LIFE acronym.
 
 ### N-SEED
 

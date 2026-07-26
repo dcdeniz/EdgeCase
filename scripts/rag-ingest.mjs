@@ -17,6 +17,8 @@ const embeddingModel = process.env.OPENAI_EMBEDDING_MODEL ?? "text-embedding-3-s
 const { data: chunks, error } = await supabase
   .from("evidence_chunks")
   .select("id,title,citation,content")
+  .eq("review_status", "approved")
+  .eq("is_retracted", false)
   .is("embedding", null)
   .order("id");
 if (error) throw error;

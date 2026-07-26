@@ -1,0 +1,531 @@
+{
+  "schemaVersion": 1,
+  "sources": [
+    {
+      "pmcid": "PMC4722087",
+      "pmid": "26563120",
+      "doi": "10.1007/s12072-015-9675-4",
+      "title": "Asian-Pacific clinical practice guidelines on the management of hepatitis B: a 2015 update.",
+      "license": "CC BY",
+      "topics": [
+        "exercise_sleep_heat",
+        "smoking_alcohol",
+        "supplements"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4722087/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC4722087/unicode",
+      "contentSha256": "2074efbc93ce828e0afa34ace6d5126fa72de4d7e4ee8cfadbee6f5a6f099920",
+      "bytes": 970907,
+      "fetchedAt": "2026-07-25T21:43:36.053Z"
+    },
+    {
+      "pmcid": "PMC7003341",
+      "pmid": "32029004",
+      "doi": "10.1186/s40779-020-0233-6",
+      "title": "A rapid advice guideline for the diagnosis and treatment of 2019 novel coronavirus (2019-nCoV) infected pneumonia (standard version).",
+      "license": "CC BY",
+      "topics": [
+        "environment",
+        "supplements",
+        "weight_diet"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7003341/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC7003341/unicode",
+      "contentSha256": "6e5009c6bc934db724fc348e297ed6ea4b14495b3d8b8cb675cfa80163ffea8f",
+      "bytes": 192791,
+      "fetchedAt": "2026-07-25T21:43:36.314Z"
+    },
+    {
+      "pmcid": "PMC8344968",
+      "pmid": "34292926",
+      "doi": "10.15585/mmwr.rr7004a1",
+      "title": "Sexually Transmitted Infections Treatment Guidelines, 2021.",
+      "license": "CC0",
+      "topics": [
+        "endocrine_medication",
+        "environment",
+        "exercise_sleep_heat",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8344968/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC8344968/unicode",
+      "contentSha256": "6cb05eeb973fbdc537affbefd5be56a500530491bc2d4d3a2e152ff7f171a5a5",
+      "bytes": 1735697,
+      "fetchedAt": "2026-07-25T21:43:36.832Z"
+    },
+    {
+      "pmcid": "PMC3443608",
+      "pmid": "22991565",
+      "doi": "10.1155/2012/713696",
+      "title": "Endocrine-disrupting chemicals: associated disorders and mechanisms of action.",
+      "license": "CC BY",
+      "topics": [
+        "measurement"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3443608/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC3443608/unicode",
+      "contentSha256": "99c2496dc3385da0074297479907d5fb08040ed43cb8b2627f214fa1ee82b938",
+      "bytes": 572735,
+      "fetchedAt": "2026-07-25T21:43:37.036Z"
+    },
+    {
+      "pmcid": "PMC3699442",
+      "pmid": "23803387",
+      "doi": "10.1186/1741-7015-11-154",
+      "title": "New insights into mechanisms behind miscarriage.",
+      "license": "CC BY",
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3699442/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC3699442/unicode",
+      "contentSha256": "1d2921324a05ad4fa2428f36bd4c91faf0447e48c574b42968aa3ad803151fee",
+      "bytes": 104772,
+      "fetchedAt": "2026-07-25T21:43:37.214Z"
+    },
+    {
+      "pmcid": "PMC4284370",
+      "pmid": "24938819",
+      "doi": "10.1007/s11356-014-3180-5",
+      "title": "A review of the direct and indirect effects of neonicotinoids and fipronil on vertebrate wildlife.",
+      "license": "CC BY",
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4284370/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC4284370/unicode",
+      "contentSha256": "da5044cf69fb938f0858462163c564bbb934c3b8a5201e30a6bbabfb5ec679c4",
+      "bytes": 161342,
+      "fetchedAt": "2026-07-25T21:43:37.414Z"
+    },
+    {
+      "pmcid": "PMC4455614",
+      "pmid": "25928123",
+      "doi": "10.1186/s12958-015-0028-x",
+      "title": "Effects of increased paternal age on sperm quality, reproductive outcome and associated epigenetic risks to offspring.",
+      "license": "CC BY",
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4455614/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC4455614/unicode",
+      "contentSha256": "222c00758e546ff4a3ba5777faeacc6bbf64c627ab682c5546081abd2d2f6120",
+      "bytes": 258939,
+      "fetchedAt": "2026-07-25T21:43:37.658Z"
+    },
+    {
+      "pmcid": "PMC6377728",
+      "pmid": "30815248",
+      "doi": "10.1186/s13578-019-0282-2",
+      "title": "Exosomes: biogenesis, biologic function and clinical potential.",
+      "license": "CC BY",
+      "topics": [
+        "supplements"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6377728/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6377728/unicode",
+      "contentSha256": "40206032b90881807bad5ac631e31256a31c0eca003c03fc5aaa443023b63842",
+      "bytes": 193503,
+      "fetchedAt": "2026-07-25T21:43:37.917Z"
+    },
+    {
+      "pmcid": "PMC6600059",
+      "pmid": "31285919",
+      "doi": "10.1080/2090598x.2019.1599624",
+      "title": "Oxidative stress and sperm function: A systematic review on evaluation and management.",
+      "license": "CC BY",
+      "topics": [
+        "dna_fragmentation"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6600059/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6600059/unicode",
+      "contentSha256": "3c1a5dad4308fd83aae5799ad8d2a60794ced62ac78270655fcf3d78952aa454",
+      "bytes": 92688,
+      "fetchedAt": "2026-07-25T21:43:38.294Z"
+    },
+    {
+      "pmcid": "PMC6733338",
+      "pmid": "30970326",
+      "doi": "10.1530/rep-18-0523",
+      "title": "Artificial intelligence in reproductive medicine.",
+      "license": "CC BY",
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6733338/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6733338/unicode",
+      "contentSha256": "44e0f8bd039b27e67eeecc945c8d8b2f7c632515dc36ea0e644fd7659bf81d67",
+      "bytes": 151180,
+      "fetchedAt": "2026-07-25T21:43:38.580Z"
+    },
+    {
+      "pmcid": "PMC7897327",
+      "pmid": "33611339",
+      "doi": "10.1038/s41392-020-00450-x",
+      "title": "The role of m6A modification in the biological functions and diseases.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication",
+        "weight_diet"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC7897327/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC7897327/unicode",
+      "contentSha256": "daca331ccc913247d4c0fb23fa349f4dab1c32d7ef30e44757d3046e7e0cf75d",
+      "bytes": 205933,
+      "fetchedAt": "2026-07-25T21:43:38.828Z"
+    },
+    {
+      "pmcid": "PMC8078867",
+      "pmid": "33927623",
+      "doi": "10.3389/fphar.2021.643972",
+      "title": "Toxic Mechanisms of Five Heavy Metals: Mercury, Lead, Chromium, Cadmium, and Arsenic.",
+      "license": "CC BY",
+      "topics": [
+        "environment",
+        "supplements",
+        "weight_diet"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8078867/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC8078867/unicode",
+      "contentSha256": "51d07c5feff129aa1cd12af6c33eef7e721d5550134d2623b039fa5f2f9d1d93",
+      "bytes": 221456,
+      "fetchedAt": "2026-07-25T21:43:39.281Z"
+    },
+    {
+      "pmcid": "PMC9755275",
+      "pmid": "36522308",
+      "doi": "10.1038/s41392-022-01251-0",
+      "title": "Aging and aging-related diseases: from molecular mechanisms to interventions and treatments.",
+      "license": "CC BY",
+      "topics": [
+        "supplements"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9755275/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC9755275/unicode",
+      "contentSha256": "8aaf7d1baa9640fc2cd0d27d2c48ce200eac39e9858ce31265a70fef154c167b",
+      "bytes": 564262,
+      "fetchedAt": "2026-07-25T21:43:39.726Z"
+    },
+    {
+      "pmcid": "PMC11126520",
+      "pmid": "38582094",
+      "doi": "10.1016/s0140-6736(24)00367-2",
+      "title": "Global burden of 288 causes of death and life expectancy decomposition in 204 countries and territories and 811 subnational locations, 1990-2021: a systematic analysis for the Global Burden of Disease Study 2021.",
+      "license": "CC BY",
+      "topics": [
+        "oncofertility"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC11126520/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC11126520/unicode",
+      "contentSha256": "4fb613e5def47a864a3ca29d0c1f381ce75d46f9ef2cc9d1977f6d3b42292adc",
+      "bytes": 364218,
+      "fetchedAt": "2026-07-25T21:43:39.993Z"
+    },
+    {
+      "pmcid": "PMC1382018",
+      "pmid": "16494531",
+      "doi": "10.1371/journal.pbio.0040072",
+      "title": "A map of recent positive selection in the human genome.",
+      "license": "CC BY",
+      "topics": [
+        "smoking_alcohol"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC1382018/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC1382018/unicode",
+      "contentSha256": "28a392254df84dfd6cd7f3e4a2e096889b4f07bcee7ccd6b85d8ddaf61c23f22",
+      "bytes": 110513,
+      "fetchedAt": "2026-07-25T21:43:40.173Z"
+    },
+    {
+      "pmcid": "PMC2199288",
+      "pmid": "18197297",
+      "doi": "10.1289/ehp.10753",
+      "title": "Exposure of the U.S. population to bisphenol A and 4-tertiary-octylphenol: 2003-2004.",
+      "license": "CC0",
+      "topics": [
+        "environment",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2199288/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC2199288/unicode",
+      "contentSha256": "36e01a0c456cc6164c9252c369381f72c0c6d219669ab35bc1fc1fb6ec483356",
+      "bytes": 106316,
+      "fetchedAt": "2026-07-25T21:43:40.433Z"
+    },
+    {
+      "pmcid": "PMC2724665",
+      "pmid": "19721819",
+      "doi": "10.2174/157015909787602823",
+      "title": "Oxidative stress and neurodegenerative diseases: a review of upstream and downstream antioxidant therapeutic options.",
+      "license": "CC BY",
+      "topics": [
+        "supplements",
+        "weight_diet"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2724665/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC2724665/unicode",
+      "contentSha256": "8adf8780473554419b7d0f70af075f0e7861f7986d2181c3083f1b2d922117a2",
+      "bytes": 98902,
+      "fetchedAt": "2026-07-25T21:43:40.675Z"
+    },
+    {
+      "pmcid": "PMC3092750",
+      "pmid": "21589916",
+      "doi": "10.1371/journal.pone.0018973",
+      "title": "The relationship between anogenital distance, fatherhood, and fertility in adult men.",
+      "license": "CC BY",
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3092750/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC3092750/unicode",
+      "contentSha256": "bffd3ee36fcc01f36acd819392f71efe5f559c872e74f341e75bc31ff65082c4",
+      "bytes": 64155,
+      "fetchedAt": "2026-07-25T21:43:41.020Z"
+    },
+    {
+      "pmcid": "PMC3532182",
+      "pmid": "22568884",
+      "doi": "10.1186/1471-2105-13-86",
+      "title": "DNA methylation arrays as surrogate measures of cell mixture distribution.",
+      "license": "CC BY",
+      "topics": [
+        "oncofertility"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3532182/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC3532182/unicode",
+      "contentSha256": "6202aabed550940e94eb2a135e9c8e177958bd65bf4b8cd6c74de5e7db6f99a5",
+      "bytes": 164522,
+      "fetchedAt": "2026-07-25T21:43:41.200Z"
+    },
+    {
+      "pmcid": "PMC3760646",
+      "pmid": "24009894",
+      "doi": "10.3402/jev.v2i0.20360",
+      "title": "Standardization of sample collection, isolation and analysis methods in extracellular vesicle research.",
+      "license": "CC BY",
+      "topics": [
+        "exercise_sleep_heat",
+        "smoking_alcohol",
+        "weight_diet"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3760646/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC3760646/unicode",
+      "contentSha256": "4c5558d53b6b2863c6dae919c03cba126712a7e551637b4c5e5df405dd8fa4e7",
+      "bytes": 282814,
+      "fetchedAt": "2026-07-25T21:43:41.525Z"
+    },
+    {
+      "pmcid": "PMC4375400",
+      "pmid": "25398609",
+      "doi": "10.1093/bioinformatics/btu739",
+      "title": "UniRef clusters: a comprehensive and scalable alternative for improving sequence similarity searches.",
+      "license": "CC BY",
+      "topics": [
+        "supplements"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4375400/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC4375400/unicode",
+      "contentSha256": "8ac8aa88b0ba75dc4042ce60a863db3c35af8f5dda87e5d08b0221f5d08414c9",
+      "bytes": 58701,
+      "fetchedAt": "2026-07-25T21:43:41.714Z"
+    },
+    {
+      "pmcid": "PMC4424520",
+      "pmid": "25928197",
+      "doi": "10.1186/s12958-015-0032-1",
+      "title": "A unique view on male infertility around the globe.",
+      "license": "CC BY",
+      "topics": [
+        "measurement"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC4424520/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC4424520/unicode",
+      "contentSha256": "fc0d4777133d1e99af623a5f9c351588e6837682c6af571a6d1ee14821bdcf11",
+      "bytes": 76221,
+      "fetchedAt": "2026-07-25T21:43:41.900Z"
+    },
+    {
+      "pmcid": "PMC5055577",
+      "pmid": "27733282",
+      "doi": "10.1016/s0140-6736(16)31678-6",
+      "title": "Global, regional, and national incidence, prevalence, and years lived with disability for 310 diseases and injuries, 1990-2015: a systematic analysis for the Global Burden of Disease Study 2015.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5055577/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC5055577/unicode",
+      "contentSha256": "51db74bd210b72f8d384e7db5ceb9f5455e6a3410f9b5e5559ab9142af93373e",
+      "bytes": 728178,
+      "fetchedAt": "2026-07-25T21:43:42.149Z"
+    },
+    {
+      "pmcid": "PMC5388903",
+      "pmid": "27733281",
+      "doi": "10.1016/s0140-6736(16)31012-1",
+      "title": "Global, regional, and national life expectancy, all-cause mortality, and cause-specific mortality for 249 causes of death, 1980-2015: a systematic analysis for the Global Burden of Disease Study 2015.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5388903/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC5388903/unicode",
+      "contentSha256": "388823922d14adfd3b4c0f8ffae4ef6dac405d82aa20e19f1e39d29f2bfc54f1",
+      "bytes": 668133,
+      "fetchedAt": "2026-07-25T21:43:42.549Z"
+    },
+    {
+      "pmcid": "PMC5605509",
+      "pmid": "28919117",
+      "doi": "10.1016/s0140-6736(17)32154-2",
+      "title": "Global, regional, and national incidence, prevalence, and years lived with disability for 328 diseases and injuries for 195 countries, 1990-2016: a systematic analysis for the Global Burden of Disease Study 2016.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5605509/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC5605509/unicode",
+      "contentSha256": "fa4f323ac57596fc236875f9d56fe633c85ccd92c7dbe39b5044567d9e7ffeea",
+      "bytes": 413897,
+      "fetchedAt": "2026-07-25T21:43:42.775Z"
+    },
+    {
+      "pmcid": "PMC5605883",
+      "pmid": "28919116",
+      "doi": "10.1016/s0140-6736(17)32152-9",
+      "title": "Global, regional, and national age-sex specific mortality for 264 causes of death, 1980-2016: a systematic analysis for the Global Burden of Disease Study 2016.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5605883/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC5605883/unicode",
+      "contentSha256": "05925891604345dea9eac06eaa9da65774ff97c2589931ecea42af0f6d8e8c51",
+      "bytes": 609381,
+      "fetchedAt": "2026-07-25T21:43:43.016Z"
+    },
+    {
+      "pmcid": "PMC5675447",
+      "pmid": "28935708",
+      "doi": "10.1242/dev.152413",
+      "title": "Unraveling transcriptome dynamics in human spermatogenesis.",
+      "license": "CC BY",
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC5675447/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC5675447/unicode",
+      "contentSha256": "3d115b5557c55d344719ad83e736be376dd49a5f816fd1410571e9889f979158",
+      "bytes": 131370,
+      "fetchedAt": "2026-07-25T21:43:43.288Z"
+    },
+    {
+      "pmcid": "PMC6227505",
+      "pmid": "30340847",
+      "doi": "10.1016/s0140-6736(18)31694-5",
+      "title": "Forecasting life expectancy, years of life lost, and all-cause and cause-specific mortality for 250 causes of death: reference and alternative scenarios for 2016-40 for 195 countries and territories.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6227505/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6227505/unicode",
+      "contentSha256": "2296ed1b7539fa2996a5c81954647234c4d74d170f9b7ae3d465eeabae69a823",
+      "bytes": 408852,
+      "fetchedAt": "2026-07-25T21:43:43.575Z"
+    },
+    {
+      "pmcid": "PMC6227606",
+      "pmid": "30496103",
+      "doi": "10.1016/s0140-6736(18)32203-7",
+      "title": "Global, regional, and national age-sex-specific mortality for 282 causes of death in 195 countries and territories, 1980-2017: a systematic analysis for the Global Burden of Disease Study 2017.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6227606/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6227606/unicode",
+      "contentSha256": "910930c05ff6f21ff73b9d4c4ab408881f8337d86d672cb9dfb58bdf77d201fb",
+      "bytes": 651711,
+      "fetchedAt": "2026-07-25T21:43:43.827Z"
+    },
+    {
+      "pmcid": "PMC6227754",
+      "pmid": "30496104",
+      "doi": "10.1016/s0140-6736(18)32279-7",
+      "title": "Global, regional, and national incidence, prevalence, and years lived with disability for 354 diseases and injuries for 195 countries and territories, 1990-2017: a systematic analysis for the Global Burden of Disease Study 2017.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6227754/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6227754/unicode",
+      "contentSha256": "ef326da316a4d67748c444f86bf56f1c775a343fa661ce607aaaf788fa0a9c53",
+      "bytes": 989322,
+      "fetchedAt": "2026-07-25T21:43:44.110Z"
+    },
+    {
+      "pmcid": "PMC6252083",
+      "pmid": "30415748",
+      "doi": "10.1016/s0140-6736(18)32335-3",
+      "title": "Global, regional, and national disability-adjusted life-years (DALYs) for 359 diseases and injuries and healthy life expectancy (HALE) for 195 countries and territories, 1990-2017: a systematic analysis for the Global Burden of Disease Study 2017.",
+      "license": "CC BY",
+      "topics": [
+        "endocrine_medication"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6252083/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6252083/unicode",
+      "contentSha256": "6e103920a244451a61cf7541e6859a786047a1d17afad4903251b684455426b8",
+      "bytes": 1897111,
+      "fetchedAt": "2026-07-25T21:43:44.385Z"
+    },
+    {
+      "pmcid": "PMC8081667",
+      "pmid": "33911273",
+      "doi": "10.1038/s41586-021-03451-0",
+      "title": "Towards complete and error-free genome assemblies of all vertebrate species.",
+      "license": "CC BY",
+      "topics": [
+        "oncofertility"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC8081667/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC8081667/unicode",
+      "contentSha256": "e4d4706bd93ba20f0e8f53e023dd74810c05f497021c266b7233654763f3c40e",
+      "bytes": 195350,
+      "fetchedAt": "2026-07-25T21:43:44.755Z"
+    },
+    {
+      "pmcid": "PMC3789364",
+      "pmid": "24137539",
+      "doi": "10.7554/elife.01009",
+      "title": "Slo1 is the principal potassium channel of human spermatozoa.",
+      "license": "CC BY",
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC3789364/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC3789364/unicode",
+      "contentSha256": "f9688ccfa99b6683a38353c35d79f482241421931d63143ea8b829f5edc74b35",
+      "bytes": 136790,
+      "fetchedAt": "2026-07-25T21:43:45.039Z"
+    },
+    {
+      "pmcid": "PMC6847974",
+      "pmid": "31665287",
+      "doi": "10.1093/humupd/dmz032",
+      "title": "Human sperm ion channel (dys)function: implications for fertilization.",
+      "license": "CC BY",
+      "topics": [
+        "vasectomy_reversal"
+      ],
+      "sourceUrl": "https://pmc.ncbi.nlm.nih.gov/articles/PMC6847974/",
+      "retrievalUrl": "https://www.ncbi.nlm.nih.gov/research/bionlp/RESTful/pmcoa.cgi/BioC_json/PMC6847974/unicode",
+      "contentSha256": "1e8f8c012c4c2665cf9422d5b2f3388d7efc5fe69d5646b6b03f7b585f22041e",
+      "bytes": 217129,
+      "fetchedAt": "2026-07-25T21:43:45.242Z"
+    }
+  ]
+}

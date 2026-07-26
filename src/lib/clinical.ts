@@ -15,11 +15,13 @@ export type MarkerCode =
   | "volume_ml"
   | "concentration_million_ml"
   | "total_count_million"
+  | "total_motile_count_million"
+  | "progressive_motile_count_million"
   | "progressive_motility_pct"
   | "total_motility_pct"
   | "normal_morphology_pct"
   | "dna_fragmentation_pct"
-  | "leukocytes_million_ml"
+  | "seminal_leukocytes_million_ml"
   | "fsh_iu_l"
   | "lh_iu_l"
   | "total_testosterone_nmol_l"
@@ -143,6 +145,34 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     meaning: "Concentration multiplied by volume. Usually the more informative of the two for overall output.",
     referenceMedian: 210,
   },
+  total_motile_count_million: {
+    code: "total_motile_count_million",
+    label: "Total motile sperm count",
+    shortLabel: "Motile count",
+    unit: "×10⁶",
+    unitSpoken: "million",
+    panel: "semen_analysis",
+    referenceSet: "lab-supplied",
+    shape: "lower_limit",
+    referenceLow: null,
+    referenceHigh: null,
+    decimals: 1,
+    meaning: "The estimated number of moving sperm in the complete ejaculate. It may be reported by the laboratory or derived from volume, concentration and total motility.",
+  },
+  progressive_motile_count_million: {
+    code: "progressive_motile_count_million",
+    label: "Progressive motile sperm count",
+    shortLabel: "Progressive count",
+    unit: "×10⁶",
+    unitSpoken: "million",
+    panel: "semen_analysis",
+    referenceSet: "lab-supplied",
+    shape: "lower_limit",
+    referenceLow: null,
+    referenceHigh: null,
+    decimals: 1,
+    meaning: "The estimated number of progressively moving sperm in the complete ejaculate.",
+  },
   progressive_motility_pct: {
     code: "progressive_motility_pct",
     label: "Progressive Motility",
@@ -203,21 +233,20 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     specialistOnly: true,
     meaning: "The share of sperm carrying fragmented DNA. Requires a specialist assay and is reported against that laboratory's own threshold.",
   },
-  leukocytes_million_ml: {
-    code: "leukocytes_million_ml",
+  seminal_leukocytes_million_ml: {
+    code: "seminal_leukocytes_million_ml",
     label: "White Blood Cell Count",
     shortLabel: "White Blood Cells",
     unit: "×10⁶/mL",
     unitSpoken: "million per millilitre",
     panel: "semen_analysis",
-    referenceSet: "who-6e",
-    // An upper limit: at or above 1.0 the sample is termed leukocytospermia.
+    referenceSet: "lab-supplied",
     shape: "upper_limit",
     referenceLow: null,
-    referenceHigh: 1,
+    referenceHigh: null,
     decimals: 1,
     meaning:
-      "White blood cells in the sample. A raised count may indicate inflammation or infection somewhere in the reproductive tract, which is a question for a clinician rather than for a lifestyle protocol.",
+      "White blood cells reported in semen. A raised result is an inflammation-related semen marker, not an endocrine result, and is a question for a clinician rather than a lifestyle protocol.",
   },
   fsh_iu_l: {
     code: "fsh_iu_l",
@@ -345,11 +374,13 @@ export const plainLabel: Record<MarkerCode, string> = {
   volume_ml: "Amount of semen",
   concentration_million_ml: "Sperm per millilitre",
   total_count_million: "Total number of sperm",
+  total_motile_count_million: "Total number of moving sperm",
+  progressive_motile_count_million: "Total number swimming forward",
   progressive_motility_pct: "Sperm swimming forward",
   total_motility_pct: "Sperm moving at all",
   normal_morphology_pct: "Normally shaped sperm",
   dna_fragmentation_pct: "Sperm with damaged DNA",
-  leukocytes_million_ml: "White blood cells",
+  seminal_leukocytes_million_ml: "White blood cells",
   fsh_iu_l: "The signal to make sperm",
   lh_iu_l: "The signal to make testosterone",
   total_testosterone_nmol_l: "Testosterone",
@@ -365,13 +396,15 @@ export const plainMeaning: Record<MarkerCode, string> = {
   volume_ml: "The amount of fluid. Low volume can also mean some of the sample was lost.",
   concentration_million_ml: "How many sperm are packed into each millilitre.",
   total_count_million: "Concentration multiplied by volume — the fullest picture of output.",
+  total_motile_count_million: "The estimated number of moving sperm in the full sample.",
+  progressive_motile_count_million: "The estimated number swimming forward in the full sample.",
   progressive_motility_pct:
     "Sperm have to swim forward to reach an egg. This is the share that do.",
   total_motility_pct: "The share moving at all, including those not going anywhere useful.",
   normal_morphology_pct:
     "The share with a normal head and tail. Low percentages here are normal — the bar is strict.",
   dna_fragmentation_pct: "Damage to the genetic material the sperm carries.",
-  leukocytes_million_ml:
+  seminal_leukocytes_million_ml:
     "A raised count can indicate inflammation. This is a question for a clinician rather than for a lifestyle protocol.",
   fsh_iu_l: "The hormone that tells the testes to make sperm.",
   lh_iu_l: "The hormone that tells the testes to make testosterone.",
@@ -387,11 +420,13 @@ export const semenMarkerOrder: MarkerCode[] = [
   "volume_ml",
   "concentration_million_ml",
   "total_count_million",
+  "total_motile_count_million",
+  "progressive_motile_count_million",
   "progressive_motility_pct",
   "total_motility_pct",
   "normal_morphology_pct",
   "dna_fragmentation_pct",
-  "leukocytes_million_ml",
+  "seminal_leukocytes_million_ml",
 ];
 
 export const hormoneMarkerOrder: MarkerCode[] = [
