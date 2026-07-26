@@ -1,8 +1,12 @@
 # /next — density audit and redesign study
 
-- Status: Design study, implemented as the review route `/next`
+- Status: Density audit still current; visual direction SUPERSEDED by the
+  bible — `DESIGN.md` (Jeton) is now the sole token source for redesigned
+  surfaces. No serif, no mono, no gold: one geometric grotesque
+  (Manrope as Sequel Sans), white canvas, signal orange `#f73b20`,
+  ink roast `#360802`.
 - Date: 2026-07-26
-- Inspiration set: hundred. (100Health), Substack, Strava
+- Inspiration set: hundred. (100Health), Substack, Strava → now `DESIGN.md`
 - Builds on: `hundred-reference.md`, `market-inspiration.md`, `tokens.md`
 
 ## The audit in one sentence

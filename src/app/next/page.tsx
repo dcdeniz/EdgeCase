@@ -1,20 +1,22 @@
 "use client";
 
 /**
- * /next — the redesigned Today, built for review against the current /today.
+ * /next — the redesigned Today, in the bible's language.
  *
- * Study: docs/design/next-study.md. Direction: hundred.'s one-number cream
- * calm, Substack's editorial serif register, Strava's single confident stat
- * band. Same tokens, same safety architecture — the redesign is scale,
- * placement and deletion, not a new theme.
+ * Bible: docs/design/DESIGN.md (Jeton — editorial fintech on warm marble).
+ * White canvas, one chromatic voice (#f73b20), warm near-black ink (#360802),
+ * a sole geometric grotesque at weights 400/450/500, oversized tight-set
+ * numerals, 16px cards lifted by the inverted shadow, category accents only
+ * on category-coded cards. No serif. No mono. No bold.
  *
- * Density contract: every caveat exactly once, machine metadata off the
- * surface, three mono folios per screen, everything else a door.
+ * Density contract (docs/design/next-study.md): one question per screen,
+ * every caveat exactly once, machine metadata off the surface, everything
+ * else a door.
  */
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { Icon } from "@/components/icons";
+import { useMemo, useState } from "react";
+import { Icon, type IconName } from "@/components/icons";
 import { announce } from "@/components/ui";
 import { PROTOTYPE_DISCLAIMER } from "@/components/shell";
 import {
@@ -41,39 +43,29 @@ import {
 import { formatDuration, latestHealthDay, latestSleepNight, sleepNeedPercent } from "@/lib/wearable";
 
 /* ==========================================================================
-   Editorial primitives — local to this study
+   Bible primitives
    ========================================================================== */
 
-/**
- * Small mono running head. Used three times on the screen, never more.
- * The gold dash is the splash palette (PR #20) carried inside: identity
- * punctuation only, never a status colour.
- */
-function Folio({ children, aside }: { children: React.ReactNode; aside?: React.ReactNode }) {
-  return (
-    <div className="flex items-baseline justify-between gap-3">
-      <p className="flex items-baseline gap-2 font-mono text-[0.6875rem] font-medium uppercase tracking-[0.14em] text-ink-3">
-        <span aria-hidden="true" className="inline-block h-[3px] w-4 self-center rounded-full bg-gold" />
-        {children}
-      </p>
-      {aside}
-    </div>
-  );
-}
-
-/** A door: one row, one destination. The only link treatment on the screen. */
-function Door({ href, children, detail }: { href: string; children: React.ReactNode; detail?: string }) {
+/** Ghost text link — the bible's inline navigation. Orange, arrow, no box. */
+function Ghost({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <Link
       href={href}
-      className="flex min-h-(--ps-touch-min) items-center gap-3 border-b border-hairline py-3.5 transition-colors duration-(--ps-duration-fast) hover:bg-surface-3/50"
+      className="inline-flex min-h-(--ps-touch-min) items-center gap-1.5 rounded-links py-2 text-body-sm font-[450] text-signal-orange"
     >
-      <span className="min-w-0 flex-1">
-        <span className="block t-body-sm font-medium text-ink-1">{children}</span>
-        {detail ? <span className="mt-0.5 block t-caption text-ink-3">{detail}</span> : null}
-      </span>
-      <Icon name="chevron-right" size={16} className="shrink-0 text-ink-3" />
+      {children}
+      <span aria-hidden="true">→</span>
     </Link>
+  );
+}
+
+/** Section heading — editorial, size carries the hierarchy, never weight. */
+function SectionHead({ children, aside }: { children: React.ReactNode; aside?: React.ReactNode }) {
+  return (
+    <div className="flex items-baseline justify-between gap-4">
+      <h2 className="text-heading-sm font-medium text-ink-roast">{children}</h2>
+      {aside}
+    </div>
   );
 }
 
@@ -90,17 +82,6 @@ function rise(step: number): React.CSSProperties {
 export default function NextTodayPage() {
   const { state, readiness, latestSemen, seedDemo, logAdherence } = usePrototype();
   const protocol = state.protocol;
-
-  /* The study runs on the verified cream theme. Scoped to this route. */
-  useEffect(() => {
-    const root = document.documentElement;
-    const previous = root.getAttribute("data-theme");
-    root.setAttribute("data-theme", "light");
-    return () => {
-      if (previous) root.setAttribute("data-theme", previous);
-      else root.removeAttribute("data-theme");
-    };
-  }, []);
 
   const progress = useMemo(() => readinessProgress(state), [state]);
   const contributors = useMemo(() => contributorsFor(state), [state]);
@@ -139,83 +120,112 @@ export default function NextTodayPage() {
     { value: "skipped", label: "Skipped" },
   ];
 
+  /* Category-coded body data, per the bible: accent colours live here only. */
+  const stats: Array<{
+    label: string;
+    value: string;
+    detail: string;
+    glyph: IconName;
+    accent: string;
+    wash: string;
+    href?: string;
+  }> = [
+    {
+      label: "Sleep",
+      value: night ? formatDuration(night.asleepMinutes) : "—",
+      detail: night ? `${sleepNeedPercent(night)}% of need` : "No night recorded",
+      glyph: "moon",
+      accent: "text-cobalt-blue",
+      wash: "bg-cobalt-blue/5",
+      href: "/sleep",
+    },
+    {
+      label: "Diet",
+      value: diet.score == null ? "—" : String(diet.score),
+      detail: diet.entries.length === 0 ? "Nothing logged" : `${diet.entries.length} ${diet.entries.length === 1 ? "meal" : "meals"}`,
+      glyph: "food",
+      accent: "text-emerald-green",
+      wash: "bg-emerald-green/5",
+      href: "/food",
+    },
+    {
+      label: "Steps",
+      value: health ? health.steps.toLocaleString("en-GB") : "—",
+      detail: health ? `${health.activeMinutes} active minutes` : "No data",
+      glyph: "steps",
+      accent: "text-coral-red",
+      wash: "bg-coral-red/5",
+    },
+    {
+      label: "Rest HR",
+      value: health ? String(health.restingHeartRate) : "—",
+      detail: health ? `HRV ${health.heartRateVariability} ms` : "No data",
+      glyph: "heart",
+      accent: "text-signal-orange",
+      wash: "bg-category-tint",
+    },
+  ];
+
   return (
-    <div className="min-h-dvh bg-ground text-ink-1">
-      {/* Masthead. The one place the prototype label lives. */}
-      <header className="border-b border-hairline" style={rise(0)}>
-        <div className="mx-auto flex min-h-(--ps-header-height) max-w-(--ps-shell-max) items-center justify-between gap-3 px-5 pad-safe-top">
-          <p className="font-serif text-[1.25rem] font-medium italic tracking-[-0.01em] text-ink-1">
-            preseed<span className="text-gold">.</span>
-          </p>
+    <div className="min-h-dvh bg-paper-white font-sequel-sans text-ink-roast [font-variant-numeric:tabular-nums]">
+      {/* Top bar: logo left, one quiet pill right. */}
+      <header className="bg-paper-white/80 backdrop-blur-md" style={rise(0)}>
+        <div className="mx-auto flex min-h-16 max-w-(--ps-shell-max) items-center justify-between gap-3 px-5 pad-safe-top">
+          <p className="text-body font-medium text-ink-roast">PreSeed</p>
           <Link
             href="/account/safety"
-            className="font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ink-3 underline-offset-4 hover:underline"
+            className="rounded-pills border border-sand-wash px-3 py-1.5 text-caption font-[450] text-carbon-black"
           >
-            Prototype · simulated data
+            Prototype · simulated
           </Link>
         </div>
       </header>
 
-      <main className="mx-auto max-w-(--ps-shell-max) px-5 pb-32">
+      <main className="mx-auto max-w-(--ps-shell-max) px-5 pb-40">
         {/* Gates outrank everything, including a good score. Unchanged rule. */}
         {readiness.gates.length > 0 ? (
-          <section className="mt-6 space-y-4" aria-label="Clinical flags" style={rise(1)}>
+          <section className="mt-4 space-y-3" aria-label="Clinical flags" style={rise(1)}>
             {readiness.gates.map((gate) => (
-              <div
-                key={gate.id}
-                role="group"
-                aria-label={gate.title}
-                className={`border-l-2 pl-4 ${gate.severity === "escalation" ? "border-l-escalation" : "border-l-attention"}`}
-              >
-                <h2 className="font-serif text-[1.125rem] font-medium text-ink-1">{gate.title}</h2>
-                <p className="mt-1 t-body-sm text-ink-2">{gate.body}</p>
-                <p className="mt-1.5 t-body-sm font-medium text-ink-1">{gate.action}</p>
+              <div key={gate.id} role="group" aria-label={gate.title} className="rounded-cards bg-linen-blush p-5">
+                <h2 className="text-subheading font-medium text-signal-orange">{gate.title}</h2>
+                <p className="mt-1.5 text-body-sm text-ink-roast">{gate.body}</p>
+                <p className="mt-2 text-body-sm font-medium text-ink-roast">{gate.action}</p>
               </div>
             ))}
           </section>
         ) : null}
 
-        {/* ── Hero: the number, alone on cream ─────────────────────────── */}
+        {/* ── Hero: the number, oversized and tight-set ─────────────────── */}
         <section className="mt-10" aria-label="Seed Score" style={rise(2)}>
-          <Folio
-            aside={
-              <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-                {formatWeekday(TODAY)} {formatDate(TODAY)}
-              </p>
-            }
-          >
-            Seed Score
-          </Folio>
+          <p className="text-caption font-[450] text-carbon-black">
+            Seed Score · {formatWeekday(TODAY)} {formatDate(TODAY)}
+          </p>
 
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="font-serif text-[5.5rem] font-medium leading-none tracking-[-0.04em] text-ink-1">
-              {score ?? "—"}
-            </span>
-            <span className="font-mono text-[0.8125rem] text-ink-3">/100</span>
+          <div className="mt-2 flex items-baseline gap-3">
+            <span className="text-display font-medium text-ink-roast">{score ?? "—"}</span>
+            <span className="text-subheading font-normal text-ink-roast">/100</span>
           </div>
 
           <p className="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span className="font-serif text-[1.1875rem] italic text-ink-1">
-              {behaviourBandLabel(score)}
-            </span>
+            <span className="text-subheading font-medium text-ink-roast">{behaviourBandLabel(score)}</span>
             {progress.weekDelta != null ? (
-              <span className={`t-body-sm font-medium ${progress.weekDelta >= 0 ? "text-accent" : "text-attention"}`}>
+              <span className="text-body-sm font-[450] text-signal-orange">
                 {fmtDelta(progress.weekDelta)} this week
               </span>
             ) : null}
           </p>
 
-          {/* Fourteen days, four pixels wide each. The consistency card, shrunk. */}
-          <div className="mt-6 flex h-10 items-end gap-[3px]" aria-hidden="true">
+          {/* Fourteen days in the brand voice. Height is the value; today is solid. */}
+          <div className="mt-8 flex h-12 items-end gap-1" aria-hidden="true">
             {strip.map((dayCell, index) => (
               <span
                 key={dayCell.date}
-                className={`flex-1 rounded-[2px] ${
+                className={`flex-1 rounded-[3px] ${
                   dayCell.score == null
-                    ? "h-[3px] bg-line-strong"
+                    ? "h-1 bg-sand-wash"
                     : index === strip.length - 1
-                      ? "bg-gold"
-                      : "bg-accent/55"
+                      ? "bg-signal-orange"
+                      : "bg-signal-orange/25"
                 }`}
                 style={dayCell.score != null ? { height: `${Math.max(12, dayCell.score)}%` } : undefined}
               />
@@ -227,305 +237,266 @@ export default function NextTodayPage() {
           </p>
 
           <div className="mt-2 flex items-baseline justify-between gap-3">
-            <p className="t-caption text-ink-3">
+            <p className="text-caption text-carbon-black">
               Last 14 days{window14.percent != null ? ` · ${window14.percent}% of actions logged` : ""}
             </p>
-            <Link href="/score" className="t-caption font-medium text-accent">
-              How it&rsquo;s scored →
-            </Link>
+            <Ghost href="/score">How it&rsquo;s scored</Ghost>
           </div>
 
-          {/* The caveat, once, in the reasoning register. */}
-          <p className="mt-4 max-w-[38ch] font-serif text-[0.9375rem] italic leading-snug text-ink-3">
-            {BEHAVIOUR_SCORE_CAVEAT}
-          </p>
+          {/* The caveat, once. */}
+          <p className="mt-3 max-w-[40ch] text-caption text-carbon-black">{BEHAVIOUR_SCORE_CAVEAT}</p>
         </section>
 
         {state.adaptation ? (
           <Link
             href="/protocol"
-            className="mt-8 flex min-h-(--ps-touch-min) items-center gap-3 border-l-2 border-l-information bg-information-quiet py-3 pl-4 pr-3"
+            className="mt-10 flex items-center gap-3 rounded-cards bg-category-tint p-5"
             style={rise(3)}
           >
             <span className="min-w-0 flex-1">
-              <span className="block t-body-sm font-medium text-ink-1">
+              <span className="block text-body font-medium text-ink-roast">
                 A change to your plan is waiting for review
               </span>
-              <span className="mt-0.5 block t-caption text-ink-3">
+              <span className="mt-0.5 block text-caption text-carbon-black">
                 Nothing changes until you accept it
               </span>
             </span>
-            <Icon name="chevron-right" size={16} className="shrink-0 text-ink-3" />
+            <span aria-hidden="true" className="text-body-sm font-[450] text-signal-orange">
+              →
+            </span>
           </Link>
         ) : null}
 
-        {/* ── Actions: tap to log, detail one tap away ─────────────────── */}
-        <section className="mt-12" aria-label="Today's actions" style={rise(4)}>
-          <Folio
-            aside={
-              protocol ? (
-                <Link href="/protocol" className="t-caption font-medium text-accent">
-                  Full plan →
-                </Link>
-              ) : undefined
-            }
-          >
-            {protocol ? `Today · day ${day} of ${protocol.days}` : "Protocol"}
-          </Folio>
+        {/* ── Actions ───────────────────────────────────────────────────── */}
+        <section className="mt-14" aria-label="Today's actions" style={rise(4)}>
+          <SectionHead aside={protocol ? <Ghost href="/protocol">Full plan</Ghost> : undefined}>
+            {protocol ? `Day ${day}` : "Protocol"}
+          </SectionHead>
+          {protocol ? (
+            <p className="mt-1 text-body-sm text-ink-roast">
+              of {protocol.days} · week {week}
+            </p>
+          ) : null}
 
           {!protocol ? (
             <div className="mt-5">
-              <p className="font-serif text-[1.375rem] font-medium text-ink-1">No protocol yet.</p>
-              <p className="mt-2 max-w-[44ch] t-body-sm text-ink-2">
+              <p className="text-heading font-medium text-ink-roast">No protocol yet.</p>
+              <p className="mt-3 max-w-[44ch] text-body-sm text-ink-roast">
                 A dated protocol is built from a measured result, so the plan responds to something
                 real rather than to a questionnaire alone.
               </p>
-              <div className="mt-4 flex flex-wrap gap-3">
+              <div className="mt-5 flex flex-wrap items-center gap-4">
                 <Link
                   href="/tests/new"
-                  className="inline-flex min-h-(--ps-touch-min) items-center gap-2 rounded-sm bg-accent px-4 t-body-sm font-medium text-accent-ink"
+                  className="inline-flex min-h-(--ps-touch-min) items-center gap-2 rounded-buttons bg-signal-orange px-4 py-2 text-body-sm font-[450] tracking-[0.03em] text-paper-white"
                 >
-                  <Icon name="plus" size={16} />
                   Add a clinical result
                 </Link>
                 <button
                   type="button"
                   onClick={() => seedDemo("baseline")}
-                  className="inline-flex min-h-(--ps-touch-min) items-center rounded-sm px-3 t-body-sm font-medium text-accent hover:bg-accent-quiet"
+                  className="inline-flex min-h-(--ps-touch-min) items-center rounded-links text-body-sm font-[450] text-signal-orange"
                 >
-                  Load the demo baseline
+                  Load the demo baseline →
                 </button>
               </div>
             </div>
           ) : (
-            <div className="mt-2">
-              <ul className="m-0 list-none p-0">
-                {dailyItems.map((item) => {
-                  const current = state.adherence[adherenceKey(item.id, TODAY)];
-                  const done = current === "completed";
-                  const open = expanded === item.id;
-                  return (
-                    <li key={item.id} className="border-b border-hairline">
-                      <div className="flex items-center gap-3.5 py-3.5">
-                        <button
-                          type="button"
-                          aria-pressed={done}
-                          aria-label={`Mark ${item.title} done`}
-                          onClick={() => {
-                            logAdherence(item.id, TODAY, "completed");
-                            announce(`${item.title} marked done`);
-                          }}
-                          className={`flex size-8 shrink-0 items-center justify-center rounded-full border transition-colors duration-(--ps-duration-fast) ${
-                            done
-                              ? "border-accent bg-accent text-accent-ink"
-                              : "border-line-control text-transparent hover:bg-surface-3"
-                          }`}
-                        >
-                          <Icon name="check" size={15} />
-                        </button>
-                        <button
-                          type="button"
-                          aria-expanded={open}
-                          onClick={() => setExpanded(open ? null : item.id)}
-                          className="flex min-w-0 flex-1 items-center gap-3 text-left"
-                        >
-                          <span className="min-w-0 flex-1">
-                            <span className={`block t-body font-medium ${done ? "text-ink-3" : "text-ink-1"}`}>
-                              {item.title}
+            <div className="mt-5">
+              {/* The bible's content card: white, 16px radius, lifted from below. */}
+              <div className="rounded-cards bg-paper-white px-5 shadow-md">
+                <ul className="m-0 list-none divide-y divide-sand-wash p-0">
+                  {dailyItems.map((item) => {
+                    const current = state.adherence[adherenceKey(item.id, TODAY)];
+                    const done = current === "completed";
+                    const open = expanded === item.id;
+                    return (
+                      <li key={item.id}>
+                        <div className="flex items-center gap-4 py-4">
+                          <button
+                            type="button"
+                            aria-pressed={done}
+                            aria-label={`Mark ${item.title} done`}
+                            onClick={() => {
+                              logAdherence(item.id, TODAY, "completed");
+                              announce(`${item.title} marked done`);
+                            }}
+                            className={`flex size-8 shrink-0 items-center justify-center rounded-pills border transition-colors duration-(--ps-duration-fast) ${
+                              done
+                                ? "border-signal-orange bg-signal-orange text-paper-white"
+                                : "border-sand-wash text-transparent hover:border-ash-grey"
+                            }`}
+                          >
+                            <Icon name="check" size={15} />
+                          </button>
+                          <button
+                            type="button"
+                            aria-expanded={open}
+                            onClick={() => setExpanded(open ? null : item.id)}
+                            className="flex min-w-0 flex-1 items-center gap-3 text-left"
+                          >
+                            <span className="min-w-0 flex-1">
+                              <span className={`block text-body font-medium ${done ? "text-ash-grey" : "text-ink-roast"}`}>
+                                {item.title}
+                              </span>
+                              <span className="mt-0.5 block text-caption text-carbon-black/60">
+                                {categoryLabel[item.category]}
+                                {current === "partial" ? " · logged partly" : current === "skipped" ? " · skipped" : ""}
+                              </span>
                             </span>
-                            <span className="mt-0.5 block t-caption text-ink-3">
-                              {categoryLabel[item.category]}
-                              {current === "partial" ? " · logged partly" : current === "skipped" ? " · skipped" : ""}
-                            </span>
-                          </span>
-                          <Icon
-                            name="chevron-down"
-                            size={16}
-                            className={`shrink-0 text-ink-3 transition-transform duration-(--ps-duration-base) ${open ? "rotate-180" : ""}`}
-                          />
-                        </button>
-                      </div>
-
-                      {open ? (
-                        <div className="pb-4 pl-[2.9375rem]">
-                          <p className="t-body-sm text-ink-2">{item.description}</p>
-                          <div role="group" aria-label={`Log ${item.title}`} className="mt-3 flex gap-2">
-                            {statusOptions.map((option) => (
-                              <button
-                                key={option.value}
-                                type="button"
-                                aria-pressed={current === option.value}
-                                onClick={() => {
-                                  logAdherence(item.id, TODAY, option.value);
-                                  announce(`${item.title} marked ${option.label.toLowerCase()}`);
-                                }}
-                                className={`rounded-full border px-3.5 py-1.5 t-caption font-medium transition-colors duration-(--ps-duration-fast) ${
-                                  current === option.value
-                                    ? "border-accent bg-accent text-accent-ink"
-                                    : "border-line-control text-ink-2 hover:bg-surface-3"
-                                }`}
-                              >
-                                {option.label}
-                              </button>
-                            ))}
-                          </div>
-                          <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1">
-                            {item.reasoningId ? (
-                              <Link
-                                href={`/results/reasoning/${item.reasoningId}`}
-                                className="t-caption font-medium text-accent"
-                              >
-                                Why this is in my plan →
-                              </Link>
-                            ) : null}
-                            {item.evidenceStatus === "general_guidance" ? (
-                              <span className="t-caption text-ink-3">General guidance, not evidence-cited</span>
-                            ) : null}
-                          </div>
+                            <Icon
+                              name="chevron-down"
+                              size={16}
+                              className={`shrink-0 text-ash-grey transition-transform duration-(--ps-duration-base) ${open ? "rotate-180" : ""}`}
+                            />
+                          </button>
                         </div>
-                      ) : null}
-                    </li>
-                  );
-                })}
-              </ul>
 
-              <Door href="/protocol" detail={`Week ${week} of the plan`}>
-                This week · {weeklyItems.length} weekly {weeklyItems.length === 1 ? "action" : "actions"}
-              </Door>
-              <Door href="/protocol/check-in" detail="Your answers propose changes — they never apply themselves">
-                Weekly check-in · two minutes
-              </Door>
-              {retestSoon ? (
-                <Door href="/tests/new" detail="Matching collection conditions is what makes results comparable">
-                  Closing analysis due {relativeDays(protocol.retestDueOn)}
-                </Door>
-              ) : null}
+                        {open ? (
+                          <div className="pb-5 pl-12">
+                            <p className="text-body-sm text-ink-roast">{item.description}</p>
+                            <div role="group" aria-label={`Log ${item.title}`} className="mt-4 flex gap-2">
+                              {statusOptions.map((option) => (
+                                <button
+                                  key={option.value}
+                                  type="button"
+                                  aria-pressed={current === option.value}
+                                  onClick={() => {
+                                    logAdherence(item.id, TODAY, option.value);
+                                    announce(`${item.title} marked ${option.label.toLowerCase()}`);
+                                  }}
+                                  className={`rounded-pills border px-4 py-1.5 text-caption font-[450] transition-colors duration-(--ps-duration-fast) ${
+                                    current === option.value
+                                      ? "border-signal-orange bg-signal-orange text-paper-white"
+                                      : "border-sand-wash text-ink-roast hover:border-ash-grey"
+                                  }`}
+                                >
+                                  {option.label}
+                                </button>
+                              ))}
+                            </div>
+                            <div className="mt-3 flex flex-wrap items-center gap-x-5">
+                              {item.reasoningId ? (
+                                <Ghost href={`/results/reasoning/${item.reasoningId}`}>Why this is in my plan</Ghost>
+                              ) : null}
+                              {item.evidenceStatus === "general_guidance" ? (
+                                <span className="text-caption text-carbon-black/60">General guidance, not evidence-cited</span>
+                              ) : null}
+                            </div>
+                          </div>
+                        ) : null}
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+              <div className="mt-4 flex flex-col items-start">
+                <Ghost href="/protocol">
+                  This week · {weeklyItems.length} weekly {weeklyItems.length === 1 ? "action" : "actions"}
+                </Ghost>
+                <Ghost href="/protocol/check-in">Weekly check-in · two minutes</Ghost>
+                {retestSoon ? (
+                  <Ghost href="/tests/new">Closing analysis due {relativeDays(protocol.retestDueOn)}</Ghost>
+                ) : null}
+              </div>
             </div>
           )}
         </section>
 
-        {/* ── Body data: one band, one provenance line ─────────────────── */}
-        <section className="mt-12" aria-label="Body data" style={rise(5)}>
-          <Folio>Body</Folio>
-          <div className="mt-3 grid grid-cols-4 divide-x divide-hairline border-y border-hairline">
-            {[
-              {
-                label: "Sleep",
-                value: night ? formatDuration(night.asleepMinutes) : "—",
-                detail: night ? `${sleepNeedPercent(night)}% of need` : "No night",
-                href: "/sleep",
-              },
-              {
-                label: "Diet",
-                value: diet.score == null ? "—" : String(diet.score),
-                detail: diet.entries.length === 0 ? "Not logged" : `${diet.entries.length} ${diet.entries.length === 1 ? "meal" : "meals"}`,
-                href: "/food",
-              },
-              {
-                label: "Steps",
-                value: health ? health.steps.toLocaleString("en-GB") : "—",
-                detail: health ? `${health.activeMinutes} active min` : "No data",
-              },
-              {
-                label: "Rest HR",
-                value: health ? String(health.restingHeartRate) : "—",
-                detail: health ? `HRV ${health.heartRateVariability} ms` : "No data",
-              },
-            ].map((stat) => {
+        {/* ── Body: category-coded cards, the only place accents live ───── */}
+        <section className="mt-14" aria-label="Body data" style={rise(5)}>
+          <SectionHead>Body</SectionHead>
+          <div className="mt-5 grid grid-cols-2 gap-3">
+            {stats.map((stat) => {
               const body = (
                 <>
-                  <span className="block font-mono text-[0.625rem] uppercase tracking-[0.12em] text-ink-3">
-                    {stat.label}
+                  <span className="flex items-center gap-2">
+                    <Icon name={stat.glyph} size={18} className={stat.accent} />
+                    <span className="text-body-sm font-[450] text-ink-roast">{stat.label}</span>
                   </span>
-                  <span className="mt-1 block truncate font-mono text-[1.0625rem] font-medium tracking-[-0.01em] text-ink-1">
+                  <span className="mt-3 block truncate text-heading-sm font-medium text-ink-roast">
                     {stat.value}
                   </span>
-                  <span className="mt-0.5 block truncate t-caption text-ink-3">{stat.detail}</span>
+                  <span className="mt-1 block truncate text-caption text-carbon-black/60">{stat.detail}</span>
                 </>
               );
               return stat.href ? (
-                <Link key={stat.label} href={stat.href} className="px-2.5 py-3 transition-colors duration-(--ps-duration-fast) hover:bg-surface-3/50">
+                <Link key={stat.label} href={stat.href} className={`rounded-cards p-5 ${stat.wash}`}>
                   {body}
                 </Link>
               ) : (
-                <div key={stat.label} className="px-2.5 py-3">
+                <div key={stat.label} className={`rounded-cards p-5 ${stat.wash}`}>
                   {body}
                 </div>
               );
             })}
           </div>
-          <p className="mt-2 t-caption text-ink-3">Whoop and your log · simulated wearable data</p>
+          <p className="mt-3 text-caption text-carbon-black">Whoop and your log · simulated wearable data</p>
         </section>
 
-        {/* ── Latest analysis: a teaser and two doors ──────────────────── */}
+        {/* ── Latest analysis: one card, two doors ──────────────────────── */}
         {latestSemen ? (
-          <section className="mt-12" aria-label="Latest analysis" style={rise(6)}>
-            <Folio
+          <section className="mt-14" aria-label="Latest analysis" style={rise(6)}>
+            <SectionHead
               aside={
-                <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-                  {formatDate(latestSemen.collectedAt)}
-                </p>
+                <p className="text-caption text-carbon-black">{formatDate(latestSemen.collectedAt)}</p>
               }
             >
               Latest analysis
-            </Folio>
+            </SectionHead>
 
-            <ul className="m-0 mt-2 list-none p-0">
-              {headlineMarkers.map((marker) => {
-                const definition = markerCatalogue[marker.code];
-                return (
-                  <li
-                    key={marker.code}
-                    className="flex items-baseline justify-between gap-3 border-b border-hairline py-3"
-                  >
-                    <span className="min-w-0">
-                      <span className="block t-body-sm text-ink-1">{definition.label}</span>
-                      <span className="mt-0.5 block t-caption text-ink-3">
-                        {referenceContextLabel[referenceContextOf(marker)]}
+            <div className="mt-5 rounded-cards bg-paper-white px-5 shadow-md">
+              <ul className="m-0 list-none divide-y divide-sand-wash p-0">
+                {headlineMarkers.map((marker) => {
+                  const definition = markerCatalogue[marker.code];
+                  return (
+                    <li key={marker.code} className="flex items-baseline justify-between gap-4 py-4">
+                      <span className="min-w-0">
+                        <span className="block text-body-sm text-ink-roast">{definition.label}</span>
+                        <span className="mt-0.5 block text-caption text-carbon-black/60">
+                          {referenceContextLabel[referenceContextOf(marker)]}
+                        </span>
                       </span>
-                    </span>
-                    <span className="shrink-0 font-mono text-[1.0625rem] font-medium text-ink-1">
-                      {formatMarker(marker)} <span className="text-[0.75rem] font-normal text-ink-3">{definition.unit}</span>
-                    </span>
-                  </li>
-                );
-              })}
-            </ul>
+                      <span className="shrink-0 text-subheading font-medium text-ink-roast">
+                        {formatMarker(marker)}{" "}
+                        <span className="text-caption font-normal text-carbon-black/60">{definition.unit}</span>
+                      </span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
 
-            <Door href="/results" detail={latestSemen.source === "simulated" ? "Simulated result" : undefined}>
-              Open results
-            </Door>
-            {contributors.length > 0 ? (
-              <Door href="/contributors" detail="Associations from your own inputs, with their limits">
-                What&rsquo;s affecting this · {contributors.length}
-              </Door>
-            ) : null}
+            <div className="mt-4 flex flex-col items-start">
+              <Ghost href="/results">Open results</Ghost>
+              {contributors.length > 0 ? (
+                <Ghost href="/contributors">What&rsquo;s affecting this · {contributors.length}</Ghost>
+              ) : null}
+            </div>
           </section>
         ) : null}
 
         {/* One disclaimer, once. */}
-        <footer className="mt-14 border-t border-hairline pt-4" style={rise(7)}>
-          <p className="t-caption text-ink-3">
+        <footer className="mt-16 border-t border-sand-wash pt-5" style={rise(7)}>
+          <p className="text-caption text-carbon-black">
             {PROTOTYPE_DISCLAIMER}{" "}
-            <Link href="/account/safety" className="text-accent underline underline-offset-2">
-              Safety centre
+            <Link href="/account/safety" className="font-[450] text-signal-orange">
+              Safety centre →
             </Link>
           </p>
-          <p className="mt-3 t-caption text-ink-3">
+          <p className="mt-3 text-caption text-carbon-black/60">
             Design study ·{" "}
-            <Link href="/today" className="text-accent underline underline-offset-2">
-              compare with the current Today
+            <Link href="/today" className="text-signal-orange">
+              compare with the current Today →
             </Link>
           </p>
         </footer>
       </main>
 
-      {/* Slimmed chrome: same five destinations, quieter frame. */}
-      <nav
-        aria-label="Primary"
-        className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-ground/95 backdrop-blur-md pad-safe-bottom"
-      >
-        <ul className="mx-auto flex max-w-(--ps-shell-max) items-stretch">
+      {/* Floating pill navigation — the bible's 84px radius, orange glass lift. */}
+      <nav aria-label="Primary" className="fixed inset-x-4 bottom-4 z-30 pad-safe-bottom">
+        <ul className="mx-auto flex max-w-[24rem] items-stretch rounded-nav bg-paper-white/90 px-2 py-1 shadow-lg backdrop-blur-xl">
           {(
             [
               { href: "/next", label: "Today", glyph: "today", active: true },
@@ -539,19 +510,12 @@ export default function NextTodayPage() {
               <Link
                 href={destination.href}
                 aria-current={destination.active ? "page" : undefined}
-                className={`flex min-h-14 flex-col items-center justify-center gap-0.5 px-1 py-1.5 transition-colors duration-(--ps-duration-fast) ${
-                  destination.active ? "text-ink-1" : "text-ink-3 hover:text-ink-2"
+                className={`flex min-h-14 flex-col items-center justify-center gap-1 rounded-pills px-1 transition-colors duration-(--ps-duration-fast) ${
+                  destination.active ? "text-signal-orange" : "text-carbon-black hover:text-ink-roast"
                 }`}
               >
                 <Icon name={destination.glyph} size={20} />
-                <span className="font-mono text-[0.5625rem] uppercase tracking-[0.1em]">
-                  {destination.label}
-                </span>
-                {destination.active ? (
-                  <span aria-hidden="true" className="h-0.5 w-4 rounded-full bg-gold" />
-                ) : (
-                  <span aria-hidden="true" className="h-0.5 w-4" />
-                )}
+                <span className="text-[10px] font-[450] tracking-[0.03em]">{destination.label}</span>
               </Link>
             </li>
           ))}
