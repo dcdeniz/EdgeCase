@@ -1,7 +1,9 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-const publicPaths = new Set(["/", "/start/account", "/api/health"]);
+/* `/next` is the design-review slug (docs/design/next-study.md): local
+   prototype data only, so it stays viewable without a session. */
+const publicPaths = new Set(["/", "/start/account", "/api/health", "/next"]);
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });

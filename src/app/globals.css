@@ -50,6 +50,12 @@
   --ps-unavailable: #8a9998;
   --ps-unavailable-quiet: rgb(138 153 152 / 0.12);
 
+  /* --- Identity gold. From the landing splash (PR #20): decorative marks
+         and large display only — never a status, never the sole carrier. --- */
+  --ps-gold: #c9a15f;
+  --ps-gold-ink: #c9a15f;
+  --ps-gold-quiet: rgb(201 161 95 / 0.14);
+
   /* --- Charts ------------------------------------------------------------ */
   --ps-series-1: #12a398;
   --ps-series-2: #c98500;
@@ -111,6 +117,10 @@
     --ps-unavailable: #5f6d6f;
     --ps-unavailable-quiet: rgb(95 109 111 / 0.09);
 
+    --ps-gold: #c9a15f;
+    --ps-gold-ink: #7d5c1e;
+    --ps-gold-quiet: rgb(201 161 95 / 0.16);
+
     --ps-series-1: #008d81;
     --ps-series-2: #a46e00;
     --ps-series-3: #4b4bc4;
@@ -163,6 +173,10 @@
   --ps-information-quiet: rgb(58 92 122 / 0.09);
   --ps-unavailable: #5f6d6f;
   --ps-unavailable-quiet: rgb(95 109 111 / 0.09);
+
+  --ps-gold: #c9a15f;
+  --ps-gold-ink: #7d5c1e;
+  --ps-gold-quiet: rgb(201 161 95 / 0.16);
 
   --ps-series-1: #008d81;
   --ps-series-2: #a46e00;
@@ -273,6 +287,10 @@
   --color-information-quiet: var(--ps-information-quiet);
   --color-unavailable: var(--ps-unavailable);
   --color-unavailable-quiet: var(--ps-unavailable-quiet);
+
+  --color-gold: var(--ps-gold);
+  --color-gold-ink: var(--ps-gold-ink);
+  --color-gold-quiet: var(--ps-gold-quiet);
 
   --color-series-1: var(--ps-series-1);
   --color-series-2: var(--ps-series-2);
