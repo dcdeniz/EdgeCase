@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Icon } from "@/components/icons";
 import { AdherenceBand } from "@/components/charts";
 import { CategoryChip, CitationButton } from "@/components/domain";
+import { ProtocolRing } from "@/components/protocol-ring";
 import {
   Button,
   Card,
@@ -39,31 +40,19 @@ export function ProtocolProgress({ protocol }: { protocol: ActiveProtocol }) {
 
   return (
     <Card>
-      <div className="flex items-end justify-between gap-3">
-        <div>
-          <p className="t-micro text-ink-3">Protocol</p>
-          <p className="mt-1 flex items-baseline gap-1.5">
-            <span className="t-display-1 text-ink-1">{day}</span>
-            <span className="t-body-sm text-ink-2">of {protocol.days}</span>
-          </p>
-        </div>
+      <div className="flex items-start justify-between gap-3">
+        <p className="t-micro text-ink-3">Protocol</p>
         <div className="text-right">
           <p className="t-mono text-ink-3">week {week}</p>
           <p className="t-mono text-ink-3">v{protocol.version}</p>
         </div>
       </div>
 
-      <div
-        role="meter"
-        aria-valuenow={day}
-        aria-valuemin={1}
-        aria-valuemax={protocol.days}
-        aria-valuetext={`Day ${day} of ${protocol.days}`}
-        aria-label="Protocol progress"
-        className="mt-3 h-2 overflow-hidden rounded-full bg-surface-3"
-      >
-        <span className="block h-full rounded-full bg-accent" style={{ width: `${percent}%` }} />
+      <div className="mt-1 flex justify-center">
+        <ProtocolRing day={day} total={protocol.days} />
       </div>
+
+      <p className="mt-2 text-center t-caption text-ink-3">{percent}% complete</p>
 
       <dl className="mt-3 grid grid-cols-2 gap-3">
         <div>
