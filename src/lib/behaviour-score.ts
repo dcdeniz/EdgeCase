@@ -31,12 +31,20 @@ import { dietDayFor, scoreDietDay } from "@/lib/nutrition";
 import { healthDayFor, sleepNightFor, type WearableSeries } from "@/lib/wearable";
 import { adherenceKey, type PrototypeState } from "@/lib/store";
 
-export const BEHAVIOUR_RULE_VERSION = "prototype-behaviour-0.2.0";
+export const BEHAVIOUR_RULE_VERSION = "prototype-behaviour-0.3.0";
 
 export const BEHAVIOUR_SCORE_CAVEAT =
   "This reflects modifiable behaviours, not measured sperm quality.";
 
-export type BehaviourDomainId = "sleep" | "diet" | "activity" | "adherence";
+export type BehaviourDomainId =
+  | "sleep"
+  | "substances"
+  | "metabolic"
+  | "diet"
+  | "activity"
+  | "heat"
+  | "environment"
+  | "adherence";
 
 export type BehaviourDomain = {
   id: BehaviourDomainId;
@@ -51,8 +59,12 @@ export type BehaviourDomain = {
 /** Identity hue per domain. Behaviour only — never a clinical parameter. */
 export const domainColour: Record<BehaviourDomainId, string> = {
   sleep: "var(--ps-domain-sleep)",
+  substances: "var(--ps-status-danger)",
+  metabolic: "var(--ps-status-attention)",
   diet: "var(--ps-domain-diet)",
   activity: "var(--ps-domain-activity)",
+  heat: "var(--ps-status-attention)",
+  environment: "var(--ps-status-information)",
   adherence: "var(--ps-domain-adherence)",
 };
 
@@ -60,16 +72,32 @@ export const behaviourDomains: Record<BehaviourDomainId, BehaviourDomain> = {
   sleep: {
     id: "sleep",
     label: "Sleep",
-    weight: 30,
+    weight: 15,
     source: "Simulated wearable",
     evidenceIds: ["sleep-circadian-sr"],
     framing:
       "Sleep informs recovery and hormonal context. The evidence does not support a direct claim about semen measurements.",
   },
+  substances: {
+    id: "substances",
+    label: "Smoking and alcohol",
+    weight: 15,
+    source: "Onboarding and check-ins",
+    evidenceIds: ["smoking-umbrella", "alcohol-umbrella"],
+    framing: "Cigarette dose and cumulative exposure matter; heavy or chronic alcohol exposure is weighted more strongly than light intake.",
+  },
+  metabolic: {
+    id: "metabolic",
+    label: "Metabolic and energy balance",
+    weight: 15,
+    source: "Onboarding and health context",
+    evidenceIds: ["obesity-intervention-sr"],
+    framing: "Body composition, insulin resistance, diabetes, metabolic syndrome and severe energy restriction are contextual inputs, not diagnoses made by PreSeed.",
+  },
   diet: {
     id: "diet",
     label: "Diet pattern",
-    weight: 25,
+    weight: 15,
     source: "Food log",
     evidenceIds: ["diet-pattern-sr", "mediterranean-sr"],
     framing:
@@ -78,16 +106,32 @@ export const behaviourDomains: Record<BehaviourDomainId, BehaviourDomain> = {
   activity: {
     id: "activity",
     label: "Activity",
-    weight: 20,
+    weight: 15,
     source: "Simulated wearable",
     evidenceIds: ["exercise-nma"],
     framing:
       "On a U-shaped curve. Moderate activity scores highest; sustained under-recovered load is flagged, not rewarded.",
   },
+  heat: {
+    id: "heat",
+    label: "Heat and recent fever",
+    weight: 10,
+    source: "Onboarding and collection context",
+    evidenceIds: ["heat-umbrella"],
+    framing: "Recurrent substantial heat and recent high fever can affect the context in which a semen result is interpreted.",
+  },
+  environment: {
+    id: "environment",
+    label: "Occupational and air exposure",
+    weight: 10,
+    source: "Exposure check-in",
+    evidenceIds: ["air-pollution-sr", "lead-ma", "pesticide-sr"],
+    framing: "Lead, selected pesticides, solvents, occupational radiation and air pollution are association-level exposure signals.",
+  },
   adherence: {
     id: "adherence",
     label: "Protocol adherence",
-    weight: 25,
+    weight: 5,
     source: "Your check-ins",
     evidenceIds: [],
     framing:
@@ -113,7 +157,7 @@ export type BehaviourDay = {
  * the evidence card covers circadian disruption as well as duration. Sleeping
  * far beyond need is not extra credit, so the duration term saturates at 100.
  */
-function scoreSleepDay(iso: string, wearable?: WearableSeries): number | null {
+function scoreSleepDay(iso: string, state: PrototypeState, wearable?: WearableSeries): number | null {
   const night = wearable
     ? wearable.sleepNights.find((entry) => entry.date === iso) ?? null
     : sleepNightFor(iso);
@@ -128,12 +172,15 @@ function scoreSleepDay(iso: string, wearable?: WearableSeries): number | null {
         : Math.max(20, durationRatio * 95);
 
   // Regularity: a 20-minute bedtime spread is excellent, 90 minutes is poor.
-  if (night.bedtimeVarianceMinutes == null) return Math.round(duration);
+  const disorderPenalty = state.answers.sleepDisorder === "diagnosed" ? 18
+    : state.answers.sleepDisorder === "suspected" ? 10
+    : 0;
+  if (night.bedtimeVarianceMinutes == null) return Math.max(0, Math.round(duration) - disorderPenalty);
   const regularity = Math.max(
     0,
     Math.min(100, 100 - Math.max(0, night.bedtimeVarianceMinutes - 20) * 1.35),
   );
-  return Math.round(duration * 0.7 + regularity * 0.3);
+  return Math.max(0, Math.round(duration * 0.7 + regularity * 0.3) - disorderPenalty);
 }
 
 /**
@@ -153,7 +200,7 @@ function scoreDietDayFor(state: PrototypeState, iso: string): number | null {
  * movement scores best, and very high load does not score higher. It cannot
  * exceed the moderate band by being extreme.
  */
-function scoreActivityDay(iso: string, wearable?: WearableSeries): number | null {
+function scoreActivityDay(iso: string, state: PrototypeState, wearable?: WearableSeries): number | null {
   const day = wearable
     ? wearable.healthDays.find((entry) => entry.date === iso) ?? null
     : healthDayFor(iso);
@@ -167,7 +214,82 @@ function scoreActivityDay(iso: string, wearable?: WearableSeries): number | null
         ? 100
         : Math.max(62, 100 - (day.activeMinutes - 90) * 0.5);
 
-  return Math.round(stepTerm * 0.45 + activeTerm * 0.55);
+  const loadPenalty = state.answers.trainingLoad === "high_underrecovered" ? 22 : 0;
+  return Math.max(0, Math.round(stepTerm * 0.45 + activeTerm * 0.55) - loadPenalty);
+}
+
+function scoreSubstances(state: PrototypeState): number | null {
+  const { smoking, smokingExposureYears, alcoholUnits } = state.answers;
+  if ((!smoking || smoking === "prefer_not") && (!alcoholUnits || alcoholUnits === "prefer_not")) return null;
+  const smokingBase = smoking === "never" ? 100
+    : smoking === "former" ? 78
+    : smoking === "vape_only" ? 58
+    : smoking === "under10" ? 35
+    : smoking === "over10" ? 10
+    : null;
+  const cumulativePenalty = smokingBase == null || smoking === "never"
+    ? 0
+    : smokingExposureYears === "over10" ? 18
+    : smokingExposureYears === "5to10" ? 10
+    : smokingExposureYears === "under5" ? 4
+    : 0;
+  const smokingScore = smokingBase == null ? null : Math.max(0, smokingBase - cumulativePenalty);
+  const alcoholScore = alcoholUnits === "none" ? 100
+    : alcoholUnits === "1to7" ? 88
+    : alcoholUnits === "8to14" ? 65
+    : alcoholUnits === "over14" ? 25
+    : null;
+  const values = [smokingScore, alcoholScore].filter((value): value is number => value != null);
+  return values.length === 0 ? null : Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function scoreMetabolic(state: PrototypeState): number | null {
+  const { metabolicContext, energyBalance, conditions } = state.answers;
+  const diabetes = conditions?.includes("diabetes") ?? false;
+  const metabolic = diabetes ? 35
+    : metabolicContext === "supportive" ? 100
+    : metabolicContext === "overweight" ? 75
+    : metabolicContext === "central_adiposity" ? 55
+    : metabolicContext === "obesity" ? 40
+    : metabolicContext === "insulin_resistance" ? 38
+    : metabolicContext === "metabolic_syndrome" ? 28
+    : null;
+  const energy = energyBalance === "stable" ? 100
+    : energyBalance === "moderate_deficit" ? 82
+    : energyBalance === "severe_restriction" ? 25
+    : energyBalance === "metabolic_disruption" ? 20
+    : null;
+  const values = [metabolic, energy].filter((value): value is number => value != null);
+  return values.length === 0 ? null : Math.round(values.reduce((sum, value) => sum + value, 0) / values.length);
+}
+
+function scoreHeatContext(state: PrototypeState): number | null {
+  const exposures = state.answers.heatExposure;
+  const fever = state.answers.recentFever;
+  if ((!exposures || exposures.length === 0 || exposures.includes("prefer_not")) && (!fever || fever === "prefer_not")) return null;
+  let score = 100;
+  if (exposures && !exposures.includes("none")) {
+    if (exposures.includes("sauna_hot_tub")) score -= 28;
+    if (exposures.includes("occupational")) score -= 28;
+    if (exposures.includes("prolonged_sitting")) score -= 12;
+    if (exposures.includes("laptop")) score -= 6;
+  }
+  if (fever === "last_month") score -= 35;
+  else if (fever === "last_3_months") score -= 18;
+  return Math.max(0, score);
+}
+
+function scoreEnvironmentContext(state: PrototypeState): number | null {
+  const exposures = state.answers.exposures;
+  if (!exposures || exposures.length === 0 || exposures.includes("prefer_not")) return null;
+  if (exposures.includes("none")) return 100;
+  let score = 100;
+  if (exposures.includes("air_quality")) score -= 18;
+  if (exposures.includes("lead")) score -= 25;
+  if (exposures.includes("pesticides")) score -= 20;
+  if (exposures.includes("solvents") || exposures.includes("chemicals")) score -= 22;
+  if (exposures.includes("radiation")) score -= 20;
+  return Math.max(0, score);
 }
 
 /**
@@ -210,9 +332,13 @@ export function behaviourDay(
   wearable?: WearableSeries,
 ): BehaviourDay {
   const domainScores: Record<BehaviourDomainId, number | null> = {
-    sleep: overrides?.sleep ?? scoreSleepDay(iso, wearable),
+    sleep: overrides?.sleep ?? scoreSleepDay(iso, state, wearable),
+    substances: overrides?.substances ?? scoreSubstances(state),
+    metabolic: overrides?.metabolic ?? scoreMetabolic(state),
     diet: overrides?.diet ?? scoreDietDayFor(state, iso),
-    activity: overrides?.activity ?? scoreActivityDay(iso, wearable),
+    activity: overrides?.activity ?? scoreActivityDay(iso, state, wearable),
+    heat: overrides?.heat ?? scoreHeatContext(state),
+    environment: overrides?.environment ?? scoreEnvironmentContext(state),
     adherence: overrides?.adherence ?? scoreAdherenceDay(state, iso),
   };
 

@@ -43,8 +43,13 @@ export default function ExposurePage() {
             note: "Reasonably consistent evidence. Indoor filtration is the best-evidenced response.",
           },
           {
-            value: "chemicals",
-            label: "I work with solvents, fumes, metals or industrial chemicals",
+            value: "lead",
+            label: "I may be exposed to lead at work or through a known source",
+            note: "Includes battery, construction, firing-range and legacy-paint work.",
+          },
+          {
+            value: "solvents",
+            label: "I work with solvents, fumes or industrial chemicals",
             note: "Occupational exposure carries more weight than anything domestic.",
           },
           {
@@ -56,6 +61,11 @@ export default function ExposurePage() {
             value: "plastics",
             label: "I often eat or drink from plastic, including reheating in it",
             note: "Emerging evidence only. Low-cost to reduce, so worth doing without over-claiming.",
+          },
+          {
+            value: "radiation",
+            label: "I have occupational ionising-radiation exposure",
+            note: "This does not include ordinary phones or laptops; laptop exposure is treated as heat only.",
           },
           { value: "none", label: "None of these" },
           { value: "prefer_not", label: "Prefer not to say" },

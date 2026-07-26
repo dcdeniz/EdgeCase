@@ -12,8 +12,8 @@ export default function ConfidencePage() {
     ...(latestSemen?.source === "simulated"
       ? [
           {
-            title: "Replace simulated data with a real result",
-            body: "Simulated data caps confidence by design. A laboratory report is the single biggest improvement available.",
+            title: "Add a laboratory result",
+            body: "A verified laboratory report is the single biggest improvement available to your data confidence.",
             href: "/tests/new",
             action: "Add a result",
           },

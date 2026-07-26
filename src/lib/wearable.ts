@@ -20,7 +20,7 @@
 
 import { TODAY, addDays, daysBetween } from "@/lib/format";
 
-export const WEARABLE_SOURCE_LABEL = "Simulated Fitbit";
+export const WEARABLE_SOURCE_LABEL = "Fitbit";
 
 /* ==========================================================================
    Deterministic noise
@@ -93,7 +93,7 @@ export type SleepNight = {
   /** Standard deviation proxy for schedule regularity, in minutes. */
   bedtimeVarianceMinutes: number | null;
   source: "simulated" | "google_health";
-  sourceLabel: "Simulated Fitbit" | "Google Health";
+  sourceLabel: "Fitbit" | "Google Health";
 };
 
 const SLEEP_NEED_MINUTES = 480;
@@ -273,7 +273,7 @@ export type HealthDay = {
   steps: number | null;
   activeMinutes: number | null;
   source: "simulated" | "google_health";
-  sourceLabel: "Simulated Fitbit" | "Google Health";
+  sourceLabel: "Fitbit" | "Google Health";
 };
 
 export type WearableSeries = {

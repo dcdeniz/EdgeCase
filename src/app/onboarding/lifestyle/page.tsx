@@ -62,6 +62,20 @@ export default function LifestylePage() {
       />
 
       <ChoiceGroup
+        legend="Sleep disorder context"
+        hint="This adds context to duration and circadian regularity; PreSeed does not diagnose a sleep disorder."
+        name="sleepDisorder"
+        value={answers.sleepDisorder}
+        onChange={(value) => setAnswers({ sleepDisorder: value })}
+        options={[
+          { value: "none", label: "No known sleep disorder" },
+          { value: "suspected", label: "Possible or being assessed" },
+          { value: "diagnosed", label: "Clinician-diagnosed sleep disorder" },
+          { value: "prefer_not", label: "Prefer not to say" },
+        ]}
+      />
+
+      <ChoiceGroup
         legend="Nicotine"
         hint="Amount and duration both matter, so this asks for a level rather than yes or no."
         name="smoking"
@@ -76,6 +90,22 @@ export default function LifestylePage() {
           { value: "prefer_not", label: "Prefer not to say" },
         ]}
       />
+
+      {answers.smoking && !["never", "prefer_not"].includes(answers.smoking) ? (
+        <ChoiceGroup
+          legend="Cumulative cigarette or nicotine exposure"
+          hint="Duration changes the score alongside current amount. An estimate is enough."
+          name="smokingExposureYears"
+          value={answers.smokingExposureYears}
+          onChange={(value) => setAnswers({ smokingExposureYears: value })}
+          options={[
+            { value: "under5", label: "Under 5 years" },
+            { value: "5to10", label: "5 to 10 years" },
+            { value: "over10", label: "More than 10 years" },
+            { value: "prefer_not", label: "Prefer not to say" },
+          ]}
+        />
+      ) : null}
 
       <ChoiceGroup
         legend="Alcohol in a typical week"
@@ -106,6 +136,38 @@ export default function LifestylePage() {
           },
           { value: "mixed", label: "A mix of home cooking and convenience food" },
           { value: "western", label: "Mostly processed food, takeaways and sugary drinks" },
+          { value: "prefer_not", label: "Prefer not to say" },
+        ]}
+      />
+
+      <ChoiceGroup
+        legend="Metabolic and body-composition context"
+        hint="Used as context for a modifiable readiness score, never to diagnose a condition. Diabetes reported in clinical history is also included."
+        name="metabolicContext"
+        value={answers.metabolicContext}
+        onChange={(value) => setAnswers({ metabolicContext: value })}
+        options={[
+          { value: "supportive", label: "No known metabolic or central-weight concern" },
+          { value: "overweight", label: "Overweight" },
+          { value: "central_adiposity", label: "Weight carried mainly around my waist" },
+          { value: "obesity", label: "Obesity" },
+          { value: "insulin_resistance", label: "Known insulin resistance" },
+          { value: "metabolic_syndrome", label: "Known metabolic syndrome" },
+          { value: "prefer_not", label: "Prefer not to say" },
+        ]}
+      />
+
+      <ChoiceGroup
+        legend="Current energy balance"
+        hint="Severe restriction and metabolic disruption are different from gradual, supported weight loss."
+        name="energyBalance"
+        value={answers.energyBalance}
+        onChange={(value) => setAnswers({ energyBalance: value })}
+        options={[
+          { value: "stable", label: "Stable intake or gradual change" },
+          { value: "moderate_deficit", label: "Moderate planned calorie deficit" },
+          { value: "severe_restriction", label: "Severe energy restriction" },
+          { value: "metabolic_disruption", label: "Recent major metabolic disruption or rapid weight change" },
           { value: "prefer_not", label: "Prefer not to say" },
         ]}
       />
@@ -179,6 +241,20 @@ export default function LifestylePage() {
           { value: "prolonged_sitting", label: "Long periods sitting, including driving" },
           { value: "laptop", label: "Laptop on my lap", note: "Counted as heat only. The radiation framing is not supported." },
           { value: "none", label: "None of these" },
+          { value: "prefer_not", label: "Prefer not to say" },
+        ]}
+      />
+
+      <ChoiceGroup
+        legend="Recent high fever"
+        hint="A recent fever changes how a semen result is interpreted for roughly one sperm-production cycle."
+        name="recentFever"
+        value={answers.recentFever}
+        onChange={(value) => setAnswers({ recentFever: value })}
+        options={[
+          { value: "none", label: "None in the last 3 months" },
+          { value: "last_month", label: "Within the last month" },
+          { value: "last_3_months", label: "1 to 3 months ago" },
           { value: "prefer_not", label: "Prefer not to say" },
         ]}
       />

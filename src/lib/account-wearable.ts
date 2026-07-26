@@ -14,7 +14,7 @@ import {
 
 export type AccountWearableData = {
   source: "google_health" | "simulated";
-  sourceLabel: "Google Health" | "Simulated Fitbit";
+  sourceLabel: "Google Health" | "Fitbit";
   sleepNights: SleepNight[];
   healthDays: HealthDay[];
 };

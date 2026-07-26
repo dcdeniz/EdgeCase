@@ -18,13 +18,14 @@
  * ─────────────────────────────────────────────────────────────────────────────
  */
 
-export const READINESS_RULE_VERSION = "prototype-rules-0.4.0";
+export const READINESS_RULE_VERSION = "prototype-rules-0.5.0";
 
 export type DomainId =
   | "sleep"
   | "substances"
   | "diet"
   | "activity"
+  | "metabolic"
   | "heat"
   | "sexual"
   | "environment";
@@ -35,12 +36,24 @@ export type OnboardingAnswers = {
   sleepHours?: "under6" | "6to7" | "7to8" | "over8" | "prefer_not";
   sleepPattern?: "regular" | "variable" | "shift";
   smoking?: "never" | "former" | "vape_only" | "under10" | "over10" | "prefer_not";
+  smokingExposureYears?: "under5" | "5to10" | "over10" | "prefer_not";
   alcoholUnits?: "none" | "1to7" | "8to14" | "over14" | "prefer_not";
   dietPattern?: "mediterranean" | "mixed" | "western" | "prefer_not";
   produceServings?: "under2" | "2to4" | "over4";
   activitySessions?: "none" | "1to2" | "3to5" | "over5";
   sedentaryHours?: "under4" | "4to8" | "over8";
   trainingLoad?: "moderate" | "high_recovered" | "high_underrecovered";
+  sleepDisorder?: "none" | "suspected" | "diagnosed" | "prefer_not";
+  metabolicContext?:
+    | "supportive"
+    | "overweight"
+    | "central_adiposity"
+    | "obesity"
+    | "insulin_resistance"
+    | "metabolic_syndrome"
+    | "prefer_not";
+  energyBalance?: "stable" | "moderate_deficit" | "severe_restriction" | "metabolic_disruption" | "prefer_not";
+  recentFever?: "none" | "last_month" | "last_3_months" | "prefer_not";
   heatExposure?: string[];
   sexualHealth?: string[];
   exposures?: string[];
@@ -64,7 +77,7 @@ export const domains: Record<DomainId, DomainDefinition> = {
   sleep: {
     id: "sleep",
     label: "Sleep and circadian health",
-    weight: 20,
+    weight: 15,
     window: "Trailing 14–30 days",
     evidenceConfidence: "moderate",
     evidenceIds: ["sleep-circadian-sr"],
@@ -73,7 +86,7 @@ export const domains: Record<DomainId, DomainDefinition> = {
   substances: {
     id: "substances",
     label: "Alcohol, smoking and drugs",
-    weight: 20,
+    weight: 15,
     window: "Trailing 30 days",
     evidenceConfidence: "moderate",
     evidenceIds: ["smoking-umbrella", "alcohol-umbrella"],
@@ -97,6 +110,15 @@ export const domains: Record<DomainId, DomainDefinition> = {
     evidenceIds: ["exercise-nma", "obesity-intervention-sr"],
     summary: "Movement, sedentary time and training load, on a U-shaped curve rather than more-is-better.",
   },
+  metabolic: {
+    id: "metabolic",
+    label: "Metabolic and energy balance",
+    weight: 15,
+    window: "Current context and trailing 30 days",
+    evidenceConfidence: "moderate",
+    evidenceIds: ["obesity-intervention-sr"],
+    summary: "Central adiposity, obesity, insulin resistance, diabetes, metabolic syndrome and severe energy restriction.",
+  },
   heat: {
     id: "heat",
     label: "Heat exposure",
@@ -109,7 +131,7 @@ export const domains: Record<DomainId, DomainDefinition> = {
   sexual: {
     id: "sexual",
     label: "Sexual and reproductive health",
-    weight: 10,
+    weight: 5,
     window: "Persistent context",
     evidenceConfidence: "limited",
     evidenceIds: ["abstinence-sr"],
@@ -131,6 +153,7 @@ export const domainOrder: DomainId[] = [
   "substances",
   "diet",
   "activity",
+  "metabolic",
   "heat",
   "sexual",
   "environment",
@@ -181,6 +204,11 @@ function scoreSleep(a: OnboardingAnswers): DomainResult {
   else
     drivers.push({ label: "Shift work", points: 8, detail: "Shift work is treated as a constraint to work around, not a personal failing. Targets adjust rather than penalise." });
 
+  if (a.sleepDisorder === "diagnosed")
+    drivers.push({ label: "Diagnosed sleep disorder", points: -15, detail: "Adds context to duration and circadian disruption without diagnosing or estimating a semen effect." });
+  else if (a.sleepDisorder === "suspected")
+    drivers.push({ label: "Possible sleep disorder", points: -8, detail: "A prompt to seek assessment, not a diagnosis." });
+
   return build("sleep", 40, drivers, missing);
 }
 
@@ -198,6 +226,15 @@ function scoreSubstances(a: OnboardingAnswers): DomainResult {
   else if (a.smoking === "under10")
     drivers.push({ label: "Light smoking", points: 8, detail: "Cumulative exposure matters, so amount and duration both count." });
   else drivers.push({ label: "Heavy smoking", points: 0, detail: "The strongest modifiable signal in this domain." });
+
+  if (a.smoking && !["never", "prefer_not"].includes(a.smoking)) {
+    if (a.smokingExposureYears === "over10")
+      drivers.push({ label: "Long cumulative exposure", points: -12, detail: "Duration is combined with current dose rather than treated as a yes/no factor." });
+    else if (a.smokingExposureYears === "5to10")
+      drivers.push({ label: "Cumulative exposure", points: -7, detail: "Duration adds context to current dose." });
+    else if (!a.smokingExposureYears || a.smokingExposureYears === WITHHELD)
+      missing.push("Cumulative smoking exposure");
+  }
 
   if (!a.alcoholUnits || a.alcoholUnits === WITHHELD) missing.push("Alcohol intake");
   else if (a.alcoholUnits === "none")
@@ -263,18 +300,34 @@ function scoreActivity(a: OnboardingAnswers): DomainResult {
   return build("activity", 35, drivers, missing);
 }
 
-function scoreHeat(a: OnboardingAnswers): DomainResult {
-  const exposures = a.heatExposure;
-  if (!exposures || exposures.length === 0) return build("heat", 0, [], ["Heat exposure"]);
-  if (exposures.includes(WITHHELD)) return build("heat", 0, [], ["Heat exposure"]);
-  if (exposures.includes("none")) {
-    return build("heat", 0, [
-      { label: "No recurrent heat exposure", points: 90, detail: "Nothing recurrent to reduce here." },
-    ], []);
-  }
+function scoreMetabolic(a: OnboardingAnswers): DomainResult {
+  const drivers: Driver[] = [];
+  const missing: string[] = [];
+  const diabetes = a.conditions?.includes("diabetes") ?? false;
+  if (diabetes)
+    drivers.push({ label: "Diabetes context", points: 10, detail: "Included as metabolic context, not diagnosed or graded by PreSeed." });
+  else if (!a.metabolicContext || a.metabolicContext === WITHHELD) missing.push("Metabolic and body-composition context");
+  else if (a.metabolicContext === "supportive") drivers.push({ label: "No known metabolic concern", points: 45, detail: "Self-reported context only." });
+  else if (a.metabolicContext === "overweight") drivers.push({ label: "Overweight", points: 30, detail: "Gradual, sustainable change is favoured over rapid loss." });
+  else if (a.metabolicContext === "central_adiposity") drivers.push({ label: "Central adiposity", points: 22, detail: "Waist-centered adiposity is treated as a metabolic context signal." });
+  else if (a.metabolicContext === "obesity") drivers.push({ label: "Obesity", points: 16, detail: "A modifiable context where gradual intervention evidence is relevant." });
+  else drivers.push({ label: "Insulin resistance or metabolic syndrome", points: 12, detail: "Known clinical context; PreSeed does not diagnose or treat it." });
 
+  if (!a.energyBalance || a.energyBalance === WITHHELD) missing.push("Energy balance");
+  else if (a.energyBalance === "stable") drivers.push({ label: "Stable energy balance", points: 40, detail: "Includes gradual, supported change." });
+  else if (a.energyBalance === "moderate_deficit") drivers.push({ label: "Moderate planned deficit", points: 32, detail: "Distinguished from severe restriction." });
+  else if (a.energyBalance === "severe_restriction") drivers.push({ label: "Severe energy restriction", points: 8, detail: "Severe restriction can create metabolic disruption; this is not a weight-loss recommendation." });
+  else drivers.push({ label: "Recent metabolic disruption", points: 5, detail: "Rapid or major metabolic change warrants cautious interpretation." });
+  return build("metabolic", 15, drivers, missing);
+}
+
+function scoreHeat(a: OnboardingAnswers): DomainResult {
+  const exposures = a.heatExposure ?? [];
+  if (exposures.length === 0 && !a.recentFever) return build("heat", 0, [], ["Heat exposure", "Recent high fever"]);
+  if (exposures.includes(WITHHELD)) return build("heat", 0, [], ["Heat exposure"]);
   const drivers: Driver[] = [];
   let score = 90;
+  if (exposures?.includes("none")) drivers.push({ label: "No recurrent heat exposure", points: 0, detail: "Nothing recurrent to reduce here." });
   if (exposures.includes("sauna_hot_tub")) {
     score -= 30;
     drivers.push({ label: "Sauna or hot tub use", points: -30, detail: "Repeated scrotal heating is biologically plausible and supported by limited human studies." });
@@ -290,6 +343,15 @@ function scoreHeat(a: OnboardingAnswers): DomainResult {
   if (exposures.includes("laptop")) {
     score -= 8;
     drivers.push({ label: "Laptop on lap", points: -8, detail: "Treated as a heat question only. The radiation framing is not supported." });
+  }
+  if (a.recentFever === "last_month") {
+    score -= 30;
+    drivers.push({ label: "High fever within one month", points: -30, detail: "A temporary collection-context factor across a sperm-production cycle." });
+  } else if (a.recentFever === "last_3_months") {
+    score -= 15;
+    drivers.push({ label: "High fever within three months", points: -15, detail: "Timing should accompany any result comparison." });
+  } else if (!a.recentFever || a.recentFever === WITHHELD) {
+    return build("heat", Math.max(0, score) - drivers.reduce((s, d) => s + d.points, 0), drivers, ["Recent high fever"]);
   }
   return build("heat", Math.max(0, score) - drivers.reduce((s, d) => s + d.points, 0), drivers, []);
 }
@@ -344,9 +406,17 @@ function scoreEnvironment(a: OnboardingAnswers): DomainResult {
     score -= 18;
     drivers.push({ label: "Pesticide contact", points: -18, detail: "Occupational contact carries more weight than dietary residue." });
   }
-  if (exposures.includes("chemicals")) {
+  if (exposures.includes("lead")) {
+    score -= 24;
+    drivers.push({ label: "Lead exposure", points: -24, detail: "A selected occupational exposure with human association evidence." });
+  }
+  if (exposures.includes("solvents") || exposures.includes("chemicals")) {
     score -= 22;
     drivers.push({ label: "Occupational chemicals", points: -22, detail: "Solvents, metals and fumes. Protective equipment matters more than avoidance." });
+  }
+  if (exposures.includes("radiation")) {
+    score -= 18;
+    drivers.push({ label: "Occupational ionising radiation", points: -18, detail: "Occupational exposure only; ordinary phone and laptop use is not scored as radiation." });
   }
   return build("environment", Math.max(0, score) - drivers.reduce((s, d) => s + d.points, 0), drivers, []);
 }
@@ -495,6 +565,7 @@ export function computeReadiness(answers: OnboardingAnswers): ReadinessResult {
     scoreSubstances(answers),
     scoreDiet(answers),
     scoreActivity(answers),
+    scoreMetabolic(answers),
     scoreHeat(answers),
     scoreSexual(answers),
     scoreEnvironment(answers),

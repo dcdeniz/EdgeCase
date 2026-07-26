@@ -9,7 +9,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "PreSeed — male fertility intelligence",
     short_name: "PreSeed",
     description:
-      "A research prototype that turns clinical results and lifestyle data into a measured profile, a transparent readiness score and a dated, evidence-cited protocol.",
+      "Turns clinical results and lifestyle data into a measured profile, a transparent readiness score and a dated, evidence-cited protocol.",
     start_url: "/today",
     display: "standalone",
     orientation: "portrait",

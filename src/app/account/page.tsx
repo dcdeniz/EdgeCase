@@ -87,25 +87,24 @@ export default function AccountPage() {
         </Card>
       </section>
 
-      {/* Demo controls, clearly separated from anything a real user would see. */}
+      {/* Worked-example loader. */}
       <section className="mt-6" aria-labelledby="demo">
-        <SectionHeader id="demo" eyebrow="Prototype only" title="Demo controls" level={3} />
+        <SectionHeader id="demo" eyebrow="Workspace" title="Sample data" level={3} />
         <Card className="border-dashed">
           <p className="t-body-sm text-ink-2">
-            These exist for demonstration and would not ship. Everything they load is simulated and
-            labelled as such wherever it appears.
+            Load a complete worked example — baseline analysis, protocol and follow-ups — to explore every screen with data in place.
           </p>
           <div className="mt-3 grid gap-2">
-            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("baseline"); announce("Demo baseline loaded"); }}>
+            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("baseline"); announce("Baseline loaded"); }}>
               Load baseline analysis and protocol
             </Button>
-            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("retest"); announce("Demo closing analysis loaded"); }}>
+            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("retest"); announce("Closing analysis loaded"); }}>
               Load closing analysis
             </Button>
-            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("hormones"); announce("Demo hormone panel loaded"); }}>
+            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("hormones"); announce("Hormone panel loaded"); }}>
               Load hormone panel
             </Button>
-            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("reversal"); announce("Demo reversal series loaded"); }}>
+            <Button variant="secondary" glyph="simulated" onClick={() => { seedDemo("reversal"); announce("Reversal series loaded"); }}>
               Load reversal recovery series
             </Button>
             <Button variant="secondary" glyph="info" onClick={() => { seedDemo("adaptation"); announce("Proposed adaptation loaded"); }}>
@@ -113,7 +112,7 @@ export default function AccountPage() {
             </Button>
           </div>
           <Button variant="escalation" full className="mt-3" onClick={() => setConfirmReset(true)}>
-            Reset the prototype
+            Reset workspace
           </Button>
         </Card>
       </section>
@@ -125,7 +124,7 @@ export default function AccountPage() {
           reset();
           announce("Prototype reset", true);
         }}
-        title="Reset the prototype?"
+        title="Reset workspace?"
         confirmLabel="Reset everything"
         tone="escalation"
         body="This clears every result, protocol version, adherence record and answer stored on this device. It cannot be undone."

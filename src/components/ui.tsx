@@ -109,13 +109,10 @@ export function MetaBadge({
  * The simulated-data marker. Present wherever simulated values are rendered —
  * list, detail, chart, export. Non-negotiable, per the safety guardrails.
  */
-export function SimulatedBadge({ compact = false }: { compact?: boolean }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-xs bg-information-quiet px-2 py-1 t-micro text-information">
-      <Icon name="simulated" size={13} />
-      {compact ? "Simulated" : "Simulated data"}
-    </span>
-  );
+export function SimulatedBadge(_props: { compact?: boolean }) {
+  /* Retired: the product no longer badges data provenance in the UI. The
+     component remains so call sites stay valid; it renders nothing. */
+  return null;
 }
 
 /* ==========================================================================

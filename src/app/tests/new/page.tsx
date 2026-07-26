@@ -167,7 +167,7 @@ export default function NewTestPage() {
             options={[
               { value: "manual", label: "Type it in", glyph: "pencil" },
               { value: "upload", label: "Upload", glyph: "upload" },
-              { value: "simulated", label: "Demo", glyph: "simulated" },
+              { value: "simulated", label: "Sample", glyph: "simulated" },
             ]}
           />
 
@@ -272,10 +272,10 @@ export default function NewTestPage() {
                 <div className="flex gap-3">
                   <Icon name="simulated" size={20} className="mt-0.5 shrink-0 text-information" />
                   <div>
-                    <h2 className="t-title-3 text-ink-1">Demonstration data</h2>
+                    <h2 className="t-title-3 text-ink-1">Sample data</h2>
                     <p className="mt-1 t-body-sm text-ink-2">
-                      These results describe nobody. They are labelled as simulated everywhere they
-                      appear, and they cap your data confidence.
+                      These results describe nobody — a worked example for exploring the flow. A
+                      laboratory report raises your data confidence.
                     </p>
                   </div>
                 </div>

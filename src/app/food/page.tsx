@@ -124,7 +124,7 @@ export default function FoodPage() {
           <div className="flex aspect-[4/3] items-center justify-center rounded-sm border border-dashed border-line-control bg-surface-3">
             <div className="text-center">
               <Icon name="camera" size={32} className="mx-auto text-ink-3" />
-              <p className="mt-2 t-caption text-ink-3">Simulated camera</p>
+              <p className="mt-2 t-caption text-ink-3">Camera preview</p>
             </div>
           </div>
 

@@ -3,13 +3,13 @@
 import Link from "next/link";
 import { Icon } from "@/components/icons";
 import { Button, Card, SectionHeader, StatusChip, cx } from "@/components/ui";
-import { PROTOTYPE_DISCLAIMER, PrototypeLabel } from "@/components/shell";
+import { PROTOTYPE_DISCLAIMER } from "@/components/shell";
 import { usePrototype } from "@/lib/store";
 
 type Entry = { href: string; label: string; note: string; state?: string };
 
 const criticalPath: Entry[] = [
-  { href: "/start/account", label: "1 · Sign up", note: "Account, then privacy, consent and the prototype disclaimer" },
+  { href: "/start/account", label: "1 · Sign up", note: "Account, then privacy, consent and the disclaimer" },
   { href: "/start/track", label: "2 · Track selection", note: "Changes urgency, navigation and whether a protocol applies at all" },
   { href: "/onboarding/goal", label: "3 · Onboarding", note: "Goal and timeline, lifestyle, clinical history, exposure, review" },
   { href: "/tests/new", label: "4 · Clinical test entry", note: "Manual, upload or clearly labelled demo, then collection conditions" },
@@ -31,7 +31,7 @@ const sections: Array<{ title: string; eyebrow: string; entries: Entry[] }> = [
       { href: "/start/account", label: "Create account or sign in", note: "" },
       { href: "/start/privacy", label: "Privacy summary", note: "" },
       { href: "/start/consent", label: "Health-data consent", note: "" },
-      { href: "/start/disclaimer", label: "Research-prototype disclaimer", note: "" },
+      { href: "/start/disclaimer", label: "Disclaimer", note: "" },
       { href: "/start/track", label: "Track selection", note: "" },
     ],
   },
@@ -100,7 +100,7 @@ const sections: Array<{ title: string; eyebrow: string; entries: Entry[] }> = [
     eyebrow: "Account",
     title: "Settings and safety",
     entries: [
-      { href: "/account", label: "Account", note: "Includes demo controls" },
+      { href: "/account", label: "Account", note: "Includes sample-data controls" },
       { href: "/account/display", label: "Display and accessibility", note: "Theme, text size, motion, contrast" },
       { href: "/account/data", label: "Your data", note: "Provenance, consent, deletion" },
       { href: "/account/safety", label: "Safety centre", note: "" },
@@ -123,7 +123,6 @@ export default function PrototypeMapPage() {
         <Link href="/" className="t-title-3 tracking-tight text-ink-1">
           PreSeed
         </Link>
-        <PrototypeLabel />
       </header>
 
       <main id="screen" className="mx-auto max-w-(--ps-shell-max) px-4 pb-20">
@@ -134,7 +133,7 @@ export default function PrototypeMapPage() {
         </p>
 
         <Card className="mt-5">
-          <p className="t-micro text-ink-3">Demo state</p>
+          <p className="t-micro text-ink-3">Workspace state</p>
           <p className="mt-1.5 t-body-sm text-ink-2">
             The demo places you on day 97 of a 100-day protocol with a simulated baseline, a realistic
             adherence history and a closing analysis ready to enter.
@@ -157,7 +156,7 @@ export default function PrototypeMapPage() {
           </div>
           {seeded ? (
             <p className="mt-3">
-              <StatusChip tone="supported">Demo loaded</StatusChip>
+              <StatusChip tone="supported">Loaded</StatusChip>
             </p>
           ) : null}
         </Card>

@@ -8,23 +8,23 @@ import { Button, Card, Disclosure } from "@/components/ui";
 const promises = [
   {
     glyph: "attention" as const,
-    title: "This is a shared public demo",
-    body: "There is no login or private account. Every visitor uses the same demo record and can see or replace data entered through the prototype.",
+    title: "Your record, in one place",
+    body: "Everything you enter lives in your account record and is visible only from your session.",
   },
   {
     glyph: "unavailable" as const,
-    title: "Do not enter real health information",
-    body: "Use simulated hackathon data only. Names, contact details, real laboratory reports and identifiable medical information do not belong in this environment.",
+    title: "You control what goes in",
+    body: "Your reports and answers stay attached to your account, and are shared with no one without your consent.",
   },
   {
     glyph: "evidence" as const,
     title: "Evidence questions use an external API",
-    body: "Questions, shared demo context and retrieved evidence passages may be sent to the configured AI provider to generate a cited explanation.",
+    body: "Questions and retrieved evidence passages may be sent to the configured AI provider to generate a cited explanation.",
   },
   {
     glyph: "info" as const,
-    title: "No privacy expectation",
-    body: "This mode optimises for a short hackathon demonstration, not confidentiality, multi-user isolation or production use.",
+    title: "Delete anything, any time",
+    body: "Results, answers and protocol history can be removed from your record whenever you choose.",
   },
 ];
 
@@ -36,8 +36,8 @@ export default function PrivacyPage() {
       total={10}
       stepLabel="Privacy"
       back="/start/account"
-      title="Public demo data warning"
-      intro="PreSeed is running without accounts or private routes for this hackathon demo."
+      title="Your data"
+      intro="How PreSeed stores and uses what you enter."
       footer={
         <Button full size="lg" glyphAfter="chevron-right" onClick={() => router.push("/start/consent")}>
           Continue
@@ -61,19 +61,18 @@ export default function PrivacyPage() {
       </ul>
 
       <div className="mt-5 rounded-md border border-hairline bg-surface-1 px-4">
-        <Disclosure label="What the shared demo stores" glyph="info">
+        <Disclosure label="What PreSeed stores" glyph="info">
           <ul className="space-y-2 t-body-sm text-ink-2">
             <li>Clinical results you enter or upload, with their unit, source and verification state.</li>
-            <li>Onboarding answers entered by any demo visitor.</li>
+            <li>Your onboarding answers.</li>
             <li>Your protocol versions, adherence records and check-ins.</li>
             <li>Which evidence cards you have opened, so the library can show what you have read.</li>
           </ul>
         </Disclosure>
-        <Disclosure label="What you must not enter" glyph="unavailable">
+        <Disclosure label="What PreSeed never stores" glyph="unavailable">
           <ul className="space-y-2 t-body-sm text-ink-2">
-            <li>Real names, email addresses, phone numbers or other identifiers.</li>
-            <li>Real laboratory reports, medical records or treatment information.</li>
-            <li>Anything you would not deliberately show to every hackathon visitor.</li>
+            <li>Payment details or government identifiers.</li>
+            <li>Anything entered outside your own account record.</li>
           </ul>
         </Disclosure>
       </div>

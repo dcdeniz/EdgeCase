@@ -2,20 +2,12 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
 import { Icon, type IconName } from "@/components/icons";
-import {
-  Announcer,
-  Button,
-  Card,
-  Sheet,
-  StatusChip,
-  cx,
-} from "@/components/ui";
+import { Announcer, Card, StatusChip, cx } from "@/components/ui";
 import { usePrototype, type Track } from "@/lib/store";
 
 export const PROTOTYPE_DISCLAIMER =
-  "This is a research prototype using simulated test data. Not a medical device. Consult a clinician for real testing and before making significant lifestyle or supplement changes.";
+  "PreSeed does not diagnose and is not a substitute for laboratory testing or clinical advice. Consult a clinician before significant lifestyle or supplement changes.";
 
 /* ==========================================================================
    Navigation
@@ -101,71 +93,6 @@ function BottomNav() {
 }
 
 /* ==========================================================================
-   Persistent safety label
-   ========================================================================== */
-
-export function PrototypeLabel({ compact = false }: { compact?: boolean }) {
-  const [open, setOpen] = useState(false);
-  const { state } = usePrototype();
-  const simulated = state.tests.some((test) => test.source === "simulated");
-
-  return (
-    <>
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-haspopup="dialog"
-        className={cx(
-          "inline-flex items-center gap-1.5 rounded-xs border border-hairline bg-surface-3 px-2 py-1",
-          "t-micro text-ink-2 transition-colors duration-(--ps-duration-fast) hover:text-ink-1",
-        )}
-      >
-        <Icon name="shield" size={13} />
-        {compact ? "Prototype" : simulated ? "Prototype · Simulated" : "Research prototype"}
-      </button>
-
-      <Sheet
-        open={open}
-        onClose={() => setOpen(false)}
-        eyebrow="Safety"
-        title="What PreSeed is, and is not"
-        footer={
-          <div className="flex gap-2">
-            <Button variant="secondary" full onClick={() => setOpen(false)}>
-              Close
-            </Button>
-            <Link
-              href="/account/safety"
-              onClick={() => setOpen(false)}
-              className="flex min-h-(--ps-touch-min) flex-1 items-center justify-center gap-2 rounded-sm bg-accent px-4 t-body-sm font-medium text-accent-ink"
-            >
-              Safety centre
-            </Link>
-          </div>
-        }
-      >
-        <p className="t-prose text-ink-1">{PROTOTYPE_DISCLAIMER}</p>
-        <ul className="mt-4 space-y-2.5">
-          {[
-            "Not a diagnosis, and not a medical device.",
-            "Not a replacement for laboratory or clinical testing.",
-            "No claim about conception or pregnancy is made anywhere in this product.",
-            "PreSeed cannot confirm azoospermia. A zero or extremely low result requires laboratory confirmation.",
-            "No endocrine diagnosis, and no hormone-treatment recommendation.",
-            "Never a recommendation to start or stop a prescribed medicine.",
-          ].map((line) => (
-            <li key={line} className="flex gap-2.5 t-body-sm text-ink-2">
-              <Icon name="check" size={16} className="mt-0.5 shrink-0 text-accent" />
-              {line}
-            </li>
-          ))}
-        </ul>
-      </Sheet>
-    </>
-  );
-}
-
-/* ==========================================================================
    Screen chrome
    ========================================================================== */
 
@@ -208,7 +135,7 @@ export function ScreenHeader({
           {eyebrow ? <p className="t-micro text-ink-3">{eyebrow}</p> : null}
           <h1 className="truncate t-title-2 text-ink-1">{title}</h1>
         </div>
-        {action ?? <PrototypeLabel compact />}
+        {action ?? null}
       </div>
     </header>
   );
@@ -318,7 +245,6 @@ export function FlowShell({
               <span className="w-2" />
             )}
             <p className="flex-1 t-micro text-ink-3">{stepLabel}</p>
-            <PrototypeLabel compact />
           </div>
           {/* Numeric progress accompanies the bar, so the rail is not the only cue. */}
           <div className="flex items-center gap-3 pb-3 pl-2 pr-2">

@@ -13,8 +13,8 @@ export default function ConsentPage() {
       total={10}
       stepLabel="Consent"
       back="/start/privacy"
-      title="Use simulated data for this prototype"
-      intro="Your answers and demo reports are stored under your account. This remains a research prototype, not a medical device."
+      title="How PreSeed handles your data"
+      intro="Your answers and reports are stored under your account. PreSeed is not a medical device."
       footer={
         <Button full size="lg" glyphAfter="chevron-right" onClick={() => router.push("/start/disclaimer")}>
           I understand — continue
@@ -27,17 +27,17 @@ export default function ConsentPage() {
           <div>
             <h2 className="t-title-3 text-ink-1">Keep the showcase synthetic</h2>
             <p className="mt-1.5 t-body-sm text-ink-2">
-              Only enter simulated laboratory values and fictional lifestyle information in this
-              hackathon environment. Do not upload private medical documents.
+              Enter only information you are comfortable keeping in your record. Everything can be
+              deleted at any time.
             </p>
           </div>
         </div>
       </Card>
       <Card className="mt-3">
-        <h2 className="t-title-3 text-ink-1">Safe demo inputs</h2>
+        <h2 className="t-title-3 text-ink-1">Quick start</h2>
         <ul className="mt-2.5 space-y-2 t-body-sm text-ink-2">
-          <li>Use the built-in simulated semen and hormone values.</li>
-          <li>Use fictional lifestyle and exposure answers.</li>
+          <li>Use the built-in sample semen and hormone values.</li>
+          <li>Answer the lifestyle questions at your own pace.</li>
           <li>Ask general evidence questions without names or identifying details.</li>
         </ul>
       </Card>
