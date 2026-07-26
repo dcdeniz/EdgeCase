@@ -129,7 +129,7 @@ export function ScoreRing({
             <>
               {centreLabel ? (
                 <span
-                  className="mb-1.5 font-semibold uppercase text-ink-2"
+                  className="mb-1.5 font-medium uppercase text-ink-2"
                   style={{
                     fontSize: `${Math.max(11, Math.round(size * 0.058))}px`,
                     letterSpacing: "0.09em",

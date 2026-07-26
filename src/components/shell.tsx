@@ -64,11 +64,9 @@ function BottomNav() {
   const destinations = destinationsForTrack(state.track);
 
   return (
-    <nav
-      aria-label="Primary"
-      className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-surface-1/95 backdrop-blur-md pad-safe-bottom"
-    >
-      <ul className="mx-auto flex max-w-(--ps-shell-max) items-stretch">
+    // The bible's floating pill: 84px radius, orange-glass lift, weightless.
+    <nav aria-label="Primary" className="fixed inset-x-4 bottom-4 z-30 pad-safe-bottom">
+      <ul className="mx-auto flex max-w-[24rem] items-stretch rounded-nav bg-surface-1/90 px-2 py-1 shadow-e2 backdrop-blur-xl">
         {destinations.map((destination) => {
           const active = pathname === destination.match || pathname.startsWith(`${destination.match}/`);
           return (
@@ -77,7 +75,7 @@ function BottomNav() {
                 href={destination.href}
                 aria-current={active ? "page" : undefined}
                 className={cx(
-                  "flex min-h-(--ps-nav-height) flex-col items-center justify-center gap-1 px-1 py-2",
+                  "flex min-h-14 flex-col items-center justify-center gap-1 rounded-pills px-1 py-1.5",
                   "transition-colors duration-(--ps-duration-fast)",
                   active ? "text-accent" : "text-ink-3 hover:text-ink-2",
                 )}
