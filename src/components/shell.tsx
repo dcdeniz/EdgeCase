@@ -355,9 +355,9 @@ export function FlowShell({
           "[animation:ps-rise-in_var(--ps-duration-slow)_var(--ps-ease-out)]",
         )}
       >
-        <h1 className="t-title-1 text-ink-1">{title}</h1>
-        {intro ? <div className="mt-2 t-body-sm text-ink-2">{intro}</div> : null}
-        <div className="mt-6">{children}</div>
+        <h1 className="t-title-hero text-ink-1">{title}</h1>
+        {intro ? <div className="mt-2.5 t-body text-ink-2">{intro}</div> : null}
+        <div className="mt-7">{children}</div>
       </main>
 
       <div className="fixed inset-x-0 bottom-0 z-30 border-t border-hairline bg-surface-1/95 backdrop-blur-md pad-safe-bottom">

@@ -564,7 +564,7 @@ export function ChoiceGroup<T extends string>({
   const selected = Array.isArray(value) ? value : value ? [value] : [];
   return (
     <fieldset className="mb-5">
-      <legend className="t-body-sm font-medium text-ink-1">{legend}</legend>
+      <legend className="t-title-3 text-ink-1">{legend}</legend>
       {hint ? <p className="mt-1 mb-2 t-caption text-ink-3">{hint}</p> : null}
       <div className={cx("mt-2 grid gap-2", columns === 2 && "grid-cols-2")}>
         {options.map((option) => {
@@ -669,7 +669,7 @@ export function RatingControl({
 }) {
   return (
     <fieldset className="mb-5">
-      <legend className="t-body-sm font-medium text-ink-1">{legend}</legend>
+      <legend className="t-title-3 text-ink-1">{legend}</legend>
       {hint ? <p className="mt-1 t-caption text-ink-3">{hint}</p> : null}
       <div className="mt-2.5 flex gap-2">
         {[1, 2, 3, 4, 5].map((n) => (

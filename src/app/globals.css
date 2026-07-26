@@ -409,6 +409,20 @@
     font-variant-numeric: tabular-nums;
   }
 
+  /*
+   * Flow headline. Larger and tighter than t-title-1, for onboarding and other
+   * one-question-per-screen surfaces where the heading is the whole screen
+   * rather than a section label. Sans register, not the tabular display roles —
+   * this is a sentence, not a measurement.
+   */
+  .t-title-hero {
+    font-size: 1.75rem;
+    line-height: 1.18;
+    letter-spacing: -0.022em;
+    font-weight: 600;
+    text-wrap: balance;
+  }
+
   .t-title-1 {
     font-size: 1.375rem;
     line-height: 1.24;
