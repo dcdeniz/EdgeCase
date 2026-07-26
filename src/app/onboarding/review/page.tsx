@@ -7,10 +7,14 @@ import { FlowShell, SafetyAlert } from "@/components/shell";
 import { Button, Card, MetaBadge, StatusChip } from "@/components/ui";
 import { domainOrder, domains } from "@/lib/readiness";
 import { trackLabel, usePrototype } from "@/lib/store";
+import { persistOnboarding } from "@/lib/onboarding-client";
+import { useState } from "react";
 
 export default function ReviewPage() {
   const router = useRouter();
   const { state, readiness, update } = usePrototype();
+  const [saving, setSaving] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
 
   const answeredDomains = readiness.domains.filter((domain) => domain.score != null).length;
 
@@ -27,15 +31,27 @@ export default function ReviewPage() {
           full
           size="lg"
           glyphAfter="chevron-right"
-          onClick={() => {
+          disabled={saving || !state.track}
+          onClick={async () => {
+            if (!state.track) return;
+            setSaving(true);
+            setSaveError(null);
+            try {
+              await persistOnboarding(state.track, state.answers);
+            } catch (caught) {
+              setSaveError(caught instanceof Error ? caught.message : "Your onboarding could not be saved.");
+              setSaving(false);
+              return;
+            }
             update({ onboardingComplete: true });
             router.push(state.track === "vasectomy_reversal" ? "/reversal" : "/tests/new");
           }}
         >
-          {state.track === "vasectomy_reversal" ? "Go to tracking" : "Add a clinical result"}
+          {saving ? "Saving onboarding…" : state.track === "vasectomy_reversal" ? "Go to tracking" : "Add a clinical result"}
         </Button>
       }
     >
+      {saveError ? <p role="alert" className="mb-3 t-body-sm text-danger">{saveError}</p> : null}
       {readiness.gates.length > 0 ? (
         <div className="mb-4 space-y-3">
           {readiness.gates.map((gate) => (

@@ -4,6 +4,8 @@ Date: 2026-07-25
 
 ## Delivered
 
+- Accepted the copy-ready ElevenLabs `PreSeed Daily Check-in` system/dispatch prompt as a canonical contract. It constrains the voice agent to brief structured capture, confirmation, medical escalation, and exactly one `record_daily_checkin` tool call. The richer dispatch operation is explicitly pending and must not be confused with the existing narrow `/v1/check-ins` endpoint.
+
 - Added a reviewable public hackathon demo mode. When `PUBLIC_DEMO_MODE=true`, the API accepts requests without bearer authentication and uses the service role for one dedicated synthetic `PUBLIC_DEMO_USER_ID`; the login screen is removed and the UI clearly warns that all visitors share mutable demo data. PostgreSQL RLS remains defined for future authenticated use, while this mode intentionally bypasses it at the API boundary. Never configure it with a real user's ID or real health information.
 
 - Initialized the existing Git workspace as an npm-based Next.js 16 App Router project with TypeScript, Tailwind CSS, ESLint, a starter landing page, and `/api/health` route for Vercel.
@@ -131,3 +133,12 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - Clinical Profile now renders the structured profile summary and per-parameter emphasis/improvement opportunities. Protocol renders schema-constrained suggestions with evidence-backed versus general-guidance status. Both consume persisted artifacts; neither depends on chat history.
 - Unified the frontend's white-blood-cell marker with the canonical `seminal_leukocytes_million_ml` API/database code and retained its consumer-facing label.
 - Verification after integration: strict TypeScript and documentation checks pass; 23 Edge/readiness tests pass.
+
+## Authenticated showcase onboarding
+
+- Added ADR 0008, which makes account authentication and RLS the hosted showcase boundary again while retaining public demo mode only as an explicit configuration switch.
+- Restored `/start/account` as a real Supabase email/password sign-in and sign-up screen. Successful authentication resets device-local prototype state and starts the existing ten-step onboarding flow from privacy and consent.
+- Added a session-aware Next.js proxy that redirects unauthenticated product and onboarding requests to sign-in while leaving the landing page and health operation public.
+- Updated consent copy from shared-public-demo language to account-scoped synthetic-showcase language.
+- The onboarding review now persists the selected track and questionnaire answers through the authenticated Edge API before moving to simulated clinical-result entry.
+- The built-in simulated semen report uses the authenticated clinical-test and marker operations and then invokes structured profile compilation. No showcase password is embedded in source or documentation.
