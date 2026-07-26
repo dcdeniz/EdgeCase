@@ -519,7 +519,7 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             ...previous,
             // Hormone panel ships with the baseline: FSH, LH and testosterone
             // are the endocrine context the semen result is read against.
-            tests: [demoBaseline, demoHormonePanel],
+            tests: [demoBaseline, demoRetest, demoHormonePanel],
             protocol,
             adherence: seedAdherence(protocol),
             /*

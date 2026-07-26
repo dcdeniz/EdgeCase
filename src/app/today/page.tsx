@@ -14,6 +14,7 @@ import {
 import { ReadinessSummary } from "@/components/domain";
 import { MetricTile, ReadinessHero } from "@/components/score";
 import { SemenProfileBoard, SpermAgeCard } from "@/components/profile-board";
+import { RetestComparison } from "@/components/retest";
 import { contributorsFor } from "@/lib/contributors";
 import { Button, ButtonLink, Card, EmptyState, SectionHeader, SimulatedBadge } from "@/components/ui";
 import { TODAY, daysBetween, formatDate } from "@/lib/format";
@@ -27,7 +28,7 @@ import { formatDuration, latestHealthDay, latestSleepNight, sleepNeedPercent } f
  * answer is either removed or pushed below it.
  */
 export default function TodayPage() {
-  const { state, readiness, latestSemen, hormonePanel, seedDemo } = usePrototype();
+  const { state, readiness, latestSemen, baselineSemen, hormonePanel, seedDemo } = usePrototype();
   const protocol = state.protocol;
   const contributors = useMemo(() => contributorsFor(state), [state]);
 
@@ -117,6 +118,12 @@ export default function TodayPage() {
               </span>
               <Icon name="chevron-right" size={18} className="shrink-0 text-ink-3" />
             </Link>
+          ) : null}
+
+          {baselineSemen && latestSemen && baselineSemen.id !== latestSemen.id ? (
+            <div className="mt-3">
+              <RetestComparison baseline={baselineSemen} retest={latestSemen} />
+            </div>
           ) : null}
 
           <div className="mt-3">
