@@ -532,6 +532,7 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
               ...previous.answers,
               smoking: "under10",
               alcoholUnits: "8to14",
+              cannabis: "occasional",
               sleepHours: "6to7",
               sleepPattern: "variable",
               dietPattern: "western",

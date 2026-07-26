@@ -203,6 +203,7 @@
   --ps-domain-sleep: var(--ps-series-3);
   --ps-domain-diet: var(--ps-supported);
   --ps-domain-activity: var(--ps-series-2);
+  --ps-domain-substances: var(--ps-escalation);
   --ps-domain-adherence: var(--ps-series-1);
 }
 
@@ -281,6 +282,7 @@
   --color-domain-sleep: var(--ps-domain-sleep);
   --color-domain-diet: var(--ps-domain-diet);
   --color-domain-activity: var(--ps-domain-activity);
+  --color-domain-substances: var(--ps-domain-substances);
   --color-domain-adherence: var(--ps-domain-adherence);
 
   --radius-xs: var(--ps-radius-xs);

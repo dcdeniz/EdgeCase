@@ -47,17 +47,24 @@ export const scenarios: Scenario[] = [
     id: "quit-smoking",
     question: "What if I stopped smoking?",
     label: "Stop smoking",
-    overrides: {},
-    touches: [],
-    note: "Smoking is not one of the four scored domains, so your Seed Score does not move. It is the strongest association in your contributor list, which is a separate and more important surface.",
+    overrides: { substances: 96 },
+    touches: ["substances"],
+    note: "Smoking is the strongest association in the evidence library. The semen benefit builds over roughly three months, in line with the sperm production cycle.",
   },
   {
     id: "cut-alcohol",
     question: "What if I cut down to under 7 units a week?",
     label: "Cut alcohol",
-    overrides: {},
-    touches: [],
-    note: "Alcohol sits in your contributors rather than in the four scored domains, so the score itself is unchanged.",
+    overrides: { substances: 88 },
+    touches: ["substances"],
+  },
+  {
+    id: "quit-cannabis",
+    question: "What if I stopped using cannabis?",
+    label: "Stop cannabis",
+    overrides: { substances: 90 },
+    touches: ["substances"],
+    note: "ASRM advises against cannabis when trying to conceive. The semen evidence is observational and dose-dependent.",
   },
   {
     id: "sleep-8h",
@@ -148,6 +155,7 @@ export function domainHeadroom(
 export function matchScenario(text: string): Scenario | null {
   const query = text.toLowerCase();
   const table: Array<[string[], string]> = [
+    [["cannabis", "weed", "marijuana", "thc"], "quit-cannabis"],
     [["smok", "cigarette", "vape", "quit"], "quit-smoking"],
     [["alcohol", "drink", "beer", "wine", "units"], "cut-alcohol"],
     [["sleep", "bed", "rest", "hours"], "sleep-8h"],

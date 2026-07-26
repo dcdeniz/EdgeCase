@@ -36,7 +36,7 @@ export const BEHAVIOUR_RULE_VERSION = "prototype-behaviour-0.2.0";
 export const BEHAVIOUR_SCORE_CAVEAT =
   "This reflects modifiable behaviours, not measured sperm quality.";
 
-export type BehaviourDomainId = "sleep" | "diet" | "activity" | "adherence";
+export type BehaviourDomainId = "sleep" | "diet" | "activity" | "substances" | "adherence";
 
 export type BehaviourDomain = {
   id: BehaviourDomainId;
@@ -53,6 +53,7 @@ export const domainColour: Record<BehaviourDomainId, string> = {
   sleep: "var(--ps-domain-sleep)",
   diet: "var(--ps-domain-diet)",
   activity: "var(--ps-domain-activity)",
+  substances: "var(--ps-domain-substances)",
   adherence: "var(--ps-domain-adherence)",
 };
 
@@ -60,7 +61,7 @@ export const behaviourDomains: Record<BehaviourDomainId, BehaviourDomain> = {
   sleep: {
     id: "sleep",
     label: "Sleep",
-    weight: 30,
+    weight: 25,
     source: "Simulated wearable",
     evidenceIds: ["sleep-circadian-sr"],
     framing:
@@ -69,7 +70,7 @@ export const behaviourDomains: Record<BehaviourDomainId, BehaviourDomain> = {
   diet: {
     id: "diet",
     label: "Diet pattern",
-    weight: 25,
+    weight: 20,
     source: "Food log",
     evidenceIds: ["diet-pattern-sr", "mediterranean-sr"],
     framing:
@@ -78,16 +79,25 @@ export const behaviourDomains: Record<BehaviourDomainId, BehaviourDomain> = {
   activity: {
     id: "activity",
     label: "Activity",
-    weight: 20,
+    weight: 15,
     source: "Simulated wearable",
     evidenceIds: ["exercise-nma"],
     framing:
       "On a U-shaped curve. Moderate activity scores highest; sustained under-recovered load is flagged, not rewarded.",
   },
+  substances: {
+    id: "substances",
+    label: "Substances",
+    weight: 20,
+    source: "Tracked",
+    evidenceIds: ["smoking-umbrella", "alcohol-umbrella"],
+    framing:
+      "Nicotine, alcohol and cannabis, modelled by dose rather than yes or no. The strongest lifestyle associations in the library sit here.",
+  },
   adherence: {
     id: "adherence",
     label: "Protocol adherence",
-    weight: 25,
+    weight: 20,
     source: "Your check-ins",
     evidenceIds: [],
     framing:
@@ -189,6 +199,44 @@ function scoreAdherenceDay(state: PrototypeState, iso: string): number | null {
   return Math.round(((completed + partial * 0.5) / logged) * 100);
 }
 
+/**
+ * Substances: nicotine, alcohol and cannabis, scored by dose.
+ *
+ * Added because the omission was an inconsistency rather than a principle —
+ * the questionnaire engine has scored substances at weight 20 since day one,
+ * and smoking is the strongest association in the whole evidence library.
+ * A behaviour score that ignored it while counting step count was measuring
+ * the wrong things.
+ *
+ * Deliberately NOT extended to supplements. Their cards are research
+ * candidates whose confidence intervals nearly touch zero and whose
+ * populations are men with idiopathic infertility or OAT rather than a
+ * general one. Awarding points for taking one would be a recommendation
+ * issued through the score instead of through text, routing around the rule
+ * rather than respecting it.
+ */
+function scoreSubstancesDay(state: PrototypeState): number | null {
+  const { smoking, alcoholUnits, cannabis } = state.answers;
+  if (!smoking && !alcoholUnits && !cannabis) return null;
+
+  let score = 100;
+
+  if (smoking === "over10") score -= 45;
+  else if (smoking === "under10") score -= 30;
+  else if (smoking === "vape_only") score -= 12;
+  else if (smoking === "former") score -= 4;
+
+  if (alcoholUnits === "over14") score -= 25;
+  else if (alcoholUnits === "8to14") score -= 12;
+  else if (alcoholUnits === "1to7") score -= 3;
+
+  // ASRM 2024 advises against cannabis when attempting conception.
+  if (cannabis === "weekly_or_more") score -= 25;
+  else if (cannabis === "occasional") score -= 10;
+
+  return Math.max(0, score);
+}
+
 /* ==========================================================================
    Day, week and year
    ========================================================================== */
@@ -208,6 +256,7 @@ export function behaviourDay(
     sleep: overrides?.sleep ?? scoreSleepDay(iso),
     diet: overrides?.diet ?? scoreDietDayFor(state, iso),
     activity: overrides?.activity ?? scoreActivityDay(iso),
+    substances: overrides?.substances ?? scoreSubstancesDay(state),
     adherence: overrides?.adherence ?? scoreAdherenceDay(state, iso),
   };
 

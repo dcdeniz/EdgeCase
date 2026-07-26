@@ -32,10 +32,9 @@ import type { PrototypeState } from "@/lib/store";
 /* ==========================================================================
    Seed Score impact
    --------------------------------------------------------------------------
-   The honest answer is often "none". Supplements, smoking and alcohol are not
-   among the four scored domains, so nothing about them moves the number — and
-   saying so plainly is more useful than implying an effect the model cannot
-   produce.
+   The honest answer is often "none". Supplements in particular are not scored,
+   so nothing about them moves the number — and saying so plainly is more
+   useful than implying an effect the model cannot produce.
    ========================================================================== */
 
 export type ScoreImpact = {
@@ -53,7 +52,7 @@ export function impactFor(
     return {
       domain: null,
       available: 0,
-      explanation: `${subject} is not one of the four scored domains, so it does not move your Seed Score. Your Seed Score covers sleep, diet pattern, activity and protocol adherence only.`,
+      explanation: `${subject} is not one of the scored domains, so it does not move your Seed Score. Your Seed Score covers sleep, diet pattern, activity, substances and protocol adherence.`,
     };
   }
   const { available } = domainHeadroom(state, domain);
@@ -128,14 +127,14 @@ const topics: Topic[] = [
     id: "smoking",
     keywords: ["smok", "cigarette", "nicotine", "vape", "tobacco"],
     evidenceIds: ["smoking-umbrella"],
-    domain: null,
+    domain: "substances",
     subject: "Smoking",
   },
   {
     id: "alcohol",
     keywords: ["alcohol", "drink", "beer", "wine", "pint", "units"],
     evidenceIds: ["alcohol-umbrella"],
-    domain: null,
+    domain: "substances",
     subject: "Alcohol",
   },
   {
@@ -193,6 +192,125 @@ const topics: Topic[] = [
     evidenceIds: ["anabolic-steroid-sr"],
     domain: null,
     subject: "Anabolic steroids and testosterone",
+  },
+  {
+    id: "cannabis",
+    keywords: ["cannabis", "weed", "marijuana", "thc", "edible", "joint"],
+    evidenceIds: ["smoking-umbrella"],
+    domain: "substances",
+    subject: "Cannabis",
+  },
+  {
+    id: "zinc",
+    keywords: ["zinc"],
+    evidenceIds: ["antioxidant-effect-candidate"],
+    domain: null,
+    subject: "Zinc",
+  },
+  {
+    id: "folate",
+    keywords: ["folate", "folic"],
+    evidenceIds: ["antioxidant-effect-candidate"],
+    domain: null,
+    subject: "Folate",
+  },
+  {
+    id: "vitamin-d",
+    keywords: ["vitamin d", "vit d"],
+    evidenceIds: ["antioxidant-effect-candidate"],
+    domain: null,
+    subject: "Vitamin D",
+  },
+  {
+    id: "cycling",
+    keywords: ["cycl", "bike", "saddle", "spin"],
+    evidenceIds: ["heat-umbrella", "exercise-nma"],
+    domain: "activity",
+    subject: "Cycling",
+  },
+  {
+    id: "underwear",
+    keywords: ["underwear", "boxers", "briefs", "tight"],
+    evidenceIds: ["heat-umbrella"],
+    domain: null,
+    subject: "Underwear and scrotal temperature",
+  },
+  {
+    id: "weight",
+    keywords: ["obes", "bmi", "lose weight", "overweight", "fat"],
+    evidenceIds: ["obesity-intervention-sr"],
+    domain: "activity",
+    subject: "Body weight",
+  },
+  {
+    id: "stress",
+    keywords: ["stress", "anxiety", "cortisol", "burnout", "mental"],
+    evidenceIds: ["sleep-circadian-sr"],
+    domain: "sleep",
+    subject: "Stress",
+  },
+  {
+    id: "shift-work",
+    keywords: ["shift", "night work", "nights", "jet lag"],
+    evidenceIds: ["sleep-circadian-sr"],
+    domain: "sleep",
+    subject: "Shift work",
+  },
+  {
+    id: "caffeine",
+    keywords: ["caffeine", "coffee", "energy drink"],
+    evidenceIds: [],
+    domain: null,
+    subject: "Caffeine",
+  },
+  {
+    id: "phone",
+    keywords: ["phone", "wifi", "radiation", "5g", "pocket"],
+    evidenceIds: ["heat-umbrella"],
+    domain: null,
+    subject: "Phones and laptops",
+  },
+  {
+    id: "medication",
+    keywords: ["medication", "drug", "prescription", "antidepressant", "ssri", "finasteride"],
+    evidenceIds: ["medication-review"],
+    domain: null,
+    subject: "Medications",
+  },
+  {
+    id: "age",
+    keywords: ["age", "older", "how old", "too late"],
+    evidenceIds: ["who-semen-manual"],
+    domain: null,
+    subject: "Age",
+  },
+  {
+    id: "varicocele",
+    keywords: ["varicocele", "surgery", "urologist", "specialist", "clinic"],
+    evidenceIds: ["aua-asrm-guideline"],
+    domain: null,
+    subject: "Clinical assessment",
+  },
+  {
+    id: "dfi",
+    keywords: ["fragmentation", "dfi", "dna damage"],
+    evidenceIds: ["smoking-umbrella"],
+    domain: null,
+    subject: "DNA fragmentation",
+  },
+  {
+    id: "retest",
+    keywords: ["retest", "test again", "how long", "when will", "100 day", "improve"],
+    evidenceIds: ["who-semen-manual"],
+    domain: null,
+    subject: "Retesting and timescales",
+  },
+  {
+    id: "sauna",
+    keywords: ["sauna", "steam", "jacuzzi"],
+    evidenceIds: ["heat-umbrella"],
+    domain: null,
+    subject: "Sauna and hot tubs",
   },
   {
     id: "abstinence",

@@ -36,6 +36,7 @@ export type OnboardingAnswers = {
   sleepPattern?: "regular" | "variable" | "shift";
   smoking?: "never" | "former" | "vape_only" | "under10" | "over10" | "prefer_not";
   alcoholUnits?: "none" | "1to7" | "8to14" | "over14" | "prefer_not";
+  cannabis?: "never" | "occasional" | "weekly_or_more" | "prefer_not";
   dietPattern?: "mediterranean" | "mixed" | "western" | "prefer_not";
   produceServings?: "under2" | "2to4" | "over4";
   activitySessions?: "none" | "1to2" | "3to5" | "over5";
