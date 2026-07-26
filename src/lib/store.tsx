@@ -146,6 +146,30 @@ const initialState: PrototypeState = {
 
 const STORAGE_KEY = "preseed.prototype.v1";
 
+/**
+ * Drop markers whose code is no longer in the catalogue.
+ *
+ * Persisted state outlives the code that wrote it. A marker removed or renamed
+ * in a later build leaves records in localStorage referring to a code the
+ * catalogue no longer has, and every downstream `markerCatalogue[code]` lookup
+ * then returns undefined. That crashed the whole provider — and because the
+ * bad value is persisted, the crash survived a reload, leaving the app dead
+ * until storage was cleared by hand.
+ *
+ * Pruning at hydration keeps the failure at one boundary rather than asking
+ * every consumer to null-check. A test left with no recognised markers is
+ * dropped entirely, since a clinical result with no values is not a result.
+ */
+function pruneUnknownMarkers(tests: ClinicalTest[] | undefined): ClinicalTest[] {
+  if (!Array.isArray(tests)) return [];
+  return tests
+    .map((test) => ({
+      ...test,
+      markers: (test.markers ?? []).filter((marker) => marker.code in markerCatalogue),
+    }))
+    .filter((test) => test.markers.length > 0);
+}
+
 /* ==========================================================================
    Protocol construction
    ========================================================================== */
@@ -390,7 +414,10 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
     queueMicrotask(() => {
       try {
         const raw = window.localStorage.getItem(STORAGE_KEY);
-        if (raw) setState({ ...initialState, ...(JSON.parse(raw) as PrototypeState) });
+        if (raw) {
+          const stored = JSON.parse(raw) as PrototypeState;
+          setState({ ...initialState, ...stored, tests: pruneUnknownMarkers(stored.tests) });
+        }
       } catch {
         /* A corrupt prototype store is not worth surfacing. Start clean. */
       }
@@ -597,6 +624,9 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
     const belowReferenceCodes = (latestSemen?.markers ?? [])
       .filter((marker) => {
         const definition = markerCatalogue[marker.code];
+        // Defence in depth: hydration prunes these, but a marker written by a
+        // newer build in another tab could still arrive here mid-session.
+        if (!definition) return false;
         const low = marker.referenceLow ?? definition.referenceLow;
         return definition.shape === "lower_limit" && low != null && marker.value < low;
       })
