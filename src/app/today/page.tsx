@@ -14,6 +14,7 @@ import {
 import { ReadinessSummary } from "@/components/domain";
 import { MetricTile, ReadinessHero } from "@/components/score";
 import { SemenProfileBoard, SpermAgeCard } from "@/components/profile-board";
+import { OverallRankCard } from "@/components/percentile";
 import { contributorsFor } from "@/lib/contributors";
 import { Button, ButtonLink, Card, EmptyState, SectionHeader, SimulatedBadge } from "@/components/ui";
 import { TODAY, daysBetween, formatDate } from "@/lib/format";
@@ -98,6 +99,11 @@ export default function TodayPage() {
           <h2 id="today-profile" className="visually-hidden">
             Semen profile
           </h2>
+          {/* One number on the home screen; the six behind it are one tap away. */}
+          <div className="mb-3">
+            <OverallRankCard test={latestSemen} href="/rank" />
+          </div>
+
           <SemenProfileBoard test={latestSemen} hormones={hormonePanel} baseline={baselineSemen} />
 
           {/*

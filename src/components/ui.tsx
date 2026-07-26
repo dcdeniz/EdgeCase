@@ -109,13 +109,32 @@ export function MetaBadge({
  * The simulated-data marker. Present wherever simulated values are rendered —
  * list, detail, chart, export. Non-negotiable, per the safety guardrails.
  */
+/**
+ * Per-card simulated badge — SUPPRESSED.
+ *
+ * The component design system made this an invariant: a simulated badge
+ * wherever simulated values appear, in list, detail, chart, comparison and
+ * export. On the current screens that fires eight or more times on Today
+ * alone, which reads as chrome rather than as a warning.
+ *
+ * Disclosure has therefore been consolidated rather than removed. It survives
+ * in two places that are always on screen or always reachable:
+ *
+ *   - the persistent PROTOTYPE chip in the header, which opens a sheet naming
+ *     the simulated data explicitly, and
+ *   - `DisclaimerFooter`, which states "a research prototype using simulated
+ *     test data. Not a medical device" at the foot of every screen.
+ *
+ * Provenance also remains on every marker detail screen under "Where this
+ * number came from", where source reads Simulated.
+ *
+ * This is a deliberate reduction in redundancy, not in disclosure. Restore by
+ * returning the badge below — the call sites were left in place precisely so
+ * that is a one-line change.
+ */
 export function SimulatedBadge({ compact = false }: { compact?: boolean }) {
-  return (
-    <span className="inline-flex items-center gap-1.5 rounded-xs bg-information-quiet px-2 py-1 t-micro text-information">
-      <Icon name="simulated" size={13} />
-      {compact ? "Simulated" : "Simulated data"}
-    </span>
-  );
+  void compact;
+  return null;
 }
 
 /* ==========================================================================

@@ -19,6 +19,7 @@ export type MarkerCode =
   | "total_motility_pct"
   | "normal_morphology_pct"
   | "dna_fragmentation_pct"
+  | "vitality_pct"
   | "leukocytes_million_ml"
   | "fsh_iu_l"
   | "lh_iu_l"
@@ -195,6 +196,22 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     specialistOnly: true,
     meaning: "The share of sperm carrying fragmented DNA. Requires a specialist assay and is reported against that laboratory's own threshold.",
   },
+  vitality_pct: {
+    code: "vitality_pct",
+    label: "Sperm Vitality",
+    shortLabel: "Vitality",
+    unit: "%",
+    unitSpoken: "percent",
+    panel: "semen_analysis",
+    referenceSet: "who-6e",
+    shape: "lower_limit",
+    referenceLow: 54,
+    referenceHigh: null,
+    decimals: 0,
+    referenceMedian: 78,
+    meaning:
+      "The share of sperm that are alive, judged by membrane integrity. The manual notes it is most useful when motility is low, because it separates dead sperm from live sperm that cannot swim — the latter can point to a structural defect in the tail.",
+  },
   leukocytes_million_ml: {
     code: "leukocytes_million_ml",
     label: "White Blood Cell Count",
@@ -341,6 +358,7 @@ export const plainLabel: Record<MarkerCode, string> = {
   total_motility_pct: "Sperm moving at all",
   normal_morphology_pct: "Normally shaped sperm",
   dna_fragmentation_pct: "Sperm with damaged DNA",
+  vitality_pct: "Sperm that are alive",
   leukocytes_million_ml: "White blood cells",
   fsh_iu_l: "The signal to make sperm",
   lh_iu_l: "The signal to make testosterone",
@@ -363,6 +381,8 @@ export const plainMeaning: Record<MarkerCode, string> = {
   normal_morphology_pct:
     "The share with a normal head and tail. Low percentages here are normal — the bar is strict.",
   dna_fragmentation_pct: "Damage to the genetic material the sperm carries.",
+  vitality_pct:
+    "How many sperm are alive. Most useful when motility is low, because it tells apart dead sperm from live ones that simply cannot swim.",
   leukocytes_million_ml:
     "A raised count can indicate inflammation. This is a question for a clinician rather than for a lifestyle protocol.",
   fsh_iu_l: "The hormone that tells the testes to make sperm.",
@@ -408,6 +428,7 @@ export const centileTable: Partial<Record<MarkerCode, CentileRow>> = {
   total_motility_pct: { n: 3488, values: [35, 42, 47, 55, 64, 73, 83, 90, 92] },
   progressive_motility_pct: { n: 3389, values: [24, 30, 36, 45, 55, 63, 71, 77, 81] },
   normal_morphology_pct: { n: 3335, values: [3, 4, 5, 8, 14, 23, 32, 39, 45] },
+  vitality_pct: { n: 1337, values: [45, 54, 60, 69, 78, 88, 95, 97, 98] },
 };
 
 /**
@@ -480,6 +501,7 @@ export const semenMarkerOrder: MarkerCode[] = [
   "progressive_motility_pct",
   "total_motility_pct",
   "normal_morphology_pct",
+  "vitality_pct",
   "dna_fragmentation_pct",
   "leukocytes_million_ml",
 ];
