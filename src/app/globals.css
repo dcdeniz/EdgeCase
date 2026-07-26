@@ -204,6 +204,14 @@
   --ps-domain-diet: var(--ps-supported);
   --ps-domain-activity: var(--ps-series-2);
   --ps-domain-substances: var(--ps-escalation);
+
+  /*
+   * Hues for content on `surface-inverse`, which is dark in BOTH themes. They
+   * are pinned to the dark-theme values rather than aliased, because aliasing
+   * would hand a permanently dark card the light theme's dark ink.
+   */
+  --ps-on-inverse-accent: #4fc2b5;
+  --ps-on-inverse-attention: #e3a05f;
   --ps-domain-adherence: var(--ps-series-1);
 }
 

@@ -350,6 +350,13 @@ export function spermAge(): SpermAge {
   };
 }
 
+/** Compact form for the disc: "4.5 years older". */
+export function formatAgeGapShort(differenceYears: number): string {
+  const absolute = Math.abs(differenceYears);
+  const rounded = Number(absolute.toFixed(1));
+  return `${rounded} year${rounded === 1 ? "" : "s"} ${differenceYears >= 0 ? "older" : "younger"}`;
+}
+
 /** "4 years and 5 months older", from a decimal year difference. */
 export function formatAgeGap(differenceYears: number): string {
   const absolute = Math.abs(differenceYears);

@@ -25,7 +25,7 @@ import {
   type MarkerValue,
 } from "@/lib/clinical";
 import { formatNumber, relativeDays } from "@/lib/format";
-import { formatAgeGap, spermAge } from "@/lib/wearable";
+import { formatAgeGap, formatAgeGapShort, spermAge } from "@/lib/wearable";
 import {
   CONTRIBUTOR_CAVEAT,
   isCandidate,
@@ -558,66 +558,166 @@ export function ProductCard({ product }: { product: SupplementProduct }) {
  * would be inventing a measurement, which is the one thing this product must
  * not do.
  */
+/**
+ * Sperm Epigenetic Age.
+ *
+ * Presented as a single figure on a dark disc, in the register of a
+ * biological-age card, with the explanation behind the same question-mark
+ * control the markers use rather than sitting underneath as prose.
+ *
+ * One deliberate departure from the products this borrows from: they
+ * celebrate reading younger, in green. Reading OLDER is the finding
+ * associated with a longer time to pregnancy, so an older result takes the
+ * attention hue and a younger one the accent. The number is not congratulated
+ * either way.
+ */
 export function SpermAgeCard() {
   const age = spermAge();
   const older = age.differenceYears >= 0;
+  const [explaining, setExplaining] = useState(false);
+
+  const size = 260;
+  const centre = size / 2;
+  const radius = size / 2 - 6;
+
+  /*
+   * Deterministic particle field. Seeded so the disc is identical on the
+   * server and on the client, and denser toward the rim, which is what gives
+   * the reference card its depth.
+   */
+  const particles: Array<{ x: number; y: number; r: number; o: number }> = [];
+  let seed = 20260726;
+  const random = () => {
+    seed = (seed * 1664525 + 1013904223) % 4294967296;
+    return seed / 4294967296;
+  };
+  for (let index = 0; index < 260; index += 1) {
+    const angle = random() * Math.PI * 2;
+    const distance = Math.sqrt(random()) * radius;
+    particles.push({
+      x: centre + Math.cos(angle) * distance,
+      y: centre + Math.sin(angle) * distance,
+      r: 0.8 + random() * 2.6,
+      o: 0.18 + (distance / radius) * 0.72,
+    });
+  }
+
+  // Fixed light-on-dark hues: this card is dark in both themes.
+  const hue = older ? "var(--ps-on-inverse-attention)" : "var(--ps-on-inverse-accent)";
 
   return (
-    <Card>
-      <div className="flex items-start justify-between gap-3">
-        <p className="t-micro text-ink-3">Sperm Epigenetic Age</p>
-        <SimulatedBadge compact />
+    <>
+      <div className="relative overflow-hidden rounded-md bg-surface-inverse p-5">
+        <div className="flex items-start justify-between gap-3">
+          <p className="t-micro text-ink-inverse/70">Sperm Epigenetic Age</p>
+          <button
+            type="button"
+            onClick={() => setExplaining(true)}
+            aria-label="What Sperm Epigenetic Age means"
+            className="-mr-1 -mt-1 flex size-9 shrink-0 items-center justify-center rounded-full text-ink-inverse/70 hover:text-ink-inverse"
+          >
+            <Icon name="help" size={18} />
+          </button>
+        </div>
+
+        <div className="relative mx-auto mt-2" style={{ width: size, height: size }}>
+          <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
+            <defs>
+              <radialGradient id="sea-core" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor={hue} stopOpacity="0.28" />
+                <stop offset="62%" stopColor={hue} stopOpacity="0.12" />
+                <stop offset="100%" stopColor={hue} stopOpacity="0.02" />
+              </radialGradient>
+            </defs>
+            <circle cx={centre} cy={centre} r={radius} fill="url(#sea-core)" />
+            {particles.map((particle, index) => (
+              <circle
+                key={index}
+                cx={particle.x}
+                cy={particle.y}
+                r={particle.r}
+                fill={hue}
+                opacity={particle.o}
+              />
+            ))}
+          </svg>
+
+          <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
+            <span
+              className="text-ink-inverse ps-num"
+              style={{ fontSize: 58, lineHeight: 1, letterSpacing: "-0.03em", fontWeight: 500 }}
+            >
+              {age.epigeneticAge}
+            </span>
+            <span className="mt-2 t-micro text-ink-inverse/70">Sperm age</span>
+            <span className="mt-1.5 t-body-sm font-medium" style={{ color: hue }}>
+              {formatAgeGapShort(age.differenceYears)}
+            </span>
+          </div>
+        </div>
       </div>
 
-      <p className="mt-4 text-center t-display-1 text-ink-1 ps-num">{age.epigeneticAge}</p>
-      <p className="mx-auto mt-2 max-w-[18rem] text-center t-body text-ink-2">
-        That&rsquo;s {formatAgeGap(age.differenceYears)}.
-      </p>
-
-      <div className="mt-4 flex items-center justify-center gap-6 border-t border-hairline pt-3">
-        <span className="text-center">
-          <span className="block t-micro text-ink-3">Your age</span>
-          <span className="mt-0.5 block t-title-2 text-ink-1 ps-num">{age.chronologicalAge}</span>
-        </span>
-        <span className="text-center">
-          <span className="block t-micro text-ink-3">Sperm reads</span>
-          <span className="mt-0.5 block t-title-2 text-ink-1 ps-num">{age.epigeneticAge}</span>
-        </span>
-      </div>
-
-      <div className="mt-4 border-t border-hairline pt-3">
-        <p className="t-body-sm text-ink-2">
-          A DNA-methylation measure of how old your sperm looks biologically. Higher sperm
-          epigenetic age has been associated with a longer time to pregnancy, and is higher in men
-          who smoke.
-        </p>
-        <ul className="mt-2.5 space-y-1.5">
-          <li className="flex gap-2 t-caption text-ink-3">
-            <Icon name="info" size={13} className="mt-0.5 shrink-0" />
-            From a simulated methylation assay. It cannot be derived from sleep, diet or activity.
-          </li>
-          <li className="flex gap-2 t-caption text-ink-3">
-            <Icon name="info" size={13} className="mt-0.5 shrink-0" />
-            {older
-              ? "Reading older is an association with time to pregnancy, not a diagnosis and not a prediction about you."
-              : "Reading younger is an association only, and does not predict conception."}
-          </li>
-          <li className="flex gap-2 t-caption text-ink-3">
-            <Icon name="info" size={13} className="mt-0.5 shrink-0" />
-            No protocol action in this app has been shown to move it.
-          </li>
-        </ul>
-        <a
-          href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9247414/"
-          target="_blank"
-          rel="noreferrer"
-          className="mt-3 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+      {explaining ? (
+        <Sheet
+          open
+          onClose={() => setExplaining(false)}
+          eyebrow="What this measures"
+          title="Sperm Epigenetic Age"
         >
-          Sperm epigenetic clock and pregnancy outcomes
-          <Icon name="external" size={14} />
-        </a>
-      </div>
-    </Card>
+          <p className="t-prose text-ink-1">
+            A DNA-methylation measure of how old your sperm looks biologically, which can differ
+            from your age in years.
+          </p>
+
+          <div className="mt-4 border-t border-hairline pt-3">
+            <MetaList
+              items={[
+                { label: "Your age", value: `${age.chronologicalAge}` },
+                { label: "Sperm reads", value: `${age.epigeneticAge}` },
+                { label: "Difference", value: formatAgeGap(age.differenceYears) },
+              ]}
+            />
+          </div>
+
+          <div className="mt-4 border-t border-hairline pt-3">
+            <p className="t-micro text-ink-3">What the research shows</p>
+            <p className="mt-1.5 t-body-sm text-ink-2">
+              Higher sperm epigenetic age has been associated with a longer time to pregnancy, and
+              is higher in men who smoke. It has been proposed as a better predictor of reproductive
+              outcomes than conventional semen measurements.
+            </p>
+          </div>
+
+          <div className="mt-4 border-t border-hairline pt-3">
+            <ul className="space-y-1.5">
+              <li className="flex gap-2 t-caption text-ink-3">
+                <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+                From a simulated methylation assay. It cannot be derived from sleep, diet or
+                activity.
+              </li>
+              <li className="flex gap-2 t-caption text-ink-3">
+                <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+                An association with time to pregnancy, not a diagnosis and not a prediction about
+                you.
+              </li>
+              <li className="flex gap-2 t-caption text-ink-3">
+                <Icon name="info" size={13} className="mt-0.5 shrink-0" />
+                No protocol action in this app has been shown to move it.
+              </li>
+            </ul>
+            <a
+              href="https://pmc.ncbi.nlm.nih.gov/articles/PMC9247414/"
+              target="_blank"
+              rel="noreferrer"
+              className="mt-3 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+            >
+              Sperm epigenetic clock and pregnancy outcomes
+              <Icon name="external" size={14} />
+            </a>
+          </div>
+        </Sheet>
+      ) : null}
+    </>
   );
 }
 
