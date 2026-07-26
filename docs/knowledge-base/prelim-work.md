@@ -121,3 +121,13 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - Two authenticated compilation attempts failed closed with `503 DATA_ENGINE_NOT_CONFIGURED` because the local Edge runtime has no `OPENAI_API_KEY`. The current-artifact request correctly returned `404 SEMEN_PROFILE_NOT_FOUND`; no fabricated or partial artifact was persisted. Request IDs matched response envelopes in every run.
 - The local evidence table contains six approved passages and zero embeddings. A complete live retrieval/synthesis result is therefore not claimed. Provider configuration and approved-evidence ingestion are the two remaining prerequisites.
 - Verification after adding the fixture: 17 Edge tests pass, including the exact synthetic normalization and derived-count assertions.
+
+## Finished frontend integration
+
+- Merged Oran's finished frontend series from `main` (PRs 11–15) into the data-engine branch. Preserved its deterministic Ask PreSeed evidence-card router; the RAG response provider is not used as a chatbot or prose surface.
+- Resolved the accepted-ADR number collision by retaining Oran's behavior-score surface as ADR 0006 and renumbering the structured RAG data-engine decision to ADR 0007 without changing its decision.
+- Connected clinical-result save to the Edge API: create the report, persist canonical marker units, and compile a new immutable semen-profile artifact after semen reports. If the engine is unavailable, the prototype still keeps its local result and states that processing is unavailable.
+- Added authenticated-or-public-demo browser access to current and compile profile operations. Access tokens are read from the existing Supabase session when present and are never logged.
+- Clinical Profile now renders the structured profile summary and per-parameter emphasis/improvement opportunities. Protocol renders schema-constrained suggestions with evidence-backed versus general-guidance status. Both consume persisted artifacts; neither depends on chat history.
+- Unified the frontend's white-blood-cell marker with the canonical `seminal_leukocytes_million_ml` API/database code and retained its consumer-facing label.
+- Verification after integration: strict TypeScript and documentation checks pass; 23 Edge/readiness tests pass.

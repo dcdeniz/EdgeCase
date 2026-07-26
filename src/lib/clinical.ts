@@ -374,11 +374,13 @@ export const plainLabel: Record<MarkerCode, string> = {
   volume_ml: "Amount of semen",
   concentration_million_ml: "Sperm per millilitre",
   total_count_million: "Total number of sperm",
+  total_motile_count_million: "Total number of moving sperm",
+  progressive_motile_count_million: "Total number swimming forward",
   progressive_motility_pct: "Sperm swimming forward",
   total_motility_pct: "Sperm moving at all",
   normal_morphology_pct: "Normally shaped sperm",
   dna_fragmentation_pct: "Sperm with damaged DNA",
-  leukocytes_million_ml: "White blood cells",
+  seminal_leukocytes_million_ml: "White blood cells",
   fsh_iu_l: "The signal to make sperm",
   lh_iu_l: "The signal to make testosterone",
   total_testosterone_nmol_l: "Testosterone",
@@ -394,13 +396,15 @@ export const plainMeaning: Record<MarkerCode, string> = {
   volume_ml: "The amount of fluid. Low volume can also mean some of the sample was lost.",
   concentration_million_ml: "How many sperm are packed into each millilitre.",
   total_count_million: "Concentration multiplied by volume — the fullest picture of output.",
+  total_motile_count_million: "The estimated number of moving sperm in the full sample.",
+  progressive_motile_count_million: "The estimated number swimming forward in the full sample.",
   progressive_motility_pct:
     "Sperm have to swim forward to reach an egg. This is the share that do.",
   total_motility_pct: "The share moving at all, including those not going anywhere useful.",
   normal_morphology_pct:
     "The share with a normal head and tail. Low percentages here are normal — the bar is strict.",
   dna_fragmentation_pct: "Damage to the genetic material the sperm carries.",
-  leukocytes_million_ml:
+  seminal_leukocytes_million_ml:
     "A raised count can indicate inflammation. This is a question for a clinician rather than for a lifestyle protocol.",
   fsh_iu_l: "The hormone that tells the testes to make sperm.",
   lh_iu_l: "The hormone that tells the testes to make testosterone.",

@@ -854,7 +854,7 @@ export const demoBaseline: ClinicalTest = {
     { code: "total_motility_pct", value: 39, unit: "%", verification: "lab_report" },
     { code: "normal_morphology_pct", value: 3, unit: "%", verification: "lab_report" },
     { code: "dna_fragmentation_pct", value: 34, unit: "%", verification: "lab_report" },
-    { code: "leukocytes_million_ml", value: 0.4, unit: "×10⁶/mL", verification: "lab_report" },
+    { code: "seminal_leukocytes_million_ml", value: 0.4, unit: "×10⁶/mL", verification: "lab_report" },
   ],
 };
 
@@ -876,7 +876,7 @@ export const demoRetest: ClinicalTest = {
     { code: "total_motility_pct", value: 46, unit: "%", verification: "lab_report" },
     { code: "normal_morphology_pct", value: 4, unit: "%", verification: "lab_report" },
     { code: "dna_fragmentation_pct", value: 26, unit: "%", verification: "lab_report" },
-    { code: "leukocytes_million_ml", value: 0.3, unit: "×10⁶/mL", verification: "lab_report" },
+    { code: "seminal_leukocytes_million_ml", value: 0.3, unit: "×10⁶/mL", verification: "lab_report" },
   ],
 };
 

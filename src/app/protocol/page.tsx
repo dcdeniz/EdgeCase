@@ -26,6 +26,7 @@ import { SupplementCandidateCard, outOfReference } from "@/components/profile-bo
 import { ProtocolGroup, ProtocolHeadline, categoryDomain } from "@/components/protocol-list";
 import { domainHeadroom } from "@/lib/what-if";
 import { SUPPLEMENT_DISCLAIMER, supplementCandidates } from "@/lib/supplements";
+import { DataEngineProfile } from "@/components/data-engine-profile";
 
 const categories = Object.keys(categoryLabel) as ProtocolCategory[];
 
@@ -98,6 +99,8 @@ export default function ProtocolPage() {
       <div className="mt-6">
         <ConsistencyCard />
       </div>
+
+      <DataEngineProfile view="protocol" />
 
       <section className="mt-6" aria-labelledby="timeline">
         <SectionHeader id="timeline" eyebrow="Full plan" title="Week by week" />

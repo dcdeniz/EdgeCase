@@ -31,6 +31,7 @@ import {
 import { demoBaseline, demoHormonePanel, demoRetest } from "@/lib/fixtures";
 import { TODAY, formatDate } from "@/lib/format";
 import { usePrototype } from "@/lib/store";
+import { compileSemenProfile, persistClinicalTest } from "@/lib/data-engine-client";
 
 type Mode = "manual" | "upload" | "simulated";
 type Step = 1 | 2 | 3;
@@ -54,6 +55,7 @@ export default function NewTestPage() {
   const [abstinence, setAbstinence] = useState(baselineSemen?.abstinenceHours?.toString() ?? "");
   const [complete, setComplete] = useState<"yes" | "no" | "unsure">("yes");
   const [fever, setFever] = useState<"no" | "yes">("no");
+  const [saving, setSaving] = useState(false);
 
   const codes = panel === "semen_analysis" ? entryCodes : hormoneMarkerOrder.slice(0, 5);
 
@@ -96,10 +98,18 @@ export default function NewTestPage() {
       ? mode === "simulated" || enteredMarkers.length > 0
       : true;
 
-  const save = () => {
+  const save = async () => {
     const test = buildTest();
     addTest(test);
-    announce("Result saved to your clinical profile");
+    setSaving(true);
+    try {
+      await persistClinicalTest(test);
+      if (test.testType === "semen_analysis") await compileSemenProfile();
+      announce("Result saved and structured profile updated");
+    } catch {
+      announce("Result saved on this device; the data engine is currently unavailable");
+    }
+    setSaving(false);
     router.push(semenTests.length > 0 && test.testType === "semen_analysis" ? "/trends" : "/results");
   };
 
@@ -141,8 +151,8 @@ export default function NewTestPage() {
               Continue
             </Button>
           ) : (
-            <Button full size="lg" glyph="check" onClick={save}>
-              Save result
+            <Button full size="lg" glyph="check" onClick={save} disabled={saving}>
+              {saving ? "Building profile…" : "Save result"}
             </Button>
           )}
         </div>

@@ -15,6 +15,7 @@ import {
 import { comparabilityIssues, hormoneMarkerOrder, semenMarkerOrder } from "@/lib/clinical";
 import { formatDate } from "@/lib/format";
 import { usePrototype } from "@/lib/store";
+import { DataEngineProfile } from "@/components/data-engine-profile";
 
 export default function ProfilePage() {
   const { latestSemen, semenTests, hormonePanel } = usePrototype();
@@ -147,6 +148,8 @@ export default function ProfilePage() {
           <MissingMarkerCard code="fsh_iu_l" />
         </section>
       )}
+
+      {latestSemen ? <DataEngineProfile view="profile" /> : null}
 
       <Card className="mt-6">
         <Disclosure label="How to read a reference interval" glyph="info">
