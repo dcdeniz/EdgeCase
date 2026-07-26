@@ -184,11 +184,15 @@ Twenty videos with 29,196 annotated frames, sperm bounding boxes, semen endpoint
 
 ### Longitudinal Investigation of Fertility and the Environment
 
-The LIFE Study is a prospective preconception cohort connecting semen and sperm biomarkers, environmental exposures, lifestyle variables, time to pregnancy, and couple-level reproductive outcomes. Treat participant-level access as controlled until the correct repository accession and data-use agreement are confirmed.
+The LIFE Study is a prospective preconception cohort connecting semen and sperm
+biomarkers, environmental exposures, lifestyle variables, time to pregnancy, and
+couple-level reproductive outcomes. NICHD reports that it recruited 501 couples from
+2005 to 2009, with baseline biospecimens, daily lifestyle journals, and two semen
+samples from male partners.
 
-- Authoritative study description: <https://www.nichd.nih.gov/about/org/diphr/od/research/longitudinal>
-- Best use: exposure and fecundity modelling
-- Access note: the previously cited dbGaP accession `phs001692.v1.p1` currently describes an inconsistent eight-subject semen/microRNA repository and must not be treated as the 501-couple LIFE cohort.
+- Official cohort description: <https://www.nichd.nih.gov/about/org/diphr/od/research/longitudinal>
+- Best use: future controlled-data exposure and fecundity investigation
+- Access caveat: treat participant-level access as controlled until a repository accession and data-use agreement are verified. The previously linked dbGaP accession `phs001692.v1.p1` describes an unrelated eight-subject UCSF small-RNA study, despite using the LIFE acronym.
 
 ### N-SEED
 
@@ -198,7 +202,48 @@ The Nippon Semen and Environmental Exposure Database protocol integrates sperm m
 
 ### UCI Fertility data
 
-The commonly reused UCI-style fertility dataset has roughly 100 observations and coarse lifestyle variables. It is appropriate for tutorials only, not a medical score, due to sample size, imbalance, weak external validity, and overfitting risk.
+The UCI Fertility dataset contains 100 volunteers, nine questionnaire-style inputs,
+and a binary normal/altered semen-quality label based on WHO 2010 analysis. The
+features are season, normalized age, childhood disease, trauma, surgery, recent
+fever, alcohol, smoking, and sitting time. The label split is 88 normal to 12 altered.
+
+- Official dataset and documentation: <https://archive.ics.uci.edu/dataset/244/fertility>
+- DOI: <https://doi.org/10.24432/C5Z01Z>
+- Licence: CC BY 4.0
+
+This is appropriate for a tutorial or visibly experimental hackathon classifier,
+not the readiness score or a medical probability. With only 12 altered examples,
+ordinary accuracy is misleading: predicting every participant as normal already
+achieves 88% accuracy. Any experiment must report sensitivity, specificity, balanced
+accuracy, AUROC, Brier score, and calibration under stratified held-out validation.
+
+The implemented second pass improved the exploratory operating point by using each
+outer training fold's altered-case prevalence as the threshold for calibrated
+probabilities. It reached 0.665 balanced accuracy with 0.750 sensitivity and 0.580
+specificity, versus 0.606, 0.417, and 0.795 respectively for the initial
+inner-optimized threshold. Because this rule was introduced after examining the
+initial evaluation and ranged from 0.583 to 0.665 balanced accuracy across four
+complete random-seed runs, it remains exploratory rather than confirmatory.
+
+### Open-dataset compatibility audit
+
+Two newer open semen datasets were reviewed as possible additions to UCI:
+
+- [Spermiogram data n=308](https://zenodo.org/records/18762681) is CC BY 4.0
+  and contains semen outcomes plus smoking, light alcohol, medication, illness,
+  psychological, sexual-function, and social variables. It is not directly poolable
+  with UCI because its predictors and endpoints differ. It also contains masked names,
+  exact birth dates, and sensitive health fields, so any future separate-cohort study
+  needs explicit privacy, ethics, provenance, and schema review.
+- [Advanced methods of evaluation of male ejaculate](https://zenodo.org/records/19337404)
+  is CC0 and contains native and post-processing semen measurements for 107 patients.
+  It lacks compatible pre-test lifestyle predictors. Using its semen measurements to
+  predict its semen classification would be target leakage.
+
+VISEM likewise cannot be row-pooled with UCI: it has different features, continuous
+semen endpoints, hormones, and a non-commercial licence. No reviewed open dataset
+passed the licence, predictor, target, provenance, and privacy checks required for
+direct augmentation of the UCI normal/altered experiment.
 
 ### Auxiliary sources
 

@@ -34,6 +34,8 @@ import {
   type ProtocolItem,
 } from "@/lib/fixtures";
 import { TODAY, addDays, daysBetween } from "@/lib/format";
+import type { FoodEntry } from "@/lib/nutrition";
+import { defaultGoals, type Goal } from "@/lib/goals";
 import {
   computeReadiness,
   type OnboardingAnswers,
@@ -108,6 +110,13 @@ export type PrototypeState = {
   settings: Settings;
   preservation: { treatmentStart: string | null; checklist: Record<string, boolean> };
   offline: boolean;
+  /**
+   * Meals the user confirmed, which override the synthetic log for their date.
+   * These feed the diet domain, so a logged meal moves Seed Score.
+   */
+  foodEntries: FoodEntry[];
+  /** User-set behavioural targets. Empty means none chosen yet. */
+  goals: Goal[];
 };
 
 const initialState: PrototypeState = {
@@ -122,9 +131,17 @@ const initialState: PrototypeState = {
   adherence: {},
   checkIns: [],
   adaptation: null,
-  settings: { theme: "system", textScale: "default", motion: "system", contrast: "system" },
+  /*
+   * Light is the default rather than system, because the warm-cream surface is
+   * the intended presentation. The display settings screen changes it in both
+   * directions and the choice persists, so this is a starting point, not a
+   * removal of the preference.
+   */
+  settings: { theme: "light", textScale: "default", motion: "system", contrast: "system" },
   preservation: { treatmentStart: null, checklist: {} },
   offline: false,
+  foodEntries: [],
+  goals: defaultGoals,
 };
 
 const STORAGE_KEY = "preseed.prototype.v1";
@@ -338,6 +355,10 @@ type Store = {
   setAnswers: (patch: OnboardingAnswers) => void;
   setSettings: (patch: Partial<Settings>) => void;
   addTest: (test: ClinicalTest) => void;
+  addFoodEntry: (entry: FoodEntry) => void;
+  setGoal: (goal: Goal) => void;
+  clearGoal: (id: Goal["id"]) => void;
+  removeFoodEntry: (id: string) => void;
   logAdherence: (itemId: string, date: string, status: AdherenceStatus) => void;
   addCheckIn: (checkIn: Omit<CheckIn, "id" | "createdOn">) => void;
   acceptAdaptation: () => void;
@@ -427,6 +448,31 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const addFoodEntry = useCallback((entry: FoodEntry) => {
+    setState((previous) => ({ ...previous, foodEntries: [...previous.foodEntries, entry] }));
+  }, []);
+
+  const setGoal = useCallback((goal: Goal) => {
+    setState((previous) => ({
+      ...previous,
+      goals: [...previous.goals.filter((existing) => existing.id !== goal.id), goal],
+    }));
+  }, []);
+
+  const clearGoal = useCallback((id: Goal["id"]) => {
+    setState((previous) => ({
+      ...previous,
+      goals: previous.goals.filter((existing) => existing.id !== id),
+    }));
+  }, []);
+
+  const removeFoodEntry = useCallback((id: string) => {
+    setState((previous) => ({
+      ...previous,
+      foodEntries: previous.foodEntries.filter((entry) => entry.id !== id),
+    }));
+  }, []);
+
   const logAdherence = useCallback((itemId: string, date: string, status: AdherenceStatus) => {
     setState((previous) => ({
       ...previous,
@@ -471,9 +517,30 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
             previous.protocol ?? buildProtocol("2026-04-20", previous.answers.protocolDays ?? 100);
           return {
             ...previous,
-            tests: [demoBaseline],
+            // Hormone panel ships with the baseline: FSH, LH and testosterone
+            // are the endocrine context the semen result is read against.
+            tests: [demoBaseline, demoHormonePanel],
             protocol,
             adherence: seedAdherence(protocol),
+            /*
+             * Demo answers, so parameter contributors have something of the
+             * user's own to attribute to. Chosen to exercise the exposures the
+             * evidence library actually covers, including one — plastics —
+             * whose card is not cleared for recommendations.
+             */
+            answers: {
+              ...previous.answers,
+              smoking: "under10",
+              alcoholUnits: "8to14",
+              sleepHours: "6to7",
+              sleepPattern: "variable",
+              dietPattern: "western",
+              produceServings: "under2",
+              activitySessions: "1to2",
+              sedentaryHours: "over8",
+              heatExposure: ["prolonged_sitting", "sauna_hot_tub"],
+              exposures: ["air_quality", "pesticides", "plastics"],
+            },
           };
         }
         case "retest":
@@ -541,6 +608,10 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
       setAnswers,
       setSettings,
       addTest,
+      addFoodEntry,
+      removeFoodEntry,
+      setGoal,
+      clearGoal,
       logAdherence,
       addCheckIn,
       acceptAdaptation,
@@ -563,6 +634,10 @@ export function PrototypeProvider({ children }: { children: React.ReactNode }) {
     setAnswers,
     setSettings,
     addTest,
+    addFoodEntry,
+    removeFoodEntry,
+    setGoal,
+    clearGoal,
     logAdherence,
     addCheckIn,
     acceptAdaptation,

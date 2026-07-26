@@ -19,14 +19,18 @@ import {
   SectionHeader,
   StatusChip,
 } from "@/components/ui";
-import { categoryLabel, protocolTemplate, type ProtocolCategory } from "@/lib/fixtures";
+import { categoryLabel, type ProtocolCategory } from "@/lib/fixtures";
 import { formatDate } from "@/lib/format";
 import { itemsForWeek, protocolWeek, usePrototype } from "@/lib/store";
+import { SupplementCandidateCard, outOfReference } from "@/components/profile-board";
+import { ProtocolGroup, ProtocolHeadline, categoryDomain } from "@/components/protocol-list";
+import { domainHeadroom } from "@/lib/what-if";
+import { SUPPLEMENT_DISCLAIMER, supplementCandidates } from "@/lib/supplements";
 
 const categories = Object.keys(categoryLabel) as ProtocolCategory[];
 
 export default function ProtocolPage() {
-  const { state, seedDemo } = usePrototype();
+  const { state, latestSemen, seedDemo } = usePrototype();
   const protocol = state.protocol;
 
   if (!protocol) {
@@ -54,6 +58,14 @@ export default function ProtocolPage() {
 
   const week = protocolWeek(protocol);
   const currentItems = itemsForWeek(protocol, week);
+  const outOfRange = (latestSemen?.markers ?? []).filter(outOfReference).length;
+
+  const headroomByCategory = Object.fromEntries(
+    categories.map((category) => {
+      const domain = categoryDomain[category];
+      return [category, domain ? domainHeadroom(state, domain).available : undefined];
+    }),
+  ) as Record<ProtocolCategory, number | undefined>;
 
   return (
     <Screen title="Protocol" eyebrow={`Version ${protocol.version}`}>
@@ -109,20 +121,20 @@ export default function ProtocolPage() {
         </Card>
       </section>
 
-      <Card className="mt-4">
-        <p className="t-micro text-ink-3">Categories in your plan</p>
-        <ul className="mt-2 space-y-2">
-          {categories.map((category) => {
-            const count = protocolTemplate.filter((item) => item.category === category).length;
-            return (
-              <li key={category} className="flex items-baseline justify-between gap-3">
-                <span className="t-body-sm text-ink-2">{categoryLabel[category]}</span>
-                <span className="t-mono text-ink-1">{count}</span>
-              </li>
-            );
-          })}
-        </ul>
-      </Card>
+      <section className="mt-8" aria-labelledby="plan">
+        <h2 id="plan" className="visually-hidden">
+          The plan
+        </h2>
+        <ProtocolHeadline days={protocol.days} outOfRange={outOfRange} />
+        {categories.map((category) => (
+          <ProtocolGroup
+            key={category}
+            category={category}
+            items={protocol.items.filter((item) => item.category === category)}
+            headroom={headroomByCategory[category]}
+          />
+        ))}
+      </section>
 
       <Card className="mt-4">
         <Disclosure label="How changes to this plan work" glyph="info">
@@ -142,6 +154,25 @@ export default function ProtocolPage() {
           </p>
         </Disclosure>
       </Card>
+
+      <section className="mt-6" aria-labelledby="supplements">
+        <SectionHeader
+          id="supplements"
+          eyebrow="Under research"
+          title="Supplements"
+          level={2}
+        />
+        <p className="mb-3 t-caption text-ink-3">{SUPPLEMENT_DISCLAIMER}</p>
+        <div className="space-y-3">
+          {supplementCandidates.map((candidate) => (
+            <SupplementCandidateCard
+              key={candidate.id}
+              candidate={candidate}
+              test={latestSemen}
+            />
+          ))}
+        </div>
+      </section>
 
       <DisclaimerFooter />
     </Screen>

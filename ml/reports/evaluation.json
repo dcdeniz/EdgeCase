@@ -1,0 +1,4757 @@
+{
+  "schemaVersion": 1,
+  "target": "progressiveMotilityPercent",
+  "researchOnly": true,
+  "featureSets": {
+    "core": {
+      "featureSet": "core",
+      "participantCount": 85,
+      "validation": {
+        "outer": {
+          "type": "RepeatedKFold",
+          "splits": 5,
+          "repeats": 5,
+          "participantLevel": true
+        },
+        "inner": {
+          "type": "KFold",
+          "splits": 5,
+          "shuffle": true
+        },
+        "preprocessingInsideEachFold": true,
+        "seed": 20260725
+      },
+      "benchmarkWinner": "ridge",
+      "selectedForExport": "ridge",
+      "selectionRule": "Prefer Ridge when its original-scale MAE is within 10% of the best benchmark.",
+      "models": {
+        "mean_baseline": {
+          "metrics": {
+            "mae": 17.2986851211,
+            "rmse": 20.2740334698,
+            "spearman": -0.431741336052,
+            "r2": -0.0215585849829
+          },
+          "bootstrap95": {
+            "mae": [
+              15.1287698962,
+              19.6605
+            ],
+            "rmse": [
+              18.1126195753,
+              22.4807568455
+            ],
+            "spearman": [
+              -0.60385093977,
+              -0.237676682388
+            ],
+            "r2": [
+              -0.0877242275722,
+              -0.0144957951675
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 17.2612456747,
+              "q1": 16.089100346,
+              "q3": 18.3615916955,
+              "values": [
+                18.2378892734,
+                15.5839100346,
+                16.6150519031,
+                20.9117647059,
+                15.0821799308,
+                15.2863321799,
+                19.455017301,
+                14.8788927336,
+                19.1029411765,
+                17.5709342561,
+                18.4394463668,
+                15.6522491349,
+                18.2785467128,
+                17.2612456747,
+                18.1020761246,
+                16.2465397924,
+                18.9351211073,
+                17.6271626298,
+                16.5155709343,
+                16.7396193772,
+                20.4982698962,
+                16.089100346,
+                16.4022491349,
+                15.0242214533,
+                18.3615916955
+              ]
+            },
+            "rmse": {
+              "median": 19.9721746316,
+              "q1": 19.1931146193,
+              "q3": 21.2850362501,
+              "values": [
+                21.3977865249,
+                18.809559384,
+                20.2859371833,
+                22.9196165659,
+                17.4028258553,
+                17.9988045066,
+                22.1732912372,
+                17.9020789035,
+                22.8222833574,
+                19.9344948029,
+                21.0809118468,
+                18.7201434724,
+                21.2850362501,
+                20.109238869,
+                21.0007620557,
+                19.5775949285,
+                21.8048963185,
+                19.9721746316,
+                19.7315022218,
+                19.818865091,
+                23.7866817437,
+                19.1931146193,
+                19.3847907509,
+                18.0847677212,
+                20.4932472632
+              ]
+            },
+            "spearman": {
+              "median": 0.0,
+              "q1": 0.0,
+              "q3": 0.0,
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "r2": {
+              "median": -0.0312327895757,
+              "q1": -0.0999700803727,
+              "q3": -0.0123169107856,
+              "values": [
+                -0.0263170906694,
+                -0.177837374726,
+                -0.00280837886607,
+                -0.0697623208422,
+                -0.0315630598246,
+                -0.0312327895757,
+                -0.0175471576505,
+                -0.0432999909886,
+                -0.000302777076328,
+                -0.277748108589,
+                -0.00131759496039,
+                -0.70335783242,
+                -0.0591338920257,
+                -0.00326434077915,
+                -0.140994825796,
+                -0.015219438538,
+                -0.0999700803727,
+                -0.0135448354991,
+                -0.0123169107856,
+                -0.0496122283865,
+                -0.13181610532,
+                -0.0128490391019,
+                -0.010285067726,
+                -0.00514696499213,
+                -0.133345628058
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 42.2852941176
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 43.2176470588
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 42.6117647059
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 43.9529411765
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 42.6117647059
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 43.3147058824
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 43.5970588235
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 42.1441176471
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 43.0588235294
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 43.6176470588
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 42.3558823529
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 42.7352941176
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 43.1970588235
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 42.3735294118
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 42.1647058824
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 42.5941176471
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.0676470588
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 41.3764705882
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 42.2205882353
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 41.5470588235
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 42.9294117647
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 43.4264705882
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 43.4617647059
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 42.4294117647
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 42.5029411765
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 42.3470588235
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 42.9117647059
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 42.3323529412
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 42.9588235294
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 42.5558823529
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 41.8176470588
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 42.3176470588
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 43.0411764706
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 43.3029411765
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 43.0441176471
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 43.0647058824
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 42.5823529412
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 43.1911764706
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 42.6147058824
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 43.0352941176
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 43.2088235294
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 42.85
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 43.1147058824
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 41.7235294118
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 42.5235294118
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 42.95
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 42.6617647059
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 43.3117647059
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 42.9176470588
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 42.3088235294
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 42.1058823529
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 43.4676470588
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 42.1147058824
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 42.8441176471
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 42.7735294118
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 42.5
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 43.1882352941
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 42.0294117647
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 42.5941176471
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 43.3352941176
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 42.1529411765
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 43.0911764706
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 42.3617647059
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 42.7323529412
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.4294117647
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 42.8676470588
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 41.8205882353
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 42.5
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 43.2823529412
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 42.3558823529
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 42.1
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.9352941176
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 42.8588235294
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.8382352941
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 42.4411764706
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 42.9382352941
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 42.4441176471
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 42.7117647059
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 41.8882352941
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 41.9529411765
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 42.4323529412
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 43.3882352941
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 42.5676470588
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 42.7
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 42.7735294118
+            }
+          ]
+        },
+        "ridge": {
+          "metrics": {
+            "mae": 17.0665061516,
+            "rmse": 20.1410694371,
+            "spearman": 0.149210702246,
+            "r2": -0.00820306420712
+          },
+          "bootstrap95": {
+            "mae": [
+              14.8233741302,
+              19.4247976029
+            ],
+            "rmse": [
+              17.9791612925,
+              22.2574329044
+            ],
+            "spearman": [
+              -0.0639543565363,
+              0.352510181692
+            ],
+            "r2": [
+              -0.146292659762,
+              0.0586679966272
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 16.7625164914,
+              "q1": 16.1977297774,
+              "q3": 18.3638047937,
+              "values": [
+                18.3638047937,
+                14.1088637184,
+                16.2526792703,
+                20.9990826262,
+                14.4187640648,
+                16.1977297774,
+                18.6728903626,
+                13.8454258663,
+                20.8590444192,
+                16.4914584103,
+                17.4906102188,
+                18.3953624657,
+                16.2394620577,
+                16.7625164914,
+                18.0190748496,
+                16.7434775955,
+                16.346915241,
+                17.0778553119,
+                17.2447794086,
+                17.2203266736,
+                21.4286932042,
+                15.1009017613,
+                15.2066510776,
+                15.1632538688,
+                19.0390857426
+              ]
+            },
+            "rmse": {
+              "median": 20.1439323097,
+              "q1": 19.0505655104,
+              "q3": 20.7722942275,
+              "values": [
+                21.3458524318,
+                17.1158371019,
+                20.5274406485,
+                22.9614832422,
+                17.1918162731,
+                18.2575613687,
+                21.4135542993,
+                18.0410585735,
+                23.7579202802,
+                19.3904386001,
+                20.2516675228,
+                20.7722942275,
+                20.2485463139,
+                19.8038014389,
+                20.6620483065,
+                20.3940836568,
+                19.7806912071,
+                19.7997028282,
+                19.8162904569,
+                20.1439323097,
+                24.5638655284,
+                17.9735248214,
+                19.0339979553,
+                19.0505655104,
+                21.0600628977
+              ]
+            },
+            "spearman": {
+              "median": 0.228221030691,
+              "q1": 0.0600858482035,
+              "q3": 0.399509803922,
+              "values": [
+                0.226854733013,
+                0.368551480999,
+                0.19263818182,
+                0.489570920675,
+                -0.0380368384485,
+                0.164215686275,
+                0.399509803922,
+                0.347239525191,
+                -0.143558390273,
+                -0.0515337811237,
+                0.456442061381,
+                0.427256709802,
+                0.228221030691,
+                0.372777507222,
+                0.0600858482035,
+                -0.0392397376023,
+                0.417434716474,
+                0.16554264301,
+                -0.0416666666667,
+                0.433823529412,
+                -0.142156862745,
+                0.381829990657,
+                0.463519400427,
+                0.121472484077,
+                0.389944892423
+              ]
+            },
+            "r2": {
+              "median": -0.0268273117,
+              "q1": -0.101665224637,
+              "q3": 0.0259489116509,
+              "values": [
+                -0.0213412335046,
+                0.024731099721,
+                -0.0268273117,
+                -0.0736741052021,
+                -0.00669927418274,
+                -0.061096622031,
+                0.0509879192326,
+                -0.0595618252287,
+                -0.0840021150371,
+                -0.208954745568,
+                0.0759092120629,
+                -1.09728029802,
+                0.0415051654078,
+                0.0269811877547,
+                -0.104486244705,
+                -0.101665224637,
+                0.0947766519019,
+                0.00388472566254,
+                -0.0210356569602,
+                -0.0843258860004,
+                -0.206984153011,
+                0.111780469868,
+                0.0259489116509,
+                -0.115371234107,
+                -0.19690626783
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 38.0776880231
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 34.6964718627
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 28.8774297918
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 36.1320438282
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 33.4730916217
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 20.327283861
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 35.5079603164
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 37.7705601417
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 30.4111745255
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 32.6086742663
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 39.0171376347
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 41.6526244617
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 40.3795510182
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 36.7893201228
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 38.2475757808
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 40.9587097041
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 39.0713414902
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 38.233646242
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 36.231736717
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 38.8334827556
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 39.0696007256
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 43.4971334698
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 43.2575333326
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 35.973720088
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 37.476049792
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 39.8759038014
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 40.6562710266
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 35.5247443502
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 40.4051670972
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 39.8299793874
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 36.1495899056
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 37.351001938
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 39.3101185037
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 39.4168924465
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 41.1447663204
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 35.6538084774
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 39.6914518853
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 39.7102537011
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 39.1576119029
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 42.6110455686
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 37.6122443214
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 38.8673235259
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 41.0277969381
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 38.6171841093
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 34.7595551641
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 35.8322051395
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 34.7622503187
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 40.2687768994
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 42.4528154965
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 36.3030809627
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 40.4220361671
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 42.0447688941
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 36.6077879596
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 41.4811653125
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 38.8547603349
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 38.0963494689
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 44.9794745239
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 42.7128829511
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 46.3555271585
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 46.4589296585
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 41.5054467158
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 37.8831838428
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 40.9234616101
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 43.9605714848
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 41.7776913342
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 44.0818998191
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 41.2685296361
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 43.4205574386
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.5971182008
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 43.1021076133
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 42.035435331
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 43.738378399
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 38.9533621921
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 43.2112312004
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 44.3528749923
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 43.1240546345
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 44.0889825712
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 37.8734480096
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 41.4969944556
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 40.0585320472
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 40.7136236564
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 48.027673002
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 43.7013141532
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 42.8420727943
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 34.9712802971
+            }
+          ],
+          "modalParameters": {
+            "model__alpha": 100.0
+          }
+        },
+        "elastic_net": {
+          "metrics": {
+            "mae": 17.1535308721,
+            "rmse": 20.2826815103,
+            "spearman": 0.0865255903233,
+            "r2": -0.022430277749
+          },
+          "bootstrap95": {
+            "mae": [
+              14.8200074105,
+              19.3804980052
+            ],
+            "rmse": [
+              18.0500013328,
+              22.2202510054
+            ],
+            "spearman": [
+              -0.12640156793,
+              0.281550508478
+            ],
+            "r2": [
+              -0.145574154286,
+              0.0304106702792
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 16.960307282,
+              "q1": 16.15041969,
+              "q3": 18.4225606694,
+              "values": [
+                19.0104696756,
+                14.0170666279,
+                16.3161101943,
+                20.9510493487,
+                14.4126541503,
+                16.15041969,
+                19.0055177539,
+                14.8813151297,
+                20.3850799143,
+                16.2124522218,
+                18.072300906,
+                18.4225606694,
+                16.4269754448,
+                16.874822096,
+                17.5093933787,
+                16.4906814889,
+                18.2524495421,
+                16.960307282,
+                17.1484895038,
+                17.2254297891,
+                21.3760581084,
+                15.2901630378,
+                15.3243723735,
+                14.7163509004,
+                19.7758154295
+              ]
+            },
+            "rmse": {
+              "median": 20.2984200062,
+              "q1": 19.0918113807,
+              "q3": 21.1752881661,
+              "values": [
+                22.2038494049,
+                16.9878739052,
+                20.547264539,
+                23.1479747074,
+                16.9328399051,
+                18.3611501783,
+                21.7262148885,
+                19.0918113807,
+                23.2806430636,
+                18.6264019513,
+                21.1463448623,
+                20.9049618343,
+                20.5769177058,
+                20.0058314827,
+                20.3746224182,
+                20.2450292479,
+                21.1752881661,
+                19.685436807,
+                19.8740607843,
+                20.2984200062,
+                24.3633553066,
+                18.3072696087,
+                19.3014424044,
+                18.6408462548,
+                21.9101554162
+              ]
+            },
+            "spearman": {
+              "median": 0.114110515345,
+              "q1": 0.0,
+              "q3": 0.396807094542,
+              "values": [
+                0.0,
+                0.396807094542,
+                0.19263818182,
+                0.442945118706,
+                -0.0233129009845,
+                0.21568627451,
+                0.453431372549,
+                0.0,
+                -0.107975541402,
+                0.0,
+                0.0,
+                0.441989699796,
+                0.114110515345,
+                0.320049109819,
+                0.0122624180007,
+                0.00367872540022,
+                0.0,
+                0.132434114408,
+                -0.046568627451,
+                0.406862745098,
+                -0.154411764706,
+                0.428484458969,
+                0.464745642227,
+                0.126380463232,
+                0.0
+              ]
+            },
+            "r2": {
+              "median": -0.0408861570215,
+              "q1": -0.101021470381,
+              "q3": 0.00702726706938,
+              "values": [
+                -0.10509701626,
+                0.0392593999855,
+                -0.0288115377402,
+                -0.0911855338668,
+                0.0234019842989,
+                -0.0731715707634,
+                0.023072433957,
+                -0.18657867733,
+                -0.0408861570215,
+                -0.115559452034,
+                -0.00754321866606,
+                -1.12415548902,
+                0.0101651994274,
+                0.00702726706938,
+                -0.0739713716089,
+                -0.0856205729485,
+                -0.037364731721,
+                0.015348906793,
+                -0.0269975744499,
+                -0.101021470381,
+                -0.18735980619,
+                0.0784880712407,
+                -0.00161594536267,
+                -0.0679107159887,
+                -0.295483034161
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 38.5333473769
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 35.5409633753
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 33.4666473028
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 36.9155238654
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 34.3613369617
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 33.8338543589
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 36.9831589496
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 38.113634053
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 35.1433100895
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 36.7594927983
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 38.9328222701
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 41.0470972918
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 39.8031434506
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 37.2543648597
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 38.4417298049
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 40.7613655751
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 38.7914001081
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 38.5188235834
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 37.1090350834
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 38.1869912938
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 39.6830682524
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 43.0580831446
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 41.6663594844
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 37.520428618
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 38.401769354
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 39.4896928011
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 40.3648132583
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 37.116233185
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 39.7656647185
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 39.6107707253
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 37.3138136749
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 37.8655896983
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 39.3103392689
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 40.0847090503
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 41.4788427146
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 36.5063848424
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 39.2770819296
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 39.3922779493
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 38.8042694912
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 42.031875585
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 38.624874537
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 38.7767449774
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 40.5618801622
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 38.2922818932
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 36.5348580353
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 37.4790985144
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 36.1218555661
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 39.9440914567
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 39.6748279988
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 37.4578481471
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 39.4020481177
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 40.8053680034
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 37.0156085692
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 41.0488986163
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 39.1124225413
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 38.4074335312
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 44.2984365384
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 41.7085335107
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 45.7836849605
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 43.4406407249
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 40.1803217456
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 38.209505108
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 40.2901578529
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 42.2301893821
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 39.7810573861
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 43.5055191324
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 40.5270788881
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 42.0678804928
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.8986060097
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 40.922612827
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 41.3139291969
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.7082077885
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 39.9860771435
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 41.8830862186
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 41.332298894
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 42.5198657691
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 41.9220499883
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 39.2751040931
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 40.0645566419
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 40.0814677244
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 39.6389570082
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 45.8911353485
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 42.0743760754
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 41.3302418937
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 35.0892790013
+            }
+          ],
+          "modalParameters": {
+            "model__alpha": 1.0,
+            "model__l1_ratio": 0.1
+          }
+        },
+        "shallow_tree": {
+          "metrics": {
+            "mae": 18.323803804,
+            "rmse": 21.4323203215,
+            "spearman": 0.0332926073928,
+            "r2": -0.141619406053
+          },
+          "bootstrap95": {
+            "mae": [
+              15.9861817939,
+              20.8117313798
+            ],
+            "rmse": [
+              19.003032053,
+              23.6998637754
+            ],
+            "spearman": [
+              -0.187315687525,
+              0.257956757778
+            ],
+            "r2": [
+              -0.352835690512,
+              0.00192383113706
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 19.8369337403,
+              "q1": 17.1921007852,
+              "q3": 21.2926809673,
+              "values": [
+                21.2926809673,
+                17.1921007852,
+                17.6537686713,
+                22.4590445049,
+                14.1664680285,
+                16.4908415562,
+                20.0074783326,
+                15.9266482425,
+                23.7553597927,
+                21.0364196017,
+                23.0262815923,
+                20.8263097963,
+                20.6143982102,
+                18.5765417967,
+                17.2810858164,
+                20.9459888147,
+                19.8369337403,
+                16.2414555267,
+                17.3259687271,
+                16.4003468019,
+                25.9844593039,
+                18.1007768902,
+                16.8711540512,
+                24.8241492427,
+                21.8205091185
+              ]
+            },
+            "rmse": {
+              "median": 22.358279398,
+              "q1": 20.2070486825,
+              "q3": 24.5515300621,
+              "values": [
+                24.1379552532,
+                20.2070486825,
+                21.663696192,
+                23.9153735306,
+                17.9062442192,
+                20.3741436792,
+                22.358279398,
+                18.4112680196,
+                27.2332654475,
+                24.0342363559,
+                25.7014452019,
+                24.5515300621,
+                24.2839761178,
+                22.1415189697,
+                19.2185602649,
+                24.804793328,
+                23.4301317981,
+                20.4546371075,
+                20.0716138855,
+                19.451418943,
+                29.9061888083,
+                20.6412751473,
+                19.298610881,
+                28.3257598441,
+                27.8618557667
+              ]
+            },
+            "spearman": {
+              "median": 0.103321736646,
+              "q1": -0.0826135995161,
+              "q3": 0.262862808589,
+              "values": [
+                -0.0087571180513,
+                0.339829817982,
+                0.141407991274,
+                0.373416772709,
+                0.422484030561,
+                0.0372167827638,
+                0.33220440832,
+                0.432267321058,
+                -0.0917915020808,
+                -0.0826135995161,
+                -0.092527231458,
+                0.183937877828,
+                0.113686418843,
+                0.262862808589,
+                0.308175982824,
+                -0.203915748909,
+                -0.161195563959,
+                0.202275866558,
+                0.103321736646,
+                0.22360679775,
+                -0.310546656536,
+                -0.0511251028142,
+                0.0,
+                -0.213094089334,
+                0.0350284722052
+              ]
+            },
+            "r2": {
+              "median": -0.270054283497,
+              "q1": -0.488360557133,
+              "q3": -0.0921071234286,
+              "values": [
+                -0.306004928406,
+                -0.359358045801,
+                -0.143649421144,
+                -0.164734496461,
+                -0.0921071234286,
+                -0.321381197527,
+                -0.0345964426426,
+                -0.103493222674,
+                -0.424336903182,
+                -0.857357203767,
+                -0.488360557133,
+                -1.92984517818,
+                -0.378610784241,
+                -0.216295032883,
+                0.0444459308951,
+                -0.629718041948,
+                -0.270054283497,
+                -0.0631041497897,
+                -0.0475162726022,
+                -0.0110529355618,
+                -0.789082169057,
+                -0.171458351015,
+                -0.00132209262122,
+                -1.46585101285,
+                -1.09488840395
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 37.8561193519
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 38.0835615978
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 23.8518217115
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 31.6355002001
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 31.7732350714
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 15.0225355583
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 44.4710274647
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 40.1435563735
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 14.1682697806
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 28.593446376
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 43.0791659864
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 41.8828398566
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 40.1264282869
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 39.7104819972
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 42.6070287939
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 38.187805441
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 41.6524732693
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 32.6766701896
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 27.2332647183
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 39.8038732261
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 44.0666292642
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 33.9618199983
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 42.8558605441
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 35.7760148683
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 39.8311919707
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.6138618693
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 36.1185369418
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 25.2044913589
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 44.2793681229
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 45.0650609564
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 30.7856452181
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 32.2000389619
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 40.5380465604
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 45.1876282911
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 32.0857710395
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 39.0030729048
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 43.1931601255
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 42.4692720809
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 34.2476629749
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 43.1432494054
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 43.8254784958
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 39.2451226186
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 40.0940311686
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 38.1025266623
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 32.9296779465
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 41.3735514044
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 38.008056872
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 41.1491223666
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 41.7930334277
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 33.0801643549
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 40.8852109551
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 43.3430074896
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 34.1876564283
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 36.1269550663
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 42.4165459792
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.0194269643
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 51.2207549729
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 44.3628706594
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 46.3486255378
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 52.6342133054
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 48.2505515206
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 50.3076277104
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 35.1512890898
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 49.6442748419
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.1282060483
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 50.174653288
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 51.352640059
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 43.7666715205
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 49.8170516227
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 47.5194564012
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 49.6648160836
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 45.9648693628
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 34.5829014263
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 50.4578722396
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 41.7159116576
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 52.5945185311
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 47.2473584588
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 12.863100835
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 52.3958264697
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 47.1426702077
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 46.847551708
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 53.6945748067
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 34.5841388097
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 51.5915919418
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 26.2280416147
+            }
+          ],
+          "modalParameters": {
+            "model__max_depth": 2,
+            "model__min_samples_leaf": 4
+          }
+        }
+      },
+      "promotionGate": {
+        "passed": false,
+        "maeImprovementOverMean": 0.0134217697955,
+        "requiredMaeImprovement": 0.1,
+        "medianHeldOutR2": -0.0268273117,
+        "requiresPositiveMedianHeldOutR2": true,
+        "linearExportSupported": true
+      }
+    },
+    "core+hormones": {
+      "featureSet": "core+hormones",
+      "participantCount": 85,
+      "validation": {
+        "outer": {
+          "type": "RepeatedKFold",
+          "splits": 5,
+          "repeats": 5,
+          "participantLevel": true
+        },
+        "inner": {
+          "type": "KFold",
+          "splits": 5,
+          "shuffle": true
+        },
+        "preprocessingInsideEachFold": true,
+        "seed": 20260725
+      },
+      "benchmarkWinner": "ridge",
+      "selectedForExport": "ridge",
+      "selectionRule": "Prefer Ridge when its original-scale MAE is within 10% of the best benchmark.",
+      "models": {
+        "mean_baseline": {
+          "metrics": {
+            "mae": 17.2986851211,
+            "rmse": 20.2740334698,
+            "spearman": -0.431741336052,
+            "r2": -0.0215585849829
+          },
+          "bootstrap95": {
+            "mae": [
+              15.1287698962,
+              19.6605
+            ],
+            "rmse": [
+              18.1126195753,
+              22.4807568455
+            ],
+            "spearman": [
+              -0.60385093977,
+              -0.237676682388
+            ],
+            "r2": [
+              -0.0877242275722,
+              -0.0144957951675
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 17.2612456747,
+              "q1": 16.089100346,
+              "q3": 18.3615916955,
+              "values": [
+                18.2378892734,
+                15.5839100346,
+                16.6150519031,
+                20.9117647059,
+                15.0821799308,
+                15.2863321799,
+                19.455017301,
+                14.8788927336,
+                19.1029411765,
+                17.5709342561,
+                18.4394463668,
+                15.6522491349,
+                18.2785467128,
+                17.2612456747,
+                18.1020761246,
+                16.2465397924,
+                18.9351211073,
+                17.6271626298,
+                16.5155709343,
+                16.7396193772,
+                20.4982698962,
+                16.089100346,
+                16.4022491349,
+                15.0242214533,
+                18.3615916955
+              ]
+            },
+            "rmse": {
+              "median": 19.9721746316,
+              "q1": 19.1931146193,
+              "q3": 21.2850362501,
+              "values": [
+                21.3977865249,
+                18.809559384,
+                20.2859371833,
+                22.9196165659,
+                17.4028258553,
+                17.9988045066,
+                22.1732912372,
+                17.9020789035,
+                22.8222833574,
+                19.9344948029,
+                21.0809118468,
+                18.7201434724,
+                21.2850362501,
+                20.109238869,
+                21.0007620557,
+                19.5775949285,
+                21.8048963185,
+                19.9721746316,
+                19.7315022218,
+                19.818865091,
+                23.7866817437,
+                19.1931146193,
+                19.3847907509,
+                18.0847677212,
+                20.4932472632
+              ]
+            },
+            "spearman": {
+              "median": 0.0,
+              "q1": 0.0,
+              "q3": 0.0,
+              "values": [
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0,
+                0.0
+              ]
+            },
+            "r2": {
+              "median": -0.0312327895757,
+              "q1": -0.0999700803727,
+              "q3": -0.0123169107856,
+              "values": [
+                -0.0263170906694,
+                -0.177837374726,
+                -0.00280837886607,
+                -0.0697623208422,
+                -0.0315630598246,
+                -0.0312327895757,
+                -0.0175471576505,
+                -0.0432999909886,
+                -0.000302777076328,
+                -0.277748108589,
+                -0.00131759496039,
+                -0.70335783242,
+                -0.0591338920257,
+                -0.00326434077915,
+                -0.140994825796,
+                -0.015219438538,
+                -0.0999700803727,
+                -0.0135448354991,
+                -0.0123169107856,
+                -0.0496122283865,
+                -0.13181610532,
+                -0.0128490391019,
+                -0.010285067726,
+                -0.00514696499213,
+                -0.133345628058
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 42.2852941176
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 43.2176470588
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 42.6117647059
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 43.9529411765
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 42.6117647059
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 43.3147058824
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 43.5970588235
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 42.1441176471
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 43.0588235294
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 43.6176470588
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 42.3558823529
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 42.7352941176
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 43.1970588235
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 42.3735294118
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 42.1647058824
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 42.5941176471
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.0676470588
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 41.3764705882
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 42.2205882353
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 41.5470588235
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 42.9294117647
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 43.4264705882
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 43.4617647059
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 42.4294117647
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 42.5029411765
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 42.3470588235
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 42.9117647059
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 42.3323529412
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 42.9588235294
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 42.5558823529
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 41.8176470588
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 42.3176470588
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 43.0411764706
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 43.3029411765
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 43.0441176471
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 43.0647058824
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 42.5823529412
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 43.1911764706
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 42.6147058824
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 43.0352941176
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 43.2088235294
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 42.85
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 43.1147058824
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 41.7235294118
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 42.5235294118
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 42.95
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 42.6617647059
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 43.3117647059
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 42.9176470588
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 42.3088235294
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 42.1058823529
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 43.4676470588
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 42.1147058824
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 42.8441176471
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 42.7735294118
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 42.5
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 43.1882352941
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 42.0294117647
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 42.5941176471
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 43.3352941176
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 42.1529411765
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 43.0911764706
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 42.3617647059
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 42.7323529412
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.4294117647
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 42.8676470588
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 41.8205882353
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 42.5
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 43.2823529412
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 42.3558823529
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 42.1
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.9352941176
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 42.8588235294
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.8382352941
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 42.4411764706
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 42.9382352941
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 42.4441176471
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 42.7117647059
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 41.8882352941
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 41.9529411765
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 42.4323529412
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 43.3882352941
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 42.5676470588
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 42.7
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 42.7735294118
+            }
+          ]
+        },
+        "ridge": {
+          "metrics": {
+            "mae": 16.813507927,
+            "rmse": 19.8821452946,
+            "spearman": 0.283427024064,
+            "r2": 0.0175522869276
+          },
+          "bootstrap95": {
+            "mae": [
+              14.5702019964,
+              19.169900403
+            ],
+            "rmse": [
+              17.7634486106,
+              21.976241321
+            ],
+            "spearman": [
+              0.0788663026523,
+              0.474370330929
+            ],
+            "r2": [
+              -0.157381452104,
+              0.114388701821
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 17.0014129499,
+              "q1": 15.6192858292,
+              "q3": 17.6229722666,
+              "values": [
+                17.6229722666,
+                14.2328174091,
+                16.674039813,
+                21.5289924558,
+                14.2014685365,
+                16.4545021225,
+                18.0098680359,
+                13.466786798,
+                20.3147645715,
+                15.4081123981,
+                16.9375440256,
+                17.5778410526,
+                18.4182154791,
+                17.0014129499,
+                17.0844759556,
+                17.0233991433,
+                15.6192858292,
+                17.1530253186,
+                16.7184313441,
+                17.1206344655,
+                19.4867982922,
+                14.0197762122,
+                14.5919169699,
+                16.2027413506,
+                19.0727934472
+              ]
+            },
+            "rmse": {
+              "median": 19.8879119028,
+              "q1": 18.5818076901,
+              "q3": 21.0736199232,
+              "values": [
+                20.1502931056,
+                17.6426420269,
+                21.0736199232,
+                23.61619585,
+                16.9349724669,
+                18.2243674747,
+                21.2185215281,
+                17.3997880815,
+                23.4501465689,
+                18.5818076901,
+                19.6797859364,
+                20.0570608947,
+                21.5901615965,
+                20.2955372898,
+                20.1124507485,
+                20.1208080474,
+                19.2870464472,
+                19.8879119028,
+                19.4275851804,
+                19.3924543682,
+                22.8035990628,
+                17.8867939178,
+                18.1032265239,
+                19.3809493469,
+                21.1115202597
+              ]
+            },
+            "spearman": {
+              "median": 0.239263983789,
+              "q1": 0.168098286046,
+              "q3": 0.424279662825,
+              "values": [
+                0.51992652323,
+                0.253072016953,
+                0.273619837871,
+                0.0809816560516,
+                0.239263983789,
+                0.169117647059,
+                0.262254901961,
+                0.347239525191,
+                0.234356004634,
+                0.144785385062,
+                0.41227024899,
+                0.165746137423,
+                0.168098286046,
+                0.604537207435,
+                0.206008622412,
+                0.17657881921,
+                0.534070887253,
+                0.0282035614017,
+                0.132352941176,
+                0.485294117647,
+                0.112745098039,
+                0.499693910602,
+                0.559166260833,
+                0.180368233933,
+                0.424279662825
+              ]
+            },
+            "r2": {
+              "median": -0.0362280187988,
+              "q1": -0.0821964060878,
+              "q3": 0.0231559786956,
+              "values": [
+                0.0898633658788,
+                -0.0362280187988,
+                -0.0821964060878,
+                -0.135775470756,
+                0.0231559786956,
+                -0.0572417906289,
+                0.0681962321366,
+                0.0144238453418,
+                -0.0560984643726,
+                -0.110224229662,
+                0.12736263775,
+                -0.955339313658,
+                -0.0897173437838,
+                -0.021939572065,
+                -0.0465104120304,
+                -0.072338956473,
+                0.139394191153,
+                -0.0050105726985,
+                0.0186276131159,
+                -0.00493246209888,
+                -0.0401954236215,
+                0.12033196048,
+                0.1188828168,
+                -0.154393276012,
+                -0.202762364491
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 39.0438167798
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 34.8545343508
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 28.6201820451
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 30.7204901163
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 36.7924216367
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 19.3327327051
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 35.2011546952
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 37.1156819835
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 31.9833045002
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 30.1666342063
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 40.3347947203
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 42.8412516207
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 35.8368978403
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 31.4789266479
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 40.2677921424
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 43.338946737
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 38.102914467
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 37.0455340141
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 19.8242454707
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 40.1946010319
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 36.1784041011
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 37.0622434305
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 43.014293432
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 34.4611928031
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 37.8683977542
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 36.3328990234
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 43.7434345828
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 37.7533442251
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 34.1767048377
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 39.9062269542
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 38.0698015271
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 36.3784039763
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 35.3826911635
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 35.7450985433
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 39.9758574705
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 31.8919651867
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 39.1025053993
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 35.4207616474
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 44.7191017943
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 38.7032469716
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 37.9938170911
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 39.4545721631
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 42.7434776508
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 40.4189071421
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 34.7586926588
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 33.009075255
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 39.9299829109
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 39.3250705222
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 46.1619330362
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 37.8353630467
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 42.5579980044
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 37.3657373
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 38.0439964211
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 37.075829658
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 40.0605001124
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 43.146479371
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 36.8800201335
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 44.2352758662
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 49.3216068383
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 45.6770065638
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 43.2968773509
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 46.8263739139
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 47.2777783307
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 40.9166225244
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 45.1554276916
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 41.586384396
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 45.8133988702
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 44.6089696179
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.2599409942
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 46.2733427174
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 40.3300734514
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 45.1246298318
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 47.1381723131
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 42.6241627746
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 45.8024423817
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 39.2354074965
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 49.454055357
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 38.246344691
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 41.8753789135
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 35.0165905077
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 43.663779999
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 49.5444465454
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 48.0535750463
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 52.4998259392
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 36.2897293607
+            }
+          ],
+          "modalParameters": {
+            "model__alpha": 100.0
+          }
+        },
+        "elastic_net": {
+          "metrics": {
+            "mae": 17.24020249,
+            "rmse": 20.4763013689,
+            "spearman": 0.14437222877,
+            "r2": -0.0420438272653
+          },
+          "bootstrap95": {
+            "mae": [
+              14.8636455322,
+              19.5880120968
+            ],
+            "rmse": [
+              18.2956045644,
+              22.5176147515
+            ],
+            "spearman": [
+              -0.0664723510498,
+              0.340558115429
+            ],
+            "r2": [
+              -0.20149825411,
+              0.0437626525724
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 17.3513494473,
+              "q1": 16.3385331348,
+              "q3": 19.0104696756,
+              "values": [
+                19.0104696756,
+                15.4465660232,
+                17.6001462958,
+                21.1270747533,
+                14.7970772327,
+                16.3385331348,
+                19.9870807706,
+                14.8813151297,
+                19.9837927992,
+                16.2124522218,
+                18.072300906,
+                18.3940132086,
+                20.1057746156,
+                17.3513494473,
+                16.9662247872,
+                16.6080885849,
+                18.2524495421,
+                16.9628872655,
+                16.8214725364,
+                17.3939141169,
+                20.1711844013,
+                14.8994050589,
+                16.4387811325,
+                15.2742879623,
+                19.3371300434
+              ]
+            },
+            "rmse": {
+              "median": 20.2086751671,
+              "q1": 19.6159883236,
+              "q3": 22.0077015075,
+              "values": [
+                22.2038494049,
+                18.7210409783,
+                22.0077015075,
+                23.5433366028,
+                19.7357541034,
+                18.4331038816,
+                22.766275992,
+                19.0918113807,
+                23.2302822169,
+                18.6264019513,
+                21.1463448623,
+                21.3944122956,
+                23.3130048256,
+                20.7280876335,
+                20.2086751671,
+                20.1205563722,
+                21.1752881661,
+                19.885327315,
+                19.6159883236,
+                19.9905221298,
+                23.6508423714,
+                18.8181397429,
+                20.1090229139,
+                18.7445039661,
+                21.3827014684
+              ]
+            },
+            "spearman": {
+              "median": 0.093137254902,
+              "q1": 0.0,
+              "q3": 0.19362745098,
+              "values": [
+                0.0,
+                0.160934146703,
+                0.212270098438,
+                0.0625767342217,
+                0.112883520557,
+                0.19362745098,
+                0.0,
+                0.0,
+                0.28343579618,
+                0.0,
+                0.0,
+                0.0,
+                0.0895706195722,
+                0.427958388225,
+                0.185162511811,
+                0.144696532408,
+                0.0,
+                0.0,
+                0.093137254902,
+                0.399509803922,
+                0.0147058823529,
+                0.233272341559,
+                0.0,
+                0.180368233933,
+                0.376456232622
+              ]
+            },
+            "r2": {
+              "median": -0.0815991442438,
+              "q1": -0.166777577066,
+              "q3": -0.0565480496554,
+              "values": [
+                -0.10509701626,
+                -0.166777577066,
+                -0.180258604939,
+                -0.128778230726,
+                -0.326672368453,
+                -0.0815991442438,
+                -0.07269983969,
+                -0.18657867733,
+                -0.0363877236655,
+                -0.115559452034,
+                -0.00754321866606,
+                -1.22478612786,
+                -0.2705699638,
+                -0.0659641098223,
+                -0.0565480496554,
+                -0.0723121305643,
+                -0.037364731721,
+                -0.00474937189559,
+                -0.000498815961035,
+                -0.0678729706969,
+                -0.118926019003,
+                0.0263403215896,
+                -0.0871854643819,
+                -0.0798205789479,
+                -0.233860208826
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 39.0764344062
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 35.8899261496
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 32.3076194324
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 32.0750600397
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 39.7564775749
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 32.9896042847
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 37.0541871921
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 36.9249106409
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 33.717066489
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 33.5197814172
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 39.2875487037
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 42.9942629028
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 37.8485948307
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 32.1069650771
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 39.3432243133
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 42.8008288071
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 37.9812742182
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 36.7691059127
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 21.1855065763
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 39.0828413214
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 38.1552071386
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 37.0995233073
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 41.6615798418
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 38.1635433787
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 38.2967399546
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 38.2934649876
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 43.4392630097
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 38.3643945848
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 35.9803725767
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 39.8280628982
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 38.3505867092
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 36.6259671082
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 35.3523049016
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 37.365351175
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 40.8459640202
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 33.2505650905
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 39.0110228717
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 35.9977226097
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 42.1239547052
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 40.1285649421
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 39.0395118179
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 39.2309949371
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 42.4052960074
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 38.8610339309
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 37.2830676222
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 34.9180939904
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 40.4087569029
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 39.3756922573
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 41.5763972179
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 38.3640838813
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 39.6686573113
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 39.2973066934
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 38.8343524841
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 38.3689742598
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 39.6396939326
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 41.5966087523
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 37.1837224713
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 41.1025364016
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 46.9357581002
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 44.3501172997
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 39.9732515475
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 44.7993751268
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 41.7720504937
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 40.7795813766
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 40.4571436991
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 41.2404312406
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 43.3131361302
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 41.9544310628
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 40.2304199687
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 39.7336085015
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 38.2118750984
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 39.5985610148
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 46.3260614962
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 40.9950859245
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 42.2493901878
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 40.0940912848
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 45.0201497115
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 39.2227724946
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 40.2243373968
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 37.3257618229
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 38.9616486436
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 47.8376650959
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 45.3794320465
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 52.0505191738
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 35.8232847593
+            }
+          ],
+          "modalParameters": {
+            "model__alpha": 1.0,
+            "model__l1_ratio": 0.1
+          }
+        },
+        "shallow_tree": {
+          "metrics": {
+            "mae": 18.9718316008,
+            "rmse": 22.587138504,
+            "spearman": -0.0328722955555,
+            "r2": -0.267959522207
+          },
+          "bootstrap95": {
+            "mae": [
+              16.3575771838,
+              21.6263436847
+            ],
+            "rmse": [
+              20.0057014233,
+              25.0066300436
+            ],
+            "spearman": [
+              -0.237081735387,
+              0.176030923547
+            ],
+            "r2": [
+              -0.511742739103,
+              -0.104231433792
+            ]
+          },
+          "foldDistribution": {
+            "mae": {
+              "median": 21.0364196017,
+              "q1": 19.2329690958,
+              "q3": 21.3857649279,
+              "values": [
+                21.2926809673,
+                19.9592408634,
+                19.9305701027,
+                27.2247045119,
+                14.1664680285,
+                19.2329690958,
+                28.1021950883,
+                15.6624747284,
+                23.3025050265,
+                21.0364196017,
+                23.4985601626,
+                21.3857649279,
+                22.9948548446,
+                17.6289188348,
+                23.3120401767,
+                19.2277621242,
+                20.1296071401,
+                21.3163341213,
+                18.0214628803,
+                16.710673941,
+                21.0969776596,
+                20.4673816003,
+                21.2529753704,
+                20.0915279292,
+                21.1827684398
+              ]
+            },
+            "rmse": {
+              "median": 24.1379552532,
+              "q1": 22.9204084988,
+              "q3": 27.0363582639,
+              "values": [
+                24.1379552532,
+                22.9731245398,
+                22.9204084988,
+                28.9486120553,
+                17.9062442192,
+                23.0942737,
+                32.7757109329,
+                19.4066893518,
+                26.8852294424,
+                24.0342363559,
+                27.1099485383,
+                26.7671473112,
+                27.355148008,
+                21.0178858685,
+                27.7371546703,
+                22.3193900672,
+                24.0436813088,
+                27.7186799855,
+                22.6337409129,
+                20.6346355912,
+                25.0745817683,
+                23.3383826123,
+                26.0614479238,
+                24.4087977208,
+                27.0363582639
+              ]
+            },
+            "spearman": {
+              "median": -0.0132035134933,
+              "q1": -0.0644766610411,
+              "q3": 0.102489650004,
+              "values": [
+                -0.0087571180513,
+                0.102489650004,
+                -0.0132035134933,
+                0.0277206901345,
+                0.422484030561,
+                -0.0644766610411,
+                -0.39582542294,
+                0.323145489639,
+                0.00869483039513,
+                -0.0826135995161,
+                -0.19968873247,
+                0.102075117847,
+                -0.196622509591,
+                0.42242753371,
+                -0.0275365074667,
+                0.257928977278,
+                -0.0496035553198,
+                -0.363563392203,
+                0.137110758228,
+                0.298078182702,
+                -0.0358383834022,
+                -0.0304506164409,
+                -0.109779730116,
+                -0.0386144839914,
+                0.0310685154516
+              ]
+            },
+            "r2": {
+              "median": -0.655962316136,
+              "q1": -0.831034267564,
+              "q3": -0.306004928406,
+              "values": [
+                -0.306004928406,
+                -0.75698567416,
+                -0.280184334565,
+                -0.706585667649,
+                -0.0921071234286,
+                -0.697766698945,
+                -1.22330202845,
+                -0.226041519912,
+                -0.388164016074,
+                -0.857357203767,
+                -0.655962316136,
+                -2.48250480385,
+                -0.749364121388,
+                -0.0959788397281,
+                -0.990386342253,
+                -0.319489359062,
+                -0.337441349874,
+                -0.952258599758,
+                -0.332014249554,
+                -0.137797371699,
+                -0.25769559988,
+                -0.497598228092,
+                -0.826075713713,
+                -0.831034267564,
+                -0.972591688477
+              ]
+            }
+          },
+          "participantPredictions": [
+            {
+              "row": 0,
+              "actualPercent": 51.0,
+              "predictedPercent": 43.0740508438
+            },
+            {
+              "row": 1,
+              "actualPercent": 22.0,
+              "predictedPercent": 48.5205845908
+            },
+            {
+              "row": 2,
+              "actualPercent": 18.0,
+              "predictedPercent": 32.400150586
+            },
+            {
+              "row": 3,
+              "actualPercent": 33.0,
+              "predictedPercent": 27.9276821418
+            },
+            {
+              "row": 4,
+              "actualPercent": 43.0,
+              "predictedPercent": 32.3416330649
+            },
+            {
+              "row": 5,
+              "actualPercent": 31.0,
+              "predictedPercent": 21.7615280928
+            },
+            {
+              "row": 6,
+              "actualPercent": 0.0,
+              "predictedPercent": 40.3337837837
+            },
+            {
+              "row": 7,
+              "actualPercent": 43.0,
+              "predictedPercent": 28.7570905558
+            },
+            {
+              "row": 8,
+              "actualPercent": 26.0,
+              "predictedPercent": 22.9597454917
+            },
+            {
+              "row": 9,
+              "actualPercent": 26.0,
+              "predictedPercent": 25.0184134117
+            },
+            {
+              "row": 10,
+              "actualPercent": 11.0,
+              "predictedPercent": 50.3567124085
+            },
+            {
+              "row": 11,
+              "actualPercent": 33.0,
+              "predictedPercent": 38.5017226995
+            },
+            {
+              "row": 12,
+              "actualPercent": 33.0,
+              "predictedPercent": 43.9855074843
+            },
+            {
+              "row": 13,
+              "actualPercent": 41.0,
+              "predictedPercent": 26.4542538033
+            },
+            {
+              "row": 14,
+              "actualPercent": 15.0,
+              "predictedPercent": 40.1661090459
+            },
+            {
+              "row": 15,
+              "actualPercent": 62.0,
+              "predictedPercent": 33.9518838408
+            },
+            {
+              "row": 16,
+              "actualPercent": 68.0,
+              "predictedPercent": 35.2309201845
+            },
+            {
+              "row": 17,
+              "actualPercent": 60.0,
+              "predictedPercent": 38.4869607544
+            },
+            {
+              "row": 18,
+              "actualPercent": 58.0,
+              "predictedPercent": 35.2724083034
+            },
+            {
+              "row": 19,
+              "actualPercent": 52.0,
+              "predictedPercent": 41.639817578
+            },
+            {
+              "row": 20,
+              "actualPercent": 30.0,
+              "predictedPercent": 37.8688919464
+            },
+            {
+              "row": 21,
+              "actualPercent": 56.0,
+              "predictedPercent": 26.7643025849
+            },
+            {
+              "row": 22,
+              "actualPercent": 18.0,
+              "predictedPercent": 45.8834418902
+            },
+            {
+              "row": 23,
+              "actualPercent": 35.0,
+              "predictedPercent": 31.1923044309
+            },
+            {
+              "row": 24,
+              "actualPercent": 37.0,
+              "predictedPercent": 33.7887958709
+            },
+            {
+              "row": 25,
+              "actualPercent": 70.0,
+              "predictedPercent": 38.9580753352
+            },
+            {
+              "row": 26,
+              "actualPercent": 76.0,
+              "predictedPercent": 45.9322420389
+            },
+            {
+              "row": 27,
+              "actualPercent": 40.0,
+              "predictedPercent": 39.7447025289
+            },
+            {
+              "row": 28,
+              "actualPercent": 4.0,
+              "predictedPercent": 35.8671181678
+            },
+            {
+              "row": 29,
+              "actualPercent": 26.0,
+              "predictedPercent": 49.7971667109
+            },
+            {
+              "row": 30,
+              "actualPercent": 64.0,
+              "predictedPercent": 30.0378990151
+            },
+            {
+              "row": 31,
+              "actualPercent": 55.0,
+              "predictedPercent": 26.2642800906
+            },
+            {
+              "row": 32,
+              "actualPercent": 69.0,
+              "predictedPercent": 29.3871567908
+            },
+            {
+              "row": 33,
+              "actualPercent": 27.0,
+              "predictedPercent": 31.9200635132
+            },
+            {
+              "row": 34,
+              "actualPercent": 1.0,
+              "predictedPercent": 45.3705767952
+            },
+            {
+              "row": 35,
+              "actualPercent": 36.0,
+              "predictedPercent": 37.6930013826
+            },
+            {
+              "row": 36,
+              "actualPercent": 38.0,
+              "predictedPercent": 43.4116079808
+            },
+            {
+              "row": 37,
+              "actualPercent": 38.0,
+              "predictedPercent": 37.6759912035
+            },
+            {
+              "row": 38,
+              "actualPercent": 50.0,
+              "predictedPercent": 55.15965395
+            },
+            {
+              "row": 39,
+              "actualPercent": 22.0,
+              "predictedPercent": 32.3081137377
+            },
+            {
+              "row": 40,
+              "actualPercent": 25.0,
+              "predictedPercent": 44.5531038334
+            },
+            {
+              "row": 41,
+              "actualPercent": 58.0,
+              "predictedPercent": 40.6378577808
+            },
+            {
+              "row": 42,
+              "actualPercent": 50.0,
+              "predictedPercent": 50.9392754572
+            },
+            {
+              "row": 43,
+              "actualPercent": 50.0,
+              "predictedPercent": 42.6964494028
+            },
+            {
+              "row": 44,
+              "actualPercent": 67.0,
+              "predictedPercent": 23.1300006627
+            },
+            {
+              "row": 45,
+              "actualPercent": 19.0,
+              "predictedPercent": 38.1270218049
+            },
+            {
+              "row": 46,
+              "actualPercent": 12.0,
+              "predictedPercent": 56.4016351803
+            },
+            {
+              "row": 47,
+              "actualPercent": 43.0,
+              "predictedPercent": 25.6756438454
+            },
+            {
+              "row": 48,
+              "actualPercent": 34.0,
+              "predictedPercent": 44.4628190035
+            },
+            {
+              "row": 49,
+              "actualPercent": 51.0,
+              "predictedPercent": 31.7176294099
+            },
+            {
+              "row": 50,
+              "actualPercent": 69.0,
+              "predictedPercent": 40.9639611139
+            },
+            {
+              "row": 51,
+              "actualPercent": 14.0,
+              "predictedPercent": 40.5924942814
+            },
+            {
+              "row": 52,
+              "actualPercent": 37.0,
+              "predictedPercent": 27.3476149498
+            },
+            {
+              "row": 53,
+              "actualPercent": 22.0,
+              "predictedPercent": 39.7668821272
+            },
+            {
+              "row": 54,
+              "actualPercent": 65.0,
+              "predictedPercent": 42.4841386825
+            },
+            {
+              "row": 55,
+              "actualPercent": 70.0,
+              "predictedPercent": 39.1227883939
+            },
+            {
+              "row": 56,
+              "actualPercent": 38.0,
+              "predictedPercent": 30.8719614291
+            },
+            {
+              "row": 57,
+              "actualPercent": 48.0,
+              "predictedPercent": 47.8287584346
+            },
+            {
+              "row": 58,
+              "actualPercent": 38.0,
+              "predictedPercent": 50.1799780551
+            },
+            {
+              "row": 59,
+              "actualPercent": 19.0,
+              "predictedPercent": 43.5685425763
+            },
+            {
+              "row": 60,
+              "actualPercent": 66.0,
+              "predictedPercent": 44.465047676
+            },
+            {
+              "row": 61,
+              "actualPercent": 68.0,
+              "predictedPercent": 53.7848877832
+            },
+            {
+              "row": 62,
+              "actualPercent": 28.0,
+              "predictedPercent": 42.8550767586
+            },
+            {
+              "row": 63,
+              "actualPercent": 72.0,
+              "predictedPercent": 40.0856251752
+            },
+            {
+              "row": 64,
+              "actualPercent": 68.0,
+              "predictedPercent": 46.0702874898
+            },
+            {
+              "row": 65,
+              "actualPercent": 37.0,
+              "predictedPercent": 36.5126549982
+            },
+            {
+              "row": 66,
+              "actualPercent": 69.0,
+              "predictedPercent": 41.6331693908
+            },
+            {
+              "row": 67,
+              "actualPercent": 41.0,
+              "predictedPercent": 53.7134056786
+            },
+            {
+              "row": 68,
+              "actualPercent": 70.0,
+              "predictedPercent": 45.255916847
+            },
+            {
+              "row": 69,
+              "actualPercent": 74.0,
+              "predictedPercent": 32.8612318052
+            },
+            {
+              "row": 70,
+              "actualPercent": 63.0,
+              "predictedPercent": 38.7845191341
+            },
+            {
+              "row": 71,
+              "actualPercent": 70.0,
+              "predictedPercent": 45.3032874179
+            },
+            {
+              "row": 72,
+              "actualPercent": 21.0,
+              "predictedPercent": 59.6829963681
+            },
+            {
+              "row": 73,
+              "actualPercent": 68.0,
+              "predictedPercent": 44.1940431465
+            },
+            {
+              "row": 74,
+              "actualPercent": 44.0,
+              "predictedPercent": 44.9484673061
+            },
+            {
+              "row": 75,
+              "actualPercent": 28.0,
+              "predictedPercent": 49.9420956168
+            },
+            {
+              "row": 76,
+              "actualPercent": 42.0,
+              "predictedPercent": 48.7491509239
+            },
+            {
+              "row": 77,
+              "actualPercent": 55.0,
+              "predictedPercent": 18.8723658272
+            },
+            {
+              "row": 78,
+              "actualPercent": 66.0,
+              "predictedPercent": 48.8960191821
+            },
+            {
+              "row": 79,
+              "actualPercent": 4.0,
+              "predictedPercent": 40.0663858341
+            },
+            {
+              "row": 80,
+              "actualPercent": 61.0,
+              "predictedPercent": 41.0430246434
+            },
+            {
+              "row": 81,
+              "actualPercent": 17.0,
+              "predictedPercent": 42.9720443275
+            },
+            {
+              "row": 82,
+              "actualPercent": 65.0,
+              "predictedPercent": 50.7405939908
+            },
+            {
+              "row": 83,
+              "actualPercent": 35.0,
+              "predictedPercent": 55.7616037091
+            },
+            {
+              "row": 84,
+              "actualPercent": 48.0,
+              "predictedPercent": 43.6198828793
+            }
+          ],
+          "modalParameters": {
+            "model__max_depth": 2,
+            "model__min_samples_leaf": 4
+          }
+        }
+      },
+      "promotionGate": {
+        "passed": false,
+        "maeImprovementOverMean": 0.0280470562207,
+        "requiredMaeImprovement": 0.1,
+        "medianHeldOutR2": -0.0362280187988,
+        "requiresPositiveMedianHeldOutR2": true,
+        "linearExportSupported": true
+      }
+    }
+  }
+}

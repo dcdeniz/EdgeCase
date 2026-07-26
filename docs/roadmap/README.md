@@ -102,6 +102,24 @@ Example:
 
 > Readiness increased from 58 to 66. Sleep consistency contributed +3, lower alcohol exposure +2, dietary diversity +1, activity +1, and reduced heat exposure +1. This is behavioural progress; follow-up testing is required to determine whether semen parameters changed.
 
+### Implemented baseline
+
+Rule version `readiness-v0.1.0` implements the seven proposed domains as a
+framework-neutral TypeScript engine. A first assessment produces an explainable
+0–100 baseline from the domains the user supplied. Available points determine data
+confidence; missing domains do not automatically lower readiness.
+
+Later assessments return a separate factor-level adjustment ledger. A `+4` means
+four readiness points under the declared rule version, not an expected four-point
+change in sperm count, motility, morphology, fertility, or conception probability.
+The API only presents a score delta when current and prior input coverage match.
+
+Exogenous testosterone, anabolic steroids or SARMs, gonadotoxic treatment, and
+testicular or obstruction concerns create clinical gates outside the calculation.
+Sexual-function concerns also create a clinician-discussion prompt and never reduce
+the behaviour score. Every scored evidence factor returns allow-listed IDs from the
+[evidence registry](../research/evidence-registry.v0.1.0.json).
+
 ## Evidence registry
 
 Create a machine-readable registry behind scoring and recommendations.
@@ -277,14 +295,50 @@ Information recorded after the sample must not enter the training row.
 
 ### Dataset priorities
 
-- **LIFE Study**: valuable because it connects environmental exposures, semen biomarkers, lifestyle, time to pregnancy, and couple-level outcomes; access is controlled.
+- **LIFE Study**: the actual NICHD Longitudinal Investigation of Fertility and the
+  Environment recruited 501 couples and connects environmental exposures, semen
+  biomarkers, lifestyle, time to pregnancy, and couple-level outcomes. Treat it as a
+  future controlled-data investigation; no verified public training accession is
+  currently documented here. The previously linked dbGaP accession
+  `phs001692.v1.p1` is an unrelated eight-subject UCSF small-RNA study and must not be
+  represented as the 501-couple LIFE cohort.
 - **VISEM**: 85-participant public multimodal dataset suitable for semen-video and pipeline prototypes, not a general population model.
 - **VISEM-Tracking**: useful for computer vision, tracking, and motility research.
 - **N-SEED**: close to the desired architecture but currently more useful as a protocol reference.
-- **UCI Fertility data**: tutorial-scale only; it is too small and coarse for a medical score.
+- **UCI Fertility data**: tutorial-scale only. It contains 100 men, nine inputs, and
+  an 88-to-12 normal/altered class split. It can support a visibly experimental
+  hackathon classifier card, but it is too small and imbalanced to generate the
+  readiness score or a medical probability.
 - **Prospective EdgeCase cohort**: the necessary long-term asset, combining standardized repeat tests with preceding wearable, food, medication, and exposure data.
 
 See the [research dataset notes](../research/male-fertility-evidence-landscape.md#datasets).
+
+The implemented first baseline is documented in the
+[`ml/` workspace](../../ml/README.md). Its promotion result, rather than a demo
+deadline, determines whether a research preview can proceed.
+
+The completed UCI experiment selected a calibrated, class-balanced shallow forest
+with an outer-training-prevalence operating threshold under repeated nested
+stratified validation. Its exploratory point estimate was 0.665 balanced accuracy,
+0.750 sensitivity, 0.580 specificity, 0.671 AUROC, and 0.265 PR-AUC. The improved
+threshold was designed after the initial evaluation and balanced accuracy ranged
+from 0.583 to 0.665 across four complete seed runs. It did not meet the requested
+0.90 target and is not runtime eligible. Its 88%-raw-accuracy all-normal baseline
+has zero sensitivity, illustrating why raw accuracy is not an acceptable success
+metric.
+
+As of model version `0.1.0`, both VISEM feature sets failed the promotion gate. Core
+improved MAE over the mean baseline by 1.34% with median held-out R² of -0.027; core
+plus hormones improved MAE by 2.80% with median held-out R² of -0.036. PR 2 runtime
+inference remains blocked. See the
+[model card](../../ml/models/MODEL_CARD.md) for the complete research result.
+
+The next research foundation is now specified by the
+[prospective repeated-test protocol](../../ml/STUDY_PROTOCOL.md) and its machine-readable
+cohort contract. It pairs each follow-up test with a previous test, constructs strictly
+pre-target 30/60/90-day features, and preserves participant, site, laboratory, time,
+and collection context for grouped, temporal, and external-site validation. The
+committed synthetic fixture tests infrastructure only and cannot promote a model.
 
 ### Initial models
 
@@ -405,8 +459,8 @@ The target date changes the plan and urgency, not the underlying biological clai
 - [ ] Manual semen-result entry
 - [ ] Baseline reproductive and lifestyle questionnaire
 - [ ] Daily sleep, alcohol, activity, diet, and heat logs
-- [ ] Versioned deterministic readiness score
-- [ ] Evidence-backed score explanation
+- [x] Versioned deterministic readiness score backend
+- [x] Evidence-backed score explanation and comparable change ledger backend
 - [ ] Three recommendation cards
 - [ ] Historical score chart
 - [ ] Mock wearable dataset for the demo

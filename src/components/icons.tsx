@@ -42,7 +42,15 @@ export type IconName =
   | "calendar"
   | "target"
   | "phone"
-  | "book";
+  | "book"
+  | "moon"
+  | "camera"
+  | "heart"
+  | "pulse"
+  | "food"
+  | "grid"
+  | "steps"
+  | "help";
 
 const paths: Record<IconName, React.ReactNode> = {
   // Horizon with a rising arc: the start of a day, not a sun cliché.
@@ -266,6 +274,48 @@ const paths: Record<IconName, React.ReactNode> = {
       <path d="M4.5 5.5A2 2 0 0 1 6.5 3.5H19v14H6.5a2 2 0 0 0-2 2v-14Z" />
       <path d="M4.5 19.5a2 2 0 0 1 2-2H19v3H6.5a2 2 0 0 1-2-1Z" />
       <path d="M8.5 8h7" />
+    </>
+  ),
+  // Crescent only. No stars, no face — this labels a measurement, not a mood.
+  moon: <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />,
+  camera: (
+    <>
+      <path d="M3.5 8.5A2 2 0 0 1 5.5 6.5h2l1.5-2.5h6l1.5 2.5h2a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2Z" />
+      <circle cx="12" cy="13" r="3.5" />
+    </>
+  ),
+  heart: (
+    <path d="M12 20s-7.5-4.7-7.5-9.4A4.1 4.1 0 0 1 12 8.2a4.1 4.1 0 0 1 7.5 2.4C19.5 15.3 12 20 12 20Z" />
+  ),
+  pulse: <path d="M2.5 12.5h4l2.5-6 4 12 2.5-6h6" />,
+  food: (
+    <>
+      <path d="M6 3.5v8a2.5 2.5 0 0 0 5 0v-8" />
+      <path d="M8.5 11.5V20.5" />
+      <path d="M17 3.5c-1.5 1.5-2 3.5-2 5.5s.7 3 2 3 2-1 2-3-.5-4-2-5.5Z" />
+      <path d="M17 12v8.5" />
+    </>
+  ),
+  grid: (
+    <>
+      <rect x="3.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="3.5" width="7" height="7" rx="1.5" />
+      <rect x="3.5" y="13.5" width="7" height="7" rx="1.5" />
+      <rect x="13.5" y="13.5" width="7" height="7" rx="1.5" />
+    </>
+  ),
+  steps: (
+    <>
+      <path d="M7.5 20.5c-1.5 0-2.5-1-2.5-2.5s.5-2 .5-3.5-1-2.5-1-4.5a3 3 0 0 1 6 0c0 2-1 3-1 4.5s.5 2 .5 3.5-1 2.5-2.5 2.5Z" />
+      <path d="M16.5 14.5c-1.5 0-2.5-1-2.5-2.5s.5-2 .5-3.5-1-2.5-1-4.5a3 3 0 0 1 6 0c0 2-1 3-1 4.5s.5 2 .5 3.5-1 2.5-2.5 2.5Z" />
+    </>
+  ),
+  // Question mark in a circle. Opens the explanation for a marker.
+  help: (
+    <>
+      <circle cx="12" cy="12" r="8.5" />
+      <path d="M9.6 9.4a2.5 2.5 0 0 1 4.85.85c0 1.7-2.45 2.25-2.45 3.75" />
+      <path d="M12 17.2h.01" />
     </>
   ),
 };

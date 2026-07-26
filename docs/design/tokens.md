@@ -15,14 +15,19 @@ wins in both directions.
 
 ### Surfaces
 
+Light is a **warm cream** rather than a cool near-white, per
+[ADR 0006](../project/adr/0006-behaviour-score-surface.md). The accent stays
+low-chroma teal and warm hues stay reserved for attention and escalation, so
+warmth still means *look here*.
+
 | Role | Dark | Light | Use |
 | --- | --- | --- | --- |
-| `ground` | `#0b1113` | `#f2f5f4` | Page plane |
-| `surface-1` | `#141b1d` | `#ffffff` | Cards |
-| `surface-2` | `#1b2427` | `#fbfcfc` | Sheets, raised panels |
-| `surface-3` | `#232e31` | `#eff3f2` | Inset areas, control tracks, chip washes |
-| `surface-inverse` | `#e6edec` | `#101718` | Inverted fills |
-| `scrim` | `rgb(4 8 9 / 0.72)` | `rgb(16 23 24 / 0.4)` | Dialog backdrop |
+| `ground` | `#0b1113` | `#f4f1ea` | Page plane |
+| `surface-1` | `#141b1d` | `#fffdf8` | Cards |
+| `surface-2` | `#1b2427` | `#fbf8f2` | Sheets, raised panels |
+| `surface-3` | `#232e31` | `#f1ede5` | Inset areas, control tracks, chip washes |
+| `surface-inverse` | `#e6edec` | `#191410` | Inverted fills |
+| `scrim` | `rgb(4 8 9 / 0.72)` | `rgb(28 22 14 / 0.4)` | Dialog backdrop |
 
 ### Ink
 
@@ -37,9 +42,9 @@ wins in both directions.
 
 | Role | Dark | Light | Use |
 | --- | --- | --- | --- |
-| `line-hairline` | `rgb(230 237 236 / 0.10)` | `rgb(16 23 24 / 0.10)` | Decorative separation |
-| `line-strong` | `rgb(230 237 236 / 0.18)` | `rgb(16 23 24 / 0.16)` | Emphasised separation, grabber |
-| `line-control` | `#6c7b7a` | `#7e8a8a` | **Control borders — meets 3:1** |
+| `line-hairline` | `rgb(230 237 236 / 0.10)` | `rgb(43 33 20 / 0.10)` | Decorative separation |
+| `line-strong` | `rgb(230 237 236 / 0.18)` | `rgb(43 33 20 / 0.16)` | Emphasised separation, grabber |
+| `line-control` | `#6c7b7a` | `#857f74` | **Control borders — meets 3:1** |
 
 `line-control` exists because a 10%-alpha hairline cannot satisfy WCAG 1.4.11 for a
 component boundary. Inputs, secondary buttons, choice cards and select controls use
@@ -80,7 +85,13 @@ Every ink and status role against every surface, both themes — all ≥ 4.5:1:
 | light `attention` | 4.92 | 5.40 | 5.26 | 4.83 |
 
 Control borders: dark `line-control` 3.95 on surface-1, 3.15 on surface-3; light
-3.57 and 3.19. All ≥ 3:1.
+3.92 and 3.40. All ≥ 3:1.
+
+**Light figures above predate the cream change and are now computed estimates,
+not measurements.** Scaling by the new ground luminance (0.908 → 0.881) takes the
+two tightest pairs — light `ink-3` on ground and light `attention` on ground —
+from 4.90 and 4.92 to roughly 4.76 and 4.78. Both still clear 4.5. Re-run the
+real validator before any production use.
 
 ### Chart series
 

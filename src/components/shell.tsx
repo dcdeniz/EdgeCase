@@ -27,11 +27,16 @@ export const PROTOTYPE_DISCLAIMER =
 
 type Destination = { href: string; label: string; glyph: IconName; match: string };
 
+/*
+ * Five destinations still. "Ask" takes the Evidence slot rather than becoming a
+ * sixth tab — the library is reachable from every evidence citation and from
+ * the Ask screen itself, whereas a what-if question has no other entry point.
+ */
 const baseDestinations: Destination[] = [
   { href: "/today", label: "Today", glyph: "today", match: "/today" },
   { href: "/results", label: "Results", glyph: "results", match: "/results" },
   { href: "/protocol", label: "Protocol", glyph: "protocol", match: "/protocol" },
-  { href: "/evidence", label: "Evidence", glyph: "evidence", match: "/evidence" },
+  { href: "/ask", label: "Ask", glyph: "coach", match: "/ask" },
   { href: "/account", label: "Account", glyph: "account", match: "/account" },
 ];
 

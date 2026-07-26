@@ -50,3 +50,12 @@ docs/neat-local-problem.md
 # Licensed corpus working files; metadata and review decisions stay tracked.
 data/corpus/fulltext/
 data/corpus/review-queue.json
+
+# Python / ML
+ml/.venv/
+ml/.pytest_cache/
+ml/.ruff_cache/
+ml/**/__pycache__/
+ml/data/raw/
+ml/data/uci_raw/
+ml/data/processed/

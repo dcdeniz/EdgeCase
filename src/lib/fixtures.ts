@@ -20,9 +20,9 @@ import type { DomainId } from "@/lib/readiness";
 export type ReviewStatus = "internal_review" | "clinical_review_pending" | "research_candidate";
 
 export const reviewStatusLabel: Record<ReviewStatus, string> = {
-  internal_review: "Internal review complete",
-  clinical_review_pending: "Clinical review pending",
-  research_candidate: "Research candidate — not used for recommendations",
+  internal_review: "Reviewed",
+  clinical_review_pending: "Review pending",
+  research_candidate: "Candidate — not used for recommendations",
 };
 
 export type EvidenceConfidence = "moderate" | "limited" | "emerging" | "insufficient";
@@ -339,6 +339,28 @@ export const evidence: EvidenceClaim[] = [
     lastReviewed: "2026-07-25",
     reviewStatus: "internal_review",
     domains: [],
+  },
+  {
+    id: "pesticide-sr",
+    claim:
+      "Pesticide exposure is associated with lower sperm concentration, motility and normal morphology, most consistently at occupational levels.",
+    endpoints: ["Sperm concentration", "Total motility", "Normal morphology"],
+    studyType: "Systematic review of human studies",
+    population: "Occupationally exposed men, with a weaker dietary-residue literature in general populations",
+    direction: "adverse",
+    confidence: "moderate",
+    causal: false,
+    limitations: [
+      "Most signal comes from occupational exposure. Dietary-residue evidence is weaker and mixed.",
+      "Exposure is usually inferred from job title or food-frequency questionnaires, not biomonitored.",
+      "Compounds act as mixtures, so no single pesticide is attributable to a change in a parameter.",
+      "No trial shows that switching to organic produce raises a parameter by a specific amount.",
+    ],
+    source: "Human pesticide systematic review",
+    sourceUrl: "https://pmc.ncbi.nlm.nih.gov/articles/PMC9541307/",
+    lastReviewed: "2026-07-25",
+    reviewStatus: "internal_review",
+    domains: ["environment"],
   },
   {
     id: "microplastics-sr",
@@ -831,6 +853,8 @@ export const demoBaseline: ClinicalTest = {
     { code: "progressive_motility_pct", value: 27, unit: "%", verification: "lab_report" },
     { code: "total_motility_pct", value: 39, unit: "%", verification: "lab_report" },
     { code: "normal_morphology_pct", value: 3, unit: "%", verification: "lab_report" },
+    { code: "dna_fragmentation_pct", value: 34, unit: "%", verification: "lab_report" },
+    { code: "leukocytes_million_ml", value: 0.4, unit: "×10⁶/mL", verification: "lab_report" },
   ],
 };
 
@@ -851,6 +875,8 @@ export const demoRetest: ClinicalTest = {
     { code: "progressive_motility_pct", value: 33, unit: "%", verification: "lab_report" },
     { code: "total_motility_pct", value: 46, unit: "%", verification: "lab_report" },
     { code: "normal_morphology_pct", value: 4, unit: "%", verification: "lab_report" },
+    { code: "dna_fragmentation_pct", value: 26, unit: "%", verification: "lab_report" },
+    { code: "leukocytes_million_ml", value: 0.3, unit: "×10⁶/mL", verification: "lab_report" },
   ],
 };
 

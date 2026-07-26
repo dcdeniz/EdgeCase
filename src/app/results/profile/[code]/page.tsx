@@ -17,6 +17,7 @@ import {
 import {
   changeExceedsVariability,
   markerCatalogue,
+  plainMeaning,
   referenceContextLabel,
   referenceContextOf,
   sourceLabel,
@@ -66,7 +67,7 @@ export default function MarkerDetailPage() {
       <Screen title={definition.label} back="/results/profile">
         <Card className="border-dashed">
           <p className="t-title-2 text-ink-3">Not measured</p>
-          <p className="mt-2 t-body-sm text-ink-2">{definition.meaning}</p>
+          <p className="mt-2 t-body-sm text-ink-2">{plainMeaning[code]}</p>
           <p className="mt-3">
             <StatusChip tone="unavailable">Lowers data confidence, not readiness</StatusChip>
           </p>

@@ -87,12 +87,22 @@ export type MarkerDefinition = {
   meaning: string;
   /** Present only for markers requiring a specialist assay. */
   specialistOnly?: boolean;
+  /**
+   * Approximate 50th centile of the WHO reference population.
+   *
+   * UNVERIFIED and currently UNUSED. These figures are widely circulated but
+   * could not be confirmed against the source manual, so the "optimal" band
+   * they once drew has been removed and the reference bar now uses only the
+   * verified 5th-centile limits. Retained for whoever checks the manual: swap
+   * in the real centiles, then restore the third band in profile-board.tsx.
+   */
+  referenceMedian?: number;
 };
 
 export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   volume_ml: {
     code: "volume_ml",
-    label: "Semen volume",
+    label: "Semen Volume",
     shortLabel: "Volume",
     unit: "mL",
     unitSpoken: "millilitres",
@@ -103,10 +113,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 1,
     meaning: "The total volume of the ejaculate. Low volume can also mean part of the sample was lost during collection.",
+    referenceMedian: 3.7,
   },
   concentration_million_ml: {
     code: "concentration_million_ml",
-    label: "Sperm concentration",
+    label: "Sperm Concentration",
     shortLabel: "Concentration",
     unit: "×10⁶/mL",
     unitSpoken: "million per millilitre",
@@ -117,10 +128,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 1,
     meaning: "How many sperm are present per millilitre. Reflects spermatogenic output and the hormonal axis that drives it.",
+    referenceMedian: 66,
   },
   total_count_million: {
     code: "total_count_million",
-    label: "Total sperm number",
+    label: "Total Sperm Count",
     shortLabel: "Total count",
     unit: "×10⁶",
     unitSpoken: "million",
@@ -131,6 +143,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 1,
     meaning: "Concentration multiplied by volume. Usually the more informative of the two for overall output.",
+    referenceMedian: 210,
   },
   total_motile_count_million: {
     code: "total_motile_count_million",
@@ -162,7 +175,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   progressive_motility_pct: {
     code: "progressive_motility_pct",
-    label: "Progressive motility",
+    label: "Progressive Motility",
     shortLabel: "Prog. motility",
     unit: "%",
     unitSpoken: "percent",
@@ -173,10 +186,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 0,
     meaning: "The share of sperm moving purposefully forward. Depends on the mitochondria powering the tail.",
+    referenceMedian: 55,
   },
   total_motility_pct: {
     code: "total_motility_pct",
-    label: "Total motility",
+    label: "Total Motility",
     shortLabel: "Total motility",
     unit: "%",
     unitSpoken: "percent",
@@ -187,10 +201,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 0,
     meaning: "The share of sperm moving at all, including non-progressive movement.",
+    referenceMedian: 64,
   },
   normal_morphology_pct: {
     code: "normal_morphology_pct",
-    label: "Normal morphology",
+    label: "Normal Morphology",
     shortLabel: "Morphology",
     unit: "%",
     unitSpoken: "percent",
@@ -201,10 +216,11 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 0,
     meaning: "The share of sperm with normally formed heads and tails. Strict criteria mean low percentages are expected.",
+    referenceMedian: 14,
   },
   dna_fragmentation_pct: {
     code: "dna_fragmentation_pct",
-    label: "DNA fragmentation index",
+    label: "DNA Fragmentation Index",
     shortLabel: "DNA fragmentation",
     unit: "%",
     unitSpoken: "percent",
@@ -219,8 +235,8 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   seminal_leukocytes_million_ml: {
     code: "seminal_leukocytes_million_ml",
-    label: "Seminal leukocytes",
-    shortLabel: "WBC",
+    label: "White Blood Cell Count",
+    shortLabel: "White Blood Cells",
     unit: "×10⁶/mL",
     unitSpoken: "million per millilitre",
     panel: "semen_analysis",
@@ -228,12 +244,13 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     shape: "upper_limit",
     referenceLow: null,
     referenceHigh: null,
-    decimals: 2,
-    meaning: "White blood cells reported in semen. This is an inflammation-related semen marker, not an endocrine hormone result.",
+    decimals: 1,
+    meaning:
+      "White blood cells reported in semen. A raised result is an inflammation-related semen marker, not an endocrine result, and is a question for a clinician rather than a lifestyle protocol.",
   },
   fsh_iu_l: {
     code: "fsh_iu_l",
-    label: "Follicle-stimulating hormone",
+    label: "Follicle-Stimulating Hormone",
     shortLabel: "FSH",
     unit: "IU/L",
     unitSpoken: "international units per litre",
@@ -247,7 +264,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   lh_iu_l: {
     code: "lh_iu_l",
-    label: "Luteinising hormone",
+    label: "Luteinising Hormone",
     shortLabel: "LH",
     unit: "IU/L",
     unitSpoken: "international units per litre",
@@ -261,7 +278,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   total_testosterone_nmol_l: {
     code: "total_testosterone_nmol_l",
-    label: "Total testosterone",
+    label: "Total Testosterone",
     shortLabel: "Total testosterone",
     unit: "nmol/L",
     unitSpoken: "nanomoles per litre",
@@ -275,7 +292,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
   },
   free_testosterone_nmol_l: {
     code: "free_testosterone_nmol_l",
-    label: "Free testosterone",
+    label: "Free Testosterone",
     shortLabel: "Free testosterone",
     unit: "nmol/L",
     unitSpoken: "nanomoles per litre",
@@ -343,6 +360,56 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     decimals: 2,
     meaning: "Screens thyroid function, which can affect reproductive health indirectly.",
   },
+};
+
+/**
+ * Plain-language names, for a consumer who has never seen a semen analysis.
+ *
+ * These lead in the interface and the clinical term sits beneath them, rather
+ * than replacing it. A man should be able to read his own result without a
+ * glossary, and still be able to take the same screen to a urologist and have
+ * it mean something. Dropping the clinical term would fail the second test.
+ */
+export const plainLabel: Record<MarkerCode, string> = {
+  volume_ml: "Amount of semen",
+  concentration_million_ml: "Sperm per millilitre",
+  total_count_million: "Total number of sperm",
+  progressive_motility_pct: "Sperm swimming forward",
+  total_motility_pct: "Sperm moving at all",
+  normal_morphology_pct: "Normally shaped sperm",
+  dna_fragmentation_pct: "Sperm with damaged DNA",
+  leukocytes_million_ml: "White blood cells",
+  fsh_iu_l: "The signal to make sperm",
+  lh_iu_l: "The signal to make testosterone",
+  total_testosterone_nmol_l: "Testosterone",
+  free_testosterone_nmol_l: "Available testosterone",
+  estradiol_pmol_l: "Oestrogen",
+  prolactin_miu_l: "Prolactin",
+  shbg_nmol_l: "Testosterone carrier protein",
+  tsh_miu_l: "Thyroid signal",
+};
+
+/** One sentence, no jargon, for why the parameter matters. */
+export const plainMeaning: Record<MarkerCode, string> = {
+  volume_ml: "The amount of fluid. Low volume can also mean some of the sample was lost.",
+  concentration_million_ml: "How many sperm are packed into each millilitre.",
+  total_count_million: "Concentration multiplied by volume — the fullest picture of output.",
+  progressive_motility_pct:
+    "Sperm have to swim forward to reach an egg. This is the share that do.",
+  total_motility_pct: "The share moving at all, including those not going anywhere useful.",
+  normal_morphology_pct:
+    "The share with a normal head and tail. Low percentages here are normal — the bar is strict.",
+  dna_fragmentation_pct: "Damage to the genetic material the sperm carries.",
+  leukocytes_million_ml:
+    "A raised count can indicate inflammation. This is a question for a clinician rather than for a lifestyle protocol.",
+  fsh_iu_l: "The hormone that tells the testes to make sperm.",
+  lh_iu_l: "The hormone that tells the testes to make testosterone.",
+  total_testosterone_nmol_l: "The main male hormone, measured in total.",
+  free_testosterone_nmol_l: "The share of testosterone actually available to your body.",
+  estradiol_pmol_l: "Present in men too, and part of the same hormonal balance.",
+  prolactin_miu_l: "Raised levels can interfere with the hormones above.",
+  shbg_nmol_l: "Binds testosterone and changes how much is usable.",
+  tsh_miu_l: "Thyroid function, which affects the wider hormonal picture.",
 };
 
 export const semenMarkerOrder: MarkerCode[] = [
