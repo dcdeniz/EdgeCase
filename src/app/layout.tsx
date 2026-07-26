@@ -1,13 +1,21 @@
 import type { Metadata, Viewport } from "next";
-import { IBM_Plex_Mono, IBM_Plex_Sans, Newsreader } from "next/font/google";
+import { IBM_Plex_Mono, IBM_Plex_Sans, Manrope, Newsreader } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
 
 /**
- * Three registers, each with a declared job.
- * Sans measures, serif reasons, mono reports machine metadata.
- * See docs/design/tokens.md#typography.
+ * The bible (docs/design/DESIGN.md) speaks one typeface: Sequel Sans,
+ * substituted here with Manrope — a variable geometric grotesque, so the
+ * bible's 400/450/500 weights all resolve. Redesigned surfaces use it via
+ * `font-sequel-sans`; the three legacy registers below remain loaded for
+ * screens not yet migrated.
  */
+const jetonSans = Manrope({
+  subsets: ["latin"],
+  variable: "--jt-sans",
+  display: "swap",
+});
+
 const sans = IBM_Plex_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
@@ -53,7 +61,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html
       lang="en"
-      className={`h-full ${sans.variable} ${serif.variable} ${mono.variable}`}
+      className={`h-full ${jetonSans.variable} ${sans.variable} ${serif.variable} ${mono.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-full">

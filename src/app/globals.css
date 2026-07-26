@@ -50,6 +50,12 @@
   --ps-unavailable: #8a9998;
   --ps-unavailable-quiet: rgb(138 153 152 / 0.12);
 
+  /* --- Identity gold. From the landing splash (PR #20): decorative marks
+         and large display only — never a status, never the sole carrier. --- */
+  --ps-gold: #c9a15f;
+  --ps-gold-ink: #c9a15f;
+  --ps-gold-quiet: rgb(201 161 95 / 0.14);
+
   /* --- Charts ------------------------------------------------------------ */
   --ps-series-1: #12a398;
   --ps-series-2: #c98500;
@@ -111,6 +117,10 @@
     --ps-unavailable: #5f6d6f;
     --ps-unavailable-quiet: rgb(95 109 111 / 0.09);
 
+    --ps-gold: #c9a15f;
+    --ps-gold-ink: #7d5c1e;
+    --ps-gold-quiet: rgb(201 161 95 / 0.16);
+
     --ps-series-1: #008d81;
     --ps-series-2: #a46e00;
     --ps-series-3: #4b4bc4;
@@ -163,6 +173,10 @@
   --ps-information-quiet: rgb(58 92 122 / 0.09);
   --ps-unavailable: #5f6d6f;
   --ps-unavailable-quiet: rgb(95 109 111 / 0.09);
+
+  --ps-gold: #c9a15f;
+  --ps-gold-ink: #7d5c1e;
+  --ps-gold-quiet: rgb(201 161 95 / 0.16);
 
   --ps-series-1: #008d81;
   --ps-series-2: #a46e00;
@@ -274,6 +288,10 @@
   --color-unavailable: var(--ps-unavailable);
   --color-unavailable-quiet: var(--ps-unavailable-quiet);
 
+  --color-gold: var(--ps-gold);
+  --color-gold-ink: var(--ps-gold-ink);
+  --color-gold-quiet: var(--ps-gold-quiet);
+
   --color-series-1: var(--ps-series-1);
   --color-series-2: var(--ps-series-2);
   --color-series-3: var(--ps-series-3);
@@ -296,6 +314,79 @@
   --font-sans: var(--ps-font-sans);
   --font-serif: var(--ps-font-serif);
   --font-mono: var(--ps-font-mono);
+}
+
+/* --------------------------------------------------------------------------
+   DESIGN.md bible tokens — Jeton, "editorial fintech on warm marble".
+   Source of truth: docs/design/DESIGN.md. One typeface, one chromatic voice
+   (#f73b20), warm near-black ink (#360802), white canvas, 16px cards with the
+   inverted shadow, category accents only on category-coded cards.
+
+   Deliberate omissions:
+   · No --spacing-* tokens — Tailwind's default 4px-base scale already equals
+     the bible's scale (p-1=4 … p-12=48, p-14=56, p-40=160). Redefining
+     --spacing-4 as 4px would remap p-4 across the whole app.
+   · No generic --radius-lg/xl overrides — the legacy --ps mapping above still
+     serves old screens. The bible's *named* radii below are the new surface.
+   -------------------------------------------------------------------------- */
+
+@theme {
+  /* Colors */
+  --color-signal-orange: #f73b20;
+  --color-brand-orange-tint: #f84d35;
+  --color-ink-roast: #360802;
+  --color-paper-white: #ffffff;
+  --color-carbon-black: #000000;
+  --color-ash-grey: #ababab;
+  --color-sand-wash: #e7dcdb;
+  --color-linen-blush: #fdedea;
+  --color-citrus-wash: #f5ffbb;
+  --color-mint-wash: #bcffbb;
+  --color-coral-red: #fb2d54;
+  --color-cobalt-blue: #477ee9;
+  --color-emerald-green: #34c771;
+  --color-frosted-glass: #ffffff1a;
+  --color-category-tint: #f73b200d;
+
+  /* Sole typeface. Sequel Sans substituted with Manrope (variable: 400/450/500). */
+  --font-sequel-sans: var(--jt-sans), "Manrope", ui-sans-serif, system-ui, sans-serif;
+
+  /* Type scale — size, leading and tracking travel together per role. */
+  --text-caption: 12px;
+  --text-caption--line-height: 1.5;
+  --text-caption--letter-spacing: 0.36px;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.4;
+  --text-body-sm--letter-spacing: 0.42px;
+  --text-body: 16px;
+  --text-body--line-height: 1.25;
+  --text-subheading: 23px;
+  --text-subheading--line-height: 1.2;
+  --text-subheading--letter-spacing: 0.23px;
+  --text-heading-sm: 33px;
+  --text-heading-sm--line-height: 1.2;
+  --text-heading-sm--letter-spacing: 0.33px;
+  --text-heading: 44px;
+  --text-heading--line-height: 1.2;
+  --text-heading--letter-spacing: 0.44px;
+  --text-heading-lg: 72px;
+  --text-heading-lg--line-height: 1;
+  --text-heading-lg--letter-spacing: 0.72px;
+  --text-display: 106px;
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: 1.06px;
+
+  /* Named radii */
+  --radius-nav: 84px;
+  --radius-cards: 16px;
+  --radius-links: 8px;
+  --radius-pills: 9999px;
+  --radius-inputs: 16px;
+  --radius-buttons: 12px;
+
+  /* Elevation — the float-from-below card and the orange glass panel. */
+  --shadow-md: rgba(0, 0, 0, 0.05) 0px -4px 16px 0px;
+  --shadow-lg: rgba(247, 59, 32, 0.1) 0px 8px 24px 0px, rgba(247, 59, 32, 0.05) 0px 2px 8px 0px;
 }
 
 /* --------------------------------------------------------------------------

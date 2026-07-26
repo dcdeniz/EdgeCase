@@ -1,0 +1,17 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "f=$(jq -r \".tool_input.file_path // empty\"); case \"$f\" in */src/*.tsx|*/src/*.css|src/*.tsx|src/*.css) printf \"%s\" \"{\\\"hookSpecificOutput\\\":{\\\"hookEventName\\\":\\\"PostToolUse\\\",\\\"additionalContext\\\":\\\"DESIGN BIBLE (docs/design/DESIGN.md) \u2014 check this edit against it: sole typeface Sequel Sans (Manrope, font-sequel-sans); NO serif, NO mono, weights 400/450/500 only, never 600+; white canvas; signal orange #f73b20 is the ONLY chromatic voice (cobalt/emerald/coral exclusively on category-coded cards); body ink #360802 never #000; cards 16px radius (rounded-cards) with inverted shadow (shadow-md); display type line-height 0.9-1.0; tracking 0.03em small / 0.01em display; hierarchy by size, never weight.\\\"}}\" ;; esac",
+            "timeout": 10,
+            "statusMessage": "Checking edit against the design bible"
+          }
+        ]
+      }
+    ]
+  }
+}
