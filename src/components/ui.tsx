@@ -275,7 +275,7 @@ export function Card({
         "rounded-md border",
         tone && tone !== "neutral"
           ? cx(toneWash[tone], "border-transparent")
-          : "bg-surface-1 border-hairline shadow-e1",
+          : "bg-surface-1 border-transparent shadow-e1",
         inset ? "p-3.5" : "p-4",
         className,
       )}

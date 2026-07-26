@@ -46,7 +46,7 @@ export default function WelcomePage() {
             fontSize: "3.25rem",
             lineHeight: 1,
             letterSpacing: "-0.035em",
-            fontWeight: 600,
+            fontWeight: 500,
           }}
         >
           PreSeed
