@@ -66,6 +66,8 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 
 ## Vector-RAG implementation
 
+- Added a licence-aware corpus pipeline using Europe PMC discovery and PMC BioC full text, with gitignored source working copies, an explicit human-review queue, a closed approved-claims contract, dry-run publication, embedding invalidation on content changes, and database-enforced approved/non-retracted retrieval. Evidence text is escaped before prompt assembly so source documents cannot break the evidence-block boundary.
+
 - Replaced the planned hackathon scikit-learn predictor with the vector-RAG architecture in ADR 0004. The product now produces evidence-grounded explanation, not a diagnostic probability or disease prediction.
 - Added real browser Supabase sign-up/sign-in and connected the coach screen to an authenticated account-scoped Edge API route.
 - Added pgvector-backed `evidence_chunks`, cosine retrieval through `match_evidence`, per-user `rag_runs` audit records, RLS, least-privilege grants, an HNSW index, and six reviewed evidence seeds spanning supplements, smoking, weight, pollution, sleep/testosterone, and azoospermia laboratory requirements.
@@ -75,3 +77,25 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - Added RAG unit tests covering citation allow-list enforcement, Responses payload extraction, and privacy-preserving safety identifiers. Eleven Edge Function tests, strict TypeScript, documentation checks, PostgreSQL lint, and the production Next.js build pass.
 - Applied migrations `20260725233000` and `20260725233500` locally and to hosted EdgeCase, then deployed the revised `api` function with gateway JWT verification retained.
 - Live provider completion is deliberately not claimed: `OPENAI_API_KEY` is not present in the local environment, and the six seeded hosted/local evidence rows still require `npm run rag:ingest`. The authenticated local endpoint was exercised and correctly returned `503 RAG_NOT_CONFIGURED` rather than generating an uncited fallback.
+
+## Structured RAG data engine
+
+- Recorded ADR 0007: PreSeed's RAG layer is an internal structured data engine, not a chatbot. The evidence-answer operation is retained only as a deprecated evaluation/backwards-compatibility surface. The number was chosen after Oran's accepted behavior-score ADR occupied ADR 0006 on `main`.
+- Added `POST /v1/data-engine/semen-profile/compile` and `GET /v1/data-engine/semen-profile/current`. Compilation reads persisted account inputs, normalizes measurements, transparently derives total and motile counts when their measured operands exist, and marks those values as derived rather than predicted.
+- Retrieval now fans out into a global profile query and parameter-specific queries. Results from approved evidence are fused, rank-adjusted, deduplicated, and capped before schema-constrained synthesis.
+- Added a closed semen-profile schema for summary, parameter contexts, mechanisms, improvement opportunities, protocol suggestions, collection cautions, missing inputs, clinical escalations, and limitations. The server rejects invented marker/evidence IDs, and evidence-backed suggestions require at least one retrieved evidence ID.
+- Added immutable, account-scoped `semen_profiles` artifacts with source-test provenance, normalized measurements, synthesis, evidence IDs, model IDs, prompt version, timestamp, and transactionally serialized version numbers. Existing artifacts are never overwritten.
+- Expanded canonical lab marker support for total motile count, progressive motile count, and seminal leukocytes. WBC is correctly represented as a semen leukocyte marker, not an endocrine hormone.
+- No frontend data-engine integration was made: it is intentionally deferred until the updated frontend PR lands.
+- Verification: 16 Edge tests pass, documentation contracts and strict TypeScript pass, the migration applies locally, PostgreSQL lint reports no errors, targeted project lint has no errors (two pre-existing instrumentation warnings), and the production Next.js build passes. Repository-wide ESLint currently traverses generated output inside an unrelated `.claude/worktrees/capacitor` tree and therefore reports generated-code errors; that tree was left untouched.
+
+## Synthetic pipeline exercise
+
+- Added an idempotent `supabase/seed.sql` containing one explicitly synthetic demo account, two semen reports, one hormone panel, onboarding context, and 15 measured markers. No real personal or health data is present.
+- The latest synthetic semen report contains volume 2.2 mL, concentration 14 million/mL, progressive motility 28%, total motility 39%, morphology 4%, DNA fragmentation 32%, and seminal leukocytes 1.2 million/mL. The hormone fixture contains FSH, LH, and total testosterone with illustrative laboratory intervals.
+- Ran the seed repeatedly without duplicate domain rows. The fixture contains three reports and 15 markers after reruns.
+- Exercised application normalization: total count derived as 30.80 million, total motile count as 12.01 million, and progressive motile count as 8.62 million. Derived values are marked `derived`; low concentration/motility and elevated DNA fragmentation are correctly contextualized against the supplied intervals.
+- Added `scripts/data-engine-smoke.mjs`. It obtains local credentials internally, authenticates only the synthetic user, sends no tokens to output, and records only status, latency, stable error code, artifact counts, and request-ID propagation.
+- Two authenticated compilation attempts failed closed with `503 DATA_ENGINE_NOT_CONFIGURED` because the local Edge runtime has no `OPENAI_API_KEY`. The current-artifact request correctly returned `404 SEMEN_PROFILE_NOT_FOUND`; no fabricated or partial artifact was persisted. Request IDs matched response envelopes in every run.
+- The local evidence table contains six approved passages and zero embeddings. A complete live retrieval/synthesis result is therefore not claimed. Provider configuration and approved-evidence ingestion are the two remaining prerequisites.
+- Verification after adding the fixture: 17 Edge tests pass, including the exact synthetic normalization and derived-count assertions.

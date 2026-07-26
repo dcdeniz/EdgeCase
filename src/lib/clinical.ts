@@ -15,10 +15,13 @@ export type MarkerCode =
   | "volume_ml"
   | "concentration_million_ml"
   | "total_count_million"
+  | "total_motile_count_million"
+  | "progressive_motile_count_million"
   | "progressive_motility_pct"
   | "total_motility_pct"
   | "normal_morphology_pct"
   | "dna_fragmentation_pct"
+  | "seminal_leukocytes_million_ml"
   | "fsh_iu_l"
   | "lh_iu_l"
   | "total_testosterone_nmol_l"
@@ -129,6 +132,34 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     decimals: 1,
     meaning: "Concentration multiplied by volume. Usually the more informative of the two for overall output.",
   },
+  total_motile_count_million: {
+    code: "total_motile_count_million",
+    label: "Total motile sperm count",
+    shortLabel: "Motile count",
+    unit: "×10⁶",
+    unitSpoken: "million",
+    panel: "semen_analysis",
+    referenceSet: "lab-supplied",
+    shape: "lower_limit",
+    referenceLow: null,
+    referenceHigh: null,
+    decimals: 1,
+    meaning: "The estimated number of moving sperm in the complete ejaculate. It may be reported by the laboratory or derived from volume, concentration and total motility.",
+  },
+  progressive_motile_count_million: {
+    code: "progressive_motile_count_million",
+    label: "Progressive motile sperm count",
+    shortLabel: "Progressive count",
+    unit: "×10⁶",
+    unitSpoken: "million",
+    panel: "semen_analysis",
+    referenceSet: "lab-supplied",
+    shape: "lower_limit",
+    referenceLow: null,
+    referenceHigh: null,
+    decimals: 1,
+    meaning: "The estimated number of progressively moving sperm in the complete ejaculate.",
+  },
   progressive_motility_pct: {
     code: "progressive_motility_pct",
     label: "Progressive motility",
@@ -185,6 +216,20 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     decimals: 0,
     specialistOnly: true,
     meaning: "The share of sperm carrying fragmented DNA. Requires a specialist assay and is reported against that laboratory's own threshold.",
+  },
+  seminal_leukocytes_million_ml: {
+    code: "seminal_leukocytes_million_ml",
+    label: "Seminal leukocytes",
+    shortLabel: "WBC",
+    unit: "×10⁶/mL",
+    unitSpoken: "million per millilitre",
+    panel: "semen_analysis",
+    referenceSet: "lab-supplied",
+    shape: "upper_limit",
+    referenceLow: null,
+    referenceHigh: null,
+    decimals: 2,
+    meaning: "White blood cells reported in semen. This is an inflammation-related semen marker, not an endocrine hormone result.",
   },
   fsh_iu_l: {
     code: "fsh_iu_l",
@@ -304,10 +349,13 @@ export const semenMarkerOrder: MarkerCode[] = [
   "volume_ml",
   "concentration_million_ml",
   "total_count_million",
+  "total_motile_count_million",
+  "progressive_motile_count_million",
   "progressive_motility_pct",
   "total_motility_pct",
   "normal_morphology_pct",
   "dna_fragmentation_pct",
+  "seminal_leukocytes_million_ml",
 ];
 
 export const hormoneMarkerOrder: MarkerCode[] = [

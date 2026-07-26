@@ -45,7 +45,7 @@ components:
       description: The code determines both the owning clinical test type and the canonical storage unit. Cross-panel markers and alternate units are rejected rather than converted implicitly.
       properties:
         code:
-          enum: [volume_ml, concentration_million_ml, total_count_million, progressive_motility_pct, total_motility_pct, normal_morphology_pct, dna_fragmentation_pct, fsh_iu_l, lh_iu_l, total_testosterone_nmol_l, free_testosterone_nmol_l, estradiol_pmol_l, prolactin_miu_l, shbg_nmol_l, tsh_miu_l]
+          enum: [volume_ml, concentration_million_ml, total_count_million, total_motile_count_million, progressive_motile_count_million, progressive_motility_pct, total_motility_pct, normal_morphology_pct, dna_fragmentation_pct, seminal_leukocytes_million_ml, fsh_iu_l, lh_iu_l, total_testosterone_nmol_l, free_testosterone_nmol_l, estradiol_pmol_l, prolactin_miu_l, shbg_nmol_l, tsh_miu_l]
         value: { type: number, minimum: 0 }
         unit: { enum: [mL, million/mL, million, "%", IU/L, nmol/L, pmol/L, mIU/L] }
         referenceLow: { type: [number, "null"] }
@@ -55,10 +55,13 @@ components:
         volume_ml: { testType: semen_analysis, unit: mL }
         concentration_million_ml: { testType: semen_analysis, unit: million/mL }
         total_count_million: { testType: semen_analysis, unit: million }
+        total_motile_count_million: { testType: semen_analysis, unit: million }
+        progressive_motile_count_million: { testType: semen_analysis, unit: million }
         progressive_motility_pct: { testType: semen_analysis, unit: "%" }
         total_motility_pct: { testType: semen_analysis, unit: "%" }
         normal_morphology_pct: { testType: semen_analysis, unit: "%" }
         dna_fragmentation_pct: { testType: semen_analysis, unit: "%" }
+        seminal_leukocytes_million_ml: { testType: semen_analysis, unit: million/mL }
         fsh_iu_l: { testType: hormone_panel, unit: IU/L }
         lh_iu_l: { testType: hormone_panel, unit: IU/L }
         total_testosterone_nmol_l: { testType: hormone_panel, unit: nmol/L }
@@ -91,6 +94,19 @@ components:
         clinicalEscalation: { type: boolean }
         disclaimer: { type: string }
         runId: { type: string, format: uuid }
+        createdAt: { type: string, format: date-time }
+    SemenProfileArtifact:
+      type: object
+      additionalProperties: false
+      required: [id, version, measurements, synthesis, evidenceIds, createdAt]
+      properties:
+        id: { type: string, format: uuid }
+        version: { type: integer, minimum: 1 }
+        measurements: { type: array, items: { type: object } }
+        synthesis:
+          type: object
+          description: Schema-constrained parameter reasoning, improvement opportunities, protocol suggestions, cautions, missing inputs, escalation and limitations.
+        evidenceIds: { type: array, minItems: 1, maxItems: 8, items: { type: string } }
         createdAt: { type: string, format: date-time }
 security: [{ bearerAuth: [] }]
 paths:
@@ -197,6 +213,7 @@ paths:
   /v1/evidence/answer:
     post:
       operationId: createGroundedEvidenceAnswer
+      deprecated: true
       description: Retrieves approved evidence against account-scoped context and returns a schema-validated explanation. This operation does not predict or diagnose a condition.
       requestBody:
         required: true
@@ -215,3 +232,19 @@ paths:
         "422": { description: Invalid question }
         "502": { description: Provider output failed grounding validation }
         "503": { description: RAG provider or evidence index unavailable }
+  /v1/data-engine/semen-profile/current:
+    get:
+      operationId: getCurrentSemenProfile
+      description: Returns the latest immutable structured feature artifact. This is not a chat transcript or diagnosis.
+      responses:
+        "200": { description: Current semen-profile artifact }
+        "404": { description: No compiled profile }
+  /v1/data-engine/semen-profile/compile:
+    post:
+      operationId: compileSemenProfile
+      description: Compiles normalized account measurements and approved evidence into a versioned structured artifact used by PreSeed features.
+      responses:
+        "201": { description: Compiled semen-profile artifact }
+        "422": { description: A semen analysis is required }
+        "502": { description: Provider output failed artifact validation }
+        "503": { description: Data engine or approved evidence unavailable }

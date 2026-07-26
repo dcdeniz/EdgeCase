@@ -184,10 +184,11 @@ Twenty videos with 29,196 annotated frames, sperm bounding boxes, semen endpoint
 
 ### Longitudinal Investigation of Fertility and the Environment
 
-The LIFE Study is a prospective preconception cohort connecting semen and sperm biomarkers, environmental exposures, lifestyle variables, time to pregnancy, and couple-level reproductive outcomes. Access is controlled through dbGaP.
+The LIFE Study is a prospective preconception cohort connecting semen and sperm biomarkers, environmental exposures, lifestyle variables, time to pregnancy, and couple-level reproductive outcomes. Treat participant-level access as controlled until the correct repository accession and data-use agreement are confirmed.
 
-- Study: <https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs001692.v1.p1>
+- Authoritative study description: <https://www.nichd.nih.gov/about/org/diphr/od/research/longitudinal>
 - Best use: exposure and fecundity modelling
+- Access note: the previously cited dbGaP accession `phs001692.v1.p1` currently describes an inconsistent eight-subject semen/microRNA repository and must not be treated as the 501-couple LIFE cohort.
 
 ### N-SEED
 

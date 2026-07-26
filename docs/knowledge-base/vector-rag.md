@@ -1,22 +1,34 @@
 # Vector RAG
 
-PreSeed uses vector retrieval and grounded generation instead of a trained fertility predictor. The decision and safety boundary are canonical in [`../project/adr/0004-vector-rag-over-trained-prediction.md`](../project/adr/0004-vector-rag-over-trained-prediction.md).
+PreSeed uses vector retrieval and grounded generation instead of a trained fertility predictor. It is a structured data engine, not a chatbot. The decision and safety boundary are canonical in [`../project/adr/0004-vector-rag-over-trained-prediction.md`](../project/adr/0004-vector-rag-over-trained-prediction.md) and [`../project/adr/0007-structured-rag-data-engine.md`](../project/adr/0007-structured-rag-data-engine.md).
 
 ## Runtime flow
 
-1. The browser signs the user in with Supabase Auth and sends the bearer token to `POST /functions/v1/api/v1/evidence/answer`.
-2. The Edge Function validates the token and origin, then reads only that user's onboarding context and three most recent clinical tests through the user-scoped Supabase client.
-3. OpenAI embeds the question plus account context with `text-embedding-3-small` at 1,536 dimensions.
-4. PostgreSQL `match_evidence` performs cosine retrieval against reviewed `evidence_chunks`.
-5. The Responses API receives only the question, minimum account context, and retrieved evidence. Its output must match a closed JSON Schema.
-6. The server rejects any evidence ID outside the retrieved set and resolves citation metadata from Postgres. It stores the structured answer, retrieved IDs, prompt version, model IDs, user ID, and timestamp in `rag_runs` under RLS.
-7. The coach UI displays the explanation, source links, limitations, clinical-escalation state, and prototype disclaimer.
+1. Clinical reports and onboarding context are persisted before compilation.
+2. `POST /functions/v1/api/v1/data-engine/semen-profile/compile` reads the account's latest semen analysis and latest hormone panel and normalizes their values. It may derive arithmetic totals from measured operands, always marked `derived`.
+3. OpenAI embeds a global context query plus one query per available parameter with `text-embedding-3-small` at 1,536 dimensions.
+4. PostgreSQL `match_evidence` retrieves only reviewed, approved, non-retracted `evidence_chunks`; the Edge Function fuses and deduplicates the result sets.
+5. The Responses API receives normalized inputs, minimum account context, and retrieved evidence. Its output must match the closed semen-profile JSON Schema.
+6. The server rejects marker codes and evidence IDs outside the supplied allowlists. Evidence-backed suggestions require at least one retrieved evidence ID.
+7. Postgres transactionally stores the immutable artifact in `semen_profiles`, with its source test IDs, measurements, synthesis, evidence IDs, prompt version, model IDs, account ID, and monotonically increasing version.
+8. Results, protocol, progress, comparison, and adaptation features read this artifact. They do not use chat history.
 
-Vector RAG does not predict or diagnose azoospermia or endocrine disease. It explains reviewed evidence relevant to entered results. Possible azoospermia, abnormal hormones, severe results, and diagnostic questions route to qualified laboratory or clinical care.
+Vector RAG does not predict or diagnose azoospermia or endocrine disease. It compiles reviewed evidence relevant to entered results into feature data. Possible azoospermia, abnormal hormones, severe results, and diagnostic questions route to qualified laboratory or clinical care.
 
 ## Evidence ingestion
 
-Migrations seed reviewed text and citation metadata without vectors. Indexing is an explicit privileged operation:
+Corpus discovery and publication are separate trust boundaries:
+
+1. `npm run corpus:discover` records open-full-text candidates and article-level reuse licences.
+2. `npm run corpus:fetch` downloads licensed BioC working copies into a gitignored directory.
+3. `npm run corpus:prepare` creates an unapproved passage review queue.
+4. A named human reviewer converts supported atomic claims into `data/corpus/approved-claims.json`, including an exact locator, evidence level, reuse basis, limitations, and `humanReviewConfirmed: true`.
+5. `npm run corpus:publish` validates this file in dry-run mode. `CORPUS_PUBLISH_APPLY=true` performs the privileged database upsert and clears stale embeddings when reviewed content changes.
+6. `npm run rag:ingest` embeds only approved, non-retracted evidence.
+
+Candidates and downloaded articles are never directly searchable. PostgreSQL enforces review state, reviewer provenance, source locator, content version, and retraction state; `match_evidence` filters to approved, non-retracted rows even if a privileged client writes an invalidly indexed candidate.
+
+Indexing remains an explicit privileged operation:
 
 ```bash
 OPENAI_API_KEY=... \
@@ -25,7 +37,7 @@ SUPABASE_SECRET_KEY=... \
 npm run rag:ingest
 ```
 
-The script selects only rows whose embedding is null, requests 1,536-dimensional embeddings, validates the response count and dimensions, and writes vectors with the configured embedding-model ID. Re-running it is safe and skips already indexed rows.
+The script selects only approved, non-retracted rows whose embedding is null, requests 1,536-dimensional embeddings, validates the response count and dimensions, and writes vectors with the configured embedding-model ID. Re-running it is safe and skips already indexed rows.
 
 ## Required configuration
 

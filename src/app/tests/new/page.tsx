@@ -35,7 +35,7 @@ import { usePrototype } from "@/lib/store";
 type Mode = "manual" | "upload" | "simulated";
 type Step = 1 | 2 | 3;
 
-const entryCodes: MarkerCode[] = semenMarkerOrder.filter((code) => code !== "dna_fragmentation_pct");
+const entryCodes: MarkerCode[] = semenMarkerOrder;
 
 export default function NewTestPage() {
   const router = useRouter();

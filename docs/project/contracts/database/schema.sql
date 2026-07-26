@@ -76,7 +76,16 @@ create table public.evidence_chunks (
   tags text[] not null default '{}',
   embedding extensions.vector(1536),
   embedding_model text,
+  review_status text not null,
   reviewed_at date not null,
+  reviewed_by text,
+  source_locator text,
+  source_license text,
+  source_pmcid text,
+  source_doi text,
+  reuse_basis text not null,
+  content_version integer not null,
+  is_retracted boolean not null,
   created_at timestamptz not null default now()
 );
 create table public.rag_runs (
@@ -92,3 +101,22 @@ create table public.rag_runs (
 );
 alter table public.evidence_chunks enable row level security;
 alter table public.rag_runs enable row level security;
+
+-- Structured data-engine snapshot; executable source, transactional versioning,
+-- grants, and policies are canonical in
+-- supabase/migrations/20260725235000_semen_profile_engine.sql.
+create table public.semen_profiles (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null references auth.users(id) on delete cascade,
+  version integer not null,
+  source_test_ids uuid[] not null,
+  measurements jsonb not null,
+  synthesis jsonb not null,
+  evidence_ids text[] not null,
+  response_model text not null,
+  embedding_model text not null,
+  prompt_version text not null,
+  created_at timestamptz not null default now(),
+  unique (user_id, version)
+);
+alter table public.semen_profiles enable row level security;
