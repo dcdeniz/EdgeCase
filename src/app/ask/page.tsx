@@ -5,54 +5,61 @@ import { useState } from "react";
 import { Icon } from "@/components/icons";
 import { DeltaBadge } from "@/components/score";
 import { DisclaimerFooter, Screen } from "@/components/shell";
-import { Button, Card, StatusChip, TextInput, cx } from "@/components/ui";
-import { behaviourDomains, domainColour } from "@/lib/behaviour-score";
-import { usePrototype } from "@/lib/store";
 import {
-  PROJECTION_CAVEAT,
-  matchScenario,
-  project,
-  scenarios,
-  type Projection,
-} from "@/lib/what-if";
+  Button,
+  Card,
+  MetaBadge,
+  StatusChip,
+  TextInput,
+} from "@/components/ui";
+import { behaviourDomains, domainColour } from "@/lib/behaviour-score";
+import { confidenceLabel, reviewStatusLabel } from "@/lib/fixtures";
+import { usePrototype } from "@/lib/store";
+import { answerQuestion, sampleQuestions, type Answer } from "@/lib/ask";
+import { NO_CONCEPTION_CLAIM } from "@/lib/supplements";
+import { PROJECTION_CAVEAT, type Projection } from "@/lib/what-if";
 
 type Turn =
   | { kind: "question"; text: string }
-  | { kind: "projection"; projection: Projection }
-  | { kind: "unsupported"; text: string };
+  | { kind: "thinking" }
+  | { kind: "answer"; answer: Answer };
 
 /**
  * Ask PreSeed.
  *
- * A question about the effect of a change is answered by re-running the score
- * with that input replaced, not by generating prose. The number shown is the
- * model's, so it cannot be invented — and when the model has nothing to say,
- * this says so instead of guessing.
+ * Answers are assembled from evidence cards and the score model, never
+ * generated. See `src/lib/ask.ts` for why that boundary is the safety property
+ * rather than a limitation.
  */
 export default function AskPage() {
   const { state } = usePrototype();
   const [draft, setDraft] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
+  const [busy, setBusy] = useState(false);
 
   function ask(text: string) {
-    const scenario = matchScenario(text);
-    setTurns((previous) => [
-      ...previous,
-      { kind: "question", text },
-      scenario
-        ? { kind: "projection", projection: project(state, scenario) }
-        : { kind: "unsupported", text },
-    ]);
+    if (busy) return;
+    setBusy(true);
     setDraft("");
+    setTurns((previous) => [...previous, { kind: "question", text }, { kind: "thinking" }]);
+
+    // A beat before the answer. Retrieval is instant; a result that appears
+    // with no delay reads as canned rather than considered.
+    window.setTimeout(() => {
+      const answer = answerQuestion(state, text);
+      setTurns((previous) => [...previous.slice(0, -1), { kind: "answer", answer }]);
+      setBusy(false);
+    }, 700);
   }
 
   return (
-    <Screen title="Ask PreSeed" eyebrow="What-if">
+    <Screen title="Ask PreSeed" eyebrow="Evidence and what-if">
       {turns.length === 0 ? (
         <Card>
           <p className="t-body-sm text-ink-2">
-            Ask how a change would move your Seed Score. The answer comes from re-running the
-            score with that input replaced.
+            Ask about anything in the evidence library, or how a change would move your Seed
+            Score. Answers come from reviewed cards and from re-running the score — never from a
+            model writing prose.
           </p>
         </Card>
       ) : null}
@@ -66,26 +73,15 @@ export default function AskPage() {
             >
               {turn.text}
             </p>
-          ) : turn.kind === "unsupported" ? (
-            <Card key={index} tone="unavailable">
-              <StatusChip tone="unavailable" glyph="unavailable">
-                No projection available
-              </StatusChip>
-              <p className="mt-2.5 t-body-sm text-ink-2">
-                The score model has nothing to say about that. It covers sleep, diet, activity and
-                protocol adherence — a question outside those four has no number behind it, and
-                PreSeed will not invent one.
+          ) : turn.kind === "thinking" ? (
+            <Card key={index}>
+              <p className="flex items-center gap-2 t-body-sm text-ink-3">
+                <Icon name="coach" size={16} className="animate-pulse" />
+                Searching the evidence library…
               </p>
-              <Link
-                href="/coach"
-                className="mt-2.5 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
-              >
-                Ask the evidence library instead
-                <Icon name="chevron-right" size={15} />
-              </Link>
             </Card>
           ) : (
-            <ProjectionCard key={index} projection={turn.projection} />
+            <AnswerCard key={index} answer={turn.answer} />
           ),
         )}
       </div>
@@ -95,29 +91,34 @@ export default function AskPage() {
           id="ask-input"
           value={draft}
           onChange={(event) => setDraft(event.target.value)}
-          placeholder="What if I slept eight hours a night?"
+          onKeyDown={(event) => {
+            if (event.key === "Enter" && draft.trim().length > 0) ask(draft);
+          }}
+          placeholder="Is CoQ10 beneficial for fertility?"
         />
-        <Button full className="mt-2" disabled={draft.trim().length === 0} onClick={() => ask(draft)}>
-          Ask
+        <Button
+          full
+          className="mt-2"
+          disabled={busy || draft.trim().length === 0}
+          onClick={() => ask(draft)}
+        >
+          {busy ? "Thinking…" : "Ask"}
         </Button>
       </div>
 
       <section className="mt-6" aria-labelledby="suggestions">
         <p id="suggestions" className="t-micro text-ink-3">
-          Questions the model can answer
+          Try
         </p>
         <div className="mt-2 flex flex-wrap gap-2">
-          {scenarios.map((scenario) => (
+          {sampleQuestions.map((question) => (
             <button
-              key={scenario.id}
+              key={question}
               type="button"
-              onClick={() => ask(scenario.question)}
-              className={cx(
-                "min-h-11 rounded-full border border-line-control px-3.5 t-body-sm text-ink-1",
-                "hover:bg-surface-3",
-              )}
+              onClick={() => ask(question)}
+              className="min-h-11 rounded-full border border-line-control px-3.5 text-left t-body-sm text-ink-1 hover:bg-surface-3"
             >
-              {scenario.label}
+              {question}
             </button>
           ))}
         </div>
@@ -125,6 +126,135 @@ export default function AskPage() {
 
       <DisclaimerFooter />
     </Screen>
+  );
+}
+
+/* ========================================================================== */
+
+function AnswerCard({ answer }: { answer: Answer }) {
+  if (answer.kind === "projection") return <ProjectionCard projection={answer.projection} />;
+
+  if (answer.kind === "unsupported") {
+    return (
+      <Card>
+        <StatusChip tone="unavailable" glyph="unavailable">
+          Nothing in the library
+        </StatusChip>
+        <p className="mt-2.5 t-body-sm text-ink-2">
+          No reviewed evidence card covers that, and the score model has no projection for it.
+          PreSeed will not answer from outside its own library, because an answer with no card
+          behind it is a guess wearing a lab coat.
+        </p>
+        <Link
+          href="/evidence"
+          className="mt-2.5 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+        >
+          Browse the library
+          <Icon name="chevron-right" size={15} />
+        </Link>
+      </Card>
+    );
+  }
+
+  const { subject, claims, supplement, product, impact } = answer;
+
+  return (
+    <Card>
+      <p className="t-micro text-ink-3">{subject}</p>
+
+      {/* What the evidence actually says, verbatim from the card. */}
+      {claims.map((claim) => (
+        <div key={claim.id} className="mt-3 first:mt-2">
+          <p className="t-prose text-ink-1">{claim.claim}</p>
+
+          <div className="mt-2.5 flex flex-wrap items-center gap-1.5">
+            <MetaBadge glyph={claim.causal ? "check-circle" : "results"}>
+              {claim.causal ? "Interventional" : "Observational"}
+            </MetaBadge>
+            <MetaBadge glyph="info">{confidenceLabel[claim.confidence]}</MetaBadge>
+            <MetaBadge glyph={claim.reviewStatus === "internal_review" ? "check" : "pending"}>
+              {reviewStatusLabel[claim.reviewStatus]}
+            </MetaBadge>
+          </div>
+
+          <div className="mt-3 border-t border-hairline pt-2.5">
+            <p className="t-micro text-ink-3">Limits</p>
+            <ul className="mt-1.5 space-y-1.5">
+              {claim.limitations.map((line) => (
+                <li key={line} className="flex gap-2 t-caption text-ink-2">
+                  <Icon name="info" size={13} className="mt-0.5 shrink-0 text-ink-3" />
+                  {line}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <Link
+            href={`/evidence/${claim.id}`}
+            className="mt-2.5 inline-flex items-center gap-1 t-body-sm font-medium text-accent"
+          >
+            {claim.source}
+            <Icon name="chevron-right" size={14} />
+          </Link>
+        </div>
+      ))}
+
+      {/* Where a named compound exists, its own blocker is the honest answer. */}
+      {supplement ? (
+        <div className="mt-4 rounded-sm border border-dashed border-hairline p-3">
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="t-title-3 text-ink-1">{supplement.name}</p>
+            <StatusChip tone="unavailable" glyph="pending">
+              Not recommended
+            </StatusChip>
+          </div>
+          <p className="mt-2 t-body-sm text-ink-2">{supplement.rationale}</p>
+          <p className="mt-2 t-caption text-ink-3">
+            Studies used {supplement.studiedDose.toLowerCase()}.
+          </p>
+          <p className="mt-2 flex gap-2 t-caption text-ink-2">
+            <Icon name="attention" size={13} className="mt-0.5 shrink-0 text-attention" />
+            {supplement.blocker}
+          </p>
+          <p className="mt-2 t-caption text-ink-3">{NO_CONCEPTION_CLAIM}</p>
+        </div>
+      ) : null}
+
+      {product ? (
+        <div className="mt-3 rounded-sm border border-dashed border-hairline p-3">
+          <p className="t-micro text-ink-3">{product.brand}</p>
+          <p className="mt-0.5 t-title-3 text-ink-1">{product.name}</p>
+          <p className="mt-1.5 t-body-sm text-ink-2">{product.what}</p>
+          <p className="mt-2 flex gap-2 t-caption text-ink-2">
+            <Icon name="attention" size={13} className="mt-0.5 shrink-0 text-attention" />
+            {product.evidenceLevel}
+          </p>
+        </div>
+      ) : null}
+
+      {/* The bit only this product can answer. */}
+      <div className="mt-4 border-t border-hairline pt-3">
+        <p className="t-micro text-ink-3">Effect on your Seed Score</p>
+        <p className="mt-1.5 flex items-baseline gap-2">
+          <span className="t-title-1 text-ink-1 ps-num">
+            {impact.domain == null ? "None" : `up to +${impact.available}`}
+          </span>
+          {impact.domain ? (
+            <span
+              aria-hidden="true"
+              className="size-2 shrink-0 rounded-full"
+              style={{ background: domainColour[impact.domain] }}
+            />
+          ) : null}
+          {impact.domain ? (
+            <span className="t-caption text-ink-3">
+              via {behaviourDomains[impact.domain].label.toLowerCase()}
+            </span>
+          ) : null}
+        </p>
+        <p className="mt-1.5 t-body-sm text-ink-2">{impact.explanation}</p>
+      </div>
+    </Card>
   );
 }
 
@@ -167,9 +297,7 @@ function ProjectionCard({ projection }: { projection: Projection }) {
           </ul>
         </>
       ) : (
-        <p className="mt-2 t-body-sm text-ink-1">
-          Your Seed Score would not change.
-        </p>
+        <p className="mt-2 t-body-sm text-ink-1">Your Seed Score would not change.</p>
       )}
 
       {scenario.note ? (
