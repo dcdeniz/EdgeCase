@@ -128,14 +128,14 @@ const topics: Topic[] = [
     id: "smoking",
     keywords: ["smok", "cigarette", "nicotine", "vape", "tobacco"],
     evidenceIds: ["smoking-umbrella"],
-    domain: null,
+    domain: "substances",
     subject: "Smoking",
   },
   {
     id: "alcohol",
     keywords: ["alcohol", "drink", "beer", "wine", "pint", "units"],
     evidenceIds: ["alcohol-umbrella"],
-    domain: null,
+    domain: "substances",
     subject: "Alcohol",
   },
   {
@@ -163,28 +163,28 @@ const topics: Topic[] = [
     id: "heat",
     keywords: ["heat", "sauna", "hot tub", "bath", "laptop", "sitting", "underwear"],
     evidenceIds: ["heat-umbrella"],
-    domain: null,
+    domain: "heat",
     subject: "Scrotal heat",
   },
   {
     id: "pollution",
     keywords: ["pollution", "air quality", "pm2.5", "aqi", "smog"],
     evidenceIds: ["air-pollution-sr"],
-    domain: null,
+    domain: "environment",
     subject: "Air pollution",
   },
   {
     id: "pesticides",
     keywords: ["pesticide", "organic", "herbicide", "residue"],
     evidenceIds: ["pesticide-sr"],
-    domain: null,
+    domain: "environment",
     subject: "Pesticide exposure",
   },
   {
     id: "metals",
     keywords: ["lead", "cadmium", "metal", "solvent", "chemical"],
     evidenceIds: ["lead-ma"],
-    domain: null,
+    domain: "environment",
     subject: "Metals and chemicals",
   },
   {
@@ -223,7 +223,7 @@ export type Answer =
 export function answerQuestion(state: PrototypeState, text: string): Answer {
   const query = text.toLowerCase();
 
-  const asksWhatIf = /\b(what if|if i|would it|how much would|impact on my|affect my)\b/.test(query);
+  const asksWhatIf = /\b(what if|if i|would it|will|how much would|increase my|decrease my|impact on my|affect my)\b/.test(query);
   if (asksWhatIf) {
     const scenario = matchScenario(text);
     if (scenario) return { kind: "projection", projection: project(state, scenario) };

@@ -89,10 +89,10 @@ export default function SafetyPage() {
               interpretation. They are never expressed as behavioural deductions.
             </p>
           </Disclosure>
-          <Disclosure label="Simulated data is labelled everywhere" glyph="simulated">
+          <Disclosure label="Provenance is tracked on every value" glyph="simulated">
             <p className="t-prose text-ink-1">
-              Every list, card, chart and comparison built on demonstration data carries a simulated
-              badge, and simulated provenance caps your data confidence.
+              Every result records where it came from and how it was verified, and unverified
+              provenance caps your data confidence — it never inflates a score.
             </p>
           </Disclosure>
           <Disclosure label="Your plan is never rewritten silently" glyph="protocol">

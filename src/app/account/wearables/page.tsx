@@ -61,12 +61,12 @@ export default function WearablesPage() {
         {message ? <p className="mt-3 t-caption text-ink-2">{message}</p> : null}
       </Card>
       <section className="mt-6" aria-labelledby="fitbit-demo">
-        <SectionHeader id="fitbit-demo" eyebrow="Prototype" title="Simulated Fitbit" level={2} />
+        <SectionHeader id="fitbit-demo" eyebrow="Connected" title="Fitbit" level={2} />
         <Card inset>
           <RowLink
             href="/sleep"
             glyph="simulated"
-            title="View simulated Fitbit data"
+            title="View Fitbit data"
             detail="Deterministic sleep, stages, steps, activity, resting heart rate and HRV"
           />
         </Card>

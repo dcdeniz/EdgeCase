@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { Icon, type IconName } from "@/components/icons";
 import { AdherenceBand, DomainBars, ReferenceStrip, ScoreMeter, TrendChart } from "@/components/charts";
-import { PrototypeLabel } from "@/components/shell";
 import {
   Button,
   Card,
@@ -125,7 +124,6 @@ export default function DesignSystemPage() {
             <p className="t-micro text-ink-3">Handoff</p>
             <h1 className="t-title-2 text-ink-1">Design system</h1>
           </div>
-          <PrototypeLabel compact />
         </div>
       </header>
 
@@ -301,7 +299,7 @@ export default function DesignSystemPage() {
               <MetaBadge glyph="lab">From lab report</MetaBadge>
               <MetaBadge glyph="hand">Entered by you</MetaBadge>
               <MetaBadge glyph="upload">Uploaded report</MetaBadge>
-              <MetaBadge glyph="simulated">Simulated</MetaBadge>
+              <MetaBadge glyph="simulated">Sample</MetaBadge>
               <MetaBadge glyph="pending">62h abstinence</MetaBadge>
               <MetaBadge glyph="calendar">18 Apr 2026</MetaBadge>
             </div>
@@ -406,7 +404,7 @@ export default function DesignSystemPage() {
               onChange={setSeg}
               options={[
                 { value: "a", label: "Manual", glyph: "pencil" },
-                { value: "b", label: "Demo", glyph: "simulated" },
+                { value: "b", label: "Sample", glyph: "simulated" },
               ]}
             />
             <div className="mt-4">

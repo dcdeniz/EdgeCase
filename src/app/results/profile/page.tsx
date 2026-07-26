@@ -28,7 +28,7 @@ export default function ProfilePage() {
         <EmptyState
           glyph="lab"
           title="Nothing measured yet"
-          body="This screen only ever shows values a laboratory produced, or clearly labelled demonstration data. It never shows an estimate."
+          body="This screen only ever shows values a laboratory produced, or sample data. It never shows an estimate."
           action={
             <ButtonLink href="/tests/new" glyph="plus">
               Add a clinical result

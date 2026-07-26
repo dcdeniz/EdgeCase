@@ -306,9 +306,9 @@ function CoachThread() {
       ) : null}
 
       <Card className="mt-6">
-        <p className="t-micro text-ink-3">Prototype</p>
+        <p className="t-micro text-ink-3">How this works</p>
         <p className="mt-1.5 t-body-sm text-ink-2">
-          Prepared demo answers remain below for offline walkthroughs. The form above uses live vector
+          The form above uses live vector
           retrieval over the approved evidence set, validates output against a closed schema, and rejects
           citations that were not retrieved. It cannot change a score, diagnose a condition, recommend
           hormone treatment, or apply a protocol change.

@@ -65,13 +65,6 @@ export default function WelcomePage() {
         </Link>
 
         <p className="mt-6 max-w-[21rem] t-caption text-ink-inverse/55">{PROTOTYPE_DISCLAIMER}</p>
-
-        <Link
-          href="/prototype"
-          className="mt-4 inline-flex items-center gap-1 t-caption text-ink-inverse/70 underline underline-offset-2"
-        >
-          Screen map
-        </Link>
       </main>
     </div>
   );

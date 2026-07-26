@@ -18,7 +18,7 @@ const jetonSans = Manrope({
 export const metadata: Metadata = {
   title: "PreSeed — male fertility intelligence",
   description:
-    "A research prototype that turns semen analyses, hormone results and lifestyle data into a measured profile, a transparent readiness score and a dated, evidence-cited protocol.",
+    "Turns semen analyses, hormone results and lifestyle data into a measured profile, a transparent readiness score and a dated, evidence-cited protocol.",
   applicationName: "PreSeed",
   appleWebApp: { capable: true, title: "PreSeed", statusBarStyle: "black-translucent" },
   formatDetection: { telephone: false },

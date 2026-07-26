@@ -62,7 +62,7 @@ export default function AccountPage() {
       stepLabel="Account"
       back="/"
       title={mode === "sign_in" ? "Sign in to PreSeed" : "Create your PreSeed account"}
-      intro="Your onboarding answers and simulated laboratory reports stay attached to this account."
+      intro="Your onboarding answers and laboratory reports stay attached to this account."
       footer={
         <Button full size="lg" glyphAfter="chevron-right" disabled={pending || !email || password.length < 6} onClick={submit}>
           {pending ? "Signing in…" : mode === "sign_in" ? "Sign in and start onboarding" : "Create account"}

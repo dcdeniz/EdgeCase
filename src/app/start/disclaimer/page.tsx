@@ -7,14 +7,13 @@ import { Button, Card, cx } from "@/components/ui";
 import { usePrototype } from "@/lib/store";
 
 const limits = [
-  "This is a research prototype, not a medical device.",
+  "PreSeed is not a medical device.",
   "Nothing here is a diagnosis.",
   "It does not replace laboratory or clinical testing.",
   "It makes no claim about conception or pregnancy.",
   "It cannot confirm azoospermia. A zero or extremely low result needs laboratory confirmation.",
   "It does not diagnose endocrine conditions or recommend hormone treatment.",
   "It never tells you to start or stop a prescribed medicine.",
-  "Demonstration data is simulated and labelled wherever it appears.",
 ];
 
 export default function DisclaimerPage() {
@@ -26,7 +25,7 @@ export default function DisclaimerPage() {
     <FlowShell
       step={4}
       total={10}
-      stepLabel="Research prototype"
+      stepLabel="Disclaimer"
       back="/start/consent"
       title="Before you rely on anything here"
       intro="This is the one screen in PreSeed that asks you to read a list. Everything after it is designed to keep these limits visible without repeating them at you."

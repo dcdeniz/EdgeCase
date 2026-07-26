@@ -182,12 +182,6 @@ export default function NextTodayPage() {
           <p className="text-body font-medium tracking-[0.01em] text-ink-roast">
             PreSeed<Dot />
           </p>
-          <Link
-            href="/account/safety"
-            className="rounded-pills border border-sand-wash px-4 py-1.5 text-caption font-[450] tracking-[0.03em] text-carbon-black"
-          >
-            Prototype · simulated
-          </Link>
         </div>
       </header>
 
@@ -454,7 +448,7 @@ export default function NextTodayPage() {
               );
             })}
           </div>
-          <p className="mt-3 text-caption text-carbon-black">Whoop and your log · simulated wearable data</p>
+          <p className="mt-3 text-caption text-carbon-black">Whoop and your log</p>
         </section>
 
         {/* ── Latest analysis. One warm card, values as the headline. ────── */}
@@ -505,12 +499,6 @@ export default function NextTodayPage() {
             {PROTOTYPE_DISCLAIMER}{" "}
             <Link href="/account/safety" className="font-[450] text-signal-orange">
               Safety centre →
-            </Link>
-          </p>
-          <p className="mt-3 text-caption text-carbon-black/60">
-            Design study ·{" "}
-            <Link href="/today" className="text-signal-orange">
-              compare with the current Today →
             </Link>
           </p>
         </footer>

@@ -66,7 +66,7 @@ export default function ReviewPage() {
           {saving
             ? "Building your showcase…"
             : state.track === "general"
-              ? "Continue with a simulated report"
+              ? "Continue with a sample report"
               : state.track === "vasectomy_reversal"
                 ? "Go to tracking"
                 : "Add a clinical result"}
