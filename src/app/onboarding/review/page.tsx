@@ -9,10 +9,12 @@ import { domainOrder, domains } from "@/lib/readiness";
 import { trackLabel, usePrototype } from "@/lib/store";
 import { persistOnboarding } from "@/lib/onboarding-client";
 import { useState } from "react";
+import { demoBaseline, demoHormonePanel } from "@/lib/fixtures";
+import { compileSemenProfile, persistClinicalTest } from "@/lib/data-engine-client";
 
 export default function ReviewPage() {
   const router = useRouter();
-  const { state, readiness, update } = usePrototype();
+  const { state, readiness, update, addTest } = usePrototype();
   const [saving, setSaving] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
 
@@ -44,10 +46,30 @@ export default function ReviewPage() {
               return;
             }
             update({ onboardingComplete: true });
+            if (state.track === "general") {
+              addTest(demoBaseline);
+              addTest(demoHormonePanel);
+              try {
+                await persistClinicalTest(demoBaseline);
+                await persistClinicalTest(demoHormonePanel);
+                await compileSemenProfile();
+              } catch {
+                // The simulated report remains visible locally even if hosted
+                // evidence ingestion or provider synthesis is unavailable.
+              }
+              router.push("/results");
+              return;
+            }
             router.push(state.track === "vasectomy_reversal" ? "/reversal" : "/tests/new");
           }}
         >
-          {saving ? "Saving onboarding…" : state.track === "vasectomy_reversal" ? "Go to tracking" : "Add a clinical result"}
+          {saving
+            ? "Building your showcase…"
+            : state.track === "general"
+              ? "Continue with a simulated report"
+              : state.track === "vasectomy_reversal"
+                ? "Go to tracking"
+                : "Add a clinical result"}
         </Button>
       }
     >
