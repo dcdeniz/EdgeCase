@@ -142,3 +142,4 @@ NEAT's full `npx neat.is` command starts its daemon and dashboard. Repository sc
 - Updated consent copy from shared-public-demo language to account-scoped synthetic-showcase language.
 - The onboarding review now persists the selected track and questionnaire answers through the authenticated Edge API before moving to simulated clinical-result entry.
 - The built-in simulated semen report uses the authenticated clinical-test and marker operations and then invokes structured profile compilation. No showcase password is embedded in source or documentation.
+- The Vercel session proxy fails closed when browser-safe Supabase configuration is absent. Production now defines the Supabase URL and publishable key; secret/service-role keys remain server-only and are not present in Vercel browser configuration.
