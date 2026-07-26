@@ -3,7 +3,13 @@ import { NextResponse, type NextRequest } from "next/server";
 
 /* `/next` is the design-review slug (docs/design/next-study.md): local
    prototype data only, so it stays viewable without a session. */
-const publicPaths = new Set(["/", "/start/account", "/api/health", "/next"]);
+const publicPaths = new Set([
+  "/",
+  "/start/account",
+  "/api/auth/bypass",
+  "/api/health",
+  "/next",
+]);
 
 export async function proxy(request: NextRequest) {
   let response = NextResponse.next({ request });

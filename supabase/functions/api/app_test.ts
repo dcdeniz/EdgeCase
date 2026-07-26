@@ -7,10 +7,177 @@ import {
   validateGroundedAnswer,
 } from "./rag.ts";
 import {
+  compactWearableContext,
   fuseEvidence,
   retrievalQueries,
+  SCORE_FACTOR_DOMAINS,
   validateSemenProfile,
 } from "./data_engine.ts";
+
+Deno.test("profile retrieval covers every approved readiness factor without imputing missing inputs", () => {
+  const queries = retrievalQueries({
+    track: "general",
+    onboarding: { smoking: "former", dietPattern: "western" },
+    collection: [{
+      testType: "semen_analysis",
+      abstinenceHours: null,
+      collectionComplete: true,
+      recentFever: true,
+    }],
+    measurements: [],
+  });
+  const factorQuery = queries[1];
+  for (const domain of SCORE_FACTOR_DOMAINS) {
+    assertEquals(factorQuery.includes(domain), true);
+  }
+  assertEquals(factorQuery.includes("missing factors reduce coverage"), true);
+  assertEquals(factorQuery.includes('"recentFever":true'), true);
+});
+
+Deno.test("wearable RAG context is real-only, compact and preserves missingness", () => {
+  const rows = Array.from({ length: 16 }, (_, index) => ({
+    observed_on: `2026-07-${String(index + 1).padStart(2, "0")}`,
+    source: "google_health",
+    sleep_minutes: index === 15 ? null : 420 + index,
+    steps: index === 14 ? 0 : 7000 + index,
+    active_minutes: index === 13 ? null : 30,
+    resting_heart_rate: index === 12 ? null : 58,
+  }));
+  rows.push({
+    observed_on: "2026-07-26",
+    source: "simulated",
+    sleep_minutes: 999,
+    steps: 999999,
+    active_minutes: 999,
+    resting_heart_rate: 1,
+  });
+  const context = compactWearableContext(rows);
+  assertEquals(context?.provenance, "Google Health");
+  assertEquals(context?.role, "contextual_signal_only");
+  assertEquals(context?.windowDays, 14);
+  assertEquals(context?.observedFrom, "2026-07-03");
+  assertEquals(context?.observedThrough, "2026-07-16");
+  assertEquals(context?.sleep.daysObserved, 13);
+  assertEquals(context?.steps.daysObserved, 14);
+  assertEquals(context?.steps.meanPerDay === 0, false);
+  assertEquals(JSON.stringify(context).includes("999999"), false);
+});
+
+Deno.test("wearable RAG context excludes simulated-only rows", () => {
+  assertEquals(compactWearableContext([{
+    observed_on: "2026-07-25",
+    source: "simulated",
+    sleep_minutes: 480,
+    steps: 9000,
+    active_minutes: 45,
+    resting_heart_rate: 55,
+  }]), null);
+});
+import {
+  createGoogleHealthState,
+  googleHealthAuthorizationUrl,
+  mergeGoogleHealthData,
+  verifyGoogleHealthState,
+} from "./google_health.ts";
+
+Deno.test("Google Health OAuth state is signed and expires", async () => {
+  const userId = "00000000-0000-4000-8000-000000000001";
+  const state = await createGoogleHealthState(userId, "test-secret", 1_000);
+  assertEquals(await verifyGoogleHealthState(state, "test-secret", 2_000), {
+    userId,
+  });
+  assertEquals(
+    await verifyGoogleHealthState(state, "wrong-secret", 2_000),
+    null,
+  );
+  assertEquals(
+    await verifyGoogleHealthState(state, "test-secret", 700_000),
+    null,
+  );
+});
+
+Deno.test("Google Health authorization requests only read scopes and offline access", () => {
+  const url = new URL(googleHealthAuthorizationUrl({
+    clientId: "client-id",
+    redirectUri: "https://example.com/callback",
+    state: "signed-state",
+  }));
+  assertEquals(url.origin, "https://accounts.google.com");
+  assertEquals(url.searchParams.get("access_type"), "offline");
+  assertEquals(url.searchParams.get("scope")?.includes("writeonly"), false);
+});
+
+Deno.test("Google Health payloads normalize into daily wearable summaries", () => {
+  const civilStartTime = { date: { year: 2026, month: 7, day: 25 } };
+  const summaries = mergeGoogleHealthData(
+    { rollupDataPoints: [{ civilStartTime, steps: { countSum: "8123" } }] },
+    {
+      rollupDataPoints: [{
+        civilStartTime,
+        activeMinutes: {
+          activeMinutesRollupByActivityLevel: [
+            { activityLevel: "LIGHT", activeMinutesSum: "20" },
+            { activityLevel: "MODERATE", activeMinutesSum: "15" },
+          ],
+        },
+      }],
+    },
+    {
+      rollupDataPoints: [{
+        civilStartTime,
+        restingHeartRatePersonalRange: {
+          beatsPerMinuteMin: 55,
+          beatsPerMinuteMax: 59,
+        },
+      }],
+    },
+    {
+      reconciledDataPoints: [{
+        sleep: {
+          interval: { civilEndTime: civilStartTime },
+          summary: {
+            minutesAsleep: "430",
+            stagesSummary: [{ type: "DEEP", minutes: "70" }],
+          },
+        },
+      }],
+    },
+  );
+  assertEquals(summaries, [{
+    date: "2026-07-25",
+    steps: 8123,
+    activeMinutes: 35,
+    restingHeartRate: 57,
+    sleepMinutes: 430,
+    sleepStages: { deep: 70 },
+  }]);
+});
+
+Deno.test("Google Health normalization does not coerce missing fields to zero", () => {
+  const civilStartTime = { date: { year: 2026, month: 7, day: 25 } };
+  const summaries = mergeGoogleHealthData(
+    { rollupDataPoints: [{ civilStartTime, steps: { countSum: null } }] },
+    { rollupDataPoints: [{ civilStartTime, activeMinutes: {} }] },
+    {
+      rollupDataPoints: [{
+        civilStartTime,
+        restingHeartRatePersonalRange: {
+          beatsPerMinuteMin: null,
+          beatsPerMinuteMax: null,
+        },
+      }],
+    },
+    {
+      reconciledDataPoints: [{
+        sleep: {
+          interval: { civilEndTime: civilStartTime },
+          summary: { minutesAsleep: null },
+        },
+      }],
+    },
+  );
+  assertEquals(summaries.length, 0);
+});
 
 Deno.test("evidence blocks escape source text before prompt assembly", () => {
   const prompt = evidencePrompt([{

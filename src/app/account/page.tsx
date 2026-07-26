@@ -50,6 +50,12 @@ export default function AccountPage() {
             detail="Provenance, export, consent and deletion"
           />
           <RowLink
+            href="/account/wearables"
+            glyph="steps"
+            title="Wearables"
+            detail="Connect Google Health and sync Fitbit data"
+          />
+          <RowLink
             href="/account/safety"
             glyph="shield"
             title="Safety centre"

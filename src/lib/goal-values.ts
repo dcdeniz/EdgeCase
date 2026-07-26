@@ -10,7 +10,7 @@ export function liveGoalValues(): Record<"sleep" | "activity", number | null> {
   const nights = sleepHistory(7);
   const days = healthHistory(7);
   const meanSleep = mean(nights.map((night) => night.asleepMinutes));
-  const meanSteps = mean(days.map((day) => day.steps));
+  const meanSteps = mean(days.map((day) => day.steps).filter((value): value is number => value != null));
 
   return {
     sleep: meanSleep == null ? null : Number((meanSleep / 60).toFixed(1)),

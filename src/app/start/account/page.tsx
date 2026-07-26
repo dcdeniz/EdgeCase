@@ -47,6 +47,14 @@ export default function AccountPage() {
     router.refresh();
   }
 
+  async function bypassLogin() {
+    setPending(true);
+    setError(null);
+    reset();
+    update({ signedIn: true, email: "Anonymous demo" });
+    window.location.assign("/api/auth/bypass");
+  }
+
   return (
     <FlowShell
       step={1}
@@ -81,6 +89,14 @@ export default function AccountPage() {
         onClick={() => { setMode((value) => value === "sign_in" ? "sign_up" : "sign_in"); setError(null); }}
       >
         {mode === "sign_in" ? "Need an account? Create one" : "Already have an account? Sign in"}
+      </button>
+      <button
+        type="button"
+        className="fixed bottom-4 right-4 z-50 min-h-(--ps-touch-min) rounded-full border border-hairline bg-surface-1 px-4 py-2 t-body-sm font-medium text-accent shadow-lg"
+        disabled={pending}
+        onClick={bypassLogin}
+      >
+        {pending ? "Starting demo…" : "Bypass login"}
       </button>
     </FlowShell>
   );

@@ -5,8 +5,8 @@ PreSeed uses vector retrieval and grounded generation instead of a trained ferti
 ## Runtime flow
 
 1. Clinical reports and onboarding context are persisted before compilation.
-2. `POST /functions/v1/api/v1/data-engine/semen-profile/compile` reads the account's latest semen analysis and latest hormone panel and normalizes their values. It may derive arithmetic totals from measured operands, always marked `derived`.
-3. OpenAI embeds a global context query plus one query per available parameter with `text-embedding-3-small` at 1,536 dimensions.
+2. `POST /functions/v1/api/v1/data-engine/semen-profile/compile` reads the account's latest semen analysis and hormone panel, plus at most fourteen account-owned Google Health daily summaries. It normalizes laboratory values and may derive arithmetic totals from measured operands, always marked `derived`. Wearables are reduced to a compact source-labelled aggregate with per-metric observation counts; simulated Fitbit fixtures never enter compilation.
+3. OpenAI embeds a global context query, a score-factor query, and one query per available parameter with `text-embedding-3-small` at 1,536 dimensions. The factor query covers cigarette dose/cumulative exposure; heavy or chronic alcohol exposure; obesity, central adiposity and metabolic disease; sleep/circadian disruption; inactivity and under-recovered high training load; recurrent heat and recent fever; dietary pattern; selected occupational/environmental exposures; and severe energy restriction/metabolic disruption. It uses only reported context: an absent factor lowers coverage and is never imputed as zero exposure or good health.
 4. PostgreSQL `match_evidence` retrieves only reviewed, approved, non-retracted `evidence_chunks`; the Edge Function fuses and deduplicates the result sets.
 5. The Responses API receives normalized inputs, minimum account context, and retrieved evidence. Its output must match the closed semen-profile JSON Schema.
 6. The server rejects marker codes and evidence IDs outside the supplied allowlists. Evidence-backed suggestions require at least one retrieved evidence ID.
@@ -14,6 +14,10 @@ PreSeed uses vector retrieval and grounded generation instead of a trained ferti
 8. Results, protocol, progress, comparison, and adaptation features read this artifact. They do not use chat history.
 
 Vector RAG does not predict or diagnose azoospermia or endocrine disease. It compiles reviewed evidence relevant to entered results into feature data. Possible azoospermia, abnormal hormones, severe results, and diagnostic questions route to qualified laboratory or clinical care.
+
+Wearable sleep, steps, active minutes and resting heart rate are contextual signals only. Missing observations remain missing, resting heart rate/HRV are proxies rather than hormone measurements, and the engine cannot claim that wearable behaviour changed sperm quality or predict fertility outcomes.
+
+Numeric readiness remains deterministic and versioned. Retrieval supplies reviewed evidence for applicable factor explanations and protocol shaping; the LLM does not invent, calculate, or overwrite the score.
 
 ## Evidence ingestion
 

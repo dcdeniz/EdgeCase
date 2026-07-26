@@ -4,6 +4,16 @@ Date: 2026-07-25
 
 ## Delivered
 
+- Added a bottom-right `Bypass login` action to the account screen. It creates an anonymous Supabase session and enters onboarding without credentials while retaining account-scoped RLS; it does not expose protected routes publicly.
+
+- Integrated account-owned Google Health summaries into Today, Sleep and Seed Score with explicit `Google Health` provenance. Accounts without real rows retain the deterministic `Simulated Fitbit` demonstration; once real rows exist, fixture values do not fill missing real days or metrics. Missingness lowers score coverage rather than becoming zero. Semen-profile compilation now reads at most fourteen RLS-scoped real daily rows and sends only compact per-metric means and observation counts as contextual signals; simulated wearable data is excluded from RAG.
+
+- Added the first real Google Health wearable vertical slice: authenticated OAuth initiation, an isolated signed-state callback, offline token refresh, account status, fourteen-day sync, and normalized sleep, steps, active-minutes, and resting-heart-rate rows. Provider tokens are service-only; daily summaries use owner-scoped RLS. Public demo mode rejects real-data connection. The account UI exposes connect and manual sync, while clinical claim ceilings remain unchanged.
+
+- Restricted the hackathon Google Health surface to one deployment-configured authenticated PreSeed account. The account identifier remains server-side deployment state and is not committed; all other accounts receive a generic forbidden response from connect, status, sync, and summary operations.
+
+- Rebranded the existing deterministic wearable fixture as `Simulated Fitbit` and linked it from the account wearables screen. Existing sleep, activity, resting-heart-rate, HRV and behaviour-score demonstrations continue to carry simulated provenance and make no measured or fertility-effect claim.
+
 - Accepted the copy-ready ElevenLabs `PreSeed Daily Check-in` system/dispatch prompt as a canonical contract. It constrains the voice agent to brief structured capture, confirmation, medical escalation, and exactly one `record_daily_checkin` tool call. The richer dispatch operation is explicitly pending and must not be confused with the existing narrow `/v1/check-ins` endpoint.
 
 - Added a reviewable public hackathon demo mode. When `PUBLIC_DEMO_MODE=true`, the API accepts requests without bearer authentication and uses the service role for one dedicated synthetic `PUBLIC_DEMO_USER_ID`; the login screen is removed and the UI clearly warns that all visitors share mutable demo data. PostgreSQL RLS remains defined for future authenticated use, while this mode intentionally bypasses it at the API boundary. Never configure it with a real user's ID or real health information.

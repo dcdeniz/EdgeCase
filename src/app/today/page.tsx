@@ -20,7 +20,12 @@ import { TODAY, daysBetween, formatDate } from "@/lib/format";
 import { itemsForWeek, protocolDay, protocolWeek, usePrototype } from "@/lib/store";
 import { readinessProgress } from "@/lib/behaviour-score";
 import { dietDayFor } from "@/lib/nutrition";
-import { formatDuration, latestHealthDay, latestSleepNight, sleepNeedPercent } from "@/lib/wearable";
+import { formatDuration, sleepNeedPercent } from "@/lib/wearable";
+import {
+  latestHealthFrom,
+  latestSleepFrom,
+  useAccountWearableData,
+} from "@/lib/account-wearable";
 
 /**
  * Today answers one question: what do I do now. Everything competing with that
@@ -30,11 +35,14 @@ export default function TodayPage() {
   const { state, readiness, latestSemen, hormonePanel, seedDemo } = usePrototype();
   const protocol = state.protocol;
   const contributors = useMemo(() => contributorsFor(state), [state]);
-
-  const night = useMemo(() => latestSleepNight(), []);
-  const health = useMemo(() => latestHealthDay(), []);
+  const { data: wearable } = useAccountWearableData();
+  const night = latestSleepFrom(wearable);
+  const health = latestHealthFrom(wearable);
   const diet = useMemo(() => dietDayFor(TODAY), []);
-  const progress = useMemo(() => readinessProgress(state), [state]);
+  const progress = useMemo(
+    () => readinessProgress(state, TODAY, wearable),
+    [state, wearable],
+  );
 
   return (
     <Screen title="Today" eyebrow={formatDate(TODAY)}>
@@ -141,7 +149,7 @@ export default function TodayPage() {
             value={night ? formatDuration(night.asleepMinutes) : "—"}
             detail={night ? `${sleepNeedPercent(night)}% of need` : "No night recorded"}
             href="/sleep"
-            source="Whoop"
+            source={wearable.sourceLabel}
             tone="accent"
           />
           <MetricTile
@@ -160,22 +168,22 @@ export default function TodayPage() {
           <MetricTile
             glyph="steps"
             label="Steps"
-            value={health ? health.steps.toLocaleString("en-GB") : "—"}
-            detail={health ? `${health.activeMinutes} active minutes` : "No data"}
-            source="Whoop"
+            value={health?.steps == null ? "—" : health.steps.toLocaleString("en-GB")}
+            detail={health?.activeMinutes == null ? "Active minutes unavailable" : `${health.activeMinutes} active minutes`}
+            source={wearable.sourceLabel}
           />
           <MetricTile
             glyph="heart"
             label="Resting heart rate"
-            value={health ? String(health.restingHeartRate) : "—"}
+            value={health?.restingHeartRate == null ? "—" : String(health.restingHeartRate)}
             unit="bpm"
-            detail={health ? `HRV ${health.heartRateVariability} ms` : "No data"}
-            source="Whoop"
+            detail={health?.heartRateVariability == null ? "HRV unavailable" : `HRV ${health.heartRateVariability} ms`}
+            source={wearable.sourceLabel}
           />
         </div>
         <p className="mt-2 t-caption text-ink-3">
-          Wearable figures are simulated. Heart-rate variability is a recovery proxy, never a
-          hormone measurement.
+          Source: {wearable.sourceLabel}. Heart-rate variability and resting heart rate are recovery
+          proxies, never hormone measurements.
         </p>
       </section>
 

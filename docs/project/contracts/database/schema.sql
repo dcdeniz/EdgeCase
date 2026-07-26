@@ -139,3 +139,25 @@ create table public.semen_profiles (
   unique (user_id, version)
 );
 alter table public.semen_profiles enable row level security;
+
+-- Google Health wearable snapshot; executable constraints, least-privilege
+-- grants and policy are canonical in
+-- supabase/migrations/20260726110000_google_health.sql.
+create table public.wearable_connections (
+  user_id uuid primary key references auth.users(id) on delete cascade,
+  provider text not null, provider_user_id text not null,
+  access_token text not null, refresh_token text not null,
+  expires_at timestamptz not null, scopes text[] not null,
+  connected_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+create table public.wearable_daily_summaries (
+  user_id uuid not null references auth.users(id) on delete cascade,
+  observed_on date not null, source text not null,
+  steps integer, active_minutes integer, resting_heart_rate integer,
+  sleep_minutes integer, sleep_stages jsonb not null default '{}'::jsonb,
+  synced_at timestamptz not null default now(),
+  primary key (user_id, observed_on, source)
+);
+alter table public.wearable_connections enable row level security;
+alter table public.wearable_daily_summaries enable row level security;
