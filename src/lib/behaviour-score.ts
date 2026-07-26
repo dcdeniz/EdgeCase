@@ -28,7 +28,7 @@
 
 import { TODAY, addDays, daysBetween } from "@/lib/format";
 import { dietDayFor, scoreDietDay } from "@/lib/nutrition";
-import { healthDayFor, sleepNightFor } from "@/lib/wearable";
+import { healthDayFor, sleepNightFor, type WearableSeries } from "@/lib/wearable";
 import { adherenceKey, type PrototypeState } from "@/lib/store";
 
 export const BEHAVIOUR_RULE_VERSION = "prototype-behaviour-0.2.0";
@@ -113,8 +113,10 @@ export type BehaviourDay = {
  * the evidence card covers circadian disruption as well as duration. Sleeping
  * far beyond need is not extra credit, so the duration term saturates at 100.
  */
-function scoreSleepDay(iso: string): number | null {
-  const night = sleepNightFor(iso);
+function scoreSleepDay(iso: string, wearable?: WearableSeries): number | null {
+  const night = wearable
+    ? wearable.sleepNights.find((entry) => entry.date === iso) ?? null
+    : sleepNightFor(iso);
   if (!night) return null;
 
   const durationRatio = night.asleepMinutes / night.needMinutes;
@@ -126,11 +128,11 @@ function scoreSleepDay(iso: string): number | null {
         : Math.max(20, durationRatio * 95);
 
   // Regularity: a 20-minute bedtime spread is excellent, 90 minutes is poor.
+  if (night.bedtimeVarianceMinutes == null) return Math.round(duration);
   const regularity = Math.max(
     0,
     Math.min(100, 100 - Math.max(0, night.bedtimeVarianceMinutes - 20) * 1.35),
   );
-
   return Math.round(duration * 0.7 + regularity * 0.3);
 }
 
@@ -151,9 +153,11 @@ function scoreDietDayFor(state: PrototypeState, iso: string): number | null {
  * movement scores best, and very high load does not score higher. It cannot
  * exceed the moderate band by being extreme.
  */
-function scoreActivityDay(iso: string): number | null {
-  const day = healthDayFor(iso);
-  if (!day) return null;
+function scoreActivityDay(iso: string, wearable?: WearableSeries): number | null {
+  const day = wearable
+    ? wearable.healthDays.find((entry) => entry.date === iso) ?? null
+    : healthDayFor(iso);
+  if (!day || day.steps == null || day.activeMinutes == null) return null;
 
   const stepTerm = Math.min(100, (day.steps / 9000) * 100);
   const activeTerm =
@@ -203,11 +207,12 @@ export function behaviourDay(
   state: PrototypeState,
   iso: string,
   overrides?: DomainOverrides,
+  wearable?: WearableSeries,
 ): BehaviourDay {
   const domainScores: Record<BehaviourDomainId, number | null> = {
-    sleep: overrides?.sleep ?? scoreSleepDay(iso),
+    sleep: overrides?.sleep ?? scoreSleepDay(iso, wearable),
     diet: overrides?.diet ?? scoreDietDayFor(state, iso),
-    activity: overrides?.activity ?? scoreActivityDay(iso),
+    activity: overrides?.activity ?? scoreActivityDay(iso, wearable),
     adherence: overrides?.adherence ?? scoreAdherenceDay(state, iso),
   };
 
@@ -251,10 +256,11 @@ export function behaviourWindow(
   days: number,
   endingOn = TODAY,
   overrides?: DomainOverrides,
+  wearable?: WearableSeries,
 ): BehaviourWindow {
   const rows: BehaviourDay[] = [];
   for (let offset = days - 1; offset >= 0; offset -= 1) {
-    rows.push(behaviourDay(state, addDays(endingOn, -offset), overrides));
+    rows.push(behaviourDay(state, addDays(endingOn, -offset), overrides, wearable));
   }
 
   const scored = rows.filter((row) => row.score != null);
@@ -324,14 +330,16 @@ export type ReadinessProgress = {
   domains: DomainProgress[];
 };
 
-export function readinessProgress(state: PrototypeState, endingOn = TODAY): ReadinessProgress {
-  const current = behaviourWindow(state, 7, endingOn);
+export function readinessProgress(state: PrototypeState, endingOn = TODAY, wearable?: WearableSeries): ReadinessProgress {
+  const current = behaviourWindow(state, 7, endingOn, undefined, wearable);
   const baseline = behaviourWindow(
     state,
     BASELINE_WINDOW_DAYS,
     addDays(endingOn, -BASELINE_OFFSET_DAYS),
+    undefined,
+    wearable,
   );
-  const previousWeek = behaviourWindow(state, 7, addDays(endingOn, -7));
+  const previousWeek = behaviourWindow(state, 7, addDays(endingOn, -7), undefined, wearable);
 
   const domains = (Object.keys(behaviourDomains) as BehaviourDomainId[]).map((id) => {
     const before = baseline.domains[id];
@@ -398,7 +406,7 @@ export function gridLevel(score: number | null): 0 | 1 | 2 | 3 | 4 {
  * Build a 53-week grid ending on `endingOn`, aligned so each column is a week
  * running Sunday to Saturday.
  */
-export function behaviourGrid(state: PrototypeState, weeks = 53, endingOn = TODAY): GridCell[] {
+export function behaviourGrid(state: PrototypeState, weeks = 53, endingOn = TODAY, wearable?: WearableSeries): GridCell[] {
   const endWeekday = new Date(`${endingOn}T00:00:00Z`).getUTCDay();
   // Walk back to the Sunday that opens the first column.
   const start = addDays(endingOn, -(weeks - 1) * 7 - endWeekday);
@@ -407,7 +415,7 @@ export function behaviourGrid(state: PrototypeState, weeks = 53, endingOn = TODA
   const cells: GridCell[] = [];
   for (let offset = 0; offset < totalDays; offset += 1) {
     const date = addDays(start, offset);
-    const day = behaviourDay(state, date);
+    const day = behaviourDay(state, date, undefined, wearable);
     cells.push({
       date,
       score: day.score,
@@ -420,11 +428,11 @@ export function behaviourGrid(state: PrototypeState, weeks = 53, endingOn = TODA
 }
 
 /** Weekly means across the year, for the trend line under the yearly ring. */
-export function weeklySeries(state: PrototypeState, weeks = 52, endingOn = TODAY) {
+export function weeklySeries(state: PrototypeState, weeks = 52, endingOn = TODAY, wearable?: WearableSeries) {
   const series: Array<{ weekEnding: string; score: number | null; coverage: number }> = [];
   for (let index = weeks - 1; index >= 0; index -= 1) {
     const weekEnding = addDays(endingOn, -index * 7);
-    const window = behaviourWindow(state, 7, weekEnding);
+    const window = behaviourWindow(state, 7, weekEnding, undefined, wearable);
     series.push({ weekEnding, score: window.score, coverage: window.coverage });
   }
   return series;

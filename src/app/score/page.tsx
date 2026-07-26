@@ -28,6 +28,7 @@ import {
 } from "@/lib/behaviour-score";
 import { TODAY, formatDate } from "@/lib/format";
 import { usePrototype } from "@/lib/store";
+import { useAccountWearableData } from "@/lib/account-wearable";
 
 type Range = "week" | "year";
 
@@ -46,15 +47,16 @@ export default function ScorePage() {
   const { state } = usePrototype();
   const [range, setRange] = useState<Range>("week");
   const [selected, setSelected] = useState<string | undefined>();
+  const { data: wearable } = useAccountWearableData();
 
-  const week = useMemo(() => behaviourWindow(state, 7), [state]);
-  const year = useMemo(() => behaviourWindow(state, 365), [state]);
-  const grid = useMemo(() => behaviourGrid(state), [state]);
-  const series = useMemo(() => weeklySeries(state), [state]);
-  const progress = useMemo(() => readinessProgress(state), [state]);
+  const week = useMemo(() => behaviourWindow(state, 7, TODAY, undefined, wearable), [state, wearable]);
+  const year = useMemo(() => behaviourWindow(state, 365, TODAY, undefined, wearable), [state, wearable]);
+  const grid = useMemo(() => behaviourGrid(state, 53, TODAY, wearable), [state, wearable]);
+  const series = useMemo(() => weeklySeries(state, 52, TODAY, wearable), [state, wearable]);
+  const progress = useMemo(() => readinessProgress(state, TODAY, wearable), [state, wearable]);
 
   const active = range === "week" ? week : year;
-  const selectedDay = selected ? behaviourDay(state, selected) : null;
+  const selectedDay = selected ? behaviourDay(state, selected, undefined, wearable) : null;
 
   return (
     <Screen title="Seed Score" eyebrow="Weekly and yearly">
@@ -81,7 +83,11 @@ export default function ScorePage() {
               {formatDate(active.from)} — {formatDate(active.to)}
             </p>
           </div>
-          <SimulatedBadge compact />
+          {wearable.source === "simulated" ? (
+            <SimulatedBadge compact />
+          ) : (
+            <StatusChip tone="supported">Google Health wearable rows</StatusChip>
+          )}
         </div>
 
         <div className="mt-5 flex justify-center">
@@ -236,7 +242,9 @@ export default function ScorePage() {
                 </div>
                 <div className="mt-2 flex flex-wrap items-center gap-1.5">
                   <MetaBadge glyph="results">weight {domain.weight}</MetaBadge>
-                  <MetaBadge glyph="simulated">{domain.source}</MetaBadge>
+                  <MetaBadge glyph="simulated">
+                    {id === "sleep" || id === "activity" ? wearable.sourceLabel : domain.source}
+                  </MetaBadge>
                 </div>
                 <p className="mt-2.5 t-body-sm text-ink-2">{domain.framing}</p>
                 {score == null ? (

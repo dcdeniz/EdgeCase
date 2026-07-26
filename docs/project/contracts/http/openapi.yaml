@@ -6,6 +6,8 @@ info:
 x-request-body-limit: 131072
 x-origin-policy: Protected routes reject browser requests whose Origin is not in ALLOWED_ORIGINS. Requests without Origin remain valid for native and server clients.
 x-public-demo-mode: When PUBLIC_DEMO_MODE is true, bearer security and origin rejection are disabled and every operation reads or writes one shared demo user's records. Never use real personal or health data in this mode.
+x-google-health-callback: Google OAuth completes at the separate unauthenticated google-health-callback function. It accepts only a signed, expiring state; the primary api function retains gateway JWT verification.
+x-google-health-single-account: Hackathon Google Health operations are restricted to the one authenticated account configured by GOOGLE_HEALTH_ALLOWED_EMAIL. The configured address is deployment state and is never committed.
 servers:
   - url: https://{project}.supabase.co/functions/v1/api
     variables: { project: { default: project-ref } }
@@ -304,6 +306,34 @@ paths:
       responses:
         "201": { description: Check-in created }
         "422": { description: Invalid check-in }
+  /v1/integrations/google-health/connect:
+    get:
+      operationId: connectGoogleHealth
+      description: Returns a Google OAuth URL with read-only health scopes and signed state. Disabled in public demo mode.
+      responses:
+        "200": { description: Authorization URL }
+        "403": { description: Real data disabled in public demo mode }
+        "503": { description: Google Health configuration unavailable }
+  /v1/integrations/google-health/status:
+    get:
+      operationId: getGoogleHealthStatus
+      responses:
+        "200": { description: Account connection status without provider tokens }
+  /v1/integrations/google-health/sync:
+    post:
+      operationId: syncGoogleHealth
+      description: Imports fourteen days of reconciled tracker summaries for steps, active minutes, resting heart rate and sleep.
+      responses:
+        "200": { description: Sync window and normalized-day count }
+        "401": { description: Google reauthorization required }
+        "409": { description: Google Health is not connected }
+        "503": { description: Google Health configuration unavailable }
+  /v1/wearable/daily-summaries:
+    get:
+      operationId: listWearableDailySummaries
+      description: Returns up to ninety account-owned daily summaries. Missing observations remain null rather than zero.
+      responses:
+        "200": { description: Normalized account-owned Google Health daily summaries with source labels and nullable measurements }
   /v1/trends:
     get:
       operationId: getTrends
@@ -342,7 +372,7 @@ paths:
   /v1/data-engine/semen-profile/compile:
     post:
       operationId: compileSemenProfile
-      description: Compiles normalized account measurements and approved evidence into a versioned structured artifact used by PreSeed features.
+      description: Compiles normalized account measurements, an optional real-only compact fourteen-day Google Health context, and approved evidence into a versioned structured artifact used by PreSeed features. Wearables remain contextual signals and simulated fixtures are excluded.
       responses:
         "201": { description: Compiled semen-profile artifact }
         "422": { description: A semen analysis is required }

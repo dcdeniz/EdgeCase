@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "eslint",
     "typecheck": "tsc --noEmit",
-    "check": "npm run docs:check && npm run datasets:check && npm run lint && npm run typecheck && npm run edge:check",
+    "check": "npm run docs:check && npm run datasets:check && npm run frontend:test && npm run lint && npm run typecheck && npm run edge:check",
+    "frontend:test": "node --experimental-strip-types --test src/lib/wearable-source.test.ts",
+    "e2e": "playwright test",
     "datasets:check": "node scripts/datasets-check.mjs",
     "datasets:analyze": "node scripts/datasets-analyze.mjs",
     "corpus:discover": "node scripts/corpus-discover.mjs",
@@ -18,7 +20,7 @@
     "corpus:publish": "node scripts/corpus-publish.mjs",
     "docs:check": "node scripts/docs-check.mjs",
     "docs:watch": "node scripts/docs-watch.mjs",
-    "edge:check": "deno check --config supabase/functions/api/deno.json supabase/functions/api/index.ts supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts && deno test --allow-env=ALLOWED_ORIGINS,SUPABASE_URL,SUPABASE_ANON_KEY,PUBLIC_DEMO_MODE --config supabase/functions/api/deno.json supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts",
+    "edge:check": "deno check --config supabase/functions/api/deno.json supabase/functions/api/index.ts supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts && deno check --config supabase/functions/google-health-callback/deno.json supabase/functions/google-health-callback/index.ts && deno test --allow-env=ALLOWED_ORIGINS,SUPABASE_URL,SUPABASE_ANON_KEY,PUBLIC_DEMO_MODE --config supabase/functions/api/deno.json supabase/functions/api/app_test.ts supabase/functions/api/readiness_test.ts",
     "hooks:install": "git config core.hooksPath .githooks",
     "supabase:start": "supabase start",
     "supabase:stop": "supabase stop",
@@ -41,6 +43,7 @@
     "react-dom": "19.2.4"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo } from "react";
 import { Icon } from "@/components/icons";
 import { ScoreRing } from "@/components/score";
 import { Hypnogram, SleepEvidenceNote, SleepWeekBars, StageBars } from "@/components/sleep";
@@ -16,11 +15,10 @@ import {
 import { formatDate } from "@/lib/format";
 import {
   formatDuration,
-  latestSleepNight,
   mean,
-  sleepHistory,
   sleepNeedPercent,
 } from "@/lib/wearable";
+import { latestSleepFrom, useAccountWearableData } from "@/lib/account-wearable";
 
 /**
  * Sleep detail for the most recent night.
@@ -31,8 +29,9 @@ import {
  * does not get to convert it into a statement about a semen measurement.
  */
 export default function SleepPage() {
-  const night = useMemo(() => latestSleepNight(), []);
-  const week = useMemo(() => sleepHistory(7), []);
+  const { data: wearable } = useAccountWearableData();
+  const night = latestSleepFrom(wearable);
+  const week = wearable.sleepNights.slice(-7);
 
   if (!night) {
     return (
@@ -40,7 +39,7 @@ export default function SleepPage() {
         <EmptyState
           glyph="unavailable"
           title="No nights recorded"
-          body="No wearable is connected, and the simulated record has no night in the last fortnight."
+          body={`No sleep duration is available from ${wearable.sourceLabel}.`}
         />
       </Screen>
     );
@@ -58,7 +57,11 @@ export default function SleepPage() {
             <Icon name="moon" size={16} className="text-accent" />
             <span className="t-micro text-ink-3">Time asleep</span>
           </div>
-          <SimulatedBadge compact />
+          {wearable.source === "simulated" ? (
+            <SimulatedBadge compact />
+          ) : (
+            <StatusChip tone="supported">Google Health</StatusChip>
+          )}
         </div>
 
         <div className="mt-3 flex items-center justify-between gap-4">
@@ -78,32 +81,43 @@ export default function SleepPage() {
         </div>
 
         <div className="mt-4 border-t border-hairline pt-3">
-          <MetaList
-            items={[
-              { label: "Asleep", value: `${night.bedtime} — ${night.wakeTime}` },
-              { label: "Awake in bed", value: formatDuration(night.stages.awake) },
-              {
-                label: "Bedtime spread",
-                value: `± ${night.bedtimeVarianceMinutes} min`,
-              },
-            ]}
-          />
+          <MetaList items={[
+            { label: "Source", value: wearable.sourceLabel },
+            {
+              label: "Sleep interval",
+              value: night.bedtime && night.wakeTime
+                ? `${night.bedtime} — ${night.wakeTime}`
+                : "Unavailable",
+            },
+            {
+              label: "Awake in bed",
+              value: night.stages.awake == null
+                ? "Unavailable"
+                : formatDuration(night.stages.awake),
+            },
+            {
+              label: "Bedtime spread",
+              value: night.bedtimeVarianceMinutes == null
+                ? "Unavailable"
+                : `± ${night.bedtimeVarianceMinutes} min`,
+            },
+          ]} />
         </div>
       </Card>
 
-      <section className="mt-6" aria-labelledby="hypnogram">
+      {night.segments ? <section className="mt-6" aria-labelledby="hypnogram">
         <SectionHeader id="hypnogram" eyebrow="Through the night" title="Sleep stages" level={2} />
         <Card>
           <Hypnogram night={night} />
         </Card>
-      </section>
+      </section> : null}
 
-      <section className="mt-6" aria-labelledby="stages">
+      {Object.values(night.stages).some((value) => value != null) ? <section className="mt-6" aria-labelledby="stages">
         <SectionHeader id="stages" eyebrow="Breakdown" title="Stages" level={2} />
         <Card>
           <StageBars night={night} />
         </Card>
-      </section>
+      </section> : null}
 
       <section className="mt-6" aria-labelledby="week">
         <SectionHeader id="week" eyebrow="Last seven nights" title="Duration" level={2} />
@@ -131,6 +145,7 @@ export default function SleepPage() {
               </StatusChip>
             </p>
           ) : null}
+          <p className="mt-3 t-caption text-ink-3">Source: {wearable.sourceLabel}</p>
         </Card>
       </section>
 

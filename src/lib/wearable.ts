@@ -20,7 +20,7 @@
 
 import { TODAY, addDays, daysBetween } from "@/lib/format";
 
-export const WEARABLE_SOURCE_LABEL = "Simulated wearable";
+export const WEARABLE_SOURCE_LABEL = "Simulated Fitbit";
 
 /* ==========================================================================
    Deterministic noise
@@ -86,13 +86,14 @@ export type SleepNight = {
   /** Personalised need. Held at 8h for the prototype rather than modelled. */
   needMinutes: number;
   /** Wall-clock, local, 24h. */
-  bedtime: string;
-  wakeTime: string;
-  stages: Record<SleepStage, number>;
-  segments: SleepSegment[];
+  bedtime: string | null;
+  wakeTime: string | null;
+  stages: Record<SleepStage, number | null>;
+  segments: SleepSegment[] | null;
   /** Standard deviation proxy for schedule regularity, in minutes. */
-  bedtimeVarianceMinutes: number;
-  source: "simulated";
+  bedtimeVarianceMinutes: number | null;
+  source: "simulated" | "google_health";
+  sourceLabel: "Simulated Fitbit" | "Google Health";
 };
 
 const SLEEP_NEED_MINUTES = 480;
@@ -167,6 +168,7 @@ export function sleepNightFor(iso: string): SleepNight | null {
     // Schedule steadies over the year alongside duration: ±100 min early, ±30 now.
     bedtimeVarianceMinutes: Math.round(104 - drift * 74 + random() * 24),
     source: "simulated",
+    sourceLabel: WEARABLE_SOURCE_LABEL,
   };
 }
 
@@ -265,12 +267,18 @@ export function sleepNeedPercent(night: SleepNight): number {
 
 export type HealthDay = {
   date: string;
-  restingHeartRate: number;
+  restingHeartRate: number | null;
   /** RMSSD in milliseconds. */
-  heartRateVariability: number;
-  steps: number;
-  activeMinutes: number;
-  source: "simulated";
+  heartRateVariability: number | null;
+  steps: number | null;
+  activeMinutes: number | null;
+  source: "simulated" | "google_health";
+  sourceLabel: "Simulated Fitbit" | "Google Health";
+};
+
+export type WearableSeries = {
+  sleepNights: SleepNight[];
+  healthDays: HealthDay[];
 };
 
 export function healthDayFor(iso: string): HealthDay | null {
@@ -292,6 +300,7 @@ export function healthDayFor(iso: string): HealthDay | null {
       Math.max(0, (isWeekend ? 6 : 9) + drift * 31 + (random() - 0.5) * 22),
     ),
     source: "simulated",
+    sourceLabel: WEARABLE_SOURCE_LABEL,
   };
 }
 

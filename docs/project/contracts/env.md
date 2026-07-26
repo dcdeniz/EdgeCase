@@ -19,5 +19,9 @@
 | `OPENAI_RAG_MODEL` | Edge API | no | Grounded response model; defaults to `gpt-5.6-luna` |
 | `PUBLIC_DEMO_MODE` | Edge API | hackathon only | When `true`, disables route authentication and uses one shared service-role-backed demo account |
 | `PUBLIC_DEMO_USER_ID` | Edge API | demo mode | Auth user UUID that owns every shared demo record |
+| `GOOGLE_HEALTH_CLIENT_ID` | Edge API + OAuth callback | Google Health | Google OAuth web-client ID |
+| `GOOGLE_HEALTH_CLIENT_SECRET` | Edge API + OAuth callback | Google Health | Server-only Google OAuth client secret |
+| `GOOGLE_HEALTH_REDIRECT_URI` | Edge API + OAuth callback | Google Health | Exact registered callback URL; hosted value is `https://gxwahadomgbgpavihvsp.supabase.co/functions/v1/google-health-callback` |
+| `GOOGLE_HEALTH_ALLOWED_EMAIL` | Edge API | Google Health hackathon | Single authenticated PreSeed account permitted to connect and read the hardcoded Fitbit integration; never commit its value |
 
 Never commit values.

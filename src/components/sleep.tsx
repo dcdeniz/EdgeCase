@@ -31,6 +31,7 @@ const stageColour: Record<SleepStage, string> = {
 const rowOrder: SleepStage[] = ["awake", "rem", "light", "deep"];
 
 export function Hypnogram({ night }: { night: SleepNight }) {
+  if (!night.segments || !night.bedtime || !night.wakeTime) return null;
   const total = night.segments.reduce((sum, segment) => sum + segment.durationMinute, 0);
   if (total === 0) return null;
 
@@ -44,7 +45,7 @@ export function Hypnogram({ night }: { night: SleepNight }) {
         style={{ height: rowOrder.length * rowHeight + (rowOrder.length - 1) * rowGap }}
         role="img"
         aria-label={`Sleep stages from ${night.bedtime} to ${night.wakeTime}. ${sleepStageOrder
-          .map((stage) => `${sleepStageLabel[stage]} ${formatDuration(night.stages[stage])}`)
+            .flatMap((stage) => night.stages[stage] == null ? [] : [`${sleepStageLabel[stage]} ${formatDuration(night.stages[stage])}`])
           .join(", ")}.`}
       >
         {rowOrder.map((stage, rowIndex) => (
@@ -95,12 +96,14 @@ export function Hypnogram({ night }: { night: SleepNight }) {
 }
 
 export function StageBars({ night }: { night: SleepNight }) {
-  const total = sleepStageOrder.reduce((sum, stage) => sum + night.stages[stage], 0);
+  const availableStages = sleepStageOrder.filter((stage) => night.stages[stage] != null);
+  const total = availableStages.reduce((sum, stage) => sum + (night.stages[stage] ?? 0), 0);
+  if (availableStages.length === 0 || total === 0) return null;
 
   return (
     <ul className="space-y-3.5">
-      {sleepStageOrder.map((stage) => {
-        const minutes = night.stages[stage];
+      {availableStages.map((stage) => {
+        const minutes = night.stages[stage] as number;
         const percent = total === 0 ? 0 : Math.round((minutes / total) * 100);
         return (
           <li key={stage}>

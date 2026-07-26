@@ -1,6 +1,6 @@
 import type { EvidenceMatch } from "./rag.ts";
 
-export const DATA_ENGINE_PROMPT_VERSION = "preseed-data-engine-1";
+export const DATA_ENGINE_PROMPT_VERSION = "preseed-data-engine-2";
 
 export type NormalizedMeasurement = {
   code: string;
@@ -16,6 +16,80 @@ export type NormalizedMeasurement = {
     | "no_reference";
   derived: boolean;
 };
+
+export type WearableDailyRow = {
+  observed_on: string;
+  source: string;
+  sleep_minutes: number | null;
+  steps: number | null;
+  active_minutes: number | null;
+  resting_heart_rate: number | null;
+};
+
+export type CompactWearableContext = {
+  provenance: "Google Health";
+  role: "contextual_signal_only";
+  windowDays: number;
+  observedFrom: string;
+  observedThrough: string;
+  sleep: { meanMinutes: number | null; daysObserved: number };
+  steps: { meanPerDay: number | null; daysObserved: number };
+  activeMinutes: { meanPerDay: number | null; daysObserved: number };
+  restingHeartRate: { meanBpm: number | null; daysObserved: number };
+};
+
+export const SCORE_FACTOR_DOMAINS = [
+  "cigarette smoking and cumulative exposure",
+  "heavy or chronic alcohol exposure",
+  "obesity, central adiposity, insulin resistance, diabetes, and metabolic syndrome",
+  "poor sleep, sleep disorders, and circadian disruption",
+  "physical inactivity and sustained high-load or under-recovered training",
+  "recurrent substantial heat exposure and recent high fever",
+  "healthier versus Western-style dietary patterns",
+  "occupational lead, pesticide, solvent, ionising-radiation, and air-pollution exposure",
+  "severe energy restriction or metabolic disruption",
+] as const;
+
+export type CollectionContext = {
+  testType: string;
+  abstinenceHours: number | null;
+  collectionComplete: boolean | null;
+  recentFever: boolean | null;
+};
+
+export function compactWearableContext(
+  input: WearableDailyRow[],
+): CompactWearableContext | null {
+  const rows = input.filter((row) => row.source === "google_health")
+    .sort((left, right) => right.observed_on.localeCompare(left.observed_on))
+    .slice(0, 14)
+    .sort((left, right) => left.observed_on.localeCompare(right.observed_on));
+  if (rows.length === 0) return null;
+  const aggregate = (values: Array<number | null>) => {
+    const observed = values.filter((value): value is number => value != null);
+    return {
+      mean: observed.length === 0
+        ? null
+        : Number((observed.reduce((sum, value) => sum + value, 0) / observed.length).toFixed(1)),
+      daysObserved: observed.length,
+    };
+  };
+  const sleep = aggregate(rows.map((row) => row.sleep_minutes));
+  const steps = aggregate(rows.map((row) => row.steps));
+  const active = aggregate(rows.map((row) => row.active_minutes));
+  const heart = aggregate(rows.map((row) => row.resting_heart_rate));
+  return {
+    provenance: "Google Health",
+    role: "contextual_signal_only",
+    windowDays: rows.length,
+    observedFrom: rows[0].observed_on,
+    observedThrough: rows.at(-1)!.observed_on,
+    sleep: { meanMinutes: sleep.mean, daysObserved: sleep.daysObserved },
+    steps: { meanPerDay: steps.mean, daysObserved: steps.daysObserved },
+    activeMinutes: { meanPerDay: active.mean, daysObserved: active.daysObserved },
+    restingHeartRate: { meanBpm: heart.mean, daysObserved: heart.daysObserved },
+  };
+}
 
 export type SemenProfileSynthesis = {
   summary: string;
@@ -166,14 +240,23 @@ export function retrievalQueries(
     track: string;
     measurements: NormalizedMeasurement[];
     onboarding: unknown;
+    collection?: CollectionContext[];
+    wearable?: CompactWearableContext | null;
   },
 ) {
+  const factorQuery =
+    `Find human evidence relevant to the observed modifiable-readiness factors in this account context. ` +
+    `Evaluate only supported inputs; missing factors reduce coverage and must not be treated as healthy or unhealthy. ` +
+    `Candidate domains: ${SCORE_FACTOR_DOMAINS.join("; ")}. ` +
+    `Account context: ${JSON.stringify(context.onboarding)}. ` +
+    `Collection context: ${JSON.stringify(context.collection ?? [])}.`;
   const global =
-    `Male fertility evidence for a ${context.track} profile with measured semen and hormone results. Consider interacting causes, collection conditions, safety escalation, and modifiable factors. Context: ${
+    `Male fertility evidence for a ${context.track} profile with measured semen and hormone results. Consider interacting causes, collection conditions, safety escalation, and modifiable factors. Wearable information, when present, is contextual only and cannot establish a semen effect, hormone level, diagnosis, or fertility outcome. Context: ${
       JSON.stringify(context.onboarding)
-    }`;
+    }. Wearable context: ${JSON.stringify(context.wearable ?? null)}`;
   return [
     global,
+    factorQuery,
     ...context.measurements.map((measurement) =>
       `${measurement.code} is ${measurement.referenceContext}. Find human evidence about this exact endpoint, mechanisms, limitations, modifiable factors, and when clinical review is appropriate.`
     ),
