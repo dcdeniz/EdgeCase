@@ -29,12 +29,13 @@ import {
   type MarkerCode,
 } from "@/lib/clinical";
 import { computeDelta, formatDate, formatNumber, relativeDays } from "@/lib/format";
-import { bandLabel, bandOf } from "@/components/profile-board";
+import { bandLabel, bandOf, type ReferenceBand } from "@/components/profile-board";
 
-const bandColour = {
+const bandColour: Record<ReferenceBand, string> = {
   below: "var(--ps-escalation)",
   within: "var(--ps-information)",
-} as const;
+  optimal: "var(--ps-supported)",
+};
 
 function ComparisonRow({
   code,
@@ -131,13 +132,17 @@ function ComparisonRow({
 export function RetestComparison({
   baseline,
   retest,
+  only,
 }: {
   baseline: ClinicalTest;
   retest: ClinicalTest;
+  /** Restrict to one parameter, for the marker detail screen. */
+  only?: MarkerCode;
 }) {
   const issues = comparabilityIssues(baseline, retest);
   const codes = semenMarkerOrder.filter(
     (code) =>
+      (only == null || code === only) &&
       baseline.markers.some((marker) => marker.code === code) &&
       retest.markers.some((marker) => marker.code === code),
   );

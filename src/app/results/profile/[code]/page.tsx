@@ -6,6 +6,7 @@ import { Icon } from "@/components/icons";
 import { ReferenceAttribution, ReferenceStrip, TrendChart } from "@/components/charts";
 import { DisclaimerFooter, Screen } from "@/components/shell";
 import { CoachEntry } from "@/components/domain";
+import { RetestComparison } from "@/components/retest";
 import {
   Card,
   EmptyState,
@@ -139,6 +140,13 @@ export default function MarkerDetailPage() {
           ) : null}
         </Card>
       </section>
+
+      {relevantTests.length > 1 && definition.panel === "semen_analysis" ? (
+        <section className="mt-6" aria-labelledby="compare">
+          <SectionHeader id="compare" eyebrow="Baseline to retest" title="What changed" level={3} />
+          <RetestComparison baseline={relevantTests[0]} retest={latestTest} only={code} />
+        </section>
+      ) : null}
 
       {relevantTests.length > 1 ? (
         <section className="mt-6" aria-labelledby="trend">

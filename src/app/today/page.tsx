@@ -14,7 +14,6 @@ import {
 import { ReadinessSummary } from "@/components/domain";
 import { MetricTile, ReadinessHero } from "@/components/score";
 import { SemenProfileBoard, SpermAgeCard } from "@/components/profile-board";
-import { RetestComparison } from "@/components/retest";
 import { contributorsFor } from "@/lib/contributors";
 import { Button, ButtonLink, Card, EmptyState, SectionHeader, SimulatedBadge } from "@/components/ui";
 import { TODAY, daysBetween, formatDate } from "@/lib/format";
@@ -99,7 +98,7 @@ export default function TodayPage() {
           <h2 id="today-profile" className="visually-hidden">
             Semen profile
           </h2>
-          <SemenProfileBoard test={latestSemen} hormones={hormonePanel} />
+          <SemenProfileBoard test={latestSemen} hormones={hormonePanel} baseline={baselineSemen} />
 
           {/*
             An entry point rather than the list. The caveats on an association
@@ -118,12 +117,6 @@ export default function TodayPage() {
               </span>
               <Icon name="chevron-right" size={18} className="shrink-0 text-ink-3" />
             </Link>
-          ) : null}
-
-          {baselineSemen && latestSemen && baselineSemen.id !== latestSemen.id ? (
-            <div className="mt-3">
-              <RetestComparison baseline={baselineSemen} retest={latestSemen} />
-            </div>
           ) : null}
 
           <div className="mt-3">

@@ -85,15 +85,7 @@ export type MarkerDefinition = {
   meaning: string;
   /** Present only for markers requiring a specialist assay. */
   specialistOnly?: boolean;
-  /**
-   * Approximate 50th centile of the WHO reference population.
-   *
-   * UNVERIFIED and currently UNUSED. These figures are widely circulated but
-   * could not be confirmed against the source manual, so the "optimal" band
-   * they once drew has been removed and the reference bar now uses only the
-   * verified 5th-centile limits. Retained for whoever checks the manual: swap
-   * in the real centiles, then restore the third band in profile-board.tsx.
-   */
+  /** 50th centile of the WHO reference population. See `centileTable`. */
   referenceMedian?: number;
 };
 
@@ -111,7 +103,7 @@ export const markerCatalogue: Record<MarkerCode, MarkerDefinition> = {
     referenceHigh: null,
     decimals: 1,
     meaning: "The total volume of the ejaculate. Low volume can also mean part of the sample was lost during collection.",
-    referenceMedian: 3.7,
+    referenceMedian: 3.0,
   },
   concentration_million_ml: {
     code: "concentration_million_ml",
@@ -382,6 +374,104 @@ export const plainMeaning: Record<MarkerCode, string> = {
   shbg_nmol_l: "Binds testosterone and changes how much is usable.",
   tsh_miu_l: "Thyroid function, which affects the wider hormonal picture.",
 };
+
+/* ==========================================================================
+   WHO reference distribution
+   --------------------------------------------------------------------------
+   Table 8.3, WHO laboratory manual for the examination and processing of human
+   semen, sixth edition (2021), page 213. Transcribed from the manual itself,
+   not from a secondary summary.
+
+   Reference population (Table 8.1): men whose partner achieved a natural
+   conception with a confirmed time-to-pregnancy of 12 months or less, sexual
+   abstinence 2-7 days, laboratories evidencing WHO 2010 compliance with
+   internal QC and external quality assessment. Men attending an infertility
+   clinic were excluded. Underlying data: Campbell et al., openly available at
+   https://doi.org/10.15132/10000163
+
+   THE MANUAL'S OWN WARNING, section 8.1.3, verbatim: "The lower fifth
+   percentile of data from men in the reference population (Table 8.3) does not
+   represent a limit between fertile and infertile men."
+
+   A centile here answers "where do I sit among men who conceived naturally
+   within a year". It is not a probability of conceiving and not a diagnosis.
+   ========================================================================== */
+
+export const CENTILE_POINTS = [2.5, 5, 10, 25, 50, 75, 90, 95, 97.5] as const;
+
+export type CentileRow = { n: number; values: number[] };
+
+export const centileTable: Partial<Record<MarkerCode, CentileRow>> = {
+  volume_ml: { n: 3586, values: [1.0, 1.4, 1.8, 2.3, 3.0, 4.2, 5.5, 6.2, 6.9] },
+  concentration_million_ml: { n: 3587, values: [11, 16, 22, 36, 66, 110, 166, 208, 254] },
+  total_count_million: { n: 3584, values: [29, 39, 58, 108, 210, 363, 561, 701, 865] },
+  total_motility_pct: { n: 3488, values: [35, 42, 47, 55, 64, 73, 83, 90, 92] },
+  progressive_motility_pct: { n: 3389, values: [24, 30, 36, 45, 55, 63, 71, 77, 81] },
+  normal_morphology_pct: { n: 3335, values: [3, 4, 5, 8, 14, 23, 32, 39, 45] },
+};
+
+/**
+ * Where a value sits in the reference distribution, by linear interpolation
+ * between published centile points.
+ *
+ * Returns null outside the tabulated range rather than extrapolating: below
+ * the 2.5th and above the 97.5th the manual gives no shape to interpolate
+ * along, and inventing one is what this table exists to avoid. Those cases
+ * render as "below 2.5th" / "above 97.5th", which is all that can be said.
+ */
+export function centileFor(code: MarkerCode, value: number): number | null {
+  const row = centileTable[code];
+  if (!row) return null;
+  const { values } = row;
+
+  if (value < values[0]) return null;
+  if (value > values[values.length - 1]) return null;
+
+  for (let index = 0; index < values.length - 1; index += 1) {
+    const low = values[index];
+    const high = values[index + 1];
+    if (value >= low && value <= high) {
+      const span = high - low;
+      const fraction = span === 0 ? 0 : (value - low) / span;
+      return (
+        CENTILE_POINTS[index] + fraction * (CENTILE_POINTS[index + 1] - CENTILE_POINTS[index])
+      );
+    }
+  }
+  return null;
+}
+
+/** "8th centile" / "below the 2.5th centile". */
+export function centileLabel(code: MarkerCode, value: number): string | null {
+  const row = centileTable[code];
+  if (!row) return null;
+  if (value < row.values[0]) return "Below the 2.5th centile";
+  if (value > row.values[row.values.length - 1]) return "Above the 97.5th centile";
+  const centile = centileFor(code, value);
+  if (centile == null) return null;
+  const rounded = centile < 10 ? Math.round(centile * 10) / 10 : Math.round(centile);
+  return `${rounded}${ordinalSuffix(rounded)} centile`;
+}
+
+/** 1st, 2nd, 3rd, 4th — and 11th/12th/13th, which are the ones people get wrong. */
+function ordinalSuffix(value: number): string {
+  if (!Number.isInteger(value)) return "th";
+  const lastTwo = value % 100;
+  if (lastTwo >= 11 && lastTwo <= 13) return "th";
+  switch (value % 10) {
+    case 1:
+      return "st";
+    case 2:
+      return "nd";
+    case 3:
+      return "rd";
+    default:
+      return "th";
+  }
+}
+
+export const CENTILE_CAVEAT =
+  "Your position among men whose partner conceived naturally within a year. The manual is explicit that the fifth percentile is not a line between fertile and infertile.";
 
 export const semenMarkerOrder: MarkerCode[] = [
   "volume_ml",

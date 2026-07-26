@@ -14,6 +14,8 @@ import { Icon } from "@/components/icons";
 import { Card, MetaBadge, MetaList, Sheet, SimulatedBadge, StatusChip, cx } from "@/components/ui";
 import {
   hormoneMarkerOrder,
+  centileLabel,
+  CENTILE_CAVEAT,
   markerCatalogue,
   plainMeaning,
   referenceSets,
@@ -48,22 +50,21 @@ export function outOfReference(marker: MarkerValue): boolean {
   return (low != null && marker.value < low) || (high != null && marker.value > high);
 }
 
-export type ReferenceBand = "below" | "within";
+export type ReferenceBand = "below" | "within" | "optimal";
 
 export const bandLabel: Record<ReferenceBand, string> = {
   below: "Below range",
   within: "In range",
+  optimal: "Optimal",
 };
 
 /**
  * Which band a value falls in.
  *
- * TWO BANDS ONLY, both anchored to the WHO 5th-centile lower reference limits,
- * which are verified against the source review. An "optimal" band was removed:
- * it needed a 50th-centile threshold, and the median figures in circulation
- * could not be confirmed against the WHO manual. Telling a man he is "optimal"
- * against an unsourced number is worse than not saying it. Restore the band
- * once the manual's centile table is to hand.
+ * Three bands, all anchored to WHO Table 8.3: below the 5th centile, between
+ * the 5th and the 50th, and at or above the median of the reference
+ * population. The optimal band was removed while the median was unverified and
+ * is restored now the manual's own table is in the catalogue.
  */
 export function bandOf(marker: MarkerValue): ReferenceBand {
   const definition = markerCatalogue[marker.code];
@@ -73,12 +74,17 @@ export function bandOf(marker: MarkerValue): ReferenceBand {
   if (definition.shape === "upper_limit") {
     return high != null && marker.value > high ? "below" : "within";
   }
-  return low != null && marker.value < low ? "below" : "within";
+  if (low != null && marker.value < low) return "below";
+  if (definition.referenceMedian != null && marker.value >= definition.referenceMedian) {
+    return "optimal";
+  }
+  return "within";
 }
 
 const bandColour: Record<ReferenceBand, string> = {
   below: "var(--ps-escalation)",
   within: "var(--ps-information)",
+  optimal: "var(--ps-supported)",
 };
 
 /**
@@ -89,7 +95,7 @@ const bandColour: Record<ReferenceBand, string> = {
  * the bar so colour is never the sole carrier, and both thresholds are the
  * verified WHO 5th-centile limits.
  */
-function ReferenceBar({ marker }: { marker: MarkerValue }) {
+function ReferenceBar({ marker, centile }: { marker: MarkerValue; centile?: string | null }) {
   const definition = markerCatalogue[marker.code];
   const band = bandOf(marker);
   const low = marker.referenceLow ?? definition.referenceLow;
@@ -124,13 +130,16 @@ function ReferenceBar({ marker }: { marker: MarkerValue }) {
           ),
         )}
       </span>
-      <span className="mt-1.5 flex items-center gap-1.5">
-        <span
-          aria-hidden="true"
-          className="size-2 shrink-0 rounded-full"
-          style={{ background: bandColour[band] }}
-        />
-        <span className="t-caption text-ink-2">{bandLabel[band]}</span>
+      <span className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-1">
+        <span className="inline-flex items-center gap-1.5">
+          <span
+            aria-hidden="true"
+            className="size-2 shrink-0 rounded-full"
+            style={{ background: bandColour[band] }}
+          />
+          <span className="t-caption text-ink-2">{bandLabel[band]}</span>
+        </span>
+        {centile ? <span className="t-caption text-ink-3">· {centile}</span> : null}
       </span>
     </span>
   );
@@ -160,12 +169,20 @@ function referenceText(marker: MarkerValue): string {
  */
 function MarkerRow({
   marker,
+  baseline,
   onExplain,
 }: {
   marker: MarkerValue;
+  /** Same marker at baseline, for the change figure. */
+  baseline?: MarkerValue;
   onExplain: (code: MarkerCode) => void;
 }) {
   const definition = markerCatalogue[marker.code];
+  const centile = centileLabel(marker.code, marker.value);
+  const change =
+    baseline && baseline.value !== 0
+      ? Math.round(((marker.value - baseline.value) / baseline.value) * 100)
+      : null;
 
   /*
    * The row is a link and the help control is a button, so they are siblings
@@ -186,11 +203,26 @@ function MarkerRow({
             {formatNumber(marker.value, definition.decimals)}
           </span>
           <span className="t-caption text-ink-3">{definition.unit}</span>
-          <span className="ml-auto shrink-0 t-mono text-ink-3">{referenceText(marker)}</span>
+          <span className="ml-auto shrink-0 text-right">
+            {change != null ? (
+              <span
+                className={cx(
+                  "block t-body-sm font-medium",
+                  change > 0 ? "text-accent" : change < 0 ? "text-attention" : "text-ink-2",
+                )}
+              >
+                {change > 0 ? "+" : change < 0 ? "−" : ""}
+                {Math.abs(change)}%
+              </span>
+            ) : null}
+            <span className="block t-mono text-ink-3">
+              {change != null ? "since baseline" : referenceText(marker)}
+            </span>
+          </span>
         </span>
 
         {/* The bar replaces the warning chip: same information, no alarm glyph. */}
-        <ReferenceBar marker={marker} />
+        <ReferenceBar marker={marker} centile={centile} />
       </Link>
 
       <button
@@ -243,6 +275,14 @@ function MarkerExplainer({
         />
       </div>
 
+      {marker && centileLabel(code, marker.value) ? (
+        <div className="mt-3 border-t border-hairline pt-3">
+          <p className="t-micro text-ink-3">Where you sit</p>
+          <p className="mt-1 t-title-2 text-ink-1">{centileLabel(code, marker.value)}</p>
+          <p className="mt-1.5 t-caption text-ink-2">{CENTILE_CAVEAT}</p>
+        </div>
+      ) : null}
+
       {set ? (
         <p className="mt-3 t-caption text-ink-2">{set.note}</p>
       ) : null}
@@ -261,9 +301,12 @@ function MarkerExplainer({
 export function SemenProfileBoard({
   test,
   hormones,
+  baseline,
 }: {
   test: ClinicalTest;
   hormones?: ClinicalTest;
+  /** Earlier analysis, so each row can show change since baseline. */
+  baseline?: ClinicalTest;
 }) {
   const byCode = new Map(test.markers.map((marker) => [marker.code, marker]));
   const hormoneByCode = new Map((hormones?.markers ?? []).map((m) => [m.code, m]));
@@ -295,7 +338,14 @@ export function SemenProfileBoard({
           </div>
         );
       }
-      return <MarkerRow key={code} marker={marker} onExplain={setExplaining} />;
+      return (
+        <MarkerRow
+          key={code}
+          marker={marker}
+          baseline={baseline?.markers.find((row) => row.code === code)}
+          onExplain={setExplaining}
+        />
+      );
     });
 
   return (
