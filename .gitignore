@@ -19,6 +19,10 @@
 /.next/
 /out/
 
+# capacitor — transient stash used by scripts/native-build.mjs. It is restored
+# automatically; this entry only matters if a build is hard-killed mid-run.
+/.native-build-stash-api/
+
 # production
 /build
 

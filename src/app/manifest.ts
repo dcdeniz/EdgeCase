@@ -3,7 +3,12 @@ import type { MetadataRoute } from "next";
 /**
  * Installable as a mobile web app. Standalone display and a dark theme colour
  * keep the shell feeling native on a phone home screen.
+ *
+ * The manifest never varies per request, so it is emitted as a static file.
+ * This is correct for the Vercel deployment and required by the native export.
  */
+export const dynamic = "force-static";
+
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "PreSeed — male fertility intelligence",
